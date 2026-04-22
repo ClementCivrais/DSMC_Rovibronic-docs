@@ -5,161 +5,486 @@ Source: ``src/lagrangian/DSMC/macroscopicProperties/``,
 ``src/lagrangian/DSMC/cellMeasurements/``,
 ``src/lagrangian/DSMC/boundaryMeasurements/``.
 
-Role
-----
+The measurement subsystem is the non-invasive observer of the
+simulation: it reads the simulator-particle distribution and
+writes diagnostics, but does not alter the particle population or
+the collision logic. Three tiers coexist:
 
-Measurements are the non-invasive observers of the simulation.
-They do not alter the particle population; they only accumulate
-and write diagnostics. Three layers coexist in the rovibronic
-solver:
+* **per-cell primitive accumulators** —
+  ``cellMeasurements`` —  hold the raw moments on which every
+  volume field is built. They are updated on every DSMC step by
+  the cloud's ``calculateFields()`` routine;
+* **per-patch primitive accumulators** —
+  ``boundaryMeasurements`` —  hold the face-level impact
+  statistics on every boundary patch;
+* **configurable field models** —  under
+  ``macroscopicProperties/derived/`` —  which the user switches
+  on in ``system/fieldPropertiesDict`` to produce the desired
+  output: volume fields (``dsmcVolFields``), bins
+  (``dsmcBinsMethod``), zone averages (``dsmcZone``), rovibronic
+  population distributions (``dsmcRovibronicPopulation``),
+  face-flux integrals (``dsmcMassFluxSurface``), and velocity /
+  speed histograms (``dsmcVelocityDistributionZone``,
+  ``dsmcSpeedDistributionZone``).
 
-* **per-cell samplers** (``cellMeasurements``) that accumulate
-  the primitive moments on which every volume field is built;
-* **per-patch samplers** (``boundaryMeasurements``) that
-  accumulate the equivalent moments on boundary faces;
-* **configurable field models** (``macroscopicProperties/``)
-  that the user selects in ``system/fieldPropertiesDict`` to
-  produce the desired output: volume fields, bin histograms, zone
-  averages, rovibronic population distributions, or surface
-  fluxes.
+Each field model shares a common lifecycle: a constructor that
+reads its own sub-dictionary, ``createField()`` that allocates
+the storage, ``calculateField()`` invoked on every DSMC step,
+``writeField()`` invoked at the output interval, and an
+``updateProperties()`` hook that re-reads dictionary keys on
+the fly. The container class ``dsmcFieldProperties``
+(``macroscopicProperties/basic/dsmcFieldProperties/``) iterates
+through the registered field models and orchestrates these
+calls. Field models are therefore trivially composable: one can
+attach any number of them to the same run, with different
+species filters, zones, and output cadences.
 
-Cell measurements
------------------
+Time-averaging controls
+-----------------------
 
-``cellMeasurements`` (``src/lagrangian/DSMC/cellMeasurements/``) is
-the primitive accumulator. It holds, per cell and per species:
+Every field model shares the same ``timeProperties`` sub-dictionary:
 
-* collision counts (``nColls_``) and the mean collision separation
-  :math:`\langle s \rangle` (``collisionSeparation_``);
-* mass-weighted moment tensors of the peculiar velocity
-  (``muu_``, ``muv_``, ``muw_``, etc.) needed to build the
-  translational temperature and the stress tensor;
-* the total rovibronic energy accumulated over the cell and its
-  square, for the variance of the internal-energy estimator.
+.. code-block:: cpp
 
-These quantities are updated every time-step by the cloud's
+   timeProperties
+   {
+       timeOption          write;        // write  |  total  |  average
+       resetAtOutput       on;           // on: flush accumulator each write
+       resetAtOutputUntilTime  0;        // optional burn-in cut-off
+   }
+
+* ``timeOption write`` —  accumulate between writes; reset after
+  each write if ``resetAtOutput`` is ``on``.
+* ``timeOption total`` —  accumulate from :math:`t = 0` to the
+  current time (cumulative average).
+* ``timeOption average`` —  accumulate from the end of the burn-in
+  (``resetAtOutputUntilTime``) onwards.
+
+The accumulator counter is the single knob that trades
+statistical resolution against temporal resolution: a longer
+window gives tighter error bars on each written field but
+averages over any unsteadiness that exists within the window.
+
+``cellMeasurements`` — the per-cell primitive accumulator
+---------------------------------------------------------
+
+``cellMeasurements`` holds, per cell and per species, the raw
+moments on which every downstream field is built. Quoting the
+actual member variables of the class (under
+``src/lagrangian/DSMC/cellMeasurements/cellMeasurements.H``):
+
+* :math:`N_s` and :math:`\rho_s` —  counts and mass accumulators
+  per species per cell;
+* the velocity moments :math:`\langle m v_x\rangle`,
+  :math:`\langle m v_y\rangle`, :math:`\langle m v_z\rangle`,
+  :math:`\langle m v^2\rangle`, and the full mass-weighted
+  :math:`\langle m v_\alpha v_\beta\rangle` tensor through the
+  symmetric components ``muu``, ``muv``, ``muw``, ``mvv``,
+  ``mvw``, ``mww``;
+* the translational heat-flux triple
+  :math:`\langle m v^2 v_\alpha\rangle` through ``mccu``,
+  ``mccv``, ``mccw``;
+* the internal-energy accumulator
+  :math:`\langle E^\mathrm{int}\rangle` per species, and its
+  square for variance estimation;
+* the collision-count counters ``nColls_`` and the mean
+  collision separation ``collisionSeparation_``.
+
+These are incremented on every DSMC step by the cloud's
 ``calculateFields()`` method and are consumed downstream by every
 field model below.
 
-Boundary measurements
----------------------
+``boundaryMeasurements`` — the per-patch primitive accumulator
+--------------------------------------------------------------
 
-``boundaryMeasurements`` (``src/lagrangian/DSMC/boundaryMeasurements/``)
-accumulates per-face impact statistics on every patch. Each
-particle–face intersection contributes to:
+On every parcel–face intersection, ``boundaryMeasurements``
+increments:
 
-* internal and mass densities on the patch
-  (``rhoNIntBF_``, ``rhoNBF_``, ``rhoMBF_``);
-* linear kinetic energy (``linearKEBF_``) and full momentum
-  vector;
-* **rovibronic internal energy** delivered to the wall
-  (``internalEBF_``);
-* heat-flux and friction-drag vectors.
+* ``rhoNBF_``, ``rhoNIntBF_``, ``rhoMBF_`` —  number and mass
+  densities on the patch face (with and without the internal-
+  state weighting);
+* ``momentumBF_`` —  the integrated momentum vector per face;
+* ``UCollectedBF_`` —  bulk velocity on the patch face;
+* ``linearKEBF_`` —  translational kinetic energy delivered to
+  the wall;
+* ``internalEBF_`` —  **rovibronic internal energy** delivered
+  to the wall, species by species;
+* ``heatFluxBF_`` and ``qBF_`` —  heat-flux vector at the face;
+* ``frictionDragBF_`` —  friction drag vector.
 
-These are the ingredients from which any wall diagnostic —  heat
-flux, drag, catalytic chemistry —  is constructed, and they are
-written as boundary fields in the standard OpenFOAM output.
+These are written as boundary fields in the standard OpenFOAM
+output and are the ingredients for every wall-level analysis
+(surface heat flux, drag, catalytic chemistry). The
+rovibronic-aware ``internalEBF_`` is the key addition over the
+stock dsmcFoam+ boundary instrumentation, because it carries
+the state-resolved internal energy delivered to the wall rather
+than a single continuous number.
 
-Configurable field models
+Volume-field model — ``dsmcVolFields``
+--------------------------------------
+
+The ``dsmcVolFields`` field model
+(``macroscopicProperties/derived/combined/dsmcVolFields/``) is the
+default production measurement. It produces the standard DSMC
+volume fields at the case's ``writeInterval``:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 25 45
+
+   * - Symbol
+     - OpenFOAM field
+     - Meaning
+   * - :math:`n`
+     - ``rhoN``
+     - Number density per cell, :math:`n = N F_N / V_c`.
+   * - :math:`\rho`
+     - ``rhoM``
+     - Mass density.
+   * - :math:`T_t`
+     - ``translationalT``
+     - Translational temperature from the peculiar-velocity
+       variance.
+   * - :math:`T_\mathrm{int}`
+     - ``internalT``
+     - Effective internal temperature, obtained by Newton-
+       Raphson inversion of the mode-averaged internal energy
+       against the partition function.
+   * - :math:`p`
+     - ``p``
+     - Scalar pressure :math:`\tfrac{1}{3}\mathrm{tr}\,\mathbf{P}`.
+   * - :math:`\mathbf{P}`
+     - ``pressureTensor``
+     - Symmetric pressure tensor from
+       :math:`\langle \rho \mathbf{c}\mathbf{c}\rangle`.
+   * - :math:`\boldsymbol{\tau}`
+     - ``shearStressTensor``
+     - Deviatoric stress, :math:`\mathbf{P} - p\,\mathbf{I}`.
+   * - :math:`\mathbf{q}`
+     - ``heatFlux``
+     - Total heat-flux vector (translational + internal).
+   * - :math:`\lambda`
+     - ``meanFreePath``
+     - Local mean free path from the species pair parameters.
+   * - :math:`\mathrm{Ma}`
+     - ``Ma``
+     - Local Mach number.
+
+Configuration keys (``dsmcVolFieldsProperties``):
+
+.. code-block:: cpp
+
+   fieldModel    dsmcVolFields;
+   timeProperties { timeOption write; resetAtOutput on; }
+   dsmcVolFieldsProperties
+   {
+       field                        N2O2;           // file-name tag for this instance
+       typeIds                      (N2 O2);        // species filter
+       averagingAcrossManyRuns      false;
+       measureMeanFreePath          true;
+       measureErrors                true;           // writes std-dev companions
+       densityOnly                  false;          // if true, only rhoN / rhoM
+       measureHeatFluxShearStress   true;           // q, τ, P
+   }
+
+Switching ``measureErrors`` to ``true`` writes a companion
+``<field>_errorEstimate`` volume field alongside each
+observable, populated with the per-cell standard deviation
+:math:`\sigma_Q / \sqrt{N}`; this is the quantity needed to
+construct confidence intervals on the macroscopic output (see
+:doc:`../theory/foundations`). Keeping ``measureErrors`` on
+during production runs has a small overhead and is strongly
+recommended.
+
+Bin model — ``dsmcBinsMethod``
+------------------------------
+
+The ``dsmcBinsMethod`` field model
+(``macroscopicProperties/derived/combined/dsmcBinsMethod/``)
+measures macroscopic properties in bins that are **independent
+of the mesh cells**. The returned values are bin averages. This
+is the tool of choice when the DSMC mesh has been designed
+for collision resolution (λ/3-sized cells), but the desired
+post-processing plots must be sampled on a different geometry —
+typically a one-dimensional line through a shock, a radial
+profile around an axisymmetric body, or a cylindrical cross
+section through a nozzle.
+
+Bin model sub-classes
+`````````````````````
+
+The geometry of the bins is chosen by a pluggable ``binModel``
+sub-class. The available sub-classes, under
+``src/lagrangian/DSMC/LEGACY/binModel/derived/``, are:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - ``binModel``
+     - Geometry
+   * - ``uniformBins``
+     - A uniformly-spaced 1-D stack of slabs between two points;
+       configured by ``startPoint``, ``endPoint``, ``nBins``,
+       and ``area`` (cross-sectional area normal to the stack,
+       used to convert bin volume into the correct density
+       normalisation).
+   * - ``simpleBins``
+     - Axis-aligned uniform 1-D bins along :math:`x`, :math:`y`,
+       or :math:`z`; specified by the bin-size vector and
+       origin.
+   * - ``cuboidBin`` / ``cuboidBinII``
+     - Rectangular parallelepipeds, with one or two degrees of
+       freedom; useful for 2-D slicing of 3-D domains.
+   * - ``radialBins`` / ``radialBinsNormalised``
+     - Radial bins around an axis (absolute or normalised by the
+       local body radius). The normalised variant is the
+       standard tool for blunt-body re-entry post-processing.
+   * - ``sphericalBins``
+     - Concentric spherical shells around a point; useful for
+       expansion plume analysis.
+   * - ``angularBins``
+     - Angular bins at fixed radius; for scattering-direction
+       histograms.
+   * - ``cylinderBin``
+     - Annular shells in a cylindrical coordinate frame.
+   * - ``multiZoneBins``
+     - A composition: the same bin geometry repeated, once per
+       entry of a ``cellZoneList``; used when several
+       sub-domains of the mesh need independent bin stacks
+       with the same resolution.
+
+Each of these lives under
+``src/lagrangian/DSMC/LEGACY/binModel/derived/<sub-class>/`` and
+exposes its own ``<subclass>Properties`` block.
+
+Fields measured in each bin
+```````````````````````````
+
+The bin model accumulates, per bin, the same primitive moments
+as the per-cell accumulators: number and mass density, mean
+velocity, the full peculiar-velocity moment tensor
+(``muu``, ``muv``, ``muw``, ``mvv``, ``mvw``, ``mww``), and the
+internal-energy moments. From these, the output writes (per
+bin, at every write step):
+
+* ``N``, ``M``, ``rhoN``, ``rhoM`` —  population and density
+  measurements;
+* ``UMean`` and ``scalarUMean`` —  bulk velocity;
+* ``translationalTemperature``, ``internalTemperature`` —
+  bisection-inverted temperatures;
+* ``pressureTensor`` and its deviatoric ``shearStressTensor``,
+  together with the scalar ``scalarPressure``;
+* ``heatFlux``, split into ``heatFluxTranslational`` and
+  ``heatFluxInternal`` contributions;
+* ``meanFreePath`` and ``Mach`` per bin;
+* ``Cv``, ``Cp``, ``gamma`` —  heat capacities from the
+  bin-level internal partition function.
+
+Configuration (verbatim from the class header):
+
+.. code-block:: cpp
+
+   fieldModel   dsmcBinsMethod;
+   timeProperties { timeOption write; resetAtOutput on; }
+   dsmcBinsMethodProperties
+   {
+       field                   N2;
+       zone                    channelRegion;    // optional cellZone filter
+       typeIds                 (N2);
+       averagingAcrossManyRuns no;
+       binModel                uniformBins;
+       uniformBinsProperties
+       {
+           startPoint  (0 0 0);
+           endPoint    (2e-6 0 0);
+           nBins       60;
+           area        2.64e-14;   // cross-section for density
+       }
+   }
+
+The output is written to ``<case>/fieldMeasurements/<field>/``
+as plain-text tables, one row per bin per write step, and is
+therefore directly usable in Python / gnuplot / Matlab pipelines.
+
+Zone model — ``dsmcZone``
 -------------------------
 
-Field models are selected by the user through
-``system/fieldPropertiesDict``. Each entry specifies a
-``fieldModel`` (the class name) and a matching
-``<fieldModel>Properties`` block that configures its behaviour.
+The ``dsmcZone`` field model
+(``macroscopicProperties/derived/combined/dsmcZone/``) returns
+the volume-averaged macroscopic properties over a named
+``cellZone``. Works in parallel. Rovibronic version: it
+accumulates the internal energy directly from the parcels and
+inverts :math:`T_\mathrm{int}` through a Newton-Raphson loop
+against the mode-specific partition function.
 
-``dsmcVolFields`` —  volume-averaged fields
-```````````````````````````````````````````
+Output fields
+`````````````
 
-*Source:* ``macroscopicProperties/derived/combined/dsmcVolFields/``.
+For each write, the zone model writes a single-row record
+containing the zone-averaged:
 
-The workhorse of DSMC post-processing. Produces the standard
-volume fields that appear in ``<case>/<time>/``:
+* number and mass densities;
+* translational and effective internal temperatures;
+* pressure tensor and its scalar trace;
+* mean velocity;
+* heat-flux and friction-drag vectors;
+* shear-stress tensor;
+* per-species internal energy;
+* collision-rate statistics (if ``measureCollisionRateOnly`` is
+  ``true``, only this last group is written, which is the
+  cheapest possible measurement mode).
 
-* number and mass density (``rhoN``, ``rhoM``);
-* translational and internal temperatures;
-* pressure scalar and tensor; shear-stress tensor;
-* heat-flux vector;
-* mean free path and Mach number;
-* optional error estimators on each of the above.
+Configuration:
 
-Configuration keys include ``field``, ``typeIds``,
-``averagingAcrossManyRuns``, ``measureMeanFreePath``,
-``measureErrors``, ``densityOnly``, and
-``measureHeatFluxShearStress``.
+.. code-block:: cpp
 
-``dsmcBinsMethod`` —  one-, two-, or three-dimensional bins
-```````````````````````````````````````````````````````````
+   fieldModel  dsmcZone;
+   timeProperties { timeOption write; resetAtOutput off; }
+   dsmcZoneProperties
+   {
+       zone                      combustionChamberZone;
+       field                     O2;           // output tag
+       typeIds                   (O2);
+       measureCollisionRateOnly  false;
+   }
 
-*Source:* ``macroscopicProperties/derived/combined/dsmcBinsMethod/``.
+The zone model is the natural tool for 0-D reference quantities
+—  heat-bath relaxation curves, reactor-averaged production
+rates, single-cell time histories —  because one cellZone of
+the mesh becomes a single-value time series in the output file.
+Combining several ``dsmcZone`` instances with different species
+filters on the same zone gives per-species time histories
+alongside the mixture-averaged values.
 
-Measures macroscopic properties in histogram-style bins that are
-independent of the mesh. Useful for one-dimensional shock profiles
-and for angular or radial binning. A pluggable ``binModel``
-(e.g. ``uniformBins``) defines the bin geometry; the sub-dictionary
-``dsmcBinsMethodProperties`` carries ``binModel``, ``field``,
-``zone``, ``typeIds``, and ``area`` (for cross-sectional flux
-normalisation).
+Rovibronic population — ``dsmcRovibronicPopulation``
+----------------------------------------------------
 
-``dsmcZone`` —  zone averages
-`````````````````````````````
+The ``dsmcRovibronicPopulation`` field model
+(``macroscopicProperties/derived/otherFields/dsmcRovibronicPopulation/``)
+is the diagnostic that directly exercises the central promise of
+the rovibronic extension. It accumulates, per cell and per
+rovibronic level, the population of a selected species:
 
-*Source:* ``macroscopicProperties/derived/combined/dsmcZone/``.
+.. math::
 
-Returns volume-averaged macroscopic properties over a named
-``cellZone``: number and mass density, translational and
-effective internal temperatures, pressure, heat flux, shear
-stress, and the internal-temperature bisection applied to the
-rovibronic energy. Useful for zero-dimensional reference
-quantities in heat-bath cases. The key
-``measureCollisionRateOnly`` restricts the output to collision
-statistics, which is the cheapest possible measurement mode.
+   P(\mathrm{cell};\,n, v, J)
+     = \frac{1}{N}\sum_{i\in\mathrm{cell}}
+       \delta_{(n_i, v_i, J_i),\,(n, v, J)},
 
-``dsmcVelocityDistributionZone``, ``dsmcSpeedDistributionZone``
-```````````````````````````````````````````````````````````````
+so that :math:`\sum_{n, v, J} P(\mathrm{cell}; n, v, J) = 1`.
+The output is a four-dimensional array indexed by
+:math:`(\mathrm{cell}, n, v, J)` together with the
+corresponding energy and degeneracy tables, and is the only
+measurement that gives access to the **non-Boltzmann shape** of
+the populated levels.
 
-*Source:* ``macroscopicProperties/derived/velocity/``.
+Configuration:
 
-Accumulates histograms of the velocity (component-wise) or speed
-(magnitude) over the parcels inside a named zone. The histogram
-bin width is set through the ``binWidth`` key. These measurements
-are the primary way to confirm that the velocity distribution
-remains Maxwellian (or to quantify how it does not).
+.. code-block:: cpp
 
-``dsmcRovibronicPopulation`` —  state-resolved populations
-``````````````````````````````````````````````````````````
+   fieldModel  dsmcRovibronicPopulation;
+   dsmcRovibronicPopulationProperties
+   {
+       fieldName   N2_population;
+       zoneName    shockRegion;
+       typeId      N2;          // one species per instance
+   }
 
-*Source:*
-``macroscopicProperties/derived/otherFields/dsmcRovibronicPopulation/``.
+Typical plots built from this output:
 
-Accumulates the full four-index array
-``population[cellI][n][v][J]`` for a selected species in a
-selected zone. This is the diagnostic that exercises the central
-promise of the rovibronic extension: it allows the user to plot
-the vibrational-rotational-electronic distribution as it actually
-is, rather than as it would be if it were Boltzmann. The
-sub-dictionary takes ``fieldName``, ``zoneName``, and a single
-``typeId``.
+* the vibrational population :math:`P(v)` at fixed electronic
+  state :math:`n`, with the Boltzmann distribution at
+  :math:`T_t` overlaid as a reference —  the single most direct
+  diagnostic of vibrational non-equilibrium;
+* the rotational population :math:`P(J)` at fixed
+  :math:`(n, v)`, used to test the rotational-vibrational
+  equilibrium assumption;
+* the electronic population :math:`P(n)` as a time series in
+  shock-heated flows, showing how the excited electronic
+  manifolds are progressively populated.
 
-``dsmcMassFluxSurface`` —  flux through a face zone
-```````````````````````````````````````````````````
+Face-flux measurement — ``dsmcMassFluxSurface``
+-----------------------------------------------
 
-*Source:* ``macroscopicProperties/derived/massFlux/dsmcMassFluxSurface/``.
+``dsmcMassFluxSurface``
+(``macroscopicProperties/derived/massFlux/dsmcMassFluxSurface/``)
+integrates mass, number, momentum, and energy fluxes through a
+user-defined ``faceZone``. On processor patches the contribution
+of a face is weighted by 0.5 so that the total is correct on
+reconstruction after a parallel run. The sub-dictionary takes:
 
-Integrates mass, number, momentum, and energy fluxes through a
-user-defined ``faceZone``. Correctly handles processor-patch
-ownership (contributing factor :math:`0.5` on shared faces) so
-that totals remain correct in parallel. The sub-dictionary takes
-``field``, ``typeIds``, ``faceZone``, and ``fluxDirection``.
+.. code-block:: cpp
 
-Common conventions
-------------------
+   fieldModel  dsmcMassFluxSurface;
+   dsmcMassFluxSurfaceProperties
+   {
+       field            inletFlux;
+       typeIds          (N2 O2);
+       faceZone         inletFace;
+       fluxDirection    (1 0 0);    // sign convention
+   }
 
-Every field model shares three lifecycle hooks: ``createFields()``
-at construction, ``calculateField()`` at every time-step, and
-``writeField()`` at the output interval. Measurements that need to
-average across several time-steps maintain an internal counter and
-reset it after each write. The container class
+Useful for inlet / outlet monitoring, mass conservation checks,
+and for extracting mass-flow boundary-condition data from a
+reference run to feed an ``dsmcMassFlowRateInlet`` in a
+downstream case.
+
+Velocity and speed distributions
+--------------------------------
+
+``dsmcVelocityDistributionZone`` and
+``dsmcSpeedDistributionZone``
+(``macroscopicProperties/derived/velocity/``) accumulate
+histograms of, respectively, the velocity-component and
+speed-magnitude distribution of the parcels inside a named
+zone. The histogram bin width is set through the ``binWidth``
+key (in m/s).
+
+These are the primary tools to confirm that the sampled
+velocity distribution remains Maxwellian under non-equilibrium,
+or to quantify the departure when it does not. Typical use:
+
+.. code-block:: cpp
+
+   fieldModel  dsmcSpeedDistributionZone;
+   dsmcSpeedDistributionZoneProperties
+   {
+       field       inflowSpeed;
+       zoneName    inflowZone;
+       typeIds     (N2);
+       binWidth    50;        // m/s bins
+   }
+
+Orchestration and lifecycle
+---------------------------
+
+Every field model in the present section inherits from
+``dsmcField``
+(``macroscopicProperties/basic/dsmcField/``) and is instantiated
+by the container class
 ``dsmcFieldProperties``
-(``macroscopicProperties/basic/dsmcFieldProperties/``) iterates
-through the registered field models and orchestrates these calls.
+(``macroscopicProperties/basic/dsmcFieldProperties/``) which
+reads the top-level ``system/fieldPropertiesDict``:
+
+.. code-block:: cpp
+
+   fields
+   (
+       fieldA { fieldModel dsmcVolFields;              /* … */ }
+       fieldB { fieldModel dsmcBinsMethod;             /* … */ }
+       fieldC { fieldModel dsmcZone;                   /* … */ }
+       fieldD { fieldModel dsmcRovibronicPopulation;   /* … */ }
+       fieldE { fieldModel dsmcMassFluxSurface;        /* … */ }
+   );
+
+On every DSMC step the cloud invokes
+``dsmcFieldProperties::calculateField()``, which dispatches to
+each registered field model in sequence; on every write step it
+invokes ``writeField()`` similarly. Field models are therefore
+trivially stacked: attach as many as are useful, with different
+species filters, zones, and time options. A zone-averaged
+``dsmcZone`` combined with a full-volume ``dsmcVolFields``, a
+bin-averaged ``dsmcBinsMethod`` across a shock, and a
+state-resolved ``dsmcRovibronicPopulation`` in the shock layer
+is a fairly standard combination for a re-entry simulation.

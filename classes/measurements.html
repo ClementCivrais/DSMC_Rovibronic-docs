@@ -346,11 +346,28 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="boundaries.html">Boundary classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="boundaries.html#patch-boundaries">Patch boundaries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="boundaries.html#rovibronic-wall">Rovibronic wall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundaries.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundaries.html#common-wall-physics">Common wall physics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundaries.html#patch-boundaries-catalogue">Patch boundaries — catalogue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundaries.html#wall-scattering-kernels-in-detail">Wall scattering kernels in detail</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="boundaries.html#specular-reflection">Specular reflection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundaries.html#fully-diffuse-reflection">Fully diffuse reflection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundaries.html#maxwell-mixed-model">Maxwell mixed model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundaries.html#cercignani-lampis-lord-cll">Cercignani-Lampis-Lord (CLL)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="boundaries.html#rovibronic-aware-wall-dsmcmixeddiffusespecularwallrotpatch">Rovibronic-aware wall — <code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundaries.html#inflow-models">Inflow models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="boundaries.html#free-stream-maxwellian-inflow">Free-stream Maxwellian inflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundaries.html#chapman-enskog-first-order-inflow">Chapman-Enskog first-order inflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boundaries.html#pressure-driven-inlets">Pressure-driven inlets</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="boundaries.html#particle-deletion-patch">Particle-deletion patch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="boundaries.html#cyclic-boundaries">Cyclic boundaries</a></li>
 <li class="toctree-l3"><a class="reference internal" href="boundaries.html#general-boundaries">General boundaries</a></li>
 <li class="toctree-l3"><a class="reference internal" href="boundaries.html#boundary-measurements">Boundary measurements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundaries.html#choosing-a-wall-model">Choosing a wall model</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="controllers.html">Controllers</a><ul>
@@ -367,19 +384,23 @@
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Measurements</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#role">Role</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cell-measurements">Cell measurements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#boundary-measurements">Boundary measurements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#configurable-field-models">Configurable field models</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#dsmcvolfields-volume-averaged-fields"><code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code> —  volume-averaged fields</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dsmcbinsmethod-one-two-or-three-dimensional-bins"><code class="docutils literal notranslate"><span class="pre">dsmcBinsMethod</span></code> —  one-, two-, or three-dimensional bins</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dsmczone-zone-averages"><code class="docutils literal notranslate"><span class="pre">dsmcZone</span></code> —  zone averages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dsmcvelocitydistributionzone-dsmcspeeddistributionzone"><code class="docutils literal notranslate"><span class="pre">dsmcVelocityDistributionZone</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcSpeedDistributionZone</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dsmcrovibronicpopulation-state-resolved-populations"><code class="docutils literal notranslate"><span class="pre">dsmcRovibronicPopulation</span></code> —  state-resolved populations</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dsmcmassfluxsurface-flux-through-a-face-zone"><code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code> —  flux through a face zone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#time-averaging-controls">Time-averaging controls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cellmeasurements-the-per-cell-primitive-accumulator"><code class="docutils literal notranslate"><span class="pre">cellMeasurements</span></code> — the per-cell primitive accumulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#boundarymeasurements-the-per-patch-primitive-accumulator"><code class="docutils literal notranslate"><span class="pre">boundaryMeasurements</span></code> — the per-patch primitive accumulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#volume-field-model-dsmcvolfields">Volume-field model — <code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bin-model-dsmcbinsmethod">Bin model — <code class="docutils literal notranslate"><span class="pre">dsmcBinsMethod</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#bin-model-sub-classes">Bin model sub-classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fields-measured-in-each-bin">Fields measured in each bin</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#common-conventions">Common conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zone-model-dsmczone">Zone model — <code class="docutils literal notranslate"><span class="pre">dsmcZone</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#output-fields">Output fields</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#rovibronic-population-dsmcrovibronicpopulation">Rovibronic population — <code class="docutils literal notranslate"><span class="pre">dsmcRovibronicPopulation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#face-flux-measurement-dsmcmassfluxsurface">Face-flux measurement — <code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#velocity-and-speed-distributions">Velocity and speed distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#orchestration-and-lifecycle">Orchestration and lifecycle</a></li>
 </ul>
 </li>
 </ul>
@@ -392,9 +413,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#calculator">Calculator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#background">Background</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#derivation">Derivation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#notes-and-caveats">Notes and caveats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#caveats">Caveats</a></li>
 </ul>
 </li>
 </ul>
@@ -483,148 +505,486 @@
 <p>Source: <code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/macroscopicProperties/</span></code>,
 <code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/cellMeasurements/</span></code>,
 <code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/boundaryMeasurements/</span></code>.</p>
-<section id="role">
-<h2>Role<a class="headerlink" href="#role" title="Link to this heading"></a></h2>
-<p>Measurements are the non-invasive observers of the simulation.
-They do not alter the particle population; they only accumulate
-and write diagnostics. Three layers coexist in the rovibronic
-solver:</p>
+<p>The measurement subsystem is the non-invasive observer of the
+simulation: it reads the simulator-particle distribution and
+writes diagnostics, but does not alter the particle population or
+the collision logic. Three tiers coexist:</p>
 <ul class="simple">
-<li><p><strong>per-cell samplers</strong> (<code class="docutils literal notranslate"><span class="pre">cellMeasurements</span></code>) that accumulate
-the primitive moments on which every volume field is built;</p></li>
-<li><p><strong>per-patch samplers</strong> (<code class="docutils literal notranslate"><span class="pre">boundaryMeasurements</span></code>) that
-accumulate the equivalent moments on boundary faces;</p></li>
-<li><p><strong>configurable field models</strong> (<code class="docutils literal notranslate"><span class="pre">macroscopicProperties/</span></code>)
-that the user selects in <code class="docutils literal notranslate"><span class="pre">system/fieldPropertiesDict</span></code> to
-produce the desired output: volume fields, bin histograms, zone
-averages, rovibronic population distributions, or surface
-fluxes.</p></li>
+<li><p><strong>per-cell primitive accumulators</strong> —
+<code class="docutils literal notranslate"><span class="pre">cellMeasurements</span></code> —  hold the raw moments on which every
+volume field is built. They are updated on every DSMC step by
+the cloud’s <code class="docutils literal notranslate"><span class="pre">calculateFields()</span></code> routine;</p></li>
+<li><p><strong>per-patch primitive accumulators</strong> —
+<code class="docutils literal notranslate"><span class="pre">boundaryMeasurements</span></code> —  hold the face-level impact
+statistics on every boundary patch;</p></li>
+<li><p><strong>configurable field models</strong> —  under
+<code class="docutils literal notranslate"><span class="pre">macroscopicProperties/derived/</span></code> —  which the user switches
+on in <code class="docutils literal notranslate"><span class="pre">system/fieldPropertiesDict</span></code> to produce the desired
+output: volume fields (<code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code>), bins
+(<code class="docutils literal notranslate"><span class="pre">dsmcBinsMethod</span></code>), zone averages (<code class="docutils literal notranslate"><span class="pre">dsmcZone</span></code>), rovibronic
+population distributions (<code class="docutils literal notranslate"><span class="pre">dsmcRovibronicPopulation</span></code>),
+face-flux integrals (<code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code>), and velocity /
+speed histograms (<code class="docutils literal notranslate"><span class="pre">dsmcVelocityDistributionZone</span></code>,
+<code class="docutils literal notranslate"><span class="pre">dsmcSpeedDistributionZone</span></code>).</p></li>
 </ul>
+<p>Each field model shares a common lifecycle: a constructor that
+reads its own sub-dictionary, <code class="docutils literal notranslate"><span class="pre">createField()</span></code> that allocates
+the storage, <code class="docutils literal notranslate"><span class="pre">calculateField()</span></code> invoked on every DSMC step,
+<code class="docutils literal notranslate"><span class="pre">writeField()</span></code> invoked at the output interval, and an
+<code class="docutils literal notranslate"><span class="pre">updateProperties()</span></code> hook that re-reads dictionary keys on
+the fly. The container class <code class="docutils literal notranslate"><span class="pre">dsmcFieldProperties</span></code>
+(<code class="docutils literal notranslate"><span class="pre">macroscopicProperties/basic/dsmcFieldProperties/</span></code>) iterates
+through the registered field models and orchestrates these
+calls. Field models are therefore trivially composable: one can
+attach any number of them to the same run, with different
+species filters, zones, and output cadences.</p>
+<section id="time-averaging-controls">
+<h2>Time-averaging controls<a class="headerlink" href="#time-averaging-controls" title="Link to this heading"></a></h2>
+<p>Every field model shares the same <code class="docutils literal notranslate"><span class="pre">timeProperties</span></code> sub-dictionary:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">timeProperties</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">timeOption</span><span class="w">          </span><span class="n">write</span><span class="p">;</span><span class="w">        </span><span class="c1">// write  |  total  |  average</span>
+<span class="w">    </span><span class="n">resetAtOutput</span><span class="w">       </span><span class="n">on</span><span class="p">;</span><span class="w">           </span><span class="c1">// on: flush accumulator each write</span>
+<span class="w">    </span><span class="n">resetAtOutputUntilTime</span><span class="w">  </span><span class="mi">0</span><span class="p">;</span><span class="w">        </span><span class="c1">// optional burn-in cut-off</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">timeOption</span> <span class="pre">write</span></code> —  accumulate between writes; reset after
+each write if <code class="docutils literal notranslate"><span class="pre">resetAtOutput</span></code> is <code class="docutils literal notranslate"><span class="pre">on</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">timeOption</span> <span class="pre">total</span></code> —  accumulate from <span class="math notranslate nohighlight">\(t = 0\)</span> to the
+current time (cumulative average).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">timeOption</span> <span class="pre">average</span></code> —  accumulate from the end of the burn-in
+(<code class="docutils literal notranslate"><span class="pre">resetAtOutputUntilTime</span></code>) onwards.</p></li>
+</ul>
+<p>The accumulator counter is the single knob that trades
+statistical resolution against temporal resolution: a longer
+window gives tighter error bars on each written field but
+averages over any unsteadiness that exists within the window.</p>
 </section>
-<section id="cell-measurements">
-<h2>Cell measurements<a class="headerlink" href="#cell-measurements" title="Link to this heading"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">cellMeasurements</span></code> (<code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/cellMeasurements/</span></code>) is
-the primitive accumulator. It holds, per cell and per species:</p>
+<section id="cellmeasurements-the-per-cell-primitive-accumulator">
+<h2><code class="docutils literal notranslate"><span class="pre">cellMeasurements</span></code> — the per-cell primitive accumulator<a class="headerlink" href="#cellmeasurements-the-per-cell-primitive-accumulator" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">cellMeasurements</span></code> holds, per cell and per species, the raw
+moments on which every downstream field is built. Quoting the
+actual member variables of the class (under
+<code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/cellMeasurements/cellMeasurements.H</span></code>):</p>
 <ul class="simple">
-<li><p>collision counts (<code class="docutils literal notranslate"><span class="pre">nColls_</span></code>) and the mean collision separation
-<span class="math notranslate nohighlight">\(\langle s \rangle\)</span> (<code class="docutils literal notranslate"><span class="pre">collisionSeparation_</span></code>);</p></li>
-<li><p>mass-weighted moment tensors of the peculiar velocity
-(<code class="docutils literal notranslate"><span class="pre">muu_</span></code>, <code class="docutils literal notranslate"><span class="pre">muv_</span></code>, <code class="docutils literal notranslate"><span class="pre">muw_</span></code>, etc.) needed to build the
-translational temperature and the stress tensor;</p></li>
-<li><p>the total rovibronic energy accumulated over the cell and its
-square, for the variance of the internal-energy estimator.</p></li>
+<li><p><span class="math notranslate nohighlight">\(N_s\)</span> and <span class="math notranslate nohighlight">\(\rho_s\)</span> —  counts and mass accumulators
+per species per cell;</p></li>
+<li><p>the velocity moments <span class="math notranslate nohighlight">\(\langle m v_x\rangle\)</span>,
+<span class="math notranslate nohighlight">\(\langle m v_y\rangle\)</span>, <span class="math notranslate nohighlight">\(\langle m v_z\rangle\)</span>,
+<span class="math notranslate nohighlight">\(\langle m v^2\rangle\)</span>, and the full mass-weighted
+<span class="math notranslate nohighlight">\(\langle m v_\alpha v_\beta\rangle\)</span> tensor through the
+symmetric components <code class="docutils literal notranslate"><span class="pre">muu</span></code>, <code class="docutils literal notranslate"><span class="pre">muv</span></code>, <code class="docutils literal notranslate"><span class="pre">muw</span></code>, <code class="docutils literal notranslate"><span class="pre">mvv</span></code>,
+<code class="docutils literal notranslate"><span class="pre">mvw</span></code>, <code class="docutils literal notranslate"><span class="pre">mww</span></code>;</p></li>
+<li><p>the translational heat-flux triple
+<span class="math notranslate nohighlight">\(\langle m v^2 v_\alpha\rangle\)</span> through <code class="docutils literal notranslate"><span class="pre">mccu</span></code>,
+<code class="docutils literal notranslate"><span class="pre">mccv</span></code>, <code class="docutils literal notranslate"><span class="pre">mccw</span></code>;</p></li>
+<li><p>the internal-energy accumulator
+<span class="math notranslate nohighlight">\(\langle E^\mathrm{int}\rangle\)</span> per species, and its
+square for variance estimation;</p></li>
+<li><p>the collision-count counters <code class="docutils literal notranslate"><span class="pre">nColls_</span></code> and the mean
+collision separation <code class="docutils literal notranslate"><span class="pre">collisionSeparation_</span></code>.</p></li>
 </ul>
-<p>These quantities are updated every time-step by the cloud’s
+<p>These are incremented on every DSMC step by the cloud’s
 <code class="docutils literal notranslate"><span class="pre">calculateFields()</span></code> method and are consumed downstream by every
 field model below.</p>
 </section>
-<section id="boundary-measurements">
-<h2>Boundary measurements<a class="headerlink" href="#boundary-measurements" title="Link to this heading"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">boundaryMeasurements</span></code> (<code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/boundaryMeasurements/</span></code>)
-accumulates per-face impact statistics on every patch. Each
-particle–face intersection contributes to:</p>
+<section id="boundarymeasurements-the-per-patch-primitive-accumulator">
+<h2><code class="docutils literal notranslate"><span class="pre">boundaryMeasurements</span></code> — the per-patch primitive accumulator<a class="headerlink" href="#boundarymeasurements-the-per-patch-primitive-accumulator" title="Link to this heading"></a></h2>
+<p>On every parcel–face intersection, <code class="docutils literal notranslate"><span class="pre">boundaryMeasurements</span></code>
+increments:</p>
 <ul class="simple">
-<li><p>internal and mass densities on the patch
-(<code class="docutils literal notranslate"><span class="pre">rhoNIntBF_</span></code>, <code class="docutils literal notranslate"><span class="pre">rhoNBF_</span></code>, <code class="docutils literal notranslate"><span class="pre">rhoMBF_</span></code>);</p></li>
-<li><p>linear kinetic energy (<code class="docutils literal notranslate"><span class="pre">linearKEBF_</span></code>) and full momentum
-vector;</p></li>
-<li><p><strong>rovibronic internal energy</strong> delivered to the wall
-(<code class="docutils literal notranslate"><span class="pre">internalEBF_</span></code>);</p></li>
-<li><p>heat-flux and friction-drag vectors.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rhoNBF_</span></code>, <code class="docutils literal notranslate"><span class="pre">rhoNIntBF_</span></code>, <code class="docutils literal notranslate"><span class="pre">rhoMBF_</span></code> —  number and mass
+densities on the patch face (with and without the internal-
+state weighting);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">momentumBF_</span></code> —  the integrated momentum vector per face;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UCollectedBF_</span></code> —  bulk velocity on the patch face;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">linearKEBF_</span></code> —  translational kinetic energy delivered to
+the wall;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">internalEBF_</span></code> —  <strong>rovibronic internal energy</strong> delivered
+to the wall, species by species;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">heatFluxBF_</span></code> and <code class="docutils literal notranslate"><span class="pre">qBF_</span></code> —  heat-flux vector at the face;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">frictionDragBF_</span></code> —  friction drag vector.</p></li>
 </ul>
-<p>These are the ingredients from which any wall diagnostic —  heat
-flux, drag, catalytic chemistry —  is constructed, and they are
-written as boundary fields in the standard OpenFOAM output.</p>
+<p>These are written as boundary fields in the standard OpenFOAM
+output and are the ingredients for every wall-level analysis
+(surface heat flux, drag, catalytic chemistry). The
+rovibronic-aware <code class="docutils literal notranslate"><span class="pre">internalEBF_</span></code> is the key addition over the
+stock dsmcFoam+ boundary instrumentation, because it carries
+the state-resolved internal energy delivered to the wall rather
+than a single continuous number.</p>
 </section>
-<section id="configurable-field-models">
-<h2>Configurable field models<a class="headerlink" href="#configurable-field-models" title="Link to this heading"></a></h2>
-<p>Field models are selected by the user through
-<code class="docutils literal notranslate"><span class="pre">system/fieldPropertiesDict</span></code>. Each entry specifies a
-<code class="docutils literal notranslate"><span class="pre">fieldModel</span></code> (the class name) and a matching
-<code class="docutils literal notranslate"><span class="pre">&lt;fieldModel&gt;Properties</span></code> block that configures its behaviour.</p>
-<section id="dsmcvolfields-volume-averaged-fields">
-<h3><code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code> —  volume-averaged fields<a class="headerlink" href="#dsmcvolfields-volume-averaged-fields" title="Link to this heading"></a></h3>
-<p><em>Source:</em> <code class="docutils literal notranslate"><span class="pre">macroscopicProperties/derived/combined/dsmcVolFields/</span></code>.</p>
-<p>The workhorse of DSMC post-processing. Produces the standard
-volume fields that appear in <code class="docutils literal notranslate"><span class="pre">&lt;case&gt;/&lt;time&gt;/</span></code>:</p>
+<section id="volume-field-model-dsmcvolfields">
+<h2>Volume-field model — <code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code><a class="headerlink" href="#volume-field-model-dsmcvolfields" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code> field model
+(<code class="docutils literal notranslate"><span class="pre">macroscopicProperties/derived/combined/dsmcVolFields/</span></code>) is the
+default production measurement. It produces the standard DSMC
+volume fields at the case’s <code class="docutils literal notranslate"><span class="pre">writeInterval</span></code>:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 25.0%" />
+<col style="width: 45.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Symbol</p></th>
+<th class="head"><p>OpenFOAM field</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(n\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rhoN</span></code></p></td>
+<td><p>Number density per cell, <span class="math notranslate nohighlight">\(n = N F_N / V_c\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\rho\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rhoM</span></code></p></td>
+<td><p>Mass density.</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(T_t\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">translationalT</span></code></p></td>
+<td><p>Translational temperature from the peculiar-velocity
+variance.</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(T_\mathrm{int}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">internalT</span></code></p></td>
+<td><p>Effective internal temperature, obtained by Newton-
+Raphson inversion of the mode-averaged internal energy
+against the partition function.</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(p\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p</span></code></p></td>
+<td><p>Scalar pressure <span class="math notranslate nohighlight">\(\tfrac{1}{3}\mathrm{tr}\,\mathbf{P}\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\mathbf{P}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pressureTensor</span></code></p></td>
+<td><p>Symmetric pressure tensor from
+<span class="math notranslate nohighlight">\(\langle \rho \mathbf{c}\mathbf{c}\rangle\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\boldsymbol{\tau}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">shearStressTensor</span></code></p></td>
+<td><p>Deviatoric stress, <span class="math notranslate nohighlight">\(\mathbf{P} - p\,\mathbf{I}\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\mathbf{q}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">heatFlux</span></code></p></td>
+<td><p>Total heat-flux vector (translational + internal).</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\lambda\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">meanFreePath</span></code></p></td>
+<td><p>Local mean free path from the species pair parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\mathrm{Ma}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Ma</span></code></p></td>
+<td><p>Local Mach number.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Configuration keys (<code class="docutils literal notranslate"><span class="pre">dsmcVolFieldsProperties</span></code>):</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">fieldModel</span><span class="w">    </span><span class="n">dsmcVolFields</span><span class="p">;</span>
+<span class="n">timeProperties</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">timeOption</span><span class="w"> </span><span class="n">write</span><span class="p">;</span><span class="w"> </span><span class="n">resetAtOutput</span><span class="w"> </span><span class="n">on</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">dsmcVolFieldsProperties</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">field</span><span class="w">                        </span><span class="n">N2O2</span><span class="p">;</span><span class="w">           </span><span class="c1">// file-name tag for this instance</span>
+<span class="w">    </span><span class="n">typeIds</span><span class="w">                      </span><span class="p">(</span><span class="n">N2</span><span class="w"> </span><span class="n">O2</span><span class="p">);</span><span class="w">        </span><span class="c1">// species filter</span>
+<span class="w">    </span><span class="n">averagingAcrossManyRuns</span><span class="w">      </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measureMeanFreePath</span><span class="w">          </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">    </span><span class="n">measureErrors</span><span class="w">                </span><span class="nb">true</span><span class="p">;</span><span class="w">           </span><span class="c1">// writes std-dev companions</span>
+<span class="w">    </span><span class="n">densityOnly</span><span class="w">                  </span><span class="nb">false</span><span class="p">;</span><span class="w">          </span><span class="c1">// if true, only rhoN / rhoM</span>
+<span class="w">    </span><span class="n">measureHeatFluxShearStress</span><span class="w">   </span><span class="nb">true</span><span class="p">;</span><span class="w">           </span><span class="c1">// q, τ, P</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Switching <code class="docutils literal notranslate"><span class="pre">measureErrors</span></code> to <code class="docutils literal notranslate"><span class="pre">true</span></code> writes a companion
+<code class="docutils literal notranslate"><span class="pre">&lt;field&gt;_errorEstimate</span></code> volume field alongside each
+observable, populated with the per-cell standard deviation
+<span class="math notranslate nohighlight">\(\sigma_Q / \sqrt{N}\)</span>; this is the quantity needed to
+construct confidence intervals on the macroscopic output (see
+<a class="reference internal" href="../theory/foundations.html"><span class="doc">Kinetic foundations and the DSMC algorithm</span></a>). Keeping <code class="docutils literal notranslate"><span class="pre">measureErrors</span></code> on
+during production runs has a small overhead and is strongly
+recommended.</p>
+</section>
+<section id="bin-model-dsmcbinsmethod">
+<h2>Bin model — <code class="docutils literal notranslate"><span class="pre">dsmcBinsMethod</span></code><a class="headerlink" href="#bin-model-dsmcbinsmethod" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">dsmcBinsMethod</span></code> field model
+(<code class="docutils literal notranslate"><span class="pre">macroscopicProperties/derived/combined/dsmcBinsMethod/</span></code>)
+measures macroscopic properties in bins that are <strong>independent
+of the mesh cells</strong>. The returned values are bin averages. This
+is the tool of choice when the DSMC mesh has been designed
+for collision resolution (λ/3-sized cells), but the desired
+post-processing plots must be sampled on a different geometry —
+typically a one-dimensional line through a shock, a radial
+profile around an axisymmetric body, or a cylindrical cross
+section through a nozzle.</p>
+<section id="bin-model-sub-classes">
+<h3>Bin model sub-classes<a class="headerlink" href="#bin-model-sub-classes" title="Link to this heading"></a></h3>
+<p>The geometry of the bins is chosen by a pluggable <code class="docutils literal notranslate"><span class="pre">binModel</span></code>
+sub-class. The available sub-classes, under
+<code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/LEGACY/binModel/derived/</span></code>, are:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">binModel</span></code></p></th>
+<th class="head"><p>Geometry</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">uniformBins</span></code></p></td>
+<td><p>A uniformly-spaced 1-D stack of slabs between two points;
+configured by <code class="docutils literal notranslate"><span class="pre">startPoint</span></code>, <code class="docutils literal notranslate"><span class="pre">endPoint</span></code>, <code class="docutils literal notranslate"><span class="pre">nBins</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">area</span></code> (cross-sectional area normal to the stack,
+used to convert bin volume into the correct density
+normalisation).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">simpleBins</span></code></p></td>
+<td><p>Axis-aligned uniform 1-D bins along <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>,
+or <span class="math notranslate nohighlight">\(z\)</span>; specified by the bin-size vector and
+origin.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cuboidBin</span></code> / <code class="docutils literal notranslate"><span class="pre">cuboidBinII</span></code></p></td>
+<td><p>Rectangular parallelepipeds, with one or two degrees of
+freedom; useful for 2-D slicing of 3-D domains.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">radialBins</span></code> / <code class="docutils literal notranslate"><span class="pre">radialBinsNormalised</span></code></p></td>
+<td><p>Radial bins around an axis (absolute or normalised by the
+local body radius). The normalised variant is the
+standard tool for blunt-body re-entry post-processing.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sphericalBins</span></code></p></td>
+<td><p>Concentric spherical shells around a point; useful for
+expansion plume analysis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">angularBins</span></code></p></td>
+<td><p>Angular bins at fixed radius; for scattering-direction
+histograms.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cylinderBin</span></code></p></td>
+<td><p>Annular shells in a cylindrical coordinate frame.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">multiZoneBins</span></code></p></td>
+<td><p>A composition: the same bin geometry repeated, once per
+entry of a <code class="docutils literal notranslate"><span class="pre">cellZoneList</span></code>; used when several
+sub-domains of the mesh need independent bin stacks
+with the same resolution.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Each of these lives under
+<code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/LEGACY/binModel/derived/&lt;sub-class&gt;/</span></code> and
+exposes its own <code class="docutils literal notranslate"><span class="pre">&lt;subclass&gt;Properties</span></code> block.</p>
+</section>
+<section id="fields-measured-in-each-bin">
+<h3>Fields measured in each bin<a class="headerlink" href="#fields-measured-in-each-bin" title="Link to this heading"></a></h3>
+<p>The bin model accumulates, per bin, the same primitive moments
+as the per-cell accumulators: number and mass density, mean
+velocity, the full peculiar-velocity moment tensor
+(<code class="docutils literal notranslate"><span class="pre">muu</span></code>, <code class="docutils literal notranslate"><span class="pre">muv</span></code>, <code class="docutils literal notranslate"><span class="pre">muw</span></code>, <code class="docutils literal notranslate"><span class="pre">mvv</span></code>, <code class="docutils literal notranslate"><span class="pre">mvw</span></code>, <code class="docutils literal notranslate"><span class="pre">mww</span></code>), and the
+internal-energy moments. From these, the output writes (per
+bin, at every write step):</p>
 <ul class="simple">
-<li><p>number and mass density (<code class="docutils literal notranslate"><span class="pre">rhoN</span></code>, <code class="docutils literal notranslate"><span class="pre">rhoM</span></code>);</p></li>
-<li><p>translational and internal temperatures;</p></li>
-<li><p>pressure scalar and tensor; shear-stress tensor;</p></li>
-<li><p>heat-flux vector;</p></li>
-<li><p>mean free path and Mach number;</p></li>
-<li><p>optional error estimators on each of the above.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">N</span></code>, <code class="docutils literal notranslate"><span class="pre">M</span></code>, <code class="docutils literal notranslate"><span class="pre">rhoN</span></code>, <code class="docutils literal notranslate"><span class="pre">rhoM</span></code> —  population and density
+measurements;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UMean</span></code> and <code class="docutils literal notranslate"><span class="pre">scalarUMean</span></code> —  bulk velocity;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">translationalTemperature</span></code>, <code class="docutils literal notranslate"><span class="pre">internalTemperature</span></code> —
+bisection-inverted temperatures;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pressureTensor</span></code> and its deviatoric <code class="docutils literal notranslate"><span class="pre">shearStressTensor</span></code>,
+together with the scalar <code class="docutils literal notranslate"><span class="pre">scalarPressure</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">heatFlux</span></code>, split into <code class="docutils literal notranslate"><span class="pre">heatFluxTranslational</span></code> and
+<code class="docutils literal notranslate"><span class="pre">heatFluxInternal</span></code> contributions;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">meanFreePath</span></code> and <code class="docutils literal notranslate"><span class="pre">Mach</span></code> per bin;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Cv</span></code>, <code class="docutils literal notranslate"><span class="pre">Cp</span></code>, <code class="docutils literal notranslate"><span class="pre">gamma</span></code> —  heat capacities from the
+bin-level internal partition function.</p></li>
 </ul>
-<p>Configuration keys include <code class="docutils literal notranslate"><span class="pre">field</span></code>, <code class="docutils literal notranslate"><span class="pre">typeIds</span></code>,
-<code class="docutils literal notranslate"><span class="pre">averagingAcrossManyRuns</span></code>, <code class="docutils literal notranslate"><span class="pre">measureMeanFreePath</span></code>,
-<code class="docutils literal notranslate"><span class="pre">measureErrors</span></code>, <code class="docutils literal notranslate"><span class="pre">densityOnly</span></code>, and
-<code class="docutils literal notranslate"><span class="pre">measureHeatFluxShearStress</span></code>.</p>
-</section>
-<section id="dsmcbinsmethod-one-two-or-three-dimensional-bins">
-<h3><code class="docutils literal notranslate"><span class="pre">dsmcBinsMethod</span></code> —  one-, two-, or three-dimensional bins<a class="headerlink" href="#dsmcbinsmethod-one-two-or-three-dimensional-bins" title="Link to this heading"></a></h3>
-<p><em>Source:</em> <code class="docutils literal notranslate"><span class="pre">macroscopicProperties/derived/combined/dsmcBinsMethod/</span></code>.</p>
-<p>Measures macroscopic properties in histogram-style bins that are
-independent of the mesh. Useful for one-dimensional shock profiles
-and for angular or radial binning. A pluggable <code class="docutils literal notranslate"><span class="pre">binModel</span></code>
-(e.g. <code class="docutils literal notranslate"><span class="pre">uniformBins</span></code>) defines the bin geometry; the sub-dictionary
-<code class="docutils literal notranslate"><span class="pre">dsmcBinsMethodProperties</span></code> carries <code class="docutils literal notranslate"><span class="pre">binModel</span></code>, <code class="docutils literal notranslate"><span class="pre">field</span></code>,
-<code class="docutils literal notranslate"><span class="pre">zone</span></code>, <code class="docutils literal notranslate"><span class="pre">typeIds</span></code>, and <code class="docutils literal notranslate"><span class="pre">area</span></code> (for cross-sectional flux
-normalisation).</p>
-</section>
-<section id="dsmczone-zone-averages">
-<h3><code class="docutils literal notranslate"><span class="pre">dsmcZone</span></code> —  zone averages<a class="headerlink" href="#dsmczone-zone-averages" title="Link to this heading"></a></h3>
-<p><em>Source:</em> <code class="docutils literal notranslate"><span class="pre">macroscopicProperties/derived/combined/dsmcZone/</span></code>.</p>
-<p>Returns volume-averaged macroscopic properties over a named
-<code class="docutils literal notranslate"><span class="pre">cellZone</span></code>: number and mass density, translational and
-effective internal temperatures, pressure, heat flux, shear
-stress, and the internal-temperature bisection applied to the
-rovibronic energy. Useful for zero-dimensional reference
-quantities in heat-bath cases. The key
-<code class="docutils literal notranslate"><span class="pre">measureCollisionRateOnly</span></code> restricts the output to collision
-statistics, which is the cheapest possible measurement mode.</p>
-</section>
-<section id="dsmcvelocitydistributionzone-dsmcspeeddistributionzone">
-<h3><code class="docutils literal notranslate"><span class="pre">dsmcVelocityDistributionZone</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcSpeedDistributionZone</span></code><a class="headerlink" href="#dsmcvelocitydistributionzone-dsmcspeeddistributionzone" title="Link to this heading"></a></h3>
-<p><em>Source:</em> <code class="docutils literal notranslate"><span class="pre">macroscopicProperties/derived/velocity/</span></code>.</p>
-<p>Accumulates histograms of the velocity (component-wise) or speed
-(magnitude) over the parcels inside a named zone. The histogram
-bin width is set through the <code class="docutils literal notranslate"><span class="pre">binWidth</span></code> key. These measurements
-are the primary way to confirm that the velocity distribution
-remains Maxwellian (or to quantify how it does not).</p>
-</section>
-<section id="dsmcrovibronicpopulation-state-resolved-populations">
-<h3><code class="docutils literal notranslate"><span class="pre">dsmcRovibronicPopulation</span></code> —  state-resolved populations<a class="headerlink" href="#dsmcrovibronicpopulation-state-resolved-populations" title="Link to this heading"></a></h3>
-<p><em>Source:</em>
-<code class="docutils literal notranslate"><span class="pre">macroscopicProperties/derived/otherFields/dsmcRovibronicPopulation/</span></code>.</p>
-<p>Accumulates the full four-index array
-<code class="docutils literal notranslate"><span class="pre">population[cellI][n][v][J]</span></code> for a selected species in a
-selected zone. This is the diagnostic that exercises the central
-promise of the rovibronic extension: it allows the user to plot
-the vibrational-rotational-electronic distribution as it actually
-is, rather than as it would be if it were Boltzmann. The
-sub-dictionary takes <code class="docutils literal notranslate"><span class="pre">fieldName</span></code>, <code class="docutils literal notranslate"><span class="pre">zoneName</span></code>, and a single
-<code class="docutils literal notranslate"><span class="pre">typeId</span></code>.</p>
-</section>
-<section id="dsmcmassfluxsurface-flux-through-a-face-zone">
-<h3><code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code> —  flux through a face zone<a class="headerlink" href="#dsmcmassfluxsurface-flux-through-a-face-zone" title="Link to this heading"></a></h3>
-<p><em>Source:</em> <code class="docutils literal notranslate"><span class="pre">macroscopicProperties/derived/massFlux/dsmcMassFluxSurface/</span></code>.</p>
-<p>Integrates mass, number, momentum, and energy fluxes through a
-user-defined <code class="docutils literal notranslate"><span class="pre">faceZone</span></code>. Correctly handles processor-patch
-ownership (contributing factor <span class="math notranslate nohighlight">\(0.5\)</span> on shared faces) so
-that totals remain correct in parallel. The sub-dictionary takes
-<code class="docutils literal notranslate"><span class="pre">field</span></code>, <code class="docutils literal notranslate"><span class="pre">typeIds</span></code>, <code class="docutils literal notranslate"><span class="pre">faceZone</span></code>, and <code class="docutils literal notranslate"><span class="pre">fluxDirection</span></code>.</p>
+<p>Configuration (verbatim from the class header):</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">fieldModel</span><span class="w">   </span><span class="n">dsmcBinsMethod</span><span class="p">;</span>
+<span class="n">timeProperties</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">timeOption</span><span class="w"> </span><span class="n">write</span><span class="p">;</span><span class="w"> </span><span class="n">resetAtOutput</span><span class="w"> </span><span class="n">on</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">dsmcBinsMethodProperties</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">field</span><span class="w">                   </span><span class="n">N2</span><span class="p">;</span>
+<span class="w">    </span><span class="n">zone</span><span class="w">                    </span><span class="n">channelRegion</span><span class="p">;</span><span class="w">    </span><span class="c1">// optional cellZone filter</span>
+<span class="w">    </span><span class="n">typeIds</span><span class="w">                 </span><span class="p">(</span><span class="n">N2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">averagingAcrossManyRuns</span><span class="w"> </span><span class="n">no</span><span class="p">;</span>
+<span class="w">    </span><span class="n">binModel</span><span class="w">                </span><span class="n">uniformBins</span><span class="p">;</span>
+<span class="w">    </span><span class="n">uniformBinsProperties</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">startPoint</span><span class="w">  </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="n">endPoint</span><span class="w">    </span><span class="p">(</span><span class="mf">2e-6</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="n">nBins</span><span class="w">       </span><span class="mi">60</span><span class="p">;</span>
+<span class="w">        </span><span class="n">area</span><span class="w">        </span><span class="mf">2.64e-14</span><span class="p">;</span><span class="w">   </span><span class="c1">// cross-section for density</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The output is written to <code class="docutils literal notranslate"><span class="pre">&lt;case&gt;/fieldMeasurements/&lt;field&gt;/</span></code>
+as plain-text tables, one row per bin per write step, and is
+therefore directly usable in Python / gnuplot / Matlab pipelines.</p>
 </section>
 </section>
-<section id="common-conventions">
-<h2>Common conventions<a class="headerlink" href="#common-conventions" title="Link to this heading"></a></h2>
-<p>Every field model shares three lifecycle hooks: <code class="docutils literal notranslate"><span class="pre">createFields()</span></code>
-at construction, <code class="docutils literal notranslate"><span class="pre">calculateField()</span></code> at every time-step, and
-<code class="docutils literal notranslate"><span class="pre">writeField()</span></code> at the output interval. Measurements that need to
-average across several time-steps maintain an internal counter and
-reset it after each write. The container class
+<section id="zone-model-dsmczone">
+<h2>Zone model — <code class="docutils literal notranslate"><span class="pre">dsmcZone</span></code><a class="headerlink" href="#zone-model-dsmczone" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">dsmcZone</span></code> field model
+(<code class="docutils literal notranslate"><span class="pre">macroscopicProperties/derived/combined/dsmcZone/</span></code>) returns
+the volume-averaged macroscopic properties over a named
+<code class="docutils literal notranslate"><span class="pre">cellZone</span></code>. Works in parallel. Rovibronic version: it
+accumulates the internal energy directly from the parcels and
+inverts <span class="math notranslate nohighlight">\(T_\mathrm{int}\)</span> through a Newton-Raphson loop
+against the mode-specific partition function.</p>
+<section id="output-fields">
+<h3>Output fields<a class="headerlink" href="#output-fields" title="Link to this heading"></a></h3>
+<p>For each write, the zone model writes a single-row record
+containing the zone-averaged:</p>
+<ul class="simple">
+<li><p>number and mass densities;</p></li>
+<li><p>translational and effective internal temperatures;</p></li>
+<li><p>pressure tensor and its scalar trace;</p></li>
+<li><p>mean velocity;</p></li>
+<li><p>heat-flux and friction-drag vectors;</p></li>
+<li><p>shear-stress tensor;</p></li>
+<li><p>per-species internal energy;</p></li>
+<li><p>collision-rate statistics (if <code class="docutils literal notranslate"><span class="pre">measureCollisionRateOnly</span></code> is
+<code class="docutils literal notranslate"><span class="pre">true</span></code>, only this last group is written, which is the
+cheapest possible measurement mode).</p></li>
+</ul>
+<p>Configuration:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">fieldModel</span><span class="w">  </span><span class="n">dsmcZone</span><span class="p">;</span>
+<span class="n">timeProperties</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">timeOption</span><span class="w"> </span><span class="n">write</span><span class="p">;</span><span class="w"> </span><span class="n">resetAtOutput</span><span class="w"> </span><span class="n">off</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">dsmcZoneProperties</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">zone</span><span class="w">                      </span><span class="n">combustionChamberZone</span><span class="p">;</span>
+<span class="w">    </span><span class="n">field</span><span class="w">                     </span><span class="n">O2</span><span class="p">;</span><span class="w">           </span><span class="c1">// output tag</span>
+<span class="w">    </span><span class="n">typeIds</span><span class="w">                   </span><span class="p">(</span><span class="n">O2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">measureCollisionRateOnly</span><span class="w">  </span><span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The zone model is the natural tool for 0-D reference quantities
+—  heat-bath relaxation curves, reactor-averaged production
+rates, single-cell time histories —  because one cellZone of
+the mesh becomes a single-value time series in the output file.
+Combining several <code class="docutils literal notranslate"><span class="pre">dsmcZone</span></code> instances with different species
+filters on the same zone gives per-species time histories
+alongside the mixture-averaged values.</p>
+</section>
+</section>
+<section id="rovibronic-population-dsmcrovibronicpopulation">
+<h2>Rovibronic population — <code class="docutils literal notranslate"><span class="pre">dsmcRovibronicPopulation</span></code><a class="headerlink" href="#rovibronic-population-dsmcrovibronicpopulation" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">dsmcRovibronicPopulation</span></code> field model
+(<code class="docutils literal notranslate"><span class="pre">macroscopicProperties/derived/otherFields/dsmcRovibronicPopulation/</span></code>)
+is the diagnostic that directly exercises the central promise of
+the rovibronic extension. It accumulates, per cell and per
+rovibronic level, the population of a selected species:</p>
+<div class="math notranslate nohighlight">
+\[P(\mathrm{cell};\,n, v, J)
+  = \frac{1}{N}\sum_{i\in\mathrm{cell}}
+    \delta_{(n_i, v_i, J_i),\,(n, v, J)},\]</div>
+<p>so that <span class="math notranslate nohighlight">\(\sum_{n, v, J} P(\mathrm{cell}; n, v, J) = 1\)</span>.
+The output is a four-dimensional array indexed by
+<span class="math notranslate nohighlight">\((\mathrm{cell}, n, v, J)\)</span> together with the
+corresponding energy and degeneracy tables, and is the only
+measurement that gives access to the <strong>non-Boltzmann shape</strong> of
+the populated levels.</p>
+<p>Configuration:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">fieldModel</span><span class="w">  </span><span class="n">dsmcRovibronicPopulation</span><span class="p">;</span>
+<span class="n">dsmcRovibronicPopulationProperties</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">fieldName</span><span class="w">   </span><span class="n">N2_population</span><span class="p">;</span>
+<span class="w">    </span><span class="n">zoneName</span><span class="w">    </span><span class="n">shockRegion</span><span class="p">;</span>
+<span class="w">    </span><span class="n">typeId</span><span class="w">      </span><span class="n">N2</span><span class="p">;</span><span class="w">          </span><span class="c1">// one species per instance</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Typical plots built from this output:</p>
+<ul class="simple">
+<li><p>the vibrational population <span class="math notranslate nohighlight">\(P(v)\)</span> at fixed electronic
+state <span class="math notranslate nohighlight">\(n\)</span>, with the Boltzmann distribution at
+<span class="math notranslate nohighlight">\(T_t\)</span> overlaid as a reference —  the single most direct
+diagnostic of vibrational non-equilibrium;</p></li>
+<li><p>the rotational population <span class="math notranslate nohighlight">\(P(J)\)</span> at fixed
+<span class="math notranslate nohighlight">\((n, v)\)</span>, used to test the rotational-vibrational
+equilibrium assumption;</p></li>
+<li><p>the electronic population <span class="math notranslate nohighlight">\(P(n)\)</span> as a time series in
+shock-heated flows, showing how the excited electronic
+manifolds are progressively populated.</p></li>
+</ul>
+</section>
+<section id="face-flux-measurement-dsmcmassfluxsurface">
+<h2>Face-flux measurement — <code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code><a class="headerlink" href="#face-flux-measurement-dsmcmassfluxsurface" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code>
+(<code class="docutils literal notranslate"><span class="pre">macroscopicProperties/derived/massFlux/dsmcMassFluxSurface/</span></code>)
+integrates mass, number, momentum, and energy fluxes through a
+user-defined <code class="docutils literal notranslate"><span class="pre">faceZone</span></code>. On processor patches the contribution
+of a face is weighted by 0.5 so that the total is correct on
+reconstruction after a parallel run. The sub-dictionary takes:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">fieldModel</span><span class="w">  </span><span class="n">dsmcMassFluxSurface</span><span class="p">;</span>
+<span class="n">dsmcMassFluxSurfaceProperties</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">field</span><span class="w">            </span><span class="n">inletFlux</span><span class="p">;</span>
+<span class="w">    </span><span class="n">typeIds</span><span class="w">          </span><span class="p">(</span><span class="n">N2</span><span class="w"> </span><span class="n">O2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">faceZone</span><span class="w">         </span><span class="n">inletFace</span><span class="p">;</span>
+<span class="w">    </span><span class="n">fluxDirection</span><span class="w">    </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">    </span><span class="c1">// sign convention</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Useful for inlet / outlet monitoring, mass conservation checks,
+and for extracting mass-flow boundary-condition data from a
+reference run to feed an <code class="docutils literal notranslate"><span class="pre">dsmcMassFlowRateInlet</span></code> in a
+downstream case.</p>
+</section>
+<section id="velocity-and-speed-distributions">
+<h2>Velocity and speed distributions<a class="headerlink" href="#velocity-and-speed-distributions" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">dsmcVelocityDistributionZone</span></code> and
+<code class="docutils literal notranslate"><span class="pre">dsmcSpeedDistributionZone</span></code>
+(<code class="docutils literal notranslate"><span class="pre">macroscopicProperties/derived/velocity/</span></code>) accumulate
+histograms of, respectively, the velocity-component and
+speed-magnitude distribution of the parcels inside a named
+zone. The histogram bin width is set through the <code class="docutils literal notranslate"><span class="pre">binWidth</span></code>
+key (in m/s).</p>
+<p>These are the primary tools to confirm that the sampled
+velocity distribution remains Maxwellian under non-equilibrium,
+or to quantify the departure when it does not. Typical use:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">fieldModel</span><span class="w">  </span><span class="n">dsmcSpeedDistributionZone</span><span class="p">;</span>
+<span class="n">dsmcSpeedDistributionZoneProperties</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">field</span><span class="w">       </span><span class="n">inflowSpeed</span><span class="p">;</span>
+<span class="w">    </span><span class="n">zoneName</span><span class="w">    </span><span class="n">inflowZone</span><span class="p">;</span>
+<span class="w">    </span><span class="n">typeIds</span><span class="w">     </span><span class="p">(</span><span class="n">N2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">binWidth</span><span class="w">    </span><span class="mi">50</span><span class="p">;</span><span class="w">        </span><span class="c1">// m/s bins</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="orchestration-and-lifecycle">
+<h2>Orchestration and lifecycle<a class="headerlink" href="#orchestration-and-lifecycle" title="Link to this heading"></a></h2>
+<p>Every field model in the present section inherits from
+<code class="docutils literal notranslate"><span class="pre">dsmcField</span></code>
+(<code class="docutils literal notranslate"><span class="pre">macroscopicProperties/basic/dsmcField/</span></code>) and is instantiated
+by the container class
 <code class="docutils literal notranslate"><span class="pre">dsmcFieldProperties</span></code>
-(<code class="docutils literal notranslate"><span class="pre">macroscopicProperties/basic/dsmcFieldProperties/</span></code>) iterates
-through the registered field models and orchestrates these calls.</p>
+(<code class="docutils literal notranslate"><span class="pre">macroscopicProperties/basic/dsmcFieldProperties/</span></code>) which
+reads the top-level <code class="docutils literal notranslate"><span class="pre">system/fieldPropertiesDict</span></code>:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">fields</span>
+<span class="p">(</span>
+<span class="w">    </span><span class="n">fieldA</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">fieldModel</span><span class="w"> </span><span class="n">dsmcVolFields</span><span class="p">;</span><span class="w">              </span><span class="cm">/* … */</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">fieldB</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">fieldModel</span><span class="w"> </span><span class="n">dsmcBinsMethod</span><span class="p">;</span><span class="w">             </span><span class="cm">/* … */</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">fieldC</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">fieldModel</span><span class="w"> </span><span class="n">dsmcZone</span><span class="p">;</span><span class="w">                   </span><span class="cm">/* … */</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">fieldD</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">fieldModel</span><span class="w"> </span><span class="n">dsmcRovibronicPopulation</span><span class="p">;</span><span class="w">   </span><span class="cm">/* … */</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">fieldE</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">fieldModel</span><span class="w"> </span><span class="n">dsmcMassFluxSurface</span><span class="p">;</span><span class="w">        </span><span class="cm">/* … */</span><span class="w"> </span><span class="p">}</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>On every DSMC step the cloud invokes
+<code class="docutils literal notranslate"><span class="pre">dsmcFieldProperties::calculateField()</span></code>, which dispatches to
+each registered field model in sequence; on every write step it
+invokes <code class="docutils literal notranslate"><span class="pre">writeField()</span></code> similarly. Field models are therefore
+trivially stacked: attach as many as are useful, with different
+species filters, zones, and time options. A zone-averaged
+<code class="docutils literal notranslate"><span class="pre">dsmcZone</span></code> combined with a full-volume <code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code>, a
+bin-averaged <code class="docutils literal notranslate"><span class="pre">dsmcBinsMethod</span></code> across a shock, and a
+state-resolved <code class="docutils literal notranslate"><span class="pre">dsmcRovibronicPopulation</span></code> in the shock layer
+is a fairly standard combination for a re-entry simulation.</p>
 </section>
 </section>
 

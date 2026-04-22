@@ -346,11 +346,28 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../classes/boundaries.html">Boundary classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../classes/boundaries.html#patch-boundaries">Patch boundaries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/boundaries.html#rovibronic-wall">Rovibronic wall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/boundaries.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/boundaries.html#common-wall-physics">Common wall physics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/boundaries.html#patch-boundaries-catalogue">Patch boundaries — catalogue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/boundaries.html#wall-scattering-kernels-in-detail">Wall scattering kernels in detail</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#specular-reflection">Specular reflection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#fully-diffuse-reflection">Fully diffuse reflection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#maxwell-mixed-model">Maxwell mixed model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#cercignani-lampis-lord-cll">Cercignani-Lampis-Lord (CLL)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/boundaries.html#rovibronic-aware-wall-dsmcmixeddiffusespecularwallrotpatch">Rovibronic-aware wall — <code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/boundaries.html#inflow-models">Inflow models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#free-stream-maxwellian-inflow">Free-stream Maxwellian inflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#chapman-enskog-first-order-inflow">Chapman-Enskog first-order inflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#pressure-driven-inlets">Pressure-driven inlets</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/boundaries.html#particle-deletion-patch">Particle-deletion patch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/boundaries.html#cyclic-boundaries">Cyclic boundaries</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/boundaries.html#general-boundaries">General boundaries</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/boundaries.html#boundary-measurements">Boundary measurements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/boundaries.html#choosing-a-wall-model">Choosing a wall model</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../classes/controllers.html">Controllers</a><ul>
@@ -367,19 +384,23 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../classes/measurements.html">Measurements</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#role">Role</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#cell-measurements">Cell measurements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#boundary-measurements">Boundary measurements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#configurable-field-models">Configurable field models</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#dsmcvolfields-volume-averaged-fields"><code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code> —  volume-averaged fields</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#dsmcbinsmethod-one-two-or-three-dimensional-bins"><code class="docutils literal notranslate"><span class="pre">dsmcBinsMethod</span></code> —  one-, two-, or three-dimensional bins</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#dsmczone-zone-averages"><code class="docutils literal notranslate"><span class="pre">dsmcZone</span></code> —  zone averages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#dsmcvelocitydistributionzone-dsmcspeeddistributionzone"><code class="docutils literal notranslate"><span class="pre">dsmcVelocityDistributionZone</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcSpeedDistributionZone</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#dsmcrovibronicpopulation-state-resolved-populations"><code class="docutils literal notranslate"><span class="pre">dsmcRovibronicPopulation</span></code> —  state-resolved populations</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#dsmcmassfluxsurface-flux-through-a-face-zone"><code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code> —  flux through a face zone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#time-averaging-controls">Time-averaging controls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#cellmeasurements-the-per-cell-primitive-accumulator"><code class="docutils literal notranslate"><span class="pre">cellMeasurements</span></code> — the per-cell primitive accumulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#boundarymeasurements-the-per-patch-primitive-accumulator"><code class="docutils literal notranslate"><span class="pre">boundaryMeasurements</span></code> — the per-patch primitive accumulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#volume-field-model-dsmcvolfields">Volume-field model — <code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#bin-model-dsmcbinsmethod">Bin model — <code class="docutils literal notranslate"><span class="pre">dsmcBinsMethod</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#bin-model-sub-classes">Bin model sub-classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#fields-measured-in-each-bin">Fields measured in each bin</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#common-conventions">Common conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#zone-model-dsmczone">Zone model — <code class="docutils literal notranslate"><span class="pre">dsmcZone</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#output-fields">Output fields</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#rovibronic-population-dsmcrovibronicpopulation">Rovibronic population — <code class="docutils literal notranslate"><span class="pre">dsmcRovibronicPopulation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#face-flux-measurement-dsmcmassfluxsurface">Face-flux measurement — <code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#orchestration-and-lifecycle">Orchestration and lifecycle</a></li>
 </ul>
 </li>
 </ul>
@@ -392,9 +413,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#calculator">Calculator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#background">Background</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#derivation">Derivation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#notes-and-caveats">Notes and caveats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#caveats">Caveats</a></li>
 </ul>
 </li>
 </ul>

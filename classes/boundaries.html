@@ -346,11 +346,28 @@
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Boundary classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#patch-boundaries">Patch boundaries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#rovibronic-wall">Rovibronic wall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#common-wall-physics">Common wall physics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#patch-boundaries-catalogue">Patch boundaries — catalogue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wall-scattering-kernels-in-detail">Wall scattering kernels in detail</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#specular-reflection">Specular reflection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fully-diffuse-reflection">Fully diffuse reflection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxwell-mixed-model">Maxwell mixed model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cercignani-lampis-lord-cll">Cercignani-Lampis-Lord (CLL)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#rovibronic-aware-wall-dsmcmixeddiffusespecularwallrotpatch">Rovibronic-aware wall — <code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inflow-models">Inflow models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#free-stream-maxwellian-inflow">Free-stream Maxwellian inflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#chapman-enskog-first-order-inflow">Chapman-Enskog first-order inflow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pressure-driven-inlets">Pressure-driven inlets</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#particle-deletion-patch">Particle-deletion patch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cyclic-boundaries">Cyclic boundaries</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#general-boundaries">General boundaries</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#boundary-measurements">Boundary measurements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#choosing-a-wall-model">Choosing a wall model</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="controllers.html">Controllers</a><ul>
@@ -367,19 +384,23 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="measurements.html">Measurements</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="measurements.html#role">Role</a></li>
-<li class="toctree-l3"><a class="reference internal" href="measurements.html#cell-measurements">Cell measurements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="measurements.html#boundary-measurements">Boundary measurements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="measurements.html#configurable-field-models">Configurable field models</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="measurements.html#dsmcvolfields-volume-averaged-fields"><code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code> —  volume-averaged fields</a></li>
-<li class="toctree-l4"><a class="reference internal" href="measurements.html#dsmcbinsmethod-one-two-or-three-dimensional-bins"><code class="docutils literal notranslate"><span class="pre">dsmcBinsMethod</span></code> —  one-, two-, or three-dimensional bins</a></li>
-<li class="toctree-l4"><a class="reference internal" href="measurements.html#dsmczone-zone-averages"><code class="docutils literal notranslate"><span class="pre">dsmcZone</span></code> —  zone averages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="measurements.html#dsmcvelocitydistributionzone-dsmcspeeddistributionzone"><code class="docutils literal notranslate"><span class="pre">dsmcVelocityDistributionZone</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcSpeedDistributionZone</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="measurements.html#dsmcrovibronicpopulation-state-resolved-populations"><code class="docutils literal notranslate"><span class="pre">dsmcRovibronicPopulation</span></code> —  state-resolved populations</a></li>
-<li class="toctree-l4"><a class="reference internal" href="measurements.html#dsmcmassfluxsurface-flux-through-a-face-zone"><code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code> —  flux through a face zone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#time-averaging-controls">Time-averaging controls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#cellmeasurements-the-per-cell-primitive-accumulator"><code class="docutils literal notranslate"><span class="pre">cellMeasurements</span></code> — the per-cell primitive accumulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#boundarymeasurements-the-per-patch-primitive-accumulator"><code class="docutils literal notranslate"><span class="pre">boundaryMeasurements</span></code> — the per-patch primitive accumulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#volume-field-model-dsmcvolfields">Volume-field model — <code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#bin-model-dsmcbinsmethod">Bin model — <code class="docutils literal notranslate"><span class="pre">dsmcBinsMethod</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#bin-model-sub-classes">Bin model sub-classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#fields-measured-in-each-bin">Fields measured in each bin</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="measurements.html#common-conventions">Common conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#zone-model-dsmczone">Zone model — <code class="docutils literal notranslate"><span class="pre">dsmcZone</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#output-fields">Output fields</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#rovibronic-population-dsmcrovibronicpopulation">Rovibronic population — <code class="docutils literal notranslate"><span class="pre">dsmcRovibronicPopulation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#face-flux-measurement-dsmcmassfluxsurface">Face-flux measurement — <code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#orchestration-and-lifecycle">Orchestration and lifecycle</a></li>
 </ul>
 </li>
 </ul>
@@ -392,9 +413,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#calculator">Calculator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#background">Background</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#derivation">Derivation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#notes-and-caveats">Notes and caveats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#caveats">Caveats</a></li>
 </ul>
 </li>
 </ul>
@@ -481,66 +503,146 @@
   <section id="boundary-classes">
 <h1>Boundary classes<a class="headerlink" href="#boundary-classes" title="Link to this heading"></a></h1>
 <p>Source: <code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/boundaries/</span></code> (basic and derived).</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p>The boundary subsystem implements the particle-patch interactions
 that take place whenever a parcel’s trajectory intersects a face
-that lies on the domain boundary. Three families are
-distinguished: <strong>patch boundaries</strong> (walls, inflows, outflows),
-<strong>cyclic boundaries</strong> (periodic and reflective membranes), and
-<strong>general boundaries</strong> (pressure inlets, mass-flow inlets, and a
-handful of specialised inlet types).</p>
-<p>Each patch-boundary class is selected by its <code class="docutils literal notranslate"><span class="pre">boundaryModel</span></code>
-key in <code class="docutils literal notranslate"><span class="pre">system/boundariesDict</span></code>; the associated configuration
+that lies on the domain boundary. Boundaries are where the DSMC
+simulation couples to the outside world —  walls, inflows,
+outflows, periodic surrogates, and any sink through which mass,
+momentum, and energy leave or enter the domain. Their
+physical fidelity therefore drives the correctness of every
+wall-integrated quantity (heat flux, drag, catalytic chemistry)
+and every inflow-dependent quantity (shock structure, plume
+profile).</p>
+<p>Three families are distinguished by the code base:</p>
+<ul class="simple">
+<li><p><strong>patch boundaries</strong> —  walls, inflows, outflows; read from
+the <code class="docutils literal notranslate"><span class="pre">dsmcPatchBoundaries</span></code> list in
+<code class="docutils literal notranslate"><span class="pre">system/boundariesDict</span></code>;</p></li>
+<li><p><strong>cyclic boundaries</strong> —  periodic surrogates, reflective
+particle membranes; read from <code class="docutils literal notranslate"><span class="pre">dsmcCyclicBoundaries</span></code>;</p></li>
+<li><p><strong>general boundaries</strong> —  pressure- and mass-flow-driven
+inlets with a volume component; read from
+<code class="docutils literal notranslate"><span class="pre">dsmcGeneralBoundaries</span></code>.</p></li>
+</ul>
+<p>Each entry pairs a patch name with a <code class="docutils literal notranslate"><span class="pre">boundaryModel</span></code> drawn
+from the classes listed below. The associated configuration
 lives in an adjacent <code class="docutils literal notranslate"><span class="pre">&lt;BoundaryModel&gt;Properties</span></code> sub-dictionary.</p>
-<section id="patch-boundaries">
-<h2>Patch boundaries<a class="headerlink" href="#patch-boundaries" title="Link to this heading"></a></h2>
+</section>
+<section id="common-wall-physics">
+<h2>Common wall physics<a class="headerlink" href="#common-wall-physics" title="Link to this heading"></a></h2>
+<p>All wall-patch classes share the same underlying kinematic
+problem. When a parcel of mass <span class="math notranslate nohighlight">\(m_s\)</span> reaches a wall face
+with pre-collision velocity <span class="math notranslate nohighlight">\(\mathbf{v}\)</span>, the wall is
+characterised by its local (possibly patch-varying) velocity
+<span class="math notranslate nohighlight">\(\mathbf{v}_w\)</span>, temperature <span class="math notranslate nohighlight">\(T_w\)</span>, and inward
+normal <span class="math notranslate nohighlight">\(\hat{\mathbf{n}}_w\)</span>. The reflected velocity
+<span class="math notranslate nohighlight">\(\mathbf{v}'\)</span> is drawn from one of several scattering
+kernels (specular, diffuse, mixed, CLL, rovibronic-aware). Three
+quantities are accumulated per face on every interaction —
+momentum flux, kinetic-energy flux, and internal-energy flux —
+by the <code class="docutils literal notranslate"><span class="pre">boundaryMeasurements</span></code> subsystem (see
+<a class="reference internal" href="measurements.html"><span class="doc">Measurements</span></a>), which is the authoritative source of
+surface heat flux and drag.</p>
+<p>The key physical ingredients across wall-type classes are:</p>
+<ul>
+<li><p><strong>Thermal accommodation coefficient</strong> <span class="math notranslate nohighlight">\(\alpha_T\)</span>, the
+fraction of the kinetic-energy difference transferred to the
+wall:</p>
+<div class="math notranslate nohighlight">
+\[\alpha_T
+  = \frac{E_i - E_r}{E_i - E_w},\]</div>
+<p>where <span class="math notranslate nohighlight">\(E_i\)</span> and <span class="math notranslate nohighlight">\(E_r\)</span> are the incident and
+reflected kinetic energies per molecule, and <span class="math notranslate nohighlight">\(E_w\)</span> is
+the kinetic energy a molecule would have if fully equilibrated
+with the wall. <span class="math notranslate nohighlight">\(\alpha_T = 0\)</span> corresponds to specular
+reflection (no energy exchange); <span class="math notranslate nohighlight">\(\alpha_T = 1\)</span> to full
+thermal accommodation.</p>
+</li>
+<li><p><strong>Momentum accommodation coefficient</strong> <span class="math notranslate nohighlight">\(\sigma\)</span>, the
+fraction of the tangential momentum transferred to the wall.
+The Maxwell mixed model uses a single scalar
+<span class="math notranslate nohighlight">\(\sigma = \alpha\)</span>; the Cercignani-Lampis-Lord (CLL)
+model separates the normal and tangential components.</p></li>
+<li><p><strong>Internal-energy accommodation</strong> —  whether and how the
+reflected parcel’s internal state is re-sampled from the wall
+temperature. The rovibronic-aware wall
+(<code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code>) is unique in
+sampling on the discrete rovibronic state space; all other
+wall classes leave the internal state unchanged or sample the
+continuous-variable equivalent.</p></li>
+</ul>
+</section>
+<section id="patch-boundaries-catalogue">
+<h2>Patch boundaries — catalogue<a class="headerlink" href="#patch-boundaries-catalogue" title="Link to this heading"></a></h2>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 40.0%" />
-<col style="width: 15.0%" />
-<col style="width: 45.0%" />
+<col style="width: 35.0%" />
+<col style="width: 12.0%" />
+<col style="width: 53.0%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Class</p></th>
-<th class="head"><p>Rovibronic-aware?</p></th>
-<th class="head"><p>Purpose</p></th>
+<th class="head"><p>Rovibronic?</p></th>
+<th class="head"><p>Purpose and configuration highlights</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcDiffuseWallPatch</span></code></p></td>
 <td><p>No</p></td>
 <td><p>Fully diffuse reflection at a specified wall temperature.
-Velocity is redrawn from a Maxwellian at the wall
-temperature; internal energies are redrawn from the stock
-continuous model.</p></td>
+Velocity is redrawn from the half-range Maxwellian at
+<span class="math notranslate nohighlight">\(T_w\)</span>, corresponding to full thermal accommodation
+(<span class="math notranslate nohighlight">\(\alpha_T = 1\)</span>). Sub-dictionary keys:
+<code class="docutils literal notranslate"><span class="pre">temperature</span></code>, <code class="docutils literal notranslate"><span class="pre">velocity</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcDiffuseWallFieldPatch</span></code></p></td>
 <td><p>No</p></td>
-<td><p>Field-varying diffuse-wall variant: the wall temperature
-and velocity are read from fields rather than scalar
-entries.</p></td>
+<td><p>Field-varying diffuse wall: <span class="math notranslate nohighlight">\(T_w\)</span> and
+<span class="math notranslate nohighlight">\(\mathbf{v}_w\)</span> are read as per-face fields rather
+than scalars. Used for non-uniform wall conditions
+(e.g. a heated / cooled strip on an otherwise uniform
+wall).</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcSpecularWallPatch</span></code></p></td>
 <td><p>No</p></td>
-<td><p>Perfectly specular reflection.</p></td>
+<td><p>Perfectly specular reflection
+(<span class="math notranslate nohighlight">\(\alpha_T = 0, \sigma = 0\)</span>). Primarily used for
+symmetry planes, periodic surrogates, and free-molecular
+verification.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallPatch</span></code></p></td>
 <td><p>No</p></td>
-<td><p>Weighted mixture of diffuse and specular, controlled by a
-scalar <code class="docutils literal notranslate"><span class="pre">diffuseFraction</span></code>.</p></td>
+<td><p>Maxwell mixed model: a fraction
+<code class="docutils literal notranslate"><span class="pre">diffuseFraction</span></code> <span class="math notranslate nohighlight">\(\alpha\)</span> of parcels reflect
+diffusely, the rest specularly. Scalar <span class="math notranslate nohighlight">\(\alpha,
+T_w, \mathbf{v}_w\)</span>.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallFieldPatch</span></code></p></td>
 <td><p>No</p></td>
-<td><p>Field-varying variant of the above.</p></td>
+<td><p>Field-varying variant of the above; <span class="math notranslate nohighlight">\(\alpha,
+T_w, \mathbf{v}_w\)</span> all read as face fields.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code></p></td>
 <td><p><strong>Yes</strong></p></td>
-<td><p>Rovibronic-aware mixed wall: on a diffuse reflection,
-the rovibronic state <span class="math notranslate nohighlight">\((n, v, J)\)</span> is redrawn from the
-database partition function at the wall temperature.</p></td>
+<td><p>Rovibronic-aware mixed wall: on a diffuse reflection, the
+quantum state <span class="math notranslate nohighlight">\((n, v, J)\)</span> is redrawn from the
+Boltzmann distribution over the species’ rovibronic
+levels at <span class="math notranslate nohighlight">\(T_w\)</span>. Use this for any simulation where
+the internal populations impinging on the wall matter
+(radiation coupling, catalysis, non-equilibrium boundary
+layers).</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCLLWallPatch</span></code></p></td>
 <td><p>No</p></td>
-<td><p>Cercignani-Lampis-Lord scattering model.</p></td>
+<td><p>Cercignani-Lampis-Lord scattering model with normal and
+tangential accommodation coefficients
+<span class="math notranslate nohighlight">\(\alpha_n, \alpha_t\)</span>. Unlike the Maxwell kernel,
+CLL interpolates smoothly between specular and fully
+diffuse, and matches measured accommodation behaviour
+for technical surfaces better than the mixed Maxwell
+model.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCLLWallFieldPatch</span></code></p></td>
 <td><p>No</p></td>
@@ -548,14 +650,16 @@ database partition function at the wall temperature.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcDeletionPatch</span></code></p></td>
 <td><p>—</p></td>
-<td><p>Particle sink: parcels that hit the patch are removed. A
-<code class="docutils literal notranslate"><span class="pre">typeIds</span></code> list or <code class="docutils literal notranslate"><span class="pre">allSpecies</span></code> switch controls which
-parcels are deleted.</p></td>
+<td><p>Particle sink: parcels that hit the patch are removed.
+<code class="docutils literal notranslate"><span class="pre">typeIds</span></code> list or <code class="docutils literal notranslate"><span class="pre">allSpecies</span></code> switch.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcFreeStreamInflowPatch</span></code></p></td>
 <td><p>No</p></td>
-<td><p>Maxwellian free-stream inflow at a prescribed density,
-temperature, and velocity.</p></td>
+<td><p>Maxwellian free-stream inflow at prescribed
+<span class="math notranslate nohighlight">\(n_\infty, T_\infty, \mathbf{v}_\infty\)</span>. The
+number of parcels entering the domain follows from the
+half-range flux integral; velocities are drawn from the
+Bird acceptance-rejection algorithm.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcFreeStreamInflowFieldPatch</span></code></p></td>
 <td><p>No</p></td>
@@ -563,72 +667,315 @@ temperature, and velocity.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogFreeStreamInflowPatch</span></code></p></td>
 <td><p>No</p></td>
-<td><p>First-order (Chapman-Enskog) non-equilibrium inflow,
-useful when coupling DSMC to a continuum upstream.</p></td>
+<td><p>First-order Chapman-Enskog inflow: the sampled
+distribution includes the linear corrections in stress
+and heat flux, suitable for coupling to a continuum
+upstream.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcWangPressureInlet</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcLiouFangPressureInlet</span></code>,
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcWangPressureInlet</span></code>,
+<code class="docutils literal notranslate"><span class="pre">dsmcLiouFangPressureInlet</span></code>,
 <code class="docutils literal notranslate"><span class="pre">dsmcMassFlowRateInlet</span></code></p></td>
 <td><p>No</p></td>
-<td><p>Pressure- and mass-flow-driven inlets; consult the
-respective class headers for parameter lists.</p></td>
+<td><p>Pressure- and mass-flow-driven inlets (see below).</p></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="rovibronic-wall">
-<h2>Rovibronic wall<a class="headerlink" href="#rovibronic-wall" title="Link to this heading"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code> is the only patch class
-that <em>samples on the quantum-state space</em> at the wall. On a
-diffuse reflection it re-draws the reflected parcel’s
-<span class="math notranslate nohighlight">\((n, v, J)\)</span> from</p>
+<section id="wall-scattering-kernels-in-detail">
+<h2>Wall scattering kernels in detail<a class="headerlink" href="#wall-scattering-kernels-in-detail" title="Link to this heading"></a></h2>
+<section id="specular-reflection">
+<h3>Specular reflection<a class="headerlink" href="#specular-reflection" title="Link to this heading"></a></h3>
+<p>The simplest kernel: the velocity component normal to the patch
+face is reversed, the tangential components are unchanged,</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{v}'
+  = \mathbf{v} - 2\,(\mathbf{v}\cdot\hat{\mathbf{n}})\,\hat{\mathbf{n}},\]</div>
+<p>and the internal state of the parcel is unaffected. No momentum,
+energy, or mass is exchanged with the wall. Appropriate for:</p>
+<ul class="simple">
+<li><p>symmetry planes (the reflection is exact by construction);</p></li>
+<li><p>free-molecular verification tests, where one wants to isolate
+the inflow kernel;</p></li>
+<li><p>periodic flow surrogates on a channel’s solid wall when the
+physics is wall-independent.</p></li>
+</ul>
+</section>
+<section id="fully-diffuse-reflection">
+<h3>Fully diffuse reflection<a class="headerlink" href="#fully-diffuse-reflection" title="Link to this heading"></a></h3>
+<p>The reflected velocity is drawn from a half-range Maxwellian at
+the wall temperature <span class="math notranslate nohighlight">\(T_w\)</span>, drifted by the wall velocity
+<span class="math notranslate nohighlight">\(\mathbf{v}_w\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[f_w(\mathbf{v})
+  \propto (\mathbf{v}\cdot\hat{\mathbf{n}}_w)\;
+          \exp\!\left[-\frac{m\,|\mathbf{v} - \mathbf{v}_w|^{2}}
+                           {2 k_B T_w}\right],
+  \qquad \mathbf{v}\cdot\hat{\mathbf{n}}_w &gt; 0.\]</div>
+<p>Sampling proceeds as follows:</p>
+<ol class="arabic simple">
+<li><p>draw the normal component <span class="math notranslate nohighlight">\(v_n &gt; 0\)</span> from the inverse of
+the half-range CDF;</p></li>
+<li><p>draw the two tangential components from Maxwell-Boltzmann at
+<span class="math notranslate nohighlight">\(T_w\)</span>, independently;</p></li>
+<li><p>rotate the resulting velocity into the face-local frame and
+add <span class="math notranslate nohighlight">\(\mathbf{v}_w\)</span>.</p></li>
+</ol>
+<p>The kernel corresponds to full thermal and tangential-momentum
+accommodation (<span class="math notranslate nohighlight">\(\alpha_T = \sigma = 1\)</span>) and is the
+textbook “cold wall” boundary condition for re-entry
+simulations. On the internal side, the continuous-internal-
+energy implementation redraws the parcel’s internal energy from
+a Boltzmann distribution at <span class="math notranslate nohighlight">\(T_w\)</span> via the standard
+Larsen-Borgnakke acceptance step; the rovibronic-aware variant
+(below) does the same on the discrete state space.</p>
+</section>
+<section id="maxwell-mixed-model">
+<h3>Maxwell mixed model<a class="headerlink" href="#maxwell-mixed-model" title="Link to this heading"></a></h3>
+<p>Defined by a single accommodation coefficient
+<span class="math notranslate nohighlight">\(\alpha \in [0, 1]\)</span> (<code class="docutils literal notranslate"><span class="pre">diffuseFraction</span></code>): a fraction
+<span class="math notranslate nohighlight">\(\alpha\)</span> of incoming parcels reflect diffusely, the
+remainder specularly. Simple, but does not reproduce the
+smoothly interpolated scattering pattern that experiments report
+for most technical surfaces.</p>
+</section>
+<section id="cercignani-lampis-lord-cll">
+<h3>Cercignani-Lampis-Lord (CLL)<a class="headerlink" href="#cercignani-lampis-lord-cll" title="Link to this heading"></a></h3>
+<p>The CLL kernel <a class="reference internal" href="#lord1991b" id="id1"><span>[Lord1991b]</span></a> provides two independent
+accommodation coefficients, <span class="math notranslate nohighlight">\(\alpha_n\)</span> for the normal
+component and <span class="math notranslate nohighlight">\(\alpha_t\)</span> for the tangential component, and
+a smooth interpolation between specular and fully diffuse. In
+scaled variables <span class="math notranslate nohighlight">\(V_n, V_t = v_n, v_t /
+\sqrt{2 k_B T_w / m}\)</span>, the post-collision velocities are
+sampled from</p>
+<div class="math notranslate nohighlight">
+\[V_n'
+  = \sqrt{(1 - \alpha_n)\,V_n^{2}
+          + 2\,\sqrt{(1 - \alpha_n)\,\alpha_n}\,V_n\,V_r \cos\theta
+          + \alpha_n\,V_r^{2}},\]</div>
+<div class="math notranslate nohighlight">
+\[V_t'
+  = (1 - \alpha_t)\,V_t
+    + \sqrt{\alpha_t\,(2 - \alpha_t)}\,V_r',\]</div>
+<p>with <span class="math notranslate nohighlight">\(V_r, V_r'\)</span> Maxwell-Boltzmann-distributed thermal
+magnitudes and <span class="math notranslate nohighlight">\(\theta\)</span> uniform on <span class="math notranslate nohighlight">\([0, 2\pi)\)</span>. The
+two limits</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\alpha_n = \alpha_t = 0\)</span> —  specular;</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha_n = \alpha_t = 1\)</span> —  fully diffuse;</p></li>
+</ul>
+<p>are recovered from the same kernel.</p>
+<p>The CLL model respects <strong>reciprocity</strong> (forward / reverse
+detailed balance) at any <span class="math notranslate nohighlight">\((\alpha_n, \alpha_t)\)</span>, unlike the
+Maxwell mixed model in which the mixture breaks reciprocity for
+inhomogeneous accommodation. For this reason, CLL is preferred
+when quantitative drag and heat-flux predictions on realistic
+surfaces are the target, and a measured
+<span class="math notranslate nohighlight">\((\alpha_n, \alpha_t)\)</span> for the relevant surface is
+available.</p>
+</section>
+</section>
+<section id="rovibronic-aware-wall-dsmcmixeddiffusespecularwallrotpatch">
+<h2>Rovibronic-aware wall — <code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code><a class="headerlink" href="#rovibronic-aware-wall-dsmcmixeddiffusespecularwallrotpatch" title="Link to this heading"></a></h2>
+<p>This is the only boundary class that samples on the quantum-state
+space at reflection. The velocity kernel is the Maxwell mixed
+model; on a diffuse reflection the internal state
+<span class="math notranslate nohighlight">\((n, v, J)\)</span> is redrawn from the Boltzmann distribution over
+the species’ rovibronic levels at <span class="math notranslate nohighlight">\(T_w\)</span>,</p>
 <div class="math notranslate nohighlight">
 \[P(n, v, J)
   = \frac{g(n, v, J)\,\exp\!\bigl[-E(n, v, J)/k_B T_w\bigr]}
-         {\sum_{n',v',J'} g(n',v',J')\,
-           \exp\!\bigl[-E(n',v',J')/k_B T_w\bigr]},\]</div>
-<p>where <span class="math notranslate nohighlight">\(T_w\)</span> is the wall temperature specified in the
-sub-dictionary. For solver cases where the internal populations at
-the wall matter —  surface catalysis, radiation coupling, high-
-altitude re-entry —  this is the patch class to use.</p>
+         {\displaystyle \sum_{n', v', J'}
+          g(n', v', J')\,\exp\!\bigl[-E(n', v', J')/k_B T_w\bigr]}.\]</div>
+<p>The partition function in the denominator is the full internal
+partition function documented in
+<a class="reference internal" href="../theory/rovibronic_levels.html"><span class="doc">Rovibronic level structure</span></a>. Two consequences of note:</p>
+<ul class="simple">
+<li><p>under a wall temperature <span class="math notranslate nohighlight">\(T_w\)</span> small compared to the
+lowest electronic term <span class="math notranslate nohighlight">\(T_e^{(1)}\)</span>, the wall leaves
+every reflected parcel in the ground electronic state, which
+is the usual physical expectation for a cold catalytic wall;</p></li>
+<li><p>when the bulk gas is hotter than the wall (re-entry), the
+wall progressively cools the reflected internal distribution
+and feeds an inward-directed internal-energy flux, which the
+<code class="docutils literal notranslate"><span class="pre">boundaryMeasurements</span></code> subsystem records as
+<code class="docutils literal notranslate"><span class="pre">internalEBF_</span></code>.</p></li>
+</ul>
+<p>This is the right choice for every simulation in which the
+internal populations impinging on the wall must be equilibrated
+to the wall itself —  radiation coupling, state-resolved
+catalysis, non-equilibrium boundary layers, or simply more
+faithful drag predictions on hot-wall surfaces.</p>
+</section>
+<section id="inflow-models">
+<h2>Inflow models<a class="headerlink" href="#inflow-models" title="Link to this heading"></a></h2>
+<section id="free-stream-maxwellian-inflow">
+<h3>Free-stream Maxwellian inflow<a class="headerlink" href="#free-stream-maxwellian-inflow" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">dsmcFreeStreamInflowPatch</span></code> injects parcels drawn from a
+Maxwellian distribution at prescribed <span class="math notranslate nohighlight">\(n_\infty,
+T_\infty, \mathbf{v}_\infty\)</span>. The expected number of parcels
+entering the domain through a face of area <span class="math notranslate nohighlight">\(A_f\)</span> during
+<span class="math notranslate nohighlight">\(\Delta t\)</span> follows from the half-range flux integral,</p>
+<div class="math notranslate nohighlight">
+\[\dot{N}_{\mathrm{in}}
+  = \frac{n_\infty\,A_f\,\Delta t}
+         {\sqrt{2\pi\,m/k_B T_\infty}}\,
+    \bigl[\exp(-s^{2})
+          + \sqrt{\pi}\,s\,(1 + \mathrm{erf}\,s)\bigr],\]</div>
+<p>with <span class="math notranslate nohighlight">\(s = (\mathbf{v}_\infty\cdot\hat{\mathbf{n}}_w) /
+\sqrt{2 k_B T_\infty/m}\)</span> the speed ratio. Parcel velocities are
+then drawn from the half-range Maxwellian via Bird’s
+acceptance-rejection algorithm. The internal state is sampled
+from the Boltzmann distribution at <span class="math notranslate nohighlight">\(T_\infty\)</span> on the
+rovibronic level space. Sub-dictionary:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dsmcFreeStreamInflowPatchProperties</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">typeIds</span><span class="w">         </span><span class="p">(</span><span class="n">N2</span><span class="w"> </span><span class="n">O2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">velocity</span><span class="w">        </span><span class="p">(</span><span class="mi">7000</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">temperature</span><span class="w">     </span><span class="mi">300</span><span class="p">;</span>
+<span class="w">    </span><span class="n">numberDensities</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">N2</span><span class="w">    </span><span class="mf">5.6e22</span><span class="p">;</span>
+<span class="w">        </span><span class="n">O2</span><span class="w">    </span><span class="mf">1.5e22</span><span class="p">;</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="chapman-enskog-first-order-inflow">
+<h3>Chapman-Enskog first-order inflow<a class="headerlink" href="#chapman-enskog-first-order-inflow" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogFreeStreamInflowPatch</span></code> extends the Maxwellian
+inflow with a Chapman-Enskog first-order correction,</p>
+<div class="math notranslate nohighlight">
+\[f(\mathbf{v})
+  = f_{\mathrm{MB}}(\mathbf{v})\,
+    \Bigl[1
+          + \tfrac{2}{5}\,\tilde{\mathbf{q}}\cdot\mathbf{c}
+                    \,(|\mathbf{c}|^{2} - 5/2)
+          + \tilde{\boldsymbol{\tau}} : \mathbf{c}\,\mathbf{c}
+    \Bigr],\]</div>
+<p>with <span class="math notranslate nohighlight">\(\mathbf{c}\)</span> the peculiar velocity in units of
+the most-probable speed, and
+<span class="math notranslate nohighlight">\(\tilde{\mathbf{q}}, \tilde{\boldsymbol{\tau}}\)</span> the
+scaled heat-flux and stress tensors. This is the natural inflow
+when coupling DSMC to a continuum upstream: the first-order
+moments <span class="math notranslate nohighlight">\(\tilde{\mathbf{q}},\tilde{\boldsymbol{\tau}}\)</span> are
+passed from the Navier-Stokes solution, and the DSMC inflow
+reproduces them at the patch. Without this correction the
+inflow Maxwellian is inconsistent with any non-zero upstream
+stress, which biases the early part of the DSMC domain.</p>
+</section>
+<section id="pressure-driven-inlets">
+<h3>Pressure-driven inlets<a class="headerlink" href="#pressure-driven-inlets" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">dsmcWangPressureInlet</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcLiouFangPressureInlet</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">dsmcMassFlowRateInlet</span></code> apply Maxwellian sampling at an
+inferred density chosen so that the desired pressure
+(<span class="math notranslate nohighlight">\(p_0\)</span>) or mass-flow rate (<span class="math notranslate nohighlight">\(\dot{m}\)</span>) is respected
+in the long-time average. They are the natural choice when the
+upstream reservoir is characterised through <span class="math notranslate nohighlight">\(p_0\)</span> or
+<span class="math notranslate nohighlight">\(\dot{m}\)</span> rather than through <span class="math notranslate nohighlight">\(n_\infty\)</span> —
+typically vacuum-chamber and nozzle plume studies.</p>
+<p>Each of the three implements a slightly different control law;
+the Wang variant updates the inflow number density on the fly
+from the observed patch-average pressure, the Liou-Fang variant
+uses an upstream-stagnation-based estimator, and the
+mass-flow-rate variant enforces <span class="math notranslate nohighlight">\(\dot{m}\)</span> directly. Pick
+the one that matches the form in which the upstream condition
+is specified.</p>
+</section>
+</section>
+<section id="particle-deletion-patch">
+<h2>Particle-deletion patch<a class="headerlink" href="#particle-deletion-patch" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">dsmcDeletionPatch</span></code> removes any parcel that reaches the patch.
+The sub-dictionary supports either the <code class="docutils literal notranslate"><span class="pre">allSpecies</span></code> switch
+or a <code class="docutils literal notranslate"><span class="pre">typeIds</span></code> list for species-selective outflow:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dsmcDeletionPatchProperties</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">allSpecies</span><span class="w">      </span><span class="n">yes</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// typeIds      (N2 O2);   // exclusive alternative</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In high-altitude free-stream simulations with closed-box
+geometry (e.g. a plume emanating from a small inlet into a large
+background), the deletion patch is the most efficient way to
+cap the domain; any parcel that has left the region of interest
+is no longer worth tracking.</p>
 </section>
 <section id="cyclic-boundaries">
 <h2>Cyclic boundaries<a class="headerlink" href="#cyclic-boundaries" title="Link to this heading"></a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">dsmcCyclicBoundaries</span></code> list in <code class="docutils literal notranslate"><span class="pre">boundariesDict</span></code> accepts
-periodic-style boundaries. The reference tutorial ships a
-commented example of <code class="docutils literal notranslate"><span class="pre">dsmcReflectiveParticleMembranePatch</span></code>,
-which reflects a fraction of incoming particles back into the
-domain and lets the rest pass through.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">dsmcCyclicBoundaries</span></code> list accepts pairings of two
+patches that are treated as periodically connected: a parcel
+that crosses one face re-enters at the paired face with an
+offset position. The
+<code class="docutils literal notranslate"><span class="pre">dsmcReflectiveParticleMembranePatch</span></code> variant reflects a
+user-specified fraction of incoming parcels back into the
+domain while letting the rest pass through, which is the
+mechanism used, for instance, to model permeable membranes in
+micro/nano-flow applications.</p>
 </section>
 <section id="general-boundaries">
 <h2>General boundaries<a class="headerlink" href="#general-boundaries" title="Link to this heading"></a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">dsmcGeneralBoundaries</span></code> list accepts non-patch, non-cyclic
-boundary types that operate on a patch surface but also carry a
-volume component —  for instance the various pressure-driven
-inlets listed above. Their configuration follows the same
+<p>The <code class="docutils literal notranslate"><span class="pre">dsmcGeneralBoundaries</span></code> list accepts non-patch,
+non-cyclic boundary types that operate on a patch surface and
+also carry a volume component —  the pressure-driven inlets and
+the Chapman-Enskog inflow among them. Their configuration
+follows the same
 <code class="docutils literal notranslate"><span class="pre">generalBoundaryProperties</span> <span class="pre">{</span> <span class="pre">patchName</span> <span class="pre">…</span> <span class="pre">}</span></code> /
 <code class="docutils literal notranslate"><span class="pre">&lt;model&gt;Properties</span> <span class="pre">{</span> <span class="pre">…</span> <span class="pre">}</span></code> two-block structure as the patch
-boundaries, and they are driven through the <code class="docutils literal notranslate"><span class="pre">dsmcGeneralBoundary</span></code>
-interface at <code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/boundaries/basic/dsmcGeneralBoundary/</span></code>.</p>
+boundaries.</p>
 </section>
 <section id="boundary-measurements">
 <h2>Boundary measurements<a class="headerlink" href="#boundary-measurements" title="Link to this heading"></a></h2>
 <p>Independently of which patch class is attached, a
-<code class="docutils literal notranslate"><span class="pre">boundaryMeasurements</span></code> object accumulates per-patch, per-face
-diagnostics on every particle impact:</p>
+<code class="docutils literal notranslate"><span class="pre">boundaryMeasurements</span></code> object accumulates per-patch,
+per-face diagnostics on every particle impact (see
+<a class="reference internal" href="measurements.html"><span class="doc">Measurements</span></a> for the catalogue of accumulated quantities).
+These are the ingredients from which every wall-level analysis
+—  surface heat flux, drag, friction, internal-energy
+deposition —  is constructed, and they are available at the end
+of a run through the standard OpenFOAM boundary-field output.
+The rovibronic-aware <code class="docutils literal notranslate"><span class="pre">internalEBF_</span></code> accumulator is the key
+addition over stock dsmcFoam+: it carries the state-resolved
+internal energy delivered to the wall, and is therefore the
+correct input to any surface model (catalysis, heat-shield
+ablation) that depends on the detailed internal state of the
+impinging molecules.</p>
+</section>
+<section id="choosing-a-wall-model">
+<h2>Choosing a wall model<a class="headerlink" href="#choosing-a-wall-model" title="Link to this heading"></a></h2>
+<p>A pragmatic decision tree:</p>
 <ul class="simple">
-<li><p>number density of neutral and internal particles
-(<code class="docutils literal notranslate"><span class="pre">rhoNBF_</span></code>, <code class="docutils literal notranslate"><span class="pre">rhoNIntBF_</span></code>) and mass density (<code class="docutils literal notranslate"><span class="pre">rhoMBF_</span></code>);</p></li>
-<li><p>linear kinetic energy (<code class="docutils literal notranslate"><span class="pre">linearKEBF_</span></code>);</p></li>
-<li><p>momentum moments and mean velocity on the patch;</p></li>
-<li><p><strong>internal (rovibronic) energy</strong> reaching the boundary
-(<code class="docutils literal notranslate"><span class="pre">internalEBF_</span></code>);</p></li>
-<li><p>heat flux and friction drag vectors.</p></li>
+<li><p><strong>Symmetry plane, free-molecular test, non-dissipative surface</strong>
+→ <code class="docutils literal notranslate"><span class="pre">dsmcSpecularWallPatch</span></code>.</p></li>
+<li><p><strong>Cold thermally-accommodated wall, no surface chemistry</strong>
+→ <code class="docutils literal notranslate"><span class="pre">dsmcDiffuseWallPatch</span></code>.</p></li>
+<li><p><strong>Realistic technical surface with measured
+:math:`alpha_n, alpha_t`</strong>
+→ <code class="docutils literal notranslate"><span class="pre">dsmcCLLWallPatch</span></code>.</p></li>
+<li><p><strong>Simulation coupled to radiation or surface catalysis, or any
+case where the internal populations at the wall matter</strong>
+→ <code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code>.</p></li>
+<li><p><strong>Spatially varying</strong> (e.g. heated strip on a cold plate)
+→ the <code class="docutils literal notranslate"><span class="pre">…FieldPatch</span></code> variant of any of the above.</p></li>
 </ul>
-<p>These quantities are available at the end of a run through the
-standard OpenFOAM boundary-field output, and are the inputs to
-any downstream analysis of wall heat flux, drag, or surface
-catalysis. The code lives in
-<code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/boundaryMeasurements/</span></code>.</p>
+<p>For inflow:</p>
+<ul class="simple">
+<li><p><strong>Free-stream at prescribed Mach and altitude</strong>
+→ <code class="docutils literal notranslate"><span class="pre">dsmcFreeStreamInflowPatch</span></code>.</p></li>
+<li><p><strong>Coupled-domain interface with continuum upstream</strong>
+→ <code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogFreeStreamInflowPatch</span></code>.</p></li>
+<li><p><strong>Vacuum chamber / reservoir, characterised by pressure or
+mass-flow rate</strong>
+→ one of the three pressure-inlet classes.</p></li>
+</ul>
+<div role="list" class="citation-list">
+<div class="citation" id="lord1991b" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Lord1991b</a><span class="fn-bracket">]</span></span>
+<p>R. G. Lord, “Some extensions to the
+Cercignani-Lampis gas-surface scattering kernel,”
+<em>Physics of Fluids A</em>, <strong>3</strong> (4), 706–710 (1991).</p>
+</div>
+</div>
 </section>
 </section>
 
