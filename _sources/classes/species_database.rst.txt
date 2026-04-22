@@ -1,0 +1,86 @@
+``dsmcSpeciesDatabase`` — spectroscopic & VSS data
+==================================================
+
+Source: ``src/lagrangian/DSMC/speciesDatabase/``.
+
+Role
+----
+
+``dsmcSpeciesDatabase`` is the single source of truth for
+per-species data used throughout the solver. It is instantiated by
+the cloud when the ``rovibronicDatabase`` block is present in
+``constant/dsmcProperties``, and it loads one ASCII ``.dat`` file
+per species from ``constant/speciesCache/``. Every downstream
+consumer —  collision models, reaction classes, diffuse-wall
+re-sampling, and the macroscopic-temperature inversion —  reads
+through this single object.
+
+Contents of a species file
+--------------------------
+
+Each ``<species>.dat`` entry contains, in order:
+
+#. **VSS collision parameters** —  the reference diameter
+   :math:`\sigma_{\mathrm{ref}}`, the viscosity exponent
+   :math:`\omega`, the scattering exponent :math:`\alpha`, and the
+   reference temperature :math:`T_{\mathrm{ref}}`.
+#. **Dunham coefficients** —  one block per electronic state
+   :math:`n`, containing the term energy :math:`T_e^{(n)}`, the
+   harmonic frequency :math:`\omega_e^{(n)}`, the anharmonicity
+   :math:`\omega_e x_e^{(n)}`, the equilibrium rotational constant
+   :math:`B_e^{(n)}`, the rotation-vibration coupling
+   :math:`\alpha_e^{(n)}`, the centrifugal distortion
+   :math:`D_e^{(n)}`, and the electronic degeneracy
+   :math:`g_{\mathrm{elec}}^{(n)}`.
+#. **Rovibronic level table** —  the three-dimensional
+   ``internalEnergyList[n][v][J]`` in Joules, with the
+   :math:`(0, 0, 0)` ground-state level normalised to zero.
+#. **Degeneracy table** —  ``degeneracyList[n][v][J]``, which
+   factors the rotational multiplicity :math:`(2J+1)` and the
+   electronic degeneracy.
+#. **Ionisation potential** (for all species), and the
+   **dissociation energy** :math:`D_0` (for molecules). These
+   enter the chemistry module as the *only* heats of reaction
+   that the user does not need to supply.
+
+Level-table construction
+------------------------
+
+When ``computeEnergyLevels`` is set to ``true``, the database
+builds the level table at start-up from the Dunham coefficients
+through the Morse + rigid-rotor + centrifugal-distortion
+expansion documented in :doc:`../theory/rovibronic_levels`. The
+resulting table is cached in memory; subsequent runs with the same
+species list and the same database contents reuse the cached
+representation.
+
+Diagnostic output
+-----------------
+
+At solver start-up the database prints, for each molecular species
+that participates in a dissociation channel, the asymptote-
+matching error described in :doc:`../theory/chemistry`. These
+errors are typically below :math:`1~\mathrm{cm}^{-1}`; a
+significantly larger value is symptomatic of an inconsistent
+species file and should be investigated before proceeding.
+
+Status of charged-species data
+------------------------------
+
+.. warning::
+
+   The database entries for ions and the electron are present and
+   parse cleanly, but the chemistry classes that consume them are
+   part of the charged-species block that has not yet been
+   verified and validated end-to-end (see :doc:`reactions`). The
+   spectroscopic data itself can be trusted; its *use* in the
+   reactive channels cannot yet be.
+
+Extending the database
+----------------------
+
+Adding a new species amounts to dropping a new
+``constant/speciesCache/<new_species>.dat`` file in the expected
+format, and appending its symbol to ``typeIdList`` in
+``constant/dsmcProperties``. The procedure is documented in
+:doc:`../guide/adding_a_feature`.

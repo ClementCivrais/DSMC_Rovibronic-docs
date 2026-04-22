@@ -5,7 +5,7 @@ We collect in the present page the canonical checks that are
 exercised whenever the rovibronic machinery is modified. The scope
 is deliberately lightweight —  the goal is to assemble a coherent
 baseline against which regressions can be detected (see the
-planned :doc:`../developer/regression_tests`), rather than to
+planned :doc:`../guide/regression_tests`), rather than to
 revisit every published validation case.
 
 Heat-bath relaxation (Landau-Teller)
@@ -81,7 +81,7 @@ Outstanding items
   master-equation solutions (pending).
 * Formalisation of the present manual checks into a
   regression-test framework with deterministic random seeding —
-  see :doc:`../developer/regression_tests`.
+  see :doc:`../guide/regression_tests`.
 
 .. [Civrais2024Shock_v] C. H. B. Civrais, C. White, and R. Steijl,
    "Extension of the normal shock wave relations for calorically

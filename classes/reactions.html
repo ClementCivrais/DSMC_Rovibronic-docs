@@ -1,0 +1,607 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reaction classes &mdash; DSMC Rovibronic</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=eef4a3d2"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Boundary classes" href="boundaries.html" />
+    <link rel="prev" title="Dynamic load balancing" href="load_balancing.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #1f3b5a" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            DSMC Rovibronic
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User and Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">User and Developer Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guide/installation.html">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#system-prerequisites">System prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#layout-on-disk">Layout on disk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-1-install-openfoam-v2512">Step 1 — Install OpenFOAM v2512</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#build-openfoam">Build OpenFOAM</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-3-clone-the-dsmc-rovibronic-repository">Step 3 — Clone the DSMC Rovibronic repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-4-build-the-solver">Step 4 — Build the solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#verification">Verification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#troubleshooting-common-issues">Troubleshooting common issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/running.html">Running a Case</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/running.html#serial-execution">Serial execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/running.html#parallel-execution">Parallel execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/running.html#startup-diagnostics">Startup diagnostics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/input_reference.html">Input Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#case-directory-layout">Case directory layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#relaxation-collision-numbers">Relaxation collision numbers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#rovibronicdatabase-sub-dictionary"><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#constant-speciescache"><code class="docutils literal notranslate"><span class="pre">constant/speciesCache/</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-dsmcinitialisedict"><code class="docutils literal notranslate"><span class="pre">system/dsmcInitialiseDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-boundariesdict"><code class="docutils literal notranslate"><span class="pre">system/boundariesDict</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#available-patch-models">Available patch models</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/post_processing.html">Post-processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/post_processing.html#macroscopic-fields">Macroscopic fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/post_processing.html#state-resolved-populations">State-resolved populations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/post_processing.html#validation-diagnostics">Validation diagnostics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/architecture.html">Source-tree architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#top-level-layout">Top-level layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#dsmc-library">DSMC library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#applications">Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#build-driver">Build driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#random-number-generator">Random-number generator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/adding_a_feature.html">Adding a feature</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/adding_a_feature.html#adding-a-new-species">Adding a new species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/adding_a_feature.html#adding-a-new-reaction">Adding a new reaction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/adding_a_feature.html#adding-a-new-relaxation-sub-model">Adding a new relaxation sub-model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/tests.html">Regression testing (current practice)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/tests.html#manual-smoke-tests">Manual smoke tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/tests.html#continuous-integration">Continuous integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/regression_tests.html">Regression tests (roadmap)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#rationale">Rationale</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#current-rng-state">Current RNG state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#proposed-design">Proposed design</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/regression_tests.html#dictionary-driven-seed">Dictionary-driven seed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/regression_tests.html#test-cases">Test cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/regression_tests.html#harness">Harness</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#acceptance-criteria">Acceptance criteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#status">Status</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Theory Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../theory/index.html">Theory Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../theory/overview.html">Method Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../theory/overview.html#what-the-rovibronic-description-buys">What the rovibronic description buys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/overview.html#organisation-of-the-present-guide">Organisation of the present guide</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/rovibronic_levels.html">Rovibronic Level Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../theory/rovibronic_levels.html#energy-expansion">Energy expansion</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../theory/rovibronic_levels.html#vibrational-ladder-morse-oscillator">Vibrational ladder (Morse oscillator)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/rovibronic_levels.html#rotational-sub-ladder-rigid-rotor-distortion">Rotational sub-ladder (rigid rotor + distortion)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/rovibronic_levels.html#degeneracy">Degeneracy</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/rovibronic_levels.html#ground-state-normalisation-and-provenance">Ground-state normalisation and provenance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/rovibronic_levels.html#typical-state-space-sizes">Typical state-space sizes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/collisions.html">Binary Collisions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../theory/collisions.html#collision-pair-selection-ntc">Collision-pair selection (NTC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/collisions.html#vss-cross-section">VSS cross section</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/collisions.html#exponent-conventions-for-the-larsen-borgnakke-sampler">Exponent conventions for the Larsen-Borgnakke sampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/collisions.html#reactive-collisions">Reactive collisions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/chemistry.html">Chemistry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#dissociation-with-asymptote-matching">Dissociation with asymptote matching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#recombination-from-detailed-balance">Recombination from detailed balance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#exchange-with-automatic-heat-of-reaction">Exchange with automatic heat of reaction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#ionisation-and-charge-exchange">Ionisation and charge exchange</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../theory/chemistry.html#associative-ionisation">Associative ionisation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#summary-of-design-principles">Summary of design principles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/relaxation.html">Energy Relaxation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../theory/relaxation.html#landau-teller-rate-per-mode">Landau-Teller rate per mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/relaxation.html#composite-modes-and-effective-dof">Composite modes and effective DOF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/relaxation.html#parallel-marginal-cascade">Parallel-marginal cascade</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/relaxation.html#validation-protocol-phase-by-phase">Validation protocol (phase-by-phase)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/relaxation.html#on-the-absence-of-the-classic-zcorr">On the absence of the classic ZCorr</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/macroscopic_properties.html">Macroscopic Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../theory/macroscopic_properties.html#number-density-and-species-fractions">Number density and species fractions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/macroscopic_properties.html#translational-temperature">Translational temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/macroscopic_properties.html#rotational-vibrational-and-electronic-temperatures">Rotational, vibrational, and electronic temperatures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../theory/macroscopic_properties.html#status-of-effective-temperatures-under-non-equilibrium">Status of effective temperatures under non-equilibrium</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/macroscopic_properties.html#population-diagnostics">Population diagnostics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Solver Classes</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Solver Classes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="cloud.html"><code class="docutils literal notranslate"><span class="pre">dsmcCloud</span></code> — the solver orchestrator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cloud.html#role">Role</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cloud.html#responsibilities">Responsibilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cloud.html#key-member-variables">Key member variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cloud.html#cloud-function-objects">Cloud function objects</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="species_database.html"><code class="docutils literal notranslate"><span class="pre">dsmcSpeciesDatabase</span></code> — spectroscopic &amp; VSS data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="species_database.html#role">Role</a></li>
+<li class="toctree-l3"><a class="reference internal" href="species_database.html#contents-of-a-species-file">Contents of a species file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="species_database.html#level-table-construction">Level-table construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="species_database.html#diagnostic-output">Diagnostic output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="species_database.html#status-of-charged-species-data">Status of charged-species data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="species_database.html#extending-the-database">Extending the database</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="initialisation.html">Particle initialisation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="initialisation.html#role">Role</a></li>
+<li class="toctree-l3"><a class="reference internal" href="initialisation.html#sampling-procedure">Sampling procedure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="initialisation.html#implemented-fill-strategies">Implemented fill strategies</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="initialisation.html#dsmcmeshfill"><code class="docutils literal notranslate"><span class="pre">dsmcMeshFill</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="initialisation.html#dsmcmeshfieldfill"><code class="docutils literal notranslate"><span class="pre">dsmcMeshFieldFill</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="initialisation.html#dsmczonefill"><code class="docutils literal notranslate"><span class="pre">dsmcZoneFill</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="initialisation.html#dictionary-interface">Dictionary interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html">Binary collision models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collision_models.html#role">Role</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_models.html#implemented-classes">Implemented classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_models.html#vhs-cross-section">VHS cross section</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_models.html#vss-cross-section-and-scattering">VSS cross section and scattering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_models.html#larsen-borgnakke-energy-redistribution">Larsen-Borgnakke energy redistribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_models.html#coefficient-sub-dictionary">Coefficient sub-dictionary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="collision_partner_selection.html">Collision partner selection</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collision_partner_selection.html#role">Role</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_partner_selection.html#implemented-classes">Implemented classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#notimecounter"><code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#notimecountersubcycled"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#majorantcollisionfrequency"><code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#simplifiedbernoullitrials"><code class="docutils literal notranslate"><span class="pre">simplifiedBernoulliTrials</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="collision_partner_selection.html#choosing-between-schemes">Choosing between schemes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="adaptation.html"><code class="docutils literal notranslate"><span class="pre">dsmcDynamicAdapter</span></code> — sub-cell and weight adaptation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="adaptation.html#role">Role</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adaptation.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adaptation.html#implementation-notes">Implementation notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adaptation.html#interaction-with-partner-selection">Interaction with partner selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adaptation.html#relationship-with-mesh-level-amr">Relationship with mesh-level AMR</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="load_balancing.html">Dynamic load balancing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="load_balancing.html#role">Role</a></li>
+<li class="toctree-l3"><a class="reference internal" href="load_balancing.html#operational-summary">Operational summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="load_balancing.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="load_balancing.html#interaction-with-the-rng">Interaction with the RNG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="load_balancing.html#status">Status</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Reaction classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#neutral-chemistry-classes-validated">Neutral-chemistry classes (validated)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dissociationionisationtypeisamespecies"><code class="docutils literal notranslate"><span class="pre">dissociationIonisationTypeISameSpecies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dissociationionisationtypeidissimilarspecies"><code class="docutils literal notranslate"><span class="pre">dissociationIonisationTypeIDissimilarSpecies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dissociationionisationexchange"><code class="docutils literal notranslate"><span class="pre">dissociationIonisationExchange</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recombination"><code class="docutils literal notranslate"><span class="pre">recombination</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#moleculeatomdissociationionisation"><code class="docutils literal notranslate"><span class="pre">moleculeAtomDissociationIonisation</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#charged-species-reaction-classes-wip">Charged-species reaction classes (WIP)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#atomatomionisationsamespecies"><code class="docutils literal notranslate"><span class="pre">atomAtomIonisationSameSpecies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#atomatomionisationdissimilarspecies"><code class="docutils literal notranslate"><span class="pre">atomAtomIonisationDissimilarSpecies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#atomelectronionisation"><code class="docutils literal notranslate"><span class="pre">atomElectronIonisation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#atomionionisation"><code class="docutils literal notranslate"><span class="pre">atomIonIonisation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#chargeexchange"><code class="docutils literal notranslate"><span class="pre">chargeExchange</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#forwardassociativeionisation"><code class="docutils literal notranslate"><span class="pre">forwardAssociativeIonisation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#forwardassociativeionisationdissimilarspecies"><code class="docutils literal notranslate"><span class="pre">forwardAssociativeIonisationDissimilarSpecies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reverseassociativeionisation"><code class="docutils literal notranslate"><span class="pre">reverseAssociativeIonisation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#moleculeelectrondissociationionisation"><code class="docutils literal notranslate"><span class="pre">moleculeElectronDissociationIonisation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#moleculeiondissociationionisation"><code class="docutils literal notranslate"><span class="pre">moleculeIonDissociationIonisation</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#common-reaction-dictionary-conventions">Common reaction-dictionary conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reporting-and-diagnostics">Reporting and diagnostics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="boundaries.html">Boundary classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="boundaries.html#patch-boundaries">Patch boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundaries.html#rovibronic-wall">Rovibronic wall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundaries.html#cyclic-boundaries">Cyclic boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundaries.html#general-boundaries">General boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boundaries.html#boundary-measurements">Boundary measurements</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="controllers.html">Controllers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#role">Role</a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#implemented-controllers">Implemented controllers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="controllers.html#temperaturecontroller"><code class="docutils literal notranslate"><span class="pre">temperatureController</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="controllers.html#maxwellianresamplingcontroller"><code class="docutils literal notranslate"><span class="pre">maxwellianResamplingController</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="controllers.html#densitycontroller"><code class="docutils literal notranslate"><span class="pre">densityController</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="controllers.html#gravitationalaccelerationcontroller"><code class="docutils literal notranslate"><span class="pre">gravitationalAccelerationController</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#orchestration">Orchestration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#use-with-regression-tests">Use with regression tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="measurements.html">Measurements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#role">Role</a></li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#cell-measurements">Cell measurements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#boundary-measurements">Boundary measurements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#configurable-field-models">Configurable field models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#dsmcvolfields-volume-averaged-fields"><code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code> —  volume-averaged fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#dsmcbinsmethod-one-two-or-three-dimensional-bins"><code class="docutils literal notranslate"><span class="pre">dsmcBinsMethod</span></code> —  one-, two-, or three-dimensional bins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#dsmczone-zone-averages"><code class="docutils literal notranslate"><span class="pre">dsmcZone</span></code> —  zone averages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#dsmcvelocitydistributionzone-dsmcspeeddistributionzone"><code class="docutils literal notranslate"><span class="pre">dsmcVelocityDistributionZone</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcSpeedDistributionZone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#dsmcrovibronicpopulation-state-resolved-populations"><code class="docutils literal notranslate"><span class="pre">dsmcRovibronicPopulation</span></code> —  state-resolved populations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#dsmcmassfluxsurface-flux-through-a-face-zone"><code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code> —  flux through a face zone</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#common-conventions">Common conventions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2_heatbath.html">Landau-Teller heat-bath validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#case-layout">Case layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#three-phase-validation-protocol">Three-phase validation protocol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#expected-outcome">Expected outcome</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#current-status">Current status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#adding-a-new-example">Adding a new example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/about.html">About</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#scope">Scope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#lineage">Lineage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#target-applications">Target applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#development-team">Development team</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#licence-and-access">Licence and access</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#contact">Contact</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/validation.html">Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#heat-bath-relaxation-landau-teller">Heat-bath relaxation (Landau-Teller)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#two-temperature-recombination-and-three-body-channel">Two-temperature recombination and three-body channel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#heats-of-reaction">Heats of reaction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#shock-profiles">Shock profiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#outstanding-items">Outstanding items</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html">Bibliography</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#foundational-dsmc-literature">Foundational DSMC literature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#the-dsmcfoam-lineage">The dsmcFoam+ lineage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#publications-associated-with-the-rovibronic-extension">Publications associated with the rovibronic extension</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#in-repository-derivations-and-notes">In-repository derivations and notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/changelog.html">Changelog</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/changelog.html#unreleased">Unreleased</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/changelog.html#recent">Recent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #1f3b5a" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DSMC Rovibronic</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Solver Classes</a></li>
+      <li class="breadcrumb-item active">Reaction classes</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/classes/reactions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="reaction-classes">
+<h1>Reaction classes<a class="headerlink" href="#reaction-classes" title="Link to this heading"></a></h1>
+<p>Source: <code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/reactions/derived/</span></code>.</p>
+<p>The reaction module implements fifteen derived classes, each
+corresponding to a specific reactive channel —  dissociation,
+recombination, exchange, electron-impact ionisation, atom-atom and
+molecule-atom ionisation, charge exchange, and the forward and
+reverse branches of associative ionisation. Every reaction class
+plugs into the common base that hands it the pooled collision
+energy <span class="math notranslate nohighlight">\(E_c\)</span>, the reactant states, and the RNG; the class
+then computes the reaction probability, decides whether the
+reaction fires, and —  if it does —  samples the product states
+through the Larsen-Borgnakke machinery of <a class="reference internal" href="collision_models.html"><span class="doc">Binary collision models</span></a>.</p>
+<p>A central design choice of the rovibronic extension is that <strong>the
+heats of reaction are read from the spectroscopic database</strong>, not
+from user-supplied dictionary entries. The theoretical basis is
+given in <a class="reference internal" href="../theory/chemistry.html"><span class="doc">Chemistry</span></a>; the present page documents
+the implemented classes one by one.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Charged-species reaction classes are work in progress.</strong> The
+classes flagged as <em>WIP</em> below have been ported into the
+rovibronic framework but have not yet been reworked, verified,
+or validated end-to-end. Cases that enable
+<code class="docutils literal notranslate"><span class="pre">chargedParticles</span> <span class="pre">=</span> <span class="pre">true</span></code> in <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code>
+exercise these classes and should be regarded as exploratory
+until the corresponding entries below are updated.</p>
+</div>
+<section id="neutral-chemistry-classes-validated">
+<h2>Neutral-chemistry classes (validated)<a class="headerlink" href="#neutral-chemistry-classes-validated" title="Link to this heading"></a></h2>
+<section id="dissociationionisationtypeisamespecies">
+<h3><code class="docutils literal notranslate"><span class="pre">dissociationIonisationTypeISameSpecies</span></code><a class="headerlink" href="#dissociationionisationtypeisamespecies" title="Link to this heading"></a></h3>
+<p>Same-species dissociation (e.g.
+<span class="math notranslate nohighlight">\(\mathrm{N_2} + \mathrm{N_2} \to \mathrm{N} + \mathrm{N} +
+\mathrm{N_2}\)</span>). The dissociating parcel is the first of the
+identical reactants; the second acts as the collision partner
+and is unchanged.</p>
+</section>
+<section id="dissociationionisationtypeidissimilarspecies">
+<h3><code class="docutils literal notranslate"><span class="pre">dissociationIonisationTypeIDissimilarSpecies</span></code><a class="headerlink" href="#dissociationionisationtypeidissimilarspecies" title="Link to this heading"></a></h3>
+<p>Dissimilar-species dissociation (e.g.
+<span class="math notranslate nohighlight">\(\mathrm{N_2} + \mathrm{O} \to \mathrm{N} + \mathrm{N} +
+\mathrm{O}\)</span>). The dissociating reactant is identified by type-ID
+at run-time.</p>
+</section>
+<section id="dissociationionisationexchange">
+<h3><code class="docutils literal notranslate"><span class="pre">dissociationIonisationExchange</span></code><a class="headerlink" href="#dissociationionisationexchange" title="Link to this heading"></a></h3>
+<p>Atom-exchange (Zeldovich-type) reactions,
+<span class="math notranslate nohighlight">\(\mathrm{AB} + \mathrm{C} \to \mathrm{AC} + \mathrm{B}\)</span>.
+The heat of reaction is computed from the database as
+<span class="math notranslate nohighlight">\(\Delta H = D_0(\mathrm{AC}) - D_0(\mathrm{AB})\)</span>, without
+user input. Product sampling follows the two-stage LB procedure
+described in <a class="reference internal" href="../theory/chemistry.html"><span class="doc">Chemistry</span></a>.</p>
+</section>
+<section id="recombination">
+<h3><code class="docutils literal notranslate"><span class="pre">recombination</span></code><a class="headerlink" href="#recombination" title="Link to this heading"></a></h3>
+<p>Three-body recombination,
+<span class="math notranslate nohighlight">\(\mathrm{A} + \mathrm{B} + \mathrm{M} \to \mathrm{AB} +
+\mathrm{M}\)</span>. The rate is derived parameter-free from the
+corresponding dissociation rate through the equilibrium constant
+<span class="math notranslate nohighlight">\(K_{\mathrm{eq}}(T)\)</span>; see <a class="reference internal" href="../theory/chemistry.html"><span class="doc">Chemistry</span></a>.</p>
+</section>
+<section id="moleculeatomdissociationionisation">
+<h3><code class="docutils literal notranslate"><span class="pre">moleculeAtomDissociationIonisation</span></code><a class="headerlink" href="#moleculeatomdissociationionisation" title="Link to this heading"></a></h3>
+<p>Dissociation of a molecule by an atomic partner, with the
+optional ionisation branch when the collision energy exceeds the
+state-dependent ionisation threshold. The dissociation branch
+(neutral products) is part of the validated neutral-chemistry
+block; the ionisation branch reuses the charged-species
+infrastructure flagged below.</p>
+</section>
+</section>
+<section id="charged-species-reaction-classes-wip">
+<h2>Charged-species reaction classes (WIP)<a class="headerlink" href="#charged-species-reaction-classes-wip" title="Link to this heading"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Each class in this section is flagged as <strong>work in progress</strong>.
+The notes below describe the intended physics; the
+implementation is in place but has not been end-to-end
+verified and validated in the rovibronic context.</p>
+</div>
+<section id="atomatomionisationsamespecies">
+<h3><code class="docutils literal notranslate"><span class="pre">atomAtomIonisationSameSpecies</span></code><a class="headerlink" href="#atomatomionisationsamespecies" title="Link to this heading"></a></h3>
+<p>Same-species atom-atom ionisation, e.g.
+<span class="math notranslate nohighlight">\(\mathrm{N} + \mathrm{N} \to \mathrm{N}_2^{+} + e^{-}\)</span> or
+direct
+<span class="math notranslate nohighlight">\(\mathrm{N} + \mathrm{N} \to \mathrm{N} + \mathrm{N}^{+}
++ e^{-}\)</span>. The implemented form assumes the ionisation potential
+is state-dependent through the electronic level of the reactants.</p>
+</section>
+<section id="atomatomionisationdissimilarspecies">
+<h3><code class="docutils literal notranslate"><span class="pre">atomAtomIonisationDissimilarSpecies</span></code><a class="headerlink" href="#atomatomionisationdissimilarspecies" title="Link to this heading"></a></h3>
+<p>Dissimilar-species atom-atom ionisation (e.g.
+<span class="math notranslate nohighlight">\(\mathrm{N} + \mathrm{O} \to \mathrm{NO}^{+} + e^{-}\)</span>).</p>
+</section>
+<section id="atomelectronionisation">
+<h3><code class="docutils literal notranslate"><span class="pre">atomElectronIonisation</span></code><a class="headerlink" href="#atomelectronionisation" title="Link to this heading"></a></h3>
+<p>Electron-impact ionisation of an atom,
+<span class="math notranslate nohighlight">\(\mathrm{A} + e^{-} \to \mathrm{A}^{+} + 2\, e^{-}\)</span>.</p>
+</section>
+<section id="atomionionisation">
+<h3><code class="docutils literal notranslate"><span class="pre">atomIonIonisation</span></code><a class="headerlink" href="#atomionionisation" title="Link to this heading"></a></h3>
+<p>Ion-atom ionisation,
+<span class="math notranslate nohighlight">\(\mathrm{A} + \mathrm{B}^{+} \to \mathrm{A}^{+} +
+\mathrm{B}^{+} + e^{-}\)</span>.</p>
+</section>
+<section id="chargeexchange">
+<h3><code class="docutils literal notranslate"><span class="pre">chargeExchange</span></code><a class="headerlink" href="#chargeexchange" title="Link to this heading"></a></h3>
+<p>Charge-exchange reactions,
+<span class="math notranslate nohighlight">\(\mathrm{A}^{+} + \mathrm{B} \to \mathrm{A} +
+\mathrm{B}^{+}\)</span>. The heat of reaction is computed automatically
+as <span class="math notranslate nohighlight">\(\Delta H_{\mathrm{cx}} = \mathrm{IP}(\mathrm{A})
+- \mathrm{IP}(\mathrm{B})\)</span>.</p>
+</section>
+<section id="forwardassociativeionisation">
+<h3><code class="docutils literal notranslate"><span class="pre">forwardAssociativeIonisation</span></code><a class="headerlink" href="#forwardassociativeionisation" title="Link to this heading"></a></h3>
+<p>Associative ionisation in the forward sense,
+<span class="math notranslate nohighlight">\(\mathrm{A} + \mathrm{B} \to \mathrm{AB}^{\star} \to
+\mathrm{AB}^{+} + e^{-}\)</span>. Implemented as the two-step
+intermediate-formation / ionisation-test algorithm documented in
+<a class="reference internal" href="../theory/chemistry.html"><span class="doc">Chemistry</span></a>.</p>
+</section>
+<section id="forwardassociativeionisationdissimilarspecies">
+<h3><code class="docutils literal notranslate"><span class="pre">forwardAssociativeIonisationDissimilarSpecies</span></code><a class="headerlink" href="#forwardassociativeionisationdissimilarspecies" title="Link to this heading"></a></h3>
+<p>The dissimilar-reactant variant of the above.</p>
+</section>
+<section id="reverseassociativeionisation">
+<h3><code class="docutils literal notranslate"><span class="pre">reverseAssociativeIonisation</span></code><a class="headerlink" href="#reverseassociativeionisation" title="Link to this heading"></a></h3>
+<p>The reverse branch,
+<span class="math notranslate nohighlight">\(\mathrm{AB}^{+} + e^{-} \to \mathrm{A} + \mathrm{B}\)</span>.</p>
+</section>
+<section id="moleculeelectrondissociationionisation">
+<h3><code class="docutils literal notranslate"><span class="pre">moleculeElectronDissociationIonisation</span></code><a class="headerlink" href="#moleculeelectrondissociationionisation" title="Link to this heading"></a></h3>
+<p>Electron-impact dissociation of a molecule, with optional
+ionisation of the products.</p>
+</section>
+<section id="moleculeiondissociationionisation">
+<h3><code class="docutils literal notranslate"><span class="pre">moleculeIonDissociationIonisation</span></code><a class="headerlink" href="#moleculeiondissociationionisation" title="Link to this heading"></a></h3>
+<p>Ion-impact dissociation of a molecule, with optional ionisation.</p>
+</section>
+</section>
+<section id="common-reaction-dictionary-conventions">
+<h2>Common reaction-dictionary conventions<a class="headerlink" href="#common-reaction-dictionary-conventions" title="Link to this heading"></a></h2>
+<p>A reaction is registered in <code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code> by a named
+block. The core entries are:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">reactionName</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">reactionModel</span><span class="w">      </span><span class="o">&lt;</span><span class="k">class</span><span class="o">&gt;</span><span class="p">;</span><span class="w">     </span><span class="c1">// one of the above</span>
+<span class="w">    </span><span class="n">reactants</span><span class="w">          </span><span class="p">(</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">B</span><span class="o">&gt;</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// products, depending on class, e.g.:</span>
+<span class="w">    </span><span class="n">productsOfDissociationReaction</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Q</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">R</span><span class="o">&gt;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">productsOfExchangeReaction</span><span class="w">     </span><span class="p">(</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Q</span><span class="o">&gt;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">productOfRecombination</span><span class="w">         </span><span class="o">&lt;</span><span class="n">AB</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">reactantAtomsToRecombine</span><span class="w">       </span><span class="p">(</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">B</span><span class="o">&gt;</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// QK rate law parameters:</span>
+<span class="w">    </span><span class="n">aCoeff</span><span class="w">             </span><span class="o">&lt;</span><span class="n">scalar</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">bCoeff</span><span class="w">             </span><span class="o">&lt;</span><span class="n">scalar</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// ionisation heat (only ionisation channels require this):</span>
+<span class="w">    </span><span class="n">heatOfReactionIonisation</span><span class="w">  </span><span class="o">&lt;</span><span class="n">Kelvin</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Dissociation and exchange heats are <em>not</em> read from the dictionary
+—  they are computed from the database at initialisation and
+printed to the terminal for verification. Legacy <code class="docutils literal notranslate"><span class="pre">heatOfReactionExch</span></code>
+entries are silently ignored.</p>
+</section>
+<section id="reporting-and-diagnostics">
+<h2>Reporting and diagnostics<a class="headerlink" href="#reporting-and-diagnostics" title="Link to this heading"></a></h2>
+<p>If <code class="docutils literal notranslate"><span class="pre">printReactionsToTerminal</span></code> is enabled in <code class="docutils literal notranslate"><span class="pre">dsmcProperties</span></code>
+(legacy key, kept for compatibility), the solver prints the
+running count of each reaction channel at every output step.
+This is the most direct way to confirm that a given channel is
+firing at all; a persistently zero count often reveals either a
+missing <code class="docutils literal notranslate"><span class="pre">reactants</span></code> entry or an unreachable activation energy.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="load_balancing.html" class="btn btn-neutral float-left" title="Dynamic load balancing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="boundaries.html" class="btn btn-neutral float-right" title="Boundary classes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Clement Civrais.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

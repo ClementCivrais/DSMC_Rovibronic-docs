@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reference &mdash; DSMC Rovibronic</title>
+  <title>Source-tree architecture &mdash; DSMC Rovibronic</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -22,8 +22,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="About" href="about.html" />
-    <link rel="prev" title="Landau-Teller heat-bath validation" href="../examples/n2_heatbath.html" /> 
+    <link rel="next" title="Adding a feature" href="adding_a_feature.html" />
+    <link rel="prev" title="Post-processing" href="post_processing.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,81 +46,81 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">User and Developer Guide</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">User and Developer Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../guide/installation.html">Installation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#system-prerequisites">System prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#layout-on-disk">Layout on disk</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-1-install-openfoam-v2512">Step 1 — Install OpenFOAM v2512</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#build-openfoam">Build OpenFOAM</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">User and Developer Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#system-prerequisites">System prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#layout-on-disk">Layout on disk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#step-1-install-openfoam-v2512">Step 1 — Install OpenFOAM v2512</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installation.html#build-openfoam">Build OpenFOAM</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-3-clone-the-dsmc-rovibronic-repository">Step 3 — Clone the DSMC Rovibronic repository</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-4-build-the-solver">Step 4 — Build the solver</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#verification">Verification</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#troubleshooting-common-issues">Troubleshooting common issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#step-3-clone-the-dsmc-rovibronic-repository">Step 3 — Clone the DSMC Rovibronic repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#step-4-build-the-solver">Step 4 — Build the solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#verification">Verification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#troubleshooting-common-issues">Troubleshooting common issues</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../guide/running.html">Running a Case</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/running.html#serial-execution">Serial execution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/running.html#parallel-execution">Parallel execution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/running.html#startup-diagnostics">Startup diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running.html">Running a Case</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="running.html#serial-execution">Serial execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="running.html#parallel-execution">Parallel execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="running.html#startup-diagnostics">Startup diagnostics</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../guide/input_reference.html">Input Reference</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#case-directory-layout">Case directory layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#relaxation-collision-numbers">Relaxation collision numbers</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#rovibronicdatabase-sub-dictionary"><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_reference.html">Input Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#case-directory-layout">Case directory layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="input_reference.html#relaxation-collision-numbers">Relaxation collision numbers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="input_reference.html#rovibronicdatabase-sub-dictionary"><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#constant-speciescache"><code class="docutils literal notranslate"><span class="pre">constant/speciesCache/</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-dsmcinitialisedict"><code class="docutils literal notranslate"><span class="pre">system/dsmcInitialiseDict</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-boundariesdict"><code class="docutils literal notranslate"><span class="pre">system/boundariesDict</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#available-patch-models">Available patch models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#constant-speciescache"><code class="docutils literal notranslate"><span class="pre">constant/speciesCache/</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-dsmcinitialisedict"><code class="docutils literal notranslate"><span class="pre">system/dsmcInitialiseDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-boundariesdict"><code class="docutils literal notranslate"><span class="pre">system/boundariesDict</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="input_reference.html#available-patch-models">Available patch models</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../guide/post_processing.html">Post-processing</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/post_processing.html#macroscopic-fields">Macroscopic fields</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/post_processing.html#state-resolved-populations">State-resolved populations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/post_processing.html#validation-diagnostics">Validation diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="post_processing.html">Post-processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="post_processing.html#macroscopic-fields">Macroscopic fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processing.html#state-resolved-populations">State-resolved populations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processing.html#validation-diagnostics">Validation diagnostics</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../guide/architecture.html">Source-tree architecture</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#top-level-layout">Top-level layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#dsmc-library">DSMC library</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#applications">Applications</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#build-driver">Build driver</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#random-number-generator">Random-number generator</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Source-tree architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#top-level-layout">Top-level layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsmc-library">DSMC library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#applications">Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-driver">Build driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-number-generator">Random-number generator</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../guide/adding_a_feature.html">Adding a feature</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/adding_a_feature.html#adding-a-new-species">Adding a new species</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/adding_a_feature.html#adding-a-new-reaction">Adding a new reaction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/adding_a_feature.html#adding-a-new-relaxation-sub-model">Adding a new relaxation sub-model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adding_a_feature.html">Adding a feature</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="adding_a_feature.html#adding-a-new-species">Adding a new species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adding_a_feature.html#adding-a-new-reaction">Adding a new reaction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adding_a_feature.html#adding-a-new-relaxation-sub-model">Adding a new relaxation sub-model</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../guide/tests.html">Regression testing (current practice)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/tests.html#manual-smoke-tests">Manual smoke tests</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/tests.html#continuous-integration">Continuous integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">Regression testing (current practice)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#manual-smoke-tests">Manual smoke tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#continuous-integration">Continuous integration</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../guide/regression_tests.html">Regression tests (roadmap)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#rationale">Rationale</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#current-rng-state">Current RNG state</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#proposed-design">Proposed design</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../guide/regression_tests.html#dictionary-driven-seed">Dictionary-driven seed</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/regression_tests.html#test-cases">Test cases</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/regression_tests.html#harness">Harness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regression_tests.html">Regression tests (roadmap)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="regression_tests.html#rationale">Rationale</a></li>
+<li class="toctree-l3"><a class="reference internal" href="regression_tests.html#current-rng-state">Current RNG state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="regression_tests.html#proposed-design">Proposed design</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="regression_tests.html#dictionary-driven-seed">Dictionary-driven seed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="regression_tests.html#test-cases">Test cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="regression_tests.html#harness">Harness</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#acceptance-criteria">Acceptance criteria</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#status">Status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="regression_tests.html#acceptance-criteria">Acceptance criteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="regression_tests.html#status">Status</a></li>
 </ul>
 </li>
 </ul>
@@ -334,35 +334,35 @@
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="about.html">About</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="about.html#scope">Scope</a></li>
-<li class="toctree-l3"><a class="reference internal" href="about.html#lineage">Lineage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="about.html#target-applications">Target applications</a></li>
-<li class="toctree-l3"><a class="reference internal" href="about.html#development-team">Development team</a></li>
-<li class="toctree-l3"><a class="reference internal" href="about.html#licence-and-access">Licence and access</a></li>
-<li class="toctree-l3"><a class="reference internal" href="about.html#contact">Contact</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/about.html">About</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#scope">Scope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#lineage">Lineage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#target-applications">Target applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#development-team">Development team</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#licence-and-access">Licence and access</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#contact">Contact</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="validation.html">Validation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="validation.html#heat-bath-relaxation-landau-teller">Heat-bath relaxation (Landau-Teller)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="validation.html#two-temperature-recombination-and-three-body-channel">Two-temperature recombination and three-body channel</a></li>
-<li class="toctree-l3"><a class="reference internal" href="validation.html#heats-of-reaction">Heats of reaction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="validation.html#shock-profiles">Shock profiles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="validation.html#outstanding-items">Outstanding items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/validation.html">Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#heat-bath-relaxation-landau-teller">Heat-bath relaxation (Landau-Teller)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#two-temperature-recombination-and-three-body-channel">Two-temperature recombination and three-body channel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#heats-of-reaction">Heats of reaction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#shock-profiles">Shock profiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#outstanding-items">Outstanding items</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="bibliography.html">Bibliography</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="bibliography.html#foundational-dsmc-literature">Foundational DSMC literature</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bibliography.html#the-dsmcfoam-lineage">The dsmcFoam+ lineage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bibliography.html#publications-associated-with-the-rovibronic-extension">Publications associated with the rovibronic extension</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bibliography.html#in-repository-derivations-and-notes">In-repository derivations and notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html">Bibliography</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#foundational-dsmc-literature">Foundational DSMC literature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#the-dsmcfoam-lineage">The dsmcFoam+ lineage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#publications-associated-with-the-rovibronic-extension">Publications associated with the rovibronic extension</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#in-repository-derivations-and-notes">In-repository derivations and notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#unreleased">Unreleased</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#recent">Recent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/changelog.html">Changelog</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/changelog.html#unreleased">Unreleased</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/changelog.html#recent">Recent</a></li>
 </ul>
 </li>
 </ul>
@@ -383,9 +383,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Reference</li>
+          <li class="breadcrumb-item"><a href="index.html">User and Developer Guide</a></li>
+      <li class="breadcrumb-item active">Source-tree architecture</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/reference/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/guide/architecture.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -393,49 +394,160 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="reference">
-<h1>Reference<a class="headerlink" href="#reference" title="Link to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="about.html">About</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="about.html#scope">Scope</a></li>
-<li class="toctree-l2"><a class="reference internal" href="about.html#lineage">Lineage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="about.html#target-applications">Target applications</a></li>
-<li class="toctree-l2"><a class="reference internal" href="about.html#development-team">Development team</a></li>
-<li class="toctree-l2"><a class="reference internal" href="about.html#licence-and-access">Licence and access</a></li>
-<li class="toctree-l2"><a class="reference internal" href="about.html#contact">Contact</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="validation.html">Validation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="validation.html#heat-bath-relaxation-landau-teller">Heat-bath relaxation (Landau-Teller)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="validation.html#two-temperature-recombination-and-three-body-channel">Two-temperature recombination and three-body channel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="validation.html#heats-of-reaction">Heats of reaction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="validation.html#shock-profiles">Shock profiles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="validation.html#outstanding-items">Outstanding items</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="bibliography.html#foundational-dsmc-literature">Foundational DSMC literature</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bibliography.html#the-dsmcfoam-lineage">The dsmcFoam+ lineage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bibliography.html#publications-associated-with-the-rovibronic-extension">Publications associated with the rovibronic extension</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bibliography.html#in-repository-derivations-and-notes">In-repository derivations and notes</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#unreleased">Unreleased</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#recent">Recent</a></li>
-</ul>
-</li>
-</ul>
+  <section id="source-tree-architecture">
+<h1>Source-tree architecture<a class="headerlink" href="#source-tree-architecture" title="Link to this heading"></a></h1>
+<p>The present page maps out the solver’s source layout and the
+principal classes that a developer is likely to encounter when
+extending the rovibronic machinery. Every subsystem is documented
+class by class in the companion <a class="reference internal" href="../classes/index.html"><span class="doc">Solver Classes</span></a> section;
+the present page is the quickest way to locate a given piece of
+functionality in the tree.</p>
+<section id="top-level-layout">
+<h2>Top-level layout<a class="headerlink" href="#top-level-layout" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>src/                 C++ libraries (DSMC core + rovibronic extension)
+applications/        Solver executable and utilities
+run/                 Reference test cases (Tutorial, verification, …)
+doc/                 Standalone LaTeX notes (derivations, audits)
+docs/                Long-form PDFs + Sphinx source for the docs site
+Allwmake             Top-level build driver
+</pre></div>
 </div>
+</section>
+<section id="dsmc-library">
+<h2>DSMC library<a class="headerlink" href="#dsmc-library" title="Link to this heading"></a></h2>
+<p>All Lagrangian particle machinery lives under
+<code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/</span></code>. The subsystem directories map onto the
+class pages as follows:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 35.0%" />
+<col style="width: 35.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Source directory</p></th>
+<th class="head"><p>Subsystem</p></th>
+<th class="head"><p>Class page</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">clouds/</span></code></p></td>
+<td><p>Top-level orchestrator</p></td>
+<td><p><a class="reference internal" href="../classes/cloud.html"><span class="doc">dsmcCloud — the solver orchestrator</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">speciesDatabase/</span></code></p></td>
+<td><p>Spectroscopic &amp; VSS data</p></td>
+<td><p><a class="reference internal" href="../classes/species_database.html"><span class="doc">dsmcSpeciesDatabase — spectroscopic &amp; VSS data</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">initaliseDsmcParcels/</span></code></p></td>
+<td><p>Particle initialisation</p></td>
+<td><p><a class="reference internal" href="../classes/initialisation.html"><span class="doc">Particle initialisation</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">collisions/</span></code></p></td>
+<td><p>Binary collision models</p></td>
+<td><p><a class="reference internal" href="../classes/collision_models.html"><span class="doc">Binary collision models</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">collisionRate/</span></code></p></td>
+<td><p>Partner selection (NTC, MCF, SBT)</p></td>
+<td><p><a class="reference internal" href="../classes/collision_partner_selection.html"><span class="doc">Collision partner selection</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dynamicAdaptation/</span></code></p></td>
+<td><p>Sub-cell and weight adaptation</p></td>
+<td><p><a class="reference internal" href="../classes/adaptation.html"><span class="doc">dsmcDynamicAdapter — sub-cell and weight adaptation</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dynamicLoadBalancing/</span></code></p></td>
+<td><p>MPI load balancing</p></td>
+<td><p><a class="reference internal" href="../classes/load_balancing.html"><span class="doc">Dynamic load balancing</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">reactions/</span></code></p></td>
+<td><p>Reaction classes (neutral + charged)</p></td>
+<td><p><a class="reference internal" href="../classes/reactions.html"><span class="doc">Reaction classes</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">boundaries/</span></code></p></td>
+<td><p>Patch, cyclic, and general boundaries</p></td>
+<td><p><a class="reference internal" href="../classes/boundaries.html"><span class="doc">Boundary classes</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">controllers/</span></code></p></td>
+<td><p>Flow-state controllers</p></td>
+<td><p><a class="reference internal" href="../classes/controllers.html"><span class="doc">Controllers</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">macroscopicProperties/</span></code></p></td>
+<td><p>Field-model measurements</p></td>
+<td><p><a class="reference internal" href="../classes/measurements.html"><span class="doc">Measurements</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cellMeasurements/</span></code></p></td>
+<td><p>Per-cell primitive moments</p></td>
+<td><p><a class="reference internal" href="../classes/measurements.html"><span class="doc">Measurements</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">boundaryMeasurements/</span></code></p></td>
+<td><p>Per-patch impact statistics</p></td>
+<td><p><a class="reference internal" href="../classes/measurements.html"><span class="doc">Measurements</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parcels/</span></code></p></td>
+<td><p>Parcel data types (incl. quantum state)</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">submodels/cloudFunctionObjects/</span></code></p></td>
+<td><p>Cloud-level plug-in callbacks</p></td>
+<td><p><a class="reference internal" href="../classes/cloud.html"><span class="doc">dsmcCloud — the solver orchestrator</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="applications">
+<h2>Applications<a class="headerlink" href="#applications" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">applications/solvers/discreteMethods/dsmcFoam/</span></code> —  the solver
+executable. The <code class="docutils literal notranslate"><span class="pre">Make/files</span></code> line <code class="docutils literal notranslate"><span class="pre">EXE</span> <span class="pre">=</span>
+<span class="pre">$(FOAM_USER_APPBIN)/dsmcFoam</span></code> fixes the binary name to
+<code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">applications/utilities/preProcessing/DSMC/dsmcInitialise/</span></code>
+—  the pre-processing utility that writes the <code class="docutils literal notranslate"><span class="pre">0/</span></code> time
+directory from <code class="docutils literal notranslate"><span class="pre">system/dsmcInitialiseDict</span></code>.</p></li>
+</ul>
+</section>
+<section id="build-driver">
+<h2>Build driver<a class="headerlink" href="#build-driver" title="Link to this heading"></a></h2>
+<p>The top-level <code class="docutils literal notranslate"><span class="pre">Allwmake</span></code> script, invoked from the repository
+root, carries out three jobs:</p>
+<ol class="arabic simple">
+<li><p>creates symbolic links from the repository’s <code class="docutils literal notranslate"><span class="pre">src/</span></code>,
+<code class="docutils literal notranslate"><span class="pre">applications/</span></code>, and <code class="docutils literal notranslate"><span class="pre">tutorials/</span></code> directories into
+<code class="docutils literal notranslate"><span class="pre">$WM_PROJECT_USER_DIR</span></code> on the first compilation;</p></li>
+<li><p>builds the DSMC library under
+<code class="docutils literal notranslate"><span class="pre">$WM_PROJECT_USER_DIR/src/lagrangian/DSMC/</span></code>;</p></li>
+<li><p>builds <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> and <code class="docutils literal notranslate"><span class="pre">dsmcInitialise</span></code>.</p></li>
+</ol>
+<p>The use of symbolic links allows the OpenFOAM build machinery to
+pick the sources up as user-side additions and leaves the primary
+repository tree read-only from the build’s standpoint.</p>
+</section>
+<section id="random-number-generator">
+<h2>Random-number generator<a class="headerlink" href="#random-number-generator" title="Link to this heading"></a></h2>
+<p>A single <code class="docutils literal notranslate"><span class="pre">Foam::Random</span></code> instance, <code class="docutils literal notranslate"><span class="pre">rndGen_</span></code>, is held on the
+cloud (<code class="docutils literal notranslate"><span class="pre">dsmcCloud.H</span></code>, member variable). It is constructed at
+<code class="docutils literal notranslate"><span class="pre">dsmcCloud.C:1122</span></code> with the seed</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">rndGen_</span><span class="p">(</span><span class="n">label</span><span class="p">(</span><span class="n">clock</span><span class="o">::</span><span class="n">getTime</span><span class="p">())</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">7183</span><span class="o">*</span><span class="n">Pstream</span><span class="o">::</span><span class="n">myProcNo</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>i.e. the wall-clock time offset by a per-rank multiple of 7183.
+All downstream RNG consumers access this single instance through
+<code class="docutils literal notranslate"><span class="pre">cloud_.rndGen()</span></code>.</p>
+<p>It is important to emphasise that this <strong>single entry point makes
+deterministic regression testing feasible</strong>: routing a fixed seed
+into the <code class="docutils literal notranslate"><span class="pre">Random</span></code> constructor at this one location seeds every
+downstream RNG consumer automatically. The design of the planned
+regression-test infrastructure is documented in
+<a class="reference internal" href="regression_tests.html"><span class="doc">Regression tests (roadmap)</span></a>.</p>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../examples/n2_heatbath.html" class="btn btn-neutral float-left" title="Landau-Teller heat-bath validation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="about.html" class="btn btn-neutral float-right" title="About" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="post_processing.html" class="btn btn-neutral float-left" title="Post-processing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="adding_a_feature.html" class="btn btn-neutral float-right" title="Adding a feature" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

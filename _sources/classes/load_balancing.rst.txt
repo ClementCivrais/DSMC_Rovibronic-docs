@@ -1,0 +1,63 @@
+Dynamic load balancing
+======================
+
+Source: ``src/lagrangian/DSMC/dynamicLoadBalancing/``.
+
+Role
+----
+
+The DSMC work-load is dominated by the per-cell collision loop,
+and the load per cell is proportional to the number of particles
+it holds. In flows with significant spatial gradients (shocks,
+expansions, boundary layers), a static domain decomposition
+quickly becomes unbalanced. The dynamic load-balancing layer
+monitors the particle distribution across MPI ranks and
+periodically redistributes cells so that the particle counts per
+rank remain roughly equal.
+
+Operational summary
+-------------------
+
+Typical behaviour, once load balancing is enabled:
+
+#. A particle-count imbalance metric is computed at fixed
+   intervals (``balanceInterval``).
+#. If the imbalance exceeds a prescribed threshold, a new cell-to-
+   rank assignment is computed through the underlying Scotch /
+   Metis / manual decomposition machinery.
+#. Cells (and the particles they contain) are migrated to match
+   the new assignment; the parallel field storage and boundary
+   lists are updated accordingly.
+
+Configuration
+-------------
+
+Load balancing is controlled through ``system/loadBalanceDict``;
+the reference tutorial ships a commented template. Typical entries
+include the balancing method (``scotch``, ``metis``, or
+``manual``), the interval between balancing events, the imbalance
+threshold that triggers a rebalance, and any method-specific
+weight parameters.
+
+Interaction with the RNG
+------------------------
+
+Load balancing re-orders cells across MPI ranks, which changes
+the order in which collisions are sampled. Because the
+``Foam::Random`` stream is kept on each rank as a single instance
+(see :doc:`cloud`), the sampled outcome of any particular
+collision therefore depends on the rank that owns the cell at the
+time, and hence on the balancing history. This is one of the
+reasons why bit-identical reproduction in parallel is not
+targeted as part of the planned regression harness; see
+:doc:`../guide/regression_tests`.
+
+Status
+------
+
+The load-balancing infrastructure is inherited from dsmcFoam+ and
+is functional in the rovibronic build. It has not been exercised
+as heavily as the single-rank path in the current validation
+campaign; users who rely on it in production are advised to run
+a short baseline in serial and in parallel before drawing
+quantitative conclusions.

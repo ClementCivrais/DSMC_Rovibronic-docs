@@ -1,0 +1,105 @@
+Particle initialisation
+=======================
+
+Source: ``src/lagrangian/DSMC/initaliseDsmcParcels/``.
+
+Role
+----
+
+The initialisation module populates the computational domain with
+simulator parcels at :math:`t = 0`, drawing positions, velocities,
+and **rovibronic quantum states** :math:`(n, v, J)` from the
+distributions specified in ``system/dsmcInitialiseDict``. It is
+invoked by the ``dsmcInitialise`` utility rather than by the
+solver itself, so that the initialisation cost is incurred once and
+the resulting particle cloud is written to the ``0/`` time directory
+for the solver to pick up.
+
+Sampling procedure
+------------------
+
+Regardless of the fill-strategy class, each parcel is sampled as
+follows:
+
+#. **Position** —  uniformly random inside the target cell.
+#. **Velocity** —  from a Maxwell-Boltzmann distribution at
+   ``translationalTemperature`` drifted by the bulk
+   ``velocity``, when ``initialDistributionType`` is
+   ``maxwellian``.
+#. **Rovibronic state** —  drawn from the Boltzmann distribution
+   at ``internalTemperature`` over the species' rovibronic levels,
+
+   .. math::
+
+      P(n, v, J)
+        = \frac{g(n, v, J)\,
+                \exp\!\bigl[-E(n, v, J) / k_B\,T_{\mathrm{int}}\bigr]}
+               {\displaystyle\sum_{n', v', J'} g(n', v', J')\,
+                \exp\!\bigl[-E(n', v', J') / k_B\,T_{\mathrm{int}}\bigr]}.
+
+A single ``internalTemperature`` is used for the rotational,
+vibrational, and electronic modes at :math:`t = 0`. It is straight-
+forward, if ever required, to seed the three modes at different
+temperatures by stacking the database partition functions; this is
+not exposed in the current dictionary.
+
+Implemented fill strategies
+---------------------------
+
+``dsmcMeshFill``
+````````````````
+
+*Directory:* ``initaliseDsmcParcels/derived/dsmcMeshFill/``.
+
+The standard whole-domain fill: every cell in the mesh is
+populated until the target number density is reached. This is the
+strategy used in the reference ``run/Tutorial/`` case.
+
+``dsmcMeshFieldFill``
+`````````````````````
+
+*Directory:* ``initaliseDsmcParcels/derived/dsmcMeshFieldFill/``.
+
+A field-based variant that reads spatially-varying initial
+conditions (density and temperature fields) from the ``0/`` time
+directory and populates each cell accordingly. It is used when a
+non-uniform initial state —  typically the converged solution of
+an upstream continuum simulation, or a shock-like initial
+condition —  must be reproduced inside the DSMC domain.
+
+``dsmcZoneFill``
+````````````````
+
+*Directory:* ``initaliseDsmcParcels/derived/dsmcZoneFill/``.
+
+A zone-based variant that populates only the cells belonging to a
+named ``cellZone`` of the mesh. This is convenient when multiple
+gas regions with distinct initial conditions must coexist (e.g. a
+shock tube with upstream and downstream zones), or when only part
+of the domain is of interest during a warm-up phase.
+
+Dictionary interface
+--------------------
+
+All three fill strategies share the entries described in
+:doc:`../guide/input_reference` under
+``system/dsmcInitialiseDict``:
+
+.. code-block:: cpp
+
+   configurations
+   (
+       configuration
+       {
+           type                        dsmcMeshFill;      // or dsmcZoneFill, dsmcMeshFieldFill
+           initialDistributionType     maxwellian;
+           numberDensities
+           {
+               O2      1e23;
+           };
+           translationalTemperature    20000;
+           internalTemperature         20000;
+           velocity                    (0 0 0);
+           // zoneName  <zone>;        // for dsmcZoneFill
+       }
+   );

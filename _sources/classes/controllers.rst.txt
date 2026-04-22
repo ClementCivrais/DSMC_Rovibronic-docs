@@ -1,0 +1,89 @@
+Controllers
+===========
+
+Source: ``src/lagrangian/DSMC/controllers/``.
+
+Role
+----
+
+Controllers are run-time agents that monitor a selected quantity
+—  a cell-zone temperature, a species number density, an
+integrated flux —  and actively modify the particle population to
+drive that quantity toward a target value. They are distinct from
+boundary classes (which operate only at patches) and from
+measurement classes (which only observe); controllers both observe
+and act.
+
+The base interface, ``dsmcController``, is defined under
+``src/lagrangian/DSMC/controllers/basic/``. Derived controllers
+live under ``controllers/derived/`` and are grouped thematically
+into ``temperature/``, ``density/``, and ``others/``.
+
+Implemented controllers
+-----------------------
+
+``temperatureController``
+`````````````````````````
+
+*Directory:* ``controllers/derived/temperature/temperatureController/``.
+
+Maintains a target translational temperature inside a named cell
+zone by periodically rescaling the peculiar velocities of the
+parcels it contains. The sampling window over which the kinetic
+energy is averaged, the target temperature, and the zone name are
+specified in the sub-dictionary.
+
+``maxwellianResamplingController``
+``````````````````````````````````
+
+*Directory:*
+``controllers/derived/temperature/maxwellianResamplingController/``.
+
+Periodically redraws the full velocity distribution of the parcels
+in a zone from a Maxwell-Boltzmann distribution at the target
+temperature. Coarser than ``temperatureController`` but occasionally
+useful as a hard reset in equilibrium-approach studies.
+
+``densityController``
+`````````````````````
+
+*Directory:* ``controllers/derived/density/densityController/``.
+
+Maintains a target per-species number density inside a zone by
+inserting parcels when the population is too low and deleting
+them when it is too high. Useful in heat-bath studies where a
+finite cell volume would otherwise drift in composition.
+
+``gravitationalAccelerationController``
+```````````````````````````````````````
+
+*Directory:*
+``controllers/derived/others/gravitationalAccelerationController/``.
+
+Applies a user-specified constant acceleration (gravitational or
+otherwise) to every parcel in a zone at every DSMC step. The
+magnitude and direction are read from a ``acceleration`` vector
+key.
+
+Orchestration
+-------------
+
+All controllers are instantiated and orchestrated by the
+``dsmcControllers`` container (``controllers/basic/dsmcControllers/``),
+which is itself constructed by the cloud at initialisation. On
+every time-step, each registered controller's ``control()`` entry
+point is invoked; internal sampling windows allow a controller to
+accumulate statistics over several DSMC steps before it acts.
+
+Use with regression tests
+-------------------------
+
+Because controllers modify the particle population, they sit on
+the critical path for any deterministic regression test. A test
+case that enables a controller inherits the controller's sampling
+cadence in the RNG stream, and any change to the controller's
+timing or thresholds will perturb the downstream macroscopic
+output. The planned regression harness
+(:doc:`../guide/regression_tests`) will therefore fix both the
+controller parameters and the RNG seed when recording reference
+outputs.

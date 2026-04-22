@@ -1,0 +1,70 @@
+Adding a feature
+================
+
+We describe below the three most common extension paths. Any of
+them should be accompanied by a short validation case under
+``run/``, and ultimately by a regression case once the framework
+described in :doc:`regression_tests` is in place.
+
+Adding a new species
+--------------------
+
+#. Generate (or transcribe from the literature) the electronic,
+   vibrational, and rotational level tables for the new species.
+   The fit procedure from ab-initio potential-energy surfaces is
+   documented in
+   ``docs/Database/dunham_coefficients_from_ab_initio_PES.md``.
+#. Serialise the resulting ``.dat`` file and place it under
+   ``constant/speciesCache/`` in the target case, using the
+   species symbol as the file name (e.g. ``CN.dat``,
+   ``CO+.dat``). The file layout is documented in
+   :doc:`../classes/species_database`.
+#. Add the species symbol to ``typeIdList`` in
+   ``constant/dsmcProperties``.
+#. Rebuild the solver with ``./Allwmake``.
+#. Add a zero-dimensional heat-bath validation case under
+   ``run/`` to confirm that the equilibrium populations of the
+   new species match a Boltzmann distribution at the target
+   translational temperature.
+
+Adding a new reaction
+---------------------
+
+#. Identify the appropriate reaction class from
+   :doc:`../classes/reactions`. For neutral chemistry
+   (dissociation, recombination, exchange) the existing classes
+   are well exercised; for charged-species chemistry the classes
+   are present but flagged as work in progress, and adding a new
+   reaction there also implies validating the surrounding
+   infrastructure.
+#. Add the per-:math:`(n, v, J)` rate table or the QK-type
+   activation parameters in the database entries of the
+   reactants. Heats of reaction for dissociation, recombination,
+   and exchange are derived automatically from the database and
+   do not need to be supplied by the user; only ionisation
+   potentials remain an input.
+#. Register the reaction in ``system/chemReactDict`` with the
+   appropriate ``reactionModel`` block.
+#. Rebuild and run the associated validation case.
+#. Cross-check detailed balance against the backward rate, which
+   is derived through the equilibrium constant from the forward
+   rate. Any systematic drift is usually symptomatic of either a
+   missing partition-function entry or a wrong rovibronic
+   cut-off.
+
+Adding a new relaxation sub-model
+---------------------------------
+
+#. Implement the sub-model under
+   ``src/lagrangian/DSMC/collisions/derived/``, following the
+   existing Larsen-Borgnakke VHS/VSS examples
+   (:doc:`../classes/collision_models`). The parallel-marginal
+   cascade described in :doc:`../theory/relaxation` should be
+   respected unless a reason to deviate is explicitly documented.
+#. Wire the sub-model selector through the
+   ``BinaryCollisionModel`` key in
+   ``constant/dsmcProperties`` and expose any new coefficients in
+   the matching ``<Model>Coeffs`` sub-dictionary.
+#. Add a zero-dimensional relaxation validation case that checks
+   the fitted collision number against the input at a few
+   temperatures.

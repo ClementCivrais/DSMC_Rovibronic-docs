@@ -1,0 +1,114 @@
+``dsmcDynamicAdapter`` — sub-cell and weight adaptation
+=======================================================
+
+Source: ``src/lagrangian/DSMC/dynamicAdaptation/``.
+
+Role
+----
+
+The ``dsmcDynamicAdapter`` class is the rovibronic solver's
+**adaptation** layer. It does **not** perform geometric mesh
+refinement; rather, it exposes three orthogonal mechanisms through
+which the solver can track spatial variations in the flow without
+rebuilding the mesh:
+
+* **sub-cell subdivision** —  each parent cell is logically
+  partitioned into a number of sub-cells (independently per
+  coordinate direction), and collision partner selection is
+  restricted to particles inside the same sub-cell;
+* **cell weighting** —  the number of real molecules represented
+  by each simulator parcel (:math:`F_N`) is made cell-dependent,
+  so that the resolution can be tightened in regions where it
+  matters most;
+* **DSMC time-step adaptation** —  the global time-step is
+  adjusted so that the Courant number and the
+  mean-collision-time ratio remain inside prescribed limits.
+
+The three mechanisms are independently switchable, and are
+activated by the ``adaptiveSimulation`` and
+``cellWeightedSimulation`` switches in
+``constant/dsmcProperties``.
+
+Configuration
+-------------
+
+The detailed dictionary block lives under
+``dynamicAdaptationProperties`` and exposes the following keys:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 45 55
+
+   * - Key
+     - Role
+   * - ``timeStepAdaptation``
+     - Switch: if ``true``, the DSMC time-step is periodically
+       re-computed to satisfy the Courant / MCT bounds below.
+   * - ``subCellAdaptation``
+     - Switch: if ``true``, the number of sub-cells per cell is
+       re-computed from the local mean free path.
+   * - ``cellWeightAdaptation``
+     - Switch: if ``true``, the parcel weight :math:`F_N` is
+       adapted per cell to meet a target particle-per-sub-cell
+       count.
+   * - ``adaptationInterval``
+     - Number of DSMC steps between adaptation events.
+   * - ``maxTimeStepMCTRatio``
+     - Upper bound on the ratio of DSMC :math:`\Delta t` to the
+       local mean collision time.
+   * - ``maxCourantNumber``
+     - Upper bound on the local DSMC Courant number.
+   * - ``maxSubCellSizeMFPRatio``
+     - Upper bound on the ratio of the sub-cell size to the local
+       mean free path.
+   * - ``minSubCellLevels``, ``maxSubCellLevels``,
+       ``initialSubCellLevels``
+     - Lower bound, upper bound, and initial value of the number
+       of sub-cell subdivisions per direction (vectors).
+
+The cell-weighting block is read separately through
+``cellWeightedProperties`` (parsed at
+``dsmcCloud.C`` lines 1194–1200):
+
+.. code-block:: cpp
+
+   cellWeightedProperties
+   {
+       particlesPerSubCell        20;
+       minParticlesPerSubCell     10;  // optional
+       smoothCellWeights          true; // optional, default true
+   }
+
+Implementation notes
+--------------------
+
+* Sub-cell levels are stored in a ``volVectorField subCellLevels_``
+  (``dsmcCloud.H:245``), one integer per direction per cell.
+* Cell-weight factors are stored in a ``volScalarField
+  cellWeightFactor_``; the effective number of real molecules per
+  parcel in cell :math:`c` is :math:`F_N\cdot
+  \mathtt{cellWeightFactor_}(c)`.
+* The adapter's ``adapt()`` method is invoked at the interval
+  specified by ``adaptationInterval`` and recomputes both fields
+  from the current macroscopic state (density, temperature, mean
+  velocity), reusing the measurements accumulated by
+  ``cellMeasurements`` (see :doc:`measurements`).
+
+Interaction with partner selection
+----------------------------------
+
+When ``subCellAdaptation`` is active, the collision partner
+selection layer (:doc:`collision_partner_selection`) restricts its
+candidate pool to particles belonging to the same sub-cell. This
+is the primary mechanism by which the adaptation layer tightens
+the spatial resolution of collisions in under-resolved regions.
+
+Relationship with mesh-level AMR
+--------------------------------
+
+Geometric adaptive mesh refinement, in which cells are actually
+split or merged at run-time, is **not** currently implemented in
+the rovibronic solver. The sub-cell mechanism described above is
+the intended substitute and is sufficient for the flow regimes of
+interest; a true AMR layer would require significant additional
+infrastructure and is out of scope.

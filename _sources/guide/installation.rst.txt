@@ -1,0 +1,266 @@
+Installation
+============
+
+The present section describes the full installation procedure, from
+a fresh Linux environment to a working rovibronic DSMC executable.
+Four layers must be installed in order:
+
+#. system prerequisites (compiler, MPI, helper libraries);
+#. OpenFOAM v2512, together with its ``ThirdParty-v2512`` bundle;
+#. the custom ``bashrc-rovibronic`` environment, which redirects
+   the OpenFOAM user directory to a dedicated workspace for the
+   rovibronic fork;
+#. the present solver, which inherits the full dsmcFoam+ source
+   tree and extends it with the rovibronic machinery.
+
+Each step is described in turn below. We use ``$HOME/OpenFOAM`` as
+the install root throughout; readers may substitute any directory
+of their choice, provided the same path is used consistently.
+
+System prerequisites
+--------------------
+
+We assume a reasonably recent Linux distribution (the code has been
+exercised on Ubuntu 22.04 and 24.04, and on Rocky Linux 9). The
+following packages are required:
+
+.. code-block:: bash
+
+   # Debian / Ubuntu
+   sudo apt update
+   sudo apt install -y build-essential cmake git flex bison \
+        zlib1g-dev libboost-system-dev libboost-thread-dev \
+        libreadline-dev libncurses-dev libxt-dev libopenmpi-dev \
+        openmpi-bin gnuplot ca-certificates
+
+   # RHEL / Rocky Linux (approximate equivalents)
+   sudo dnf groupinstall "Development Tools"
+   sudo dnf install cmake git flex bison zlib-devel boost-devel \
+        readline-devel ncurses-devel libXt-devel openmpi-devel
+
+A working GCC 11 or later is sufficient; no proprietary compiler is
+required. ParaView is useful for post-processing but is not
+required at build time.
+
+Layout on disk
+--------------
+
+We settle once and for all on a single directory hierarchy:
+
+.. code-block:: text
+
+   $HOME/OpenFOAM/
+   ├── OpenFOAM-v2512/                 # OpenFOAM source tree
+   ├── ThirdParty-v2512/               # OpenFOAM ThirdParty bundle
+   ├── rovibronic-v2512/               # user workspace for the rovibronic fork
+   │   ├── platforms/                  # populated by Allwmake
+   │   ├── src/ applications/ run/     # populated as symlinks at first build
+   └── DSMC_Rovibronic/                # the present repository
+
+The ``rovibronic-v2512`` directory is the ``WM_PROJECT_USER_DIR``
+that the custom bashrc will set (see below). The top-level
+``Allwmake`` script of the present solver creates symbolic links
+from ``DSMC_Rovibronic/`` into ``rovibronic-v2512/`` so that the
+build respects OpenFOAM's user-directory conventions.
+
+Step 1 — Install OpenFOAM v2512
+-------------------------------
+
+We obtain the OpenFOAM v2512 source tree and its ``ThirdParty``
+bundle from the OpenCFD release server, and build them in place.
+
+.. code-block:: bash
+
+   mkdir -p $HOME/OpenFOAM
+   cd $HOME/OpenFOAM
+
+   git clone --branch OpenFOAM-v2512 \
+             https://develop.openfoam.com/Development/openfoam.git \
+             OpenFOAM-v2512
+   git clone --branch v2512 \
+             https://develop.openfoam.com/Development/ThirdParty-common.git \
+             ThirdParty-v2512
+
+Alternatively, tarballs are available from
+<https://www.openfoam.com/download>; unpack them into
+``$HOME/OpenFOAM/`` with the same two directory names.
+
+Build OpenFOAM
+``````````````
+
+.. code-block:: bash
+
+   cd $HOME/OpenFOAM/OpenFOAM-v2512
+   source etc/bashrc
+   ./Allwmake -j $(nproc) -s >& log.Allwmake
+
+The build takes of the order of one hour on a modern workstation.
+The ``log.Allwmake`` file should finish with
+
+.. code-block:: text
+
+   ========================================
+   Done ThirdParty Allwmake
+   ========================================
+   ...
+   ========================================
+   Done primary packages
+   ========================================
+
+Before proceeding, we verify the installation:
+
+.. code-block:: bash
+
+   which simpleFoam
+   simpleFoam -help
+
+Both commands should succeed. If ``simpleFoam`` is not in the
+path, the OpenFOAM environment has not been sourced; re-run
+``source etc/bashrc`` in the current shell.
+
+Step 2 — Install the rovibronic environment
+-------------------------------------------
+
+The present solver is distributed with a dedicated OpenFOAM bashrc
+that redirects ``WM_PROJECT_USER_DIR`` to a private workspace, so
+that the rovibronic build does not pollute the standard user
+directory. The bashrc is named ``bashrc-rovibronic`` and must be
+placed in ``$WM_PROJECT_DIR/etc/`` alongside the stock ``bashrc``.
+
+A minimal ``bashrc-rovibronic`` is a copy of the stock
+``OpenFOAM-v2512/etc/bashrc`` in which the single line
+
+.. code-block:: bash
+
+   #export WM_PROJECT_USER_DIR="$HOME/$WM_PROJECT/${USER:-user}-$WM_PROJECT_VERSION"
+
+is replaced by
+
+.. code-block:: bash
+
+   export WM_PROJECT_USER_DIR="$HOME/OpenFOAM/rovibronic-v2512"
+
+Create the workspace and source the environment:
+
+.. code-block:: bash
+
+   mkdir -p $HOME/OpenFOAM/rovibronic-v2512
+   source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-rovibronic
+   echo $WM_PROJECT_USER_DIR
+   # expected: /home/<user>/OpenFOAM/rovibronic-v2512
+
+A convenient alias, to be added to the user's ``~/.bashrc``, is:
+
+.. code-block:: bash
+
+   alias of-rovibronic='source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-rovibronic'
+
+Henceforth a fresh shell is initialised by running
+``of-rovibronic`` before any rovibronic work.
+
+.. important::
+   It is imperative that **only one** OpenFOAM environment be
+   sourced per shell. Sourcing the stock bashrc and the rovibronic
+   bashrc in the same shell leaves
+   ``WM_PROJECT_USER_DIR`` in whichever state was set last and
+   yields very confusing build errors. The safest remedy, if the
+   wrong environment has been sourced in a shell, is to open a
+   fresh one.
+
+Step 3 — Clone the DSMC Rovibronic repository
+---------------------------------------------
+
+The source of the present solver is hosted at
+<https://github.com/ClementCivrais/DSMC_Rovibronic> and is private;
+access is granted on a per-collaboration basis. Once access has
+been arranged:
+
+.. code-block:: bash
+
+   cd $HOME/OpenFOAM
+   git clone git@github.com:ClementCivrais/DSMC_Rovibronic.git
+   cd DSMC_Rovibronic
+
+The repository contains the full dsmcFoam+ source tree under
+``src/lagrangian/DSMC/``, modified to include the rovibronic
+extensions; there is no separate "download dsmcFoam+" step, since
+the dsmcFoam+ source is embedded in the present repository.
+
+Step 4 — Build the solver
+-------------------------
+
+With the rovibronic environment sourced, we invoke the top-level
+build driver:
+
+.. code-block:: bash
+
+   source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-rovibronic
+   cd $HOME/OpenFOAM/DSMC_Rovibronic
+   ./Allwmake $(nproc)
+
+The build script carries out three tasks:
+
+#. It creates symbolic links from ``DSMC_Rovibronic/{src,applications,tutorials}``
+   into ``$WM_PROJECT_USER_DIR`` on the first compilation. This
+   allows the OpenFOAM build machinery to pick the sources up as
+   user-side additions.
+#. It builds the DSMC library under
+   ``$WM_PROJECT_USER_DIR/src/lagrangian/DSMC``.
+#. It builds the solver executable
+   (``applications/solvers/discreteMethods/dsmcFoam``) and the
+   associated pre-processing utility (``dsmcInitialise``).
+
+Upon completion, ``$FOAM_USER_APPBIN`` contains the
+``dsmcFoam`` executable and the ``dsmcInitialise`` utility.
+
+Verification
+------------
+
+We confirm that the executable is in the path and that its help
+message prints:
+
+.. code-block:: bash
+
+   which dsmcFoam
+   dsmcFoam -help
+
+We then run the reference case in serial, which doubles as an
+end-to-end installation test:
+
+.. code-block:: bash
+
+   cd $HOME/OpenFOAM/DSMC_Rovibronic/run/Tutorial
+   blockMesh
+   dsmcInitialise
+   dsmcFoam
+
+The solver should start, print the rovibronic database summary and
+the PEC asymptote-matching diagnostic, and advance the simulation.
+Terminating it after a handful of time-steps (``Ctrl-C``) is
+sufficient to confirm the build.
+
+Troubleshooting common issues
+-----------------------------
+
+*Unresolved symbol at link time (libfoo.so not found).*
+  The stock OpenFOAM bashrc has been sourced instead of
+  ``bashrc-rovibronic``, or the two have been combined in the same
+  shell. Start a fresh shell, source ``bashrc-rovibronic`` only,
+  and rebuild.
+
+*"wmake: command not found" at build time.*
+  The OpenFOAM environment has not been sourced in the current
+  shell. Run ``source
+  $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-rovibronic`` again.
+
+*Symbolic-link errors from ``Allwmake``.*
+  ``$WM_PROJECT_USER_DIR`` is not set, or points to a directory
+  that already contains conflicting symlinks. Check the value of
+  ``$WM_PROJECT_USER_DIR`` with ``echo``, remove the stale
+  symlinks under that path if any, and re-run ``./Allwmake``.
+
+*The executable builds but ``dsmcFoam -help`` reports a stale API version.*
+  A residual ``dsmcFoam`` built against an older OpenFOAM version
+  is shadowing the new one in ``PATH``. Run ``which -a dsmcFoam``
+  to confirm, and remove the obsolete copy from
+  ``$FOAM_USER_APPBIN`` (or from the offending older installation).

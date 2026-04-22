@@ -1,0 +1,128 @@
+Binary collision models
+=======================
+
+Source: ``src/lagrangian/DSMC/collisions/derived/``.
+
+Role
+----
+
+Binary collision models prescribe two things: the
+**cross section** used to weigh accepted collision candidates,
+and the **post-collision scattering and internal-energy
+redistribution** that is applied once a collision has been
+accepted. They are selected through the ``BinaryCollisionModel``
+key in ``constant/dsmcProperties`` and configured through the
+associated ``<Model>Coeffs`` sub-dictionary.
+
+Implemented classes
+-------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Class
+     - Purpose
+   * - ``LarsenBorgnakkeVariableHardSphere``
+     - Variable Hard Sphere (VHS) cross section with
+       Larsen-Borgnakke (LB) energy redistribution; the
+       **default** and most frequently used model.
+   * - ``LarsenBorgnakkeVariableSoftSphere``
+     - Variable Soft Sphere (VSS) cross section with LB energy
+       redistribution; adds the anisotropic scattering exponent
+       :math:`\alpha`, which interpolates between isotropic and
+       forward-peaked scattering.
+   * - ``VariableHardSphere``
+     - Plain VHS without LB: purely elastic collisions, no
+       internal-energy exchange. Useful for debugging, or for
+       cases in which internal degrees of freedom are not of
+       interest.
+   * - ``VariableSoftSphere``
+     - Plain VSS variant of the above.
+   * - ``NoBinaryCollision``
+     - Disables binary collisions entirely. Used for free-
+       molecular verification cases and for isolating
+       boundary-driven effects.
+
+VHS cross section
+-----------------
+
+The Variable Hard Sphere cross section depends on the relative
+velocity :math:`g` through the viscosity exponent :math:`\omega`:
+
+.. math::
+
+   \sigma_T^{\mathrm{VHS}}(g)
+     = \pi\, d_{\mathrm{ref}}^{2}\,
+       \left(\frac{g_{\mathrm{ref}}^{2}}{g^{2}}\right)^{\omega - 1/2}
+       \frac{1}{\Gamma(5/2 - \omega)},
+
+where :math:`d_{\mathrm{ref}}`, :math:`g_{\mathrm{ref}}`, and
+:math:`\omega` are species-pair parameters tabulated in
+:doc:`species_database`. The VHS law is isotropic in the centre-
+of-mass frame.
+
+VSS cross section and scattering
+--------------------------------
+
+The Variable Soft Sphere model augments VHS with an anisotropic
+scattering law parameterised by :math:`\alpha`. The differential
+cross section is
+
+.. math::
+
+   \frac{\mathrm{d}\sigma}{\mathrm{d}\Omega}
+     \propto \cos^{2(\alpha - 1)}\!\left(\tfrac{\chi}{2}\right),
+
+where :math:`\chi` is the centre-of-mass scattering angle. The
+limit :math:`\alpha = 1` recovers the isotropic VHS scattering;
+values :math:`\alpha > 1`, which are commonly fitted to viscosity
+and diffusion data, yield forward-peaked scattering consistent
+with the Lennard-Jones interaction of diatomics.
+
+Larsen-Borgnakke energy redistribution
+--------------------------------------
+
+On each accepted collision, the LB variants sample a new internal
+energy for the participating parcels, using the acceptance-
+rejection criterion
+
+.. math::
+
+   f(E')
+     = g(E')\,
+       \left(\frac{E_c - E'}{E_c}\right)^{\alpha_{\mathrm{LB}}}, \qquad
+   \alpha_{\mathrm{LB}}
+     = \tfrac{1}{2}\bigl(\xi_{\mathrm{rel}}
+                         + \xi_{\mathrm{int}}^{\mathrm{pool}}\bigr) - 1,
+
+where :math:`E_c` is the pooled collision energy,
+:math:`g(E')` is the degeneracy of the candidate state, and
+:math:`\xi_{\mathrm{int}}^{\mathrm{pool}}` is the effective
+number of internal degrees of freedom that enter the current
+event. The rovibronic extension evaluates :math:`g(E')` and
+:math:`E'` on the quantised state space rather than on a
+continuous internal-energy variable; the three composite-mode
+cascades (rotational, rovibrational, rovibronic) that build on
+top of this acceptance rule are documented in
+:doc:`../theory/relaxation`.
+
+Coefficient sub-dictionary
+--------------------------
+
+For the LB variants, the ``<Model>Coeffs`` block holds the
+reference temperature and the three relaxation collision numbers
+:math:`Z_r,\,Z_{rv},\,Z_{rve}`:
+
+.. code-block:: cpp
+
+   LarsenBorgnakkeVariableHardSphereCoeffs
+   {
+       Tref                                    273; // [K]
+       rotationalRelaxationCollisionNumber     2;   // [-]
+       rovibrationalRelaxationCollisionNumber  10;  // [-]
+       rovibronicRelaxationCollisionNumber     10;  // [-]
+   }
+
+The plain VHS/VSS variants do not expose the collision-number
+entries, since they do not redistribute internal energy.

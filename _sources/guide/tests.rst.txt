@@ -1,0 +1,38 @@
+Regression testing (current practice)
+=====================================
+
+The present page describes how testing is carried out *today*.
+The **future** regression-test framework, and the design choices
+it requires (deterministic RNG seeding, curated baseline outputs,
+tolerance handling), are documented on the
+:doc:`regression_tests` roadmap page.
+
+Manual smoke tests
+------------------
+
+At present, the reference cases distributed under ``run/`` double
+as smoke tests. A minimal check-list after a substantive change
+is:
+
+* the solver builds under the ``of-rovibronic`` environment;
+* each reference case runs to completion without numerical
+  failure (no NaNs in macroscopic fields, no unbounded energy
+  growth);
+* for the heat-bath cases, the final rovibronic populations match
+  a Boltzmann distribution at the bath temperature, within
+  statistical noise;
+* for the one-dimensional shock cases, the computed macroscopic
+  profiles agree with published reference profiles to within
+  plotting accuracy.
+
+In practice this list is carried out by hand and results are
+inspected in paraFoam or in Python post-processing notebooks.
+
+Continuous integration
+----------------------
+
+Continuous integration is not yet wired up on this repository.
+A GitHub Actions workflow that spins up an OpenFOAM container and
+runs the zero-dimensional cases after each push is a natural
+future addition; it is discussed together with the deterministic
+seeding plan in :doc:`regression_tests`.

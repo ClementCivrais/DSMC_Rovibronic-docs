@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Examples &mdash; DSMC Rovibronic</title>
+  <title>Installation &mdash; DSMC Rovibronic</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -22,8 +22,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Landau-Teller heat-bath validation" href="n2_heatbath.html" />
-    <link rel="prev" title="Measurements" href="../classes/measurements.html" /> 
+    <link rel="next" title="Running a Case" href="running.html" />
+    <link rel="prev" title="User and Developer Guide" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,81 +46,81 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">User and Developer Guide</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">User and Developer Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../guide/installation.html">Installation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#system-prerequisites">System prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#layout-on-disk">Layout on disk</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-1-install-openfoam-v2512">Step 1 — Install OpenFOAM v2512</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#build-openfoam">Build OpenFOAM</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">User and Developer Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#system-prerequisites">System prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#layout-on-disk">Layout on disk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-install-openfoam-v2512">Step 1 — Install OpenFOAM v2512</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#build-openfoam">Build OpenFOAM</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-3-clone-the-dsmc-rovibronic-repository">Step 3 — Clone the DSMC Rovibronic repository</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-4-build-the-solver">Step 4 — Build the solver</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#verification">Verification</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#troubleshooting-common-issues">Troubleshooting common issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-clone-the-dsmc-rovibronic-repository">Step 3 — Clone the DSMC Rovibronic repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-build-the-solver">Step 4 — Build the solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#verification">Verification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#troubleshooting-common-issues">Troubleshooting common issues</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../guide/running.html">Running a Case</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/running.html#serial-execution">Serial execution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/running.html#parallel-execution">Parallel execution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/running.html#startup-diagnostics">Startup diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running.html">Running a Case</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="running.html#serial-execution">Serial execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="running.html#parallel-execution">Parallel execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="running.html#startup-diagnostics">Startup diagnostics</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../guide/input_reference.html">Input Reference</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#case-directory-layout">Case directory layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#relaxation-collision-numbers">Relaxation collision numbers</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#rovibronicdatabase-sub-dictionary"><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="input_reference.html">Input Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#case-directory-layout">Case directory layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="input_reference.html#relaxation-collision-numbers">Relaxation collision numbers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="input_reference.html#rovibronicdatabase-sub-dictionary"><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#constant-speciescache"><code class="docutils literal notranslate"><span class="pre">constant/speciesCache/</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-dsmcinitialisedict"><code class="docutils literal notranslate"><span class="pre">system/dsmcInitialiseDict</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-boundariesdict"><code class="docutils literal notranslate"><span class="pre">system/boundariesDict</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#available-patch-models">Available patch models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#constant-speciescache"><code class="docutils literal notranslate"><span class="pre">constant/speciesCache/</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-dsmcinitialisedict"><code class="docutils literal notranslate"><span class="pre">system/dsmcInitialiseDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-boundariesdict"><code class="docutils literal notranslate"><span class="pre">system/boundariesDict</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="input_reference.html#available-patch-models">Available patch models</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../guide/post_processing.html">Post-processing</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/post_processing.html#macroscopic-fields">Macroscopic fields</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/post_processing.html#state-resolved-populations">State-resolved populations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/post_processing.html#validation-diagnostics">Validation diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="post_processing.html">Post-processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="post_processing.html#macroscopic-fields">Macroscopic fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processing.html#state-resolved-populations">State-resolved populations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processing.html#validation-diagnostics">Validation diagnostics</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../guide/architecture.html">Source-tree architecture</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#top-level-layout">Top-level layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#dsmc-library">DSMC library</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#applications">Applications</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#build-driver">Build driver</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#random-number-generator">Random-number generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Source-tree architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#top-level-layout">Top-level layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#dsmc-library">DSMC library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#applications">Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#build-driver">Build driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#random-number-generator">Random-number generator</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../guide/adding_a_feature.html">Adding a feature</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/adding_a_feature.html#adding-a-new-species">Adding a new species</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/adding_a_feature.html#adding-a-new-reaction">Adding a new reaction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/adding_a_feature.html#adding-a-new-relaxation-sub-model">Adding a new relaxation sub-model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adding_a_feature.html">Adding a feature</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="adding_a_feature.html#adding-a-new-species">Adding a new species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adding_a_feature.html#adding-a-new-reaction">Adding a new reaction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adding_a_feature.html#adding-a-new-relaxation-sub-model">Adding a new relaxation sub-model</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../guide/tests.html">Regression testing (current practice)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/tests.html#manual-smoke-tests">Manual smoke tests</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/tests.html#continuous-integration">Continuous integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">Regression testing (current practice)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#manual-smoke-tests">Manual smoke tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#continuous-integration">Continuous integration</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../guide/regression_tests.html">Regression tests (roadmap)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#rationale">Rationale</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#current-rng-state">Current RNG state</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#proposed-design">Proposed design</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../guide/regression_tests.html#dictionary-driven-seed">Dictionary-driven seed</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/regression_tests.html#test-cases">Test cases</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/regression_tests.html#harness">Harness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regression_tests.html">Regression tests (roadmap)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="regression_tests.html#rationale">Rationale</a></li>
+<li class="toctree-l3"><a class="reference internal" href="regression_tests.html#current-rng-state">Current RNG state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="regression_tests.html#proposed-design">Proposed design</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="regression_tests.html#dictionary-driven-seed">Dictionary-driven seed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="regression_tests.html#test-cases">Test cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="regression_tests.html#harness">Harness</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#acceptance-criteria">Acceptance criteria</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#status">Status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="regression_tests.html#acceptance-criteria">Acceptance criteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="regression_tests.html#status">Status</a></li>
 </ul>
 </li>
 </ul>
@@ -319,15 +319,15 @@
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="n2_heatbath.html">Landau-Teller heat-bath validation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="n2_heatbath.html#case-layout">Case layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="n2_heatbath.html#running-the-case">Running the case</a></li>
-<li class="toctree-l3"><a class="reference internal" href="n2_heatbath.html#three-phase-validation-protocol">Three-phase validation protocol</a></li>
-<li class="toctree-l3"><a class="reference internal" href="n2_heatbath.html#expected-outcome">Expected outcome</a></li>
-<li class="toctree-l3"><a class="reference internal" href="n2_heatbath.html#current-status">Current status</a></li>
-<li class="toctree-l3"><a class="reference internal" href="n2_heatbath.html#adding-a-new-example">Adding a new example</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2_heatbath.html">Landau-Teller heat-bath validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#case-layout">Case layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#three-phase-validation-protocol">Three-phase validation protocol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#expected-outcome">Expected outcome</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#current-status">Current status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#adding-a-new-example">Adding a new example</a></li>
 </ul>
 </li>
 </ul>
@@ -383,9 +383,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Examples</li>
+          <li class="breadcrumb-item"><a href="index.html">User and Developer Guide</a></li>
+      <li class="breadcrumb-item active">Installation</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/examples/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/guide/installation.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -393,29 +394,242 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="examples">
-<h1>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="n2_heatbath.html">Landau-Teller heat-bath validation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="n2_heatbath.html#case-layout">Case layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="n2_heatbath.html#running-the-case">Running the case</a></li>
-<li class="toctree-l2"><a class="reference internal" href="n2_heatbath.html#three-phase-validation-protocol">Three-phase validation protocol</a></li>
-<li class="toctree-l2"><a class="reference internal" href="n2_heatbath.html#expected-outcome">Expected outcome</a></li>
-<li class="toctree-l2"><a class="reference internal" href="n2_heatbath.html#current-status">Current status</a></li>
-<li class="toctree-l2"><a class="reference internal" href="n2_heatbath.html#adding-a-new-example">Adding a new example</a></li>
-</ul>
-</li>
-</ul>
+  <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<p>The present section describes the full installation procedure, from
+a fresh Linux environment to a working rovibronic DSMC executable.
+Four layers must be installed in order:</p>
+<ol class="arabic simple">
+<li><p>system prerequisites (compiler, MPI, helper libraries);</p></li>
+<li><p>OpenFOAM v2512, together with its <code class="docutils literal notranslate"><span class="pre">ThirdParty-v2512</span></code> bundle;</p></li>
+<li><p>the custom <code class="docutils literal notranslate"><span class="pre">bashrc-rovibronic</span></code> environment, which redirects
+the OpenFOAM user directory to a dedicated workspace for the
+rovibronic fork;</p></li>
+<li><p>the present solver, which inherits the full dsmcFoam+ source
+tree and extends it with the rovibronic machinery.</p></li>
+</ol>
+<p>Each step is described in turn below. We use <code class="docutils literal notranslate"><span class="pre">$HOME/OpenFOAM</span></code> as
+the install root throughout; readers may substitute any directory
+of their choice, provided the same path is used consistently.</p>
+<section id="system-prerequisites">
+<h2>System prerequisites<a class="headerlink" href="#system-prerequisites" title="Link to this heading"></a></h2>
+<p>We assume a reasonably recent Linux distribution (the code has been
+exercised on Ubuntu 22.04 and 24.04, and on Rocky Linux 9). The
+following packages are required:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Debian / Ubuntu</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>build-essential<span class="w"> </span>cmake<span class="w"> </span>git<span class="w"> </span>flex<span class="w"> </span>bison<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>zlib1g-dev<span class="w"> </span>libboost-system-dev<span class="w"> </span>libboost-thread-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>libreadline-dev<span class="w"> </span>libncurses-dev<span class="w"> </span>libxt-dev<span class="w"> </span>libopenmpi-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>openmpi-bin<span class="w"> </span>gnuplot<span class="w"> </span>ca-certificates
+
+<span class="c1"># RHEL / Rocky Linux (approximate equivalents)</span>
+sudo<span class="w"> </span>dnf<span class="w"> </span>groupinstall<span class="w"> </span><span class="s2">&quot;Development Tools&quot;</span>
+sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>cmake<span class="w"> </span>git<span class="w"> </span>flex<span class="w"> </span>bison<span class="w"> </span>zlib-devel<span class="w"> </span>boost-devel<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>readline-devel<span class="w"> </span>ncurses-devel<span class="w"> </span>libXt-devel<span class="w"> </span>openmpi-devel
+</pre></div>
 </div>
+<p>A working GCC 11 or later is sufficient; no proprietary compiler is
+required. ParaView is useful for post-processing but is not
+required at build time.</p>
+</section>
+<section id="layout-on-disk">
+<h2>Layout on disk<a class="headerlink" href="#layout-on-disk" title="Link to this heading"></a></h2>
+<p>We settle once and for all on a single directory hierarchy:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$HOME/OpenFOAM/
+├── OpenFOAM-v2512/                 # OpenFOAM source tree
+├── ThirdParty-v2512/               # OpenFOAM ThirdParty bundle
+├── rovibronic-v2512/               # user workspace for the rovibronic fork
+│   ├── platforms/                  # populated by Allwmake
+│   ├── src/ applications/ run/     # populated as symlinks at first build
+└── DSMC_Rovibronic/                # the present repository
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">rovibronic-v2512</span></code> directory is the <code class="docutils literal notranslate"><span class="pre">WM_PROJECT_USER_DIR</span></code>
+that the custom bashrc will set (see below). The top-level
+<code class="docutils literal notranslate"><span class="pre">Allwmake</span></code> script of the present solver creates symbolic links
+from <code class="docutils literal notranslate"><span class="pre">DSMC_Rovibronic/</span></code> into <code class="docutils literal notranslate"><span class="pre">rovibronic-v2512/</span></code> so that the
+build respects OpenFOAM’s user-directory conventions.</p>
+</section>
+<section id="step-1-install-openfoam-v2512">
+<h2>Step 1 — Install OpenFOAM v2512<a class="headerlink" href="#step-1-install-openfoam-v2512" title="Link to this heading"></a></h2>
+<p>We obtain the OpenFOAM v2512 source tree and its <code class="docutils literal notranslate"><span class="pre">ThirdParty</span></code>
+bundle from the OpenCFD release server, and build them in place.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/OpenFOAM
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/OpenFOAM
+
+git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>OpenFOAM-v2512<span class="w"> </span><span class="se">\</span>
+<span class="w">          </span>https://develop.openfoam.com/Development/openfoam.git<span class="w"> </span><span class="se">\</span>
+<span class="w">          </span>OpenFOAM-v2512
+git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>v2512<span class="w"> </span><span class="se">\</span>
+<span class="w">          </span>https://develop.openfoam.com/Development/ThirdParty-common.git<span class="w"> </span><span class="se">\</span>
+<span class="w">          </span>ThirdParty-v2512
+</pre></div>
+</div>
+<p>Alternatively, tarballs are available from
+&lt;<a class="reference external" href="https://www.openfoam.com/download">https://www.openfoam.com/download</a>&gt;; unpack them into
+<code class="docutils literal notranslate"><span class="pre">$HOME/OpenFOAM/</span></code> with the same two directory names.</p>
+<section id="build-openfoam">
+<h3>Build OpenFOAM<a class="headerlink" href="#build-openfoam" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/OpenFOAM/OpenFOAM-v2512
+<span class="nb">source</span><span class="w"> </span>etc/bashrc
+./Allwmake<span class="w"> </span>-j<span class="w"> </span><span class="k">$(</span>nproc<span class="k">)</span><span class="w"> </span>-s<span class="w"> </span>&gt;<span class="p">&amp;</span><span class="w"> </span>log.Allwmake
+</pre></div>
+</div>
+<p>The build takes of the order of one hour on a modern workstation.
+The <code class="docutils literal notranslate"><span class="pre">log.Allwmake</span></code> file should finish with</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>========================================
+Done ThirdParty Allwmake
+========================================
+...
+========================================
+Done primary packages
+========================================
+</pre></div>
+</div>
+<p>Before proceeding, we verify the installation:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>which<span class="w"> </span>simpleFoam
+simpleFoam<span class="w"> </span>-help
+</pre></div>
+</div>
+<p>Both commands should succeed. If <code class="docutils literal notranslate"><span class="pre">simpleFoam</span></code> is not in the
+path, the OpenFOAM environment has not been sourced; re-run
+<code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">etc/bashrc</span></code> in the current shell.</p>
+</section>
+</section>
+<section id="step-2-install-the-rovibronic-environment">
+<h2>Step 2 — Install the rovibronic environment<a class="headerlink" href="#step-2-install-the-rovibronic-environment" title="Link to this heading"></a></h2>
+<p>The present solver is distributed with a dedicated OpenFOAM bashrc
+that redirects <code class="docutils literal notranslate"><span class="pre">WM_PROJECT_USER_DIR</span></code> to a private workspace, so
+that the rovibronic build does not pollute the standard user
+directory. The bashrc is named <code class="docutils literal notranslate"><span class="pre">bashrc-rovibronic</span></code> and must be
+placed in <code class="docutils literal notranslate"><span class="pre">$WM_PROJECT_DIR/etc/</span></code> alongside the stock <code class="docutils literal notranslate"><span class="pre">bashrc</span></code>.</p>
+<p>A minimal <code class="docutils literal notranslate"><span class="pre">bashrc-rovibronic</span></code> is a copy of the stock
+<code class="docutils literal notranslate"><span class="pre">OpenFOAM-v2512/etc/bashrc</span></code> in which the single line</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#export WM_PROJECT_USER_DIR=&quot;$HOME/$WM_PROJECT/${USER:-user}-$WM_PROJECT_VERSION&quot;</span>
+</pre></div>
+</div>
+<p>is replaced by</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">WM_PROJECT_USER_DIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/OpenFOAM/rovibronic-v2512&quot;</span>
+</pre></div>
+</div>
+<p>Create the workspace and source the environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/OpenFOAM/rovibronic-v2512
+<span class="nb">source</span><span class="w"> </span><span class="nv">$HOME</span>/OpenFOAM/OpenFOAM-v2512/etc/bashrc-rovibronic
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$WM_PROJECT_USER_DIR</span>
+<span class="c1"># expected: /home/&lt;user&gt;/OpenFOAM/rovibronic-v2512</span>
+</pre></div>
+</div>
+<p>A convenient alias, to be added to the user’s <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code>, is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span>of-rovibronic<span class="o">=</span><span class="s1">&#39;source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-rovibronic&#39;</span>
+</pre></div>
+</div>
+<p>Henceforth a fresh shell is initialised by running
+<code class="docutils literal notranslate"><span class="pre">of-rovibronic</span></code> before any rovibronic work.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>It is imperative that <strong>only one</strong> OpenFOAM environment be
+sourced per shell. Sourcing the stock bashrc and the rovibronic
+bashrc in the same shell leaves
+<code class="docutils literal notranslate"><span class="pre">WM_PROJECT_USER_DIR</span></code> in whichever state was set last and
+yields very confusing build errors. The safest remedy, if the
+wrong environment has been sourced in a shell, is to open a
+fresh one.</p>
+</div>
+</section>
+<section id="step-3-clone-the-dsmc-rovibronic-repository">
+<h2>Step 3 — Clone the DSMC Rovibronic repository<a class="headerlink" href="#step-3-clone-the-dsmc-rovibronic-repository" title="Link to this heading"></a></h2>
+<p>The source of the present solver is hosted at
+&lt;<a class="reference external" href="https://github.com/ClementCivrais/DSMC_Rovibronic">https://github.com/ClementCivrais/DSMC_Rovibronic</a>&gt; and is private;
+access is granted on a per-collaboration basis. Once access has
+been arranged:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/OpenFOAM
+git<span class="w"> </span>clone<span class="w"> </span>git@github.com:ClementCivrais/DSMC_Rovibronic.git
+<span class="nb">cd</span><span class="w"> </span>DSMC_Rovibronic
+</pre></div>
+</div>
+<p>The repository contains the full dsmcFoam+ source tree under
+<code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/</span></code>, modified to include the rovibronic
+extensions; there is no separate “download dsmcFoam+” step, since
+the dsmcFoam+ source is embedded in the present repository.</p>
+</section>
+<section id="step-4-build-the-solver">
+<h2>Step 4 — Build the solver<a class="headerlink" href="#step-4-build-the-solver" title="Link to this heading"></a></h2>
+<p>With the rovibronic environment sourced, we invoke the top-level
+build driver:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span><span class="nv">$HOME</span>/OpenFOAM/OpenFOAM-v2512/etc/bashrc-rovibronic
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/OpenFOAM/DSMC_Rovibronic
+./Allwmake<span class="w"> </span><span class="k">$(</span>nproc<span class="k">)</span>
+</pre></div>
+</div>
+<p>The build script carries out three tasks:</p>
+<ol class="arabic simple">
+<li><p>It creates symbolic links from <code class="docutils literal notranslate"><span class="pre">DSMC_Rovibronic/{src,applications,tutorials}</span></code>
+into <code class="docutils literal notranslate"><span class="pre">$WM_PROJECT_USER_DIR</span></code> on the first compilation. This
+allows the OpenFOAM build machinery to pick the sources up as
+user-side additions.</p></li>
+<li><p>It builds the DSMC library under
+<code class="docutils literal notranslate"><span class="pre">$WM_PROJECT_USER_DIR/src/lagrangian/DSMC</span></code>.</p></li>
+<li><p>It builds the solver executable
+(<code class="docutils literal notranslate"><span class="pre">applications/solvers/discreteMethods/dsmcFoam</span></code>) and the
+associated pre-processing utility (<code class="docutils literal notranslate"><span class="pre">dsmcInitialise</span></code>).</p></li>
+</ol>
+<p>Upon completion, <code class="docutils literal notranslate"><span class="pre">$FOAM_USER_APPBIN</span></code> contains the
+<code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> executable and the <code class="docutils literal notranslate"><span class="pre">dsmcInitialise</span></code> utility.</p>
+</section>
+<section id="verification">
+<h2>Verification<a class="headerlink" href="#verification" title="Link to this heading"></a></h2>
+<p>We confirm that the executable is in the path and that its help
+message prints:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>which<span class="w"> </span>dsmcFoam
+dsmcFoam<span class="w"> </span>-help
+</pre></div>
+</div>
+<p>We then run the reference case in serial, which doubles as an
+end-to-end installation test:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/OpenFOAM/DSMC_Rovibronic/run/Tutorial
+blockMesh
+dsmcInitialise
+dsmcFoam
+</pre></div>
+</div>
+<p>The solver should start, print the rovibronic database summary and
+the PEC asymptote-matching diagnostic, and advance the simulation.
+Terminating it after a handful of time-steps (<code class="docutils literal notranslate"><span class="pre">Ctrl-C</span></code>) is
+sufficient to confirm the build.</p>
+</section>
+<section id="troubleshooting-common-issues">
+<h2>Troubleshooting common issues<a class="headerlink" href="#troubleshooting-common-issues" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><em>Unresolved symbol at link time (libfoo.so not found).</em></dt><dd><p>The stock OpenFOAM bashrc has been sourced instead of
+<code class="docutils literal notranslate"><span class="pre">bashrc-rovibronic</span></code>, or the two have been combined in the same
+shell. Start a fresh shell, source <code class="docutils literal notranslate"><span class="pre">bashrc-rovibronic</span></code> only,
+and rebuild.</p>
+</dd>
+<dt><em>“wmake: command not found” at build time.</em></dt><dd><p>The OpenFOAM environment has not been sourced in the current
+shell. Run <code class="docutils literal notranslate"><span class="pre">source</span>
+<span class="pre">$HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-rovibronic</span></code> again.</p>
+</dd>
+<dt><em>Symbolic-link errors from ``Allwmake``.</em></dt><dd><p><code class="docutils literal notranslate"><span class="pre">$WM_PROJECT_USER_DIR</span></code> is not set, or points to a directory
+that already contains conflicting symlinks. Check the value of
+<code class="docutils literal notranslate"><span class="pre">$WM_PROJECT_USER_DIR</span></code> with <code class="docutils literal notranslate"><span class="pre">echo</span></code>, remove the stale
+symlinks under that path if any, and re-run <code class="docutils literal notranslate"><span class="pre">./Allwmake</span></code>.</p>
+</dd>
+<dt><em>The executable builds but ``dsmcFoam -help`` reports a stale API version.</em></dt><dd><p>A residual <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> built against an older OpenFOAM version
+is shadowing the new one in <code class="docutils literal notranslate"><span class="pre">PATH</span></code>. Run <code class="docutils literal notranslate"><span class="pre">which</span> <span class="pre">-a</span> <span class="pre">dsmcFoam</span></code>
+to confirm, and remove the obsolete copy from
+<code class="docutils literal notranslate"><span class="pre">$FOAM_USER_APPBIN</span></code> (or from the offending older installation).</p>
+</dd>
+</dl>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../classes/measurements.html" class="btn btn-neutral float-left" title="Measurements" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="n2_heatbath.html" class="btn btn-neutral float-right" title="Landau-Teller heat-bath validation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="User and Developer Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="running.html" class="btn btn-neutral float-right" title="Running a Case" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,0 +1,77 @@
+``dsmcCloud`` — the solver orchestrator
+=======================================
+
+Source: ``src/lagrangian/DSMC/clouds/dsmcCloud.{H,C}``.
+
+Role
+----
+
+``dsmcCloud`` is the top-level class that owns every simulator
+particle and orchestrates the complete DSMC time-step. All other
+subsystems —  the species database, the binary collision model,
+the reaction module, the boundary patches, the measurement
+collectors, and the controllers —  are members of the cloud, and
+their public entry points are reached through it. The dictionary
+``constant/dsmcProperties`` is read, in its entirety, by the
+cloud's constructor.
+
+Responsibilities
+----------------
+
+A single time-step on the cloud performs, in order:
+
+#. **Motion** —  each parcel is advected ballistically over the
+   current time-step, with cyclic / processor / boundary
+   interactions handled as they arise.
+#. **Boundary interactions** —  delegated to the patch classes
+   documented in :doc:`boundaries`. Rovibronic-aware walls
+   re-sample the quantum state from the wall temperature.
+#. **Collision loop** —  for each cell, collision candidates are
+   drawn through the selected
+   :doc:`collision_partner_selection` scheme, the binary collision
+   model (:doc:`collision_models`) is applied, and the resulting
+   Larsen-Borgnakke sampling is routed through the parallel-
+   marginal relaxation cascade (see
+   :doc:`../theory/relaxation`). Reactive channels
+   (:doc:`reactions`) are tested in the same pass.
+#. **Controllers** —  flow-state controllers
+   (:doc:`controllers`) are applied, typically after the collision
+   step.
+#. **Measurements** —  per-cell samplers (``cellMeasurements``,
+   ``boundaryMeasurements``, and the configurable field models
+   from :doc:`measurements`) accumulate the diagnostics that will
+   be written at the next output step.
+#. **Adaptation** —  if ``adaptiveSimulation`` is enabled, the
+   ``dsmcDynamicAdapter`` (:doc:`adaptation`) may update sub-cell
+   levels, particle weights, or the DSMC time-step.
+
+Key member variables
+--------------------
+
+* ``rndGen_`` —  the single ``Foam::Random`` instance through
+  which every RNG consumer in the solver samples, seeded at
+  construction as
+  ``rndGen_(label(clock::getTime()) + 7183*Pstream::myProcNo())``
+  (``dsmcCloud.C:1122``). Exposing a dictionary-driven
+  ``randomSeed`` would make the full simulation deterministic;
+  the associated design is documented on the
+  :doc:`../guide/regression_tests` page.
+* ``typeIdList_`` —  the ordered list of species symbols; the
+  integer type-IDs used throughout the solver are indices into
+  this list.
+* ``nEquivalentParticles_`` —  the weight :math:`F_N` of each
+  simulator particle.
+* ``constProps_`` —  the per-species constant properties
+  (masses, VSS parameters, ionisation potentials, partition-
+  function tables); see :doc:`species_database`.
+
+Cloud function objects
+----------------------
+
+The ``submodels/cloudFunctionObjects/`` tree exposes pluggable
+per-time-step callbacks attached to the cloud. These are the
+mechanism through which additional measurements, controllers, or
+diagnostics can be registered without modifying the core
+orchestrator. The base list is built in
+``dsmcCloudFunctionObjects.C`` and is consumed by the cloud at
+every time-step.

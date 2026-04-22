@@ -1,0 +1,165 @@
+Measurements
+============
+
+Source: ``src/lagrangian/DSMC/macroscopicProperties/``,
+``src/lagrangian/DSMC/cellMeasurements/``,
+``src/lagrangian/DSMC/boundaryMeasurements/``.
+
+Role
+----
+
+Measurements are the non-invasive observers of the simulation.
+They do not alter the particle population; they only accumulate
+and write diagnostics. Three layers coexist in the rovibronic
+solver:
+
+* **per-cell samplers** (``cellMeasurements``) that accumulate
+  the primitive moments on which every volume field is built;
+* **per-patch samplers** (``boundaryMeasurements``) that
+  accumulate the equivalent moments on boundary faces;
+* **configurable field models** (``macroscopicProperties/``)
+  that the user selects in ``system/fieldPropertiesDict`` to
+  produce the desired output: volume fields, bin histograms, zone
+  averages, rovibronic population distributions, or surface
+  fluxes.
+
+Cell measurements
+-----------------
+
+``cellMeasurements`` (``src/lagrangian/DSMC/cellMeasurements/``) is
+the primitive accumulator. It holds, per cell and per species:
+
+* collision counts (``nColls_``) and the mean collision separation
+  :math:`\langle s \rangle` (``collisionSeparation_``);
+* mass-weighted moment tensors of the peculiar velocity
+  (``muu_``, ``muv_``, ``muw_``, etc.) needed to build the
+  translational temperature and the stress tensor;
+* the total rovibronic energy accumulated over the cell and its
+  square, for the variance of the internal-energy estimator.
+
+These quantities are updated every time-step by the cloud's
+``calculateFields()`` method and are consumed downstream by every
+field model below.
+
+Boundary measurements
+---------------------
+
+``boundaryMeasurements`` (``src/lagrangian/DSMC/boundaryMeasurements/``)
+accumulates per-face impact statistics on every patch. Each
+particle–face intersection contributes to:
+
+* internal and mass densities on the patch
+  (``rhoNIntBF_``, ``rhoNBF_``, ``rhoMBF_``);
+* linear kinetic energy (``linearKEBF_``) and full momentum
+  vector;
+* **rovibronic internal energy** delivered to the wall
+  (``internalEBF_``);
+* heat-flux and friction-drag vectors.
+
+These are the ingredients from which any wall diagnostic —  heat
+flux, drag, catalytic chemistry —  is constructed, and they are
+written as boundary fields in the standard OpenFOAM output.
+
+Configurable field models
+-------------------------
+
+Field models are selected by the user through
+``system/fieldPropertiesDict``. Each entry specifies a
+``fieldModel`` (the class name) and a matching
+``<fieldModel>Properties`` block that configures its behaviour.
+
+``dsmcVolFields`` —  volume-averaged fields
+```````````````````````````````````````````
+
+*Source:* ``macroscopicProperties/derived/combined/dsmcVolFields/``.
+
+The workhorse of DSMC post-processing. Produces the standard
+volume fields that appear in ``<case>/<time>/``:
+
+* number and mass density (``rhoN``, ``rhoM``);
+* translational and internal temperatures;
+* pressure scalar and tensor; shear-stress tensor;
+* heat-flux vector;
+* mean free path and Mach number;
+* optional error estimators on each of the above.
+
+Configuration keys include ``field``, ``typeIds``,
+``averagingAcrossManyRuns``, ``measureMeanFreePath``,
+``measureErrors``, ``densityOnly``, and
+``measureHeatFluxShearStress``.
+
+``dsmcBinsMethod`` —  one-, two-, or three-dimensional bins
+```````````````````````````````````````````````````````````
+
+*Source:* ``macroscopicProperties/derived/combined/dsmcBinsMethod/``.
+
+Measures macroscopic properties in histogram-style bins that are
+independent of the mesh. Useful for one-dimensional shock profiles
+and for angular or radial binning. A pluggable ``binModel``
+(e.g. ``uniformBins``) defines the bin geometry; the sub-dictionary
+``dsmcBinsMethodProperties`` carries ``binModel``, ``field``,
+``zone``, ``typeIds``, and ``area`` (for cross-sectional flux
+normalisation).
+
+``dsmcZone`` —  zone averages
+`````````````````````````````
+
+*Source:* ``macroscopicProperties/derived/combined/dsmcZone/``.
+
+Returns volume-averaged macroscopic properties over a named
+``cellZone``: number and mass density, translational and
+effective internal temperatures, pressure, heat flux, shear
+stress, and the internal-temperature bisection applied to the
+rovibronic energy. Useful for zero-dimensional reference
+quantities in heat-bath cases. The key
+``measureCollisionRateOnly`` restricts the output to collision
+statistics, which is the cheapest possible measurement mode.
+
+``dsmcVelocityDistributionZone``, ``dsmcSpeedDistributionZone``
+```````````````````````````````````````````````````````````````
+
+*Source:* ``macroscopicProperties/derived/velocity/``.
+
+Accumulates histograms of the velocity (component-wise) or speed
+(magnitude) over the parcels inside a named zone. The histogram
+bin width is set through the ``binWidth`` key. These measurements
+are the primary way to confirm that the velocity distribution
+remains Maxwellian (or to quantify how it does not).
+
+``dsmcRovibronicPopulation`` —  state-resolved populations
+``````````````````````````````````````````````````````````
+
+*Source:*
+``macroscopicProperties/derived/otherFields/dsmcRovibronicPopulation/``.
+
+Accumulates the full four-index array
+``population[cellI][n][v][J]`` for a selected species in a
+selected zone. This is the diagnostic that exercises the central
+promise of the rovibronic extension: it allows the user to plot
+the vibrational-rotational-electronic distribution as it actually
+is, rather than as it would be if it were Boltzmann. The
+sub-dictionary takes ``fieldName``, ``zoneName``, and a single
+``typeId``.
+
+``dsmcMassFluxSurface`` —  flux through a face zone
+```````````````````````````````````````````````````
+
+*Source:* ``macroscopicProperties/derived/massFlux/dsmcMassFluxSurface/``.
+
+Integrates mass, number, momentum, and energy fluxes through a
+user-defined ``faceZone``. Correctly handles processor-patch
+ownership (contributing factor :math:`0.5` on shared faces) so
+that totals remain correct in parallel. The sub-dictionary takes
+``field``, ``typeIds``, ``faceZone``, and ``fluxDirection``.
+
+Common conventions
+------------------
+
+Every field model shares three lifecycle hooks: ``createFields()``
+at construction, ``calculateField()`` at every time-step, and
+``writeField()`` at the output interval. Measurements that need to
+average across several time-steps maintain an internal counter and
+reset it after each write. The container class
+``dsmcFieldProperties``
+(``macroscopicProperties/basic/dsmcFieldProperties/``) iterates
+through the registered field models and orchestrates these calls.

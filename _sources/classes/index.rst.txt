@@ -1,0 +1,38 @@
+Solver Classes
+==============
+
+The present section documents the solver class by class. For each
+family we give the purpose, the list of implemented derivatives,
+the dictionary interface exposed to the user, and the associated
+source paths. The organisation mirrors the directory structure
+under ``src/lagrangian/DSMC/``, so that each page corresponds to
+one logical subsystem of the solver.
+
+.. warning::
+
+   Every reaction class involving **charged species** —  electron-
+   impact ionisation, atom-atom and molecule-atom ionisation
+   channels, atom-ion and atom-electron ionisation, charge
+   exchange, associative ionisation in both forward and reverse
+   forms, and the molecule-electron / molecule-ion dissociation
+   channels —  is **work in progress**. It has been ported into
+   the rovibronic framework but has not yet been fully
+   reworked, verified, or validated. Results from cases that
+   enable ``chargedParticles = true`` must therefore be treated as
+   preliminary until the corresponding class pages are updated to
+   reflect a validated state.
+
+.. toctree::
+   :maxdepth: 2
+
+   cloud
+   species_database
+   initialisation
+   collision_models
+   collision_partner_selection
+   adaptation
+   load_balancing
+   reactions
+   boundaries
+   controllers
+   measurements

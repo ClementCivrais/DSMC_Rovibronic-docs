@@ -1,0 +1,114 @@
+Collision partner selection
+===========================
+
+Source: ``src/lagrangian/DSMC/collisionRate/derived/``.
+
+Role
+----
+
+The collision partner selection layer decides, in each cell and at
+each time-step, *how many* candidate pairs to draw and *which*
+pairs to consider. It is orthogonal to the binary collision model
+(:doc:`collision_models`), which determines what happens once a
+pair has been accepted. The selection scheme is chosen through the
+``collisionPartnerSelectionModel`` key in
+``constant/dsmcProperties``.
+
+The default is ``noTimeCounter``, which is the standard DSMC
+scheme and is appropriate for the vast majority of cases. The
+sub-cycled, majorant, and simplified-Bernoulli alternatives are
+targeted at specific regimes —  notably electron physics and
+cases in which the distribution of cross sections spans several
+orders of magnitude —  and are documented below alongside the
+default.
+
+Implemented classes
+-------------------
+
+``noTimeCounter``
+`````````````````
+
+*Directory:* ``collisionRate/derived/noTimeCounter/``.
+
+The No-Time-Counter (NTC) scheme of Bird [Bird1994p]_ is the
+reference choice. The expected number of collision candidates in
+a cell of volume :math:`V_c` over the time-step :math:`\Delta t`
+is
+
+.. math::
+
+   N_{\mathrm{cand}}
+     = \frac{1}{2}\,\frac{N (N - 1)\, F_N\,
+                          (\sigma_T g)_{\max}\,\Delta t}{V_c},
+
+where :math:`N` is the number of particles in the cell,
+:math:`F_N` is the equivalent-molecules factor, and
+:math:`(\sigma_T g)_{\max}` is a running estimate of the maximum
+cross-section-times-relative-speed product. Candidates are drawn
+at random from the cell inventory and accepted with probability
+:math:`\sigma_T g / (\sigma_T g)_{\max}`.
+
+``noTimeCounterSubCycled``
+``````````````````````````
+
+*Directory:* ``collisionRate/derived/noTimeCounterSubCycled/``.
+
+A sub-cycled variant of NTC in which a second, smaller internal
+time-step is used for a specified subset of collision pairs
+(typically those involving electrons, which have collision
+frequencies orders of magnitude higher than those of heavy
+species). The sub-dictionary exposes
+
+.. code-block:: cpp
+
+   noTimeCounterSubCycledProperties
+   {
+       nSubCycles   <label>;
+   }
+
+where ``nSubCycles`` is the number of internal sub-steps per
+global DSMC step.
+
+``majorantCollisionFrequency``
+``````````````````````````````
+
+*Directory:* ``collisionRate/derived/majorantCollisionFrequency/``.
+
+The Majorant Collision Frequency (MCF) scheme of Ivanov et al. is
+designed for cases in which a handful of species pairs dominate
+the total collision rate, so that the NTC acceptance probability
+becomes inefficiently small for the remaining pairs. The method
+trades a tighter upper bound on :math:`\sigma_T g` for a higher
+acceptance rate, at the cost of slightly more book-keeping. The
+implemented variant follows the particle-based formulation of
+Pfeiffer et al. (*Physics of Fluids*, 2019,
+https://doi.org/10.1063/1.5119580).
+
+``simplifiedBernoulliTrials``
+`````````````````````````````
+
+*Directory:* ``collisionRate/derived/simplifiedBernoulliTrials/``.
+
+The Simplified Bernoulli Trials (SBT) scheme replaces the global
+:math:`(\sigma_T g)_{\max}` estimate by a per-pair Bernoulli
+trial. It is closer to the original Nanbu algorithm in spirit and
+is occasionally preferable in low-particle-per-cell regimes.
+
+Choosing between schemes
+------------------------
+
+In practice:
+
+* use ``noTimeCounter`` for general-purpose DSMC work; it has
+  been exercised on every validation case in this project;
+* use ``noTimeCounterSubCycled`` when ``chargedParticles`` is
+  enabled and the electron-electron or electron-neutral collision
+  rates are expected to dominate the DSMC time-step;
+* consider ``majorantCollisionFrequency`` when the cross-section
+  distribution across species pairs spans multiple decades;
+* ``simplifiedBernoulliTrials`` is primarily of pedagogical
+  interest in this implementation and is not recommended as a
+  default.
+
+.. [Bird1994p] G. A. Bird, *Molecular Gas Dynamics and the Direct
+   Simulation of Gas Flows*, Oxford University Press (1994).

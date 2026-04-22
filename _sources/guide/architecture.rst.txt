@@ -1,0 +1,131 @@
+Source-tree architecture
+========================
+
+The present page maps out the solver's source layout and the
+principal classes that a developer is likely to encounter when
+extending the rovibronic machinery. Every subsystem is documented
+class by class in the companion :doc:`../classes/index` section;
+the present page is the quickest way to locate a given piece of
+functionality in the tree.
+
+Top-level layout
+----------------
+
+.. code-block:: text
+
+   src/                 C++ libraries (DSMC core + rovibronic extension)
+   applications/        Solver executable and utilities
+   run/                 Reference test cases (Tutorial, verification, …)
+   doc/                 Standalone LaTeX notes (derivations, audits)
+   docs/                Long-form PDFs + Sphinx source for the docs site
+   Allwmake             Top-level build driver
+
+DSMC library
+------------
+
+All Lagrangian particle machinery lives under
+``src/lagrangian/DSMC/``. The subsystem directories map onto the
+class pages as follows:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 35 35 30
+
+   * - Source directory
+     - Subsystem
+     - Class page
+   * - ``clouds/``
+     - Top-level orchestrator
+     - :doc:`../classes/cloud`
+   * - ``speciesDatabase/``
+     - Spectroscopic & VSS data
+     - :doc:`../classes/species_database`
+   * - ``initaliseDsmcParcels/``
+     - Particle initialisation
+     - :doc:`../classes/initialisation`
+   * - ``collisions/``
+     - Binary collision models
+     - :doc:`../classes/collision_models`
+   * - ``collisionRate/``
+     - Partner selection (NTC, MCF, SBT)
+     - :doc:`../classes/collision_partner_selection`
+   * - ``dynamicAdaptation/``
+     - Sub-cell and weight adaptation
+     - :doc:`../classes/adaptation`
+   * - ``dynamicLoadBalancing/``
+     - MPI load balancing
+     - :doc:`../classes/load_balancing`
+   * - ``reactions/``
+     - Reaction classes (neutral + charged)
+     - :doc:`../classes/reactions`
+   * - ``boundaries/``
+     - Patch, cyclic, and general boundaries
+     - :doc:`../classes/boundaries`
+   * - ``controllers/``
+     - Flow-state controllers
+     - :doc:`../classes/controllers`
+   * - ``macroscopicProperties/``
+     - Field-model measurements
+     - :doc:`../classes/measurements`
+   * - ``cellMeasurements/``
+     - Per-cell primitive moments
+     - :doc:`../classes/measurements`
+   * - ``boundaryMeasurements/``
+     - Per-patch impact statistics
+     - :doc:`../classes/measurements`
+   * - ``parcels/``
+     - Parcel data types (incl. quantum state)
+     - —
+   * - ``submodels/cloudFunctionObjects/``
+     - Cloud-level plug-in callbacks
+     - :doc:`../classes/cloud`
+
+Applications
+------------
+
+* ``applications/solvers/discreteMethods/dsmcFoam/`` —  the solver
+  executable. The ``Make/files`` line ``EXE =
+  $(FOAM_USER_APPBIN)/dsmcFoam`` fixes the binary name to
+  ``dsmcFoam``.
+* ``applications/utilities/preProcessing/DSMC/dsmcInitialise/``
+  —  the pre-processing utility that writes the ``0/`` time
+  directory from ``system/dsmcInitialiseDict``.
+
+Build driver
+------------
+
+The top-level ``Allwmake`` script, invoked from the repository
+root, carries out three jobs:
+
+#. creates symbolic links from the repository's ``src/``,
+   ``applications/``, and ``tutorials/`` directories into
+   ``$WM_PROJECT_USER_DIR`` on the first compilation;
+#. builds the DSMC library under
+   ``$WM_PROJECT_USER_DIR/src/lagrangian/DSMC/``;
+#. builds ``dsmcFoam`` and ``dsmcInitialise``.
+
+The use of symbolic links allows the OpenFOAM build machinery to
+pick the sources up as user-side additions and leaves the primary
+repository tree read-only from the build's standpoint.
+
+Random-number generator
+-----------------------
+
+A single ``Foam::Random`` instance, ``rndGen_``, is held on the
+cloud (``dsmcCloud.H``, member variable). It is constructed at
+``dsmcCloud.C:1122`` with the seed
+
+.. code-block:: cpp
+
+   rndGen_(label(clock::getTime()) + 7183*Pstream::myProcNo())
+
+i.e. the wall-clock time offset by a per-rank multiple of 7183.
+All downstream RNG consumers access this single instance through
+``cloud_.rndGen()``.
+
+It is important to emphasise that this **single entry point makes
+deterministic regression testing feasible**: routing a fixed seed
+into the ``Random`` constructor at this one location seeds every
+downstream RNG consumer automatically. The design of the planned
+regression-test infrastructure is documented in
+:doc:`regression_tests`.

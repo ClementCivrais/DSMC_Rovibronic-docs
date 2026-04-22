@@ -1,0 +1,24 @@
+User and Developer Guide
+========================
+
+The present guide combines user-facing and developer-facing
+material in a single, continuous reading order. We begin by
+installing the full tool-chain —  from OpenFOAM itself through to
+the rovibronic extension —  run the reference case, and work our
+way down into the dictionaries, the post-processing workflow, the
+source-tree architecture, and the conventions to follow when
+adding a new species, reaction, or relaxation sub-model. The guide
+closes with the planned regression-test framework, which we intend
+to tie into every rebuild of the solver.
+
+.. toctree::
+   :maxdepth: 2
+
+   installation
+   running
+   input_reference
+   post_processing
+   architecture
+   adding_a_feature
+   tests
+   regression_tests

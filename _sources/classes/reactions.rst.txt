@@ -1,0 +1,197 @@
+Reaction classes
+================
+
+Source: ``src/lagrangian/DSMC/reactions/derived/``.
+
+The reaction module implements fifteen derived classes, each
+corresponding to a specific reactive channel —  dissociation,
+recombination, exchange, electron-impact ionisation, atom-atom and
+molecule-atom ionisation, charge exchange, and the forward and
+reverse branches of associative ionisation. Every reaction class
+plugs into the common base that hands it the pooled collision
+energy :math:`E_c`, the reactant states, and the RNG; the class
+then computes the reaction probability, decides whether the
+reaction fires, and —  if it does —  samples the product states
+through the Larsen-Borgnakke machinery of :doc:`collision_models`.
+
+A central design choice of the rovibronic extension is that **the
+heats of reaction are read from the spectroscopic database**, not
+from user-supplied dictionary entries. The theoretical basis is
+given in :doc:`../theory/chemistry`; the present page documents
+the implemented classes one by one.
+
+.. warning::
+
+   **Charged-species reaction classes are work in progress.** The
+   classes flagged as *WIP* below have been ported into the
+   rovibronic framework but have not yet been reworked, verified,
+   or validated end-to-end. Cases that enable
+   ``chargedParticles = true`` in ``constant/dsmcProperties``
+   exercise these classes and should be regarded as exploratory
+   until the corresponding entries below are updated.
+
+Neutral-chemistry classes (validated)
+-------------------------------------
+
+``dissociationIonisationTypeISameSpecies``
+``````````````````````````````````````````
+
+Same-species dissociation (e.g.
+:math:`\mathrm{N_2} + \mathrm{N_2} \to \mathrm{N} + \mathrm{N} +
+\mathrm{N_2}`). The dissociating parcel is the first of the
+identical reactants; the second acts as the collision partner
+and is unchanged.
+
+``dissociationIonisationTypeIDissimilarSpecies``
+````````````````````````````````````````````````
+
+Dissimilar-species dissociation (e.g.
+:math:`\mathrm{N_2} + \mathrm{O} \to \mathrm{N} + \mathrm{N} +
+\mathrm{O}`). The dissociating reactant is identified by type-ID
+at run-time.
+
+``dissociationIonisationExchange``
+``````````````````````````````````
+
+Atom-exchange (Zeldovich-type) reactions,
+:math:`\mathrm{AB} + \mathrm{C} \to \mathrm{AC} + \mathrm{B}`.
+The heat of reaction is computed from the database as
+:math:`\Delta H = D_0(\mathrm{AC}) - D_0(\mathrm{AB})`, without
+user input. Product sampling follows the two-stage LB procedure
+described in :doc:`../theory/chemistry`.
+
+``recombination``
+`````````````````
+
+Three-body recombination,
+:math:`\mathrm{A} + \mathrm{B} + \mathrm{M} \to \mathrm{AB} +
+\mathrm{M}`. The rate is derived parameter-free from the
+corresponding dissociation rate through the equilibrium constant
+:math:`K_{\mathrm{eq}}(T)`; see :doc:`../theory/chemistry`.
+
+``moleculeAtomDissociationIonisation``
+``````````````````````````````````````
+
+Dissociation of a molecule by an atomic partner, with the
+optional ionisation branch when the collision energy exceeds the
+state-dependent ionisation threshold. The dissociation branch
+(neutral products) is part of the validated neutral-chemistry
+block; the ionisation branch reuses the charged-species
+infrastructure flagged below.
+
+Charged-species reaction classes (WIP)
+--------------------------------------
+
+.. warning::
+   Each class in this section is flagged as **work in progress**.
+   The notes below describe the intended physics; the
+   implementation is in place but has not been end-to-end
+   verified and validated in the rovibronic context.
+
+``atomAtomIonisationSameSpecies``
+`````````````````````````````````
+
+Same-species atom-atom ionisation, e.g.
+:math:`\mathrm{N} + \mathrm{N} \to \mathrm{N}_2^{+} + e^{-}` or
+direct
+:math:`\mathrm{N} + \mathrm{N} \to \mathrm{N} + \mathrm{N}^{+}
++ e^{-}`. The implemented form assumes the ionisation potential
+is state-dependent through the electronic level of the reactants.
+
+``atomAtomIonisationDissimilarSpecies``
+```````````````````````````````````````
+
+Dissimilar-species atom-atom ionisation (e.g.
+:math:`\mathrm{N} + \mathrm{O} \to \mathrm{NO}^{+} + e^{-}`).
+
+``atomElectronIonisation``
+``````````````````````````
+
+Electron-impact ionisation of an atom,
+:math:`\mathrm{A} + e^{-} \to \mathrm{A}^{+} + 2\, e^{-}`.
+
+``atomIonIonisation``
+`````````````````````
+
+Ion-atom ionisation,
+:math:`\mathrm{A} + \mathrm{B}^{+} \to \mathrm{A}^{+} +
+\mathrm{B}^{+} + e^{-}`.
+
+``chargeExchange``
+``````````````````
+
+Charge-exchange reactions,
+:math:`\mathrm{A}^{+} + \mathrm{B} \to \mathrm{A} +
+\mathrm{B}^{+}`. The heat of reaction is computed automatically
+as :math:`\Delta H_{\mathrm{cx}} = \mathrm{IP}(\mathrm{A})
+- \mathrm{IP}(\mathrm{B})`.
+
+``forwardAssociativeIonisation``
+````````````````````````````````
+
+Associative ionisation in the forward sense,
+:math:`\mathrm{A} + \mathrm{B} \to \mathrm{AB}^{\star} \to
+\mathrm{AB}^{+} + e^{-}`. Implemented as the two-step
+intermediate-formation / ionisation-test algorithm documented in
+:doc:`../theory/chemistry`.
+
+``forwardAssociativeIonisationDissimilarSpecies``
+`````````````````````````````````````````````````
+
+The dissimilar-reactant variant of the above.
+
+``reverseAssociativeIonisation``
+````````````````````````````````
+
+The reverse branch,
+:math:`\mathrm{AB}^{+} + e^{-} \to \mathrm{A} + \mathrm{B}`.
+
+``moleculeElectronDissociationIonisation``
+``````````````````````````````````````````
+
+Electron-impact dissociation of a molecule, with optional
+ionisation of the products.
+
+``moleculeIonDissociationIonisation``
+`````````````````````````````````````
+
+Ion-impact dissociation of a molecule, with optional ionisation.
+
+Common reaction-dictionary conventions
+--------------------------------------
+
+A reaction is registered in ``system/chemReactDict`` by a named
+block. The core entries are:
+
+.. code-block:: cpp
+
+   reactionName
+   {
+       reactionModel      <class>;     // one of the above
+       reactants          (<A> <B>);
+       // products, depending on class, e.g.:
+       productsOfDissociationReaction (<P> <Q> <R>);
+       productsOfExchangeReaction     (<P> <Q>);
+       productOfRecombination         <AB>;
+       reactantAtomsToRecombine       (<A> <B>);
+       // QK rate law parameters:
+       aCoeff             <scalar>;
+       bCoeff             <scalar>;
+       // ionisation heat (only ionisation channels require this):
+       heatOfReactionIonisation  <Kelvin>;
+   }
+
+Dissociation and exchange heats are *not* read from the dictionary
+—  they are computed from the database at initialisation and
+printed to the terminal for verification. Legacy ``heatOfReactionExch``
+entries are silently ignored.
+
+Reporting and diagnostics
+-------------------------
+
+If ``printReactionsToTerminal`` is enabled in ``dsmcProperties``
+(legacy key, kept for compatibility), the solver prints the
+running count of each reaction channel at every output step.
+This is the most direct way to confirm that a given channel is
+firing at all; a persistently zero count often reveals either a
+missing ``reactants`` entry or an unreachable activation energy.

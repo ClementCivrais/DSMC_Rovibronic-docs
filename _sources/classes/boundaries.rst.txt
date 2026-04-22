@@ -1,0 +1,142 @@
+Boundary classes
+================
+
+Source: ``src/lagrangian/DSMC/boundaries/`` (basic and derived).
+
+The boundary subsystem implements the particle-patch interactions
+that take place whenever a parcel's trajectory intersects a face
+that lies on the domain boundary. Three families are
+distinguished: **patch boundaries** (walls, inflows, outflows),
+**cyclic boundaries** (periodic and reflective membranes), and
+**general boundaries** (pressure inlets, mass-flow inlets, and a
+handful of specialised inlet types).
+
+Each patch-boundary class is selected by its ``boundaryModel``
+key in ``system/boundariesDict``; the associated configuration
+lives in an adjacent ``<BoundaryModel>Properties`` sub-dictionary.
+
+Patch boundaries
+----------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 15 45
+
+   * - Class
+     - Rovibronic-aware?
+     - Purpose
+   * - ``dsmcDiffuseWallPatch``
+     - No
+     - Fully diffuse reflection at a specified wall temperature.
+       Velocity is redrawn from a Maxwellian at the wall
+       temperature; internal energies are redrawn from the stock
+       continuous model.
+   * - ``dsmcDiffuseWallFieldPatch``
+     - No
+     - Field-varying diffuse-wall variant: the wall temperature
+       and velocity are read from fields rather than scalar
+       entries.
+   * - ``dsmcSpecularWallPatch``
+     - No
+     - Perfectly specular reflection.
+   * - ``dsmcMixedDiffuseSpecularWallPatch``
+     - No
+     - Weighted mixture of diffuse and specular, controlled by a
+       scalar ``diffuseFraction``.
+   * - ``dsmcMixedDiffuseSpecularWallFieldPatch``
+     - No
+     - Field-varying variant of the above.
+   * - ``dsmcMixedDiffuseSpecularWallRotPatch``
+     - **Yes**
+     - Rovibronic-aware mixed wall: on a diffuse reflection,
+       the rovibronic state :math:`(n, v, J)` is redrawn from the
+       database partition function at the wall temperature.
+   * - ``dsmcCLLWallPatch``
+     - No
+     - Cercignani-Lampis-Lord scattering model.
+   * - ``dsmcCLLWallFieldPatch``
+     - No
+     - Field-varying CLL variant.
+   * - ``dsmcDeletionPatch``
+     - —
+     - Particle sink: parcels that hit the patch are removed. A
+       ``typeIds`` list or ``allSpecies`` switch controls which
+       parcels are deleted.
+   * - ``dsmcFreeStreamInflowPatch``
+     - No
+     - Maxwellian free-stream inflow at a prescribed density,
+       temperature, and velocity.
+   * - ``dsmcFreeStreamInflowFieldPatch``
+     - No
+     - Field-varying free-stream inflow.
+   * - ``dsmcChapmanEnskogFreeStreamInflowPatch``
+     - No
+     - First-order (Chapman-Enskog) non-equilibrium inflow,
+       useful when coupling DSMC to a continuum upstream.
+   * - ``dsmcWangPressureInlet``, ``dsmcLiouFangPressureInlet``,
+       ``dsmcMassFlowRateInlet``
+     - No
+     - Pressure- and mass-flow-driven inlets; consult the
+       respective class headers for parameter lists.
+
+Rovibronic wall
+---------------
+
+``dsmcMixedDiffuseSpecularWallRotPatch`` is the only patch class
+that *samples on the quantum-state space* at the wall. On a
+diffuse reflection it re-draws the reflected parcel's
+:math:`(n, v, J)` from
+
+.. math::
+
+   P(n, v, J)
+     = \frac{g(n, v, J)\,\exp\!\bigl[-E(n, v, J)/k_B T_w\bigr]}
+            {\sum_{n',v',J'} g(n',v',J')\,
+              \exp\!\bigl[-E(n',v',J')/k_B T_w\bigr]},
+
+where :math:`T_w` is the wall temperature specified in the
+sub-dictionary. For solver cases where the internal populations at
+the wall matter —  surface catalysis, radiation coupling, high-
+altitude re-entry —  this is the patch class to use.
+
+Cyclic boundaries
+-----------------
+
+The ``dsmcCyclicBoundaries`` list in ``boundariesDict`` accepts
+periodic-style boundaries. The reference tutorial ships a
+commented example of ``dsmcReflectiveParticleMembranePatch``,
+which reflects a fraction of incoming particles back into the
+domain and lets the rest pass through.
+
+General boundaries
+------------------
+
+The ``dsmcGeneralBoundaries`` list accepts non-patch, non-cyclic
+boundary types that operate on a patch surface but also carry a
+volume component —  for instance the various pressure-driven
+inlets listed above. Their configuration follows the same
+``generalBoundaryProperties { patchName … }`` /
+``<model>Properties { … }`` two-block structure as the patch
+boundaries, and they are driven through the ``dsmcGeneralBoundary``
+interface at ``src/lagrangian/DSMC/boundaries/basic/dsmcGeneralBoundary/``.
+
+Boundary measurements
+---------------------
+
+Independently of which patch class is attached, a
+``boundaryMeasurements`` object accumulates per-patch, per-face
+diagnostics on every particle impact:
+
+* number density of neutral and internal particles
+  (``rhoNBF_``, ``rhoNIntBF_``) and mass density (``rhoMBF_``);
+* linear kinetic energy (``linearKEBF_``);
+* momentum moments and mean velocity on the patch;
+* **internal (rovibronic) energy** reaching the boundary
+  (``internalEBF_``);
+* heat flux and friction drag vectors.
+
+These quantities are available at the end of a run through the
+standard OpenFOAM boundary-field output, and are the inputs to
+any downstream analysis of wall heat flux, drag, or surface
+catalysis. The code lives in
+``src/lagrangian/DSMC/boundaryMeasurements/``.
