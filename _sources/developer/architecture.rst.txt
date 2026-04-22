@@ -1,0 +1,44 @@
+Architecture
+============
+
+Top-level source layout
+-----------------------
+
+.. code-block:: text
+
+   src/                  C++ libraries (DSMC core + rovibronic extension)
+   applications/         Solver executables and utilities
+   run/                  Reference test cases
+   doc/                  Standalone LaTeX notes (derivations, audits)
+   docs/                 Long-form PDFs + this Sphinx tree
+   Allwmake              Top-level build driver
+
+The DSMC core
+-------------
+
+All Lagrangian particle machinery lives under
+``src/lagrangian/DSMC/``:
+
+* ``clouds/dsmcCloud.C`` — top-level cloud: particle storage,
+  collision loop driver, per-timestep orchestration.
+* ``parcels/`` — per-particle data types, including the quantum
+  state triple.
+* ``submodels/`` — VSS scattering, relaxation models, chemistry
+  backends, species database.
+* ``boundaries/`` — wall and patch conditions.
+
+The rovibronic extension
+------------------------
+
+Added on top of the DSMC core:
+
+* Per-parcel quantum state :math:`(e_{qn}, v_{qn}, j_{qn})` is
+  stored alongside position, velocity, and weight.
+* Dunham-fitted level tables are loaded at run-time from the species
+  database.
+* Landau–Teller / state-to-state relaxation submodels sample
+  transitions on the quantised state space rather than a continuous
+  internal-energy variable.
+
+The comprehensive architecture report is at
+``docs/Source Code Report/rovibronic_dsmc_report.pdf``.

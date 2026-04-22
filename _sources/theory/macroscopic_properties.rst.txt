@@ -1,0 +1,39 @@
+Macroscopic Properties
+======================
+
+Volume-averaged fields are accumulated from simulator particles in
+each cell.
+
+Number density and species fractions
+------------------------------------
+
+.. math::
+
+   n_s = \frac{N_s w}{V_{\text{cell}}}, \qquad
+   x_s = \frac{n_s}{\sum_{s'} n_{s'}},
+
+where :math:`N_s` is the number of particles of species :math:`s` in
+the cell and :math:`w` is the particle weight.
+
+Temperatures
+------------
+
+* **Translational** :math:`T_t` — from the peculiar-velocity second
+  moment.
+* **Rotational** :math:`T_r` — from the rotational-energy per molecule
+  under the quantum rotational partition function.
+* **Vibrational** :math:`T_v` — same, using the vibrational partition
+  function of each electronic level.
+* **Electronic** :math:`T_e` — from the distribution across
+  electronic levels.
+
+In the state-to-state regime these "temperatures" are best
+interpreted as effective temperatures extracted from the non-Boltzmann
+populations; the physical solution lives in the population vector
+itself.
+
+Population distributions
+------------------------
+
+Per-cell histograms over :math:`(e, v, j)` are available via the
+post-processing utilities (see :doc:`../user/post_processing`).

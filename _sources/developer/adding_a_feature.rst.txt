@@ -1,0 +1,37 @@
+Adding a Feature
+================
+
+Common extension paths.
+
+Adding a new species
+--------------------
+
+#. Generate / transcribe the electronic, vibrational, and rotational
+   level tables — see
+   ``docs/Database/dunham_coefficients_from_ab_initio_PES.md``.
+#. Place the species database entry under
+   ``src/lagrangian/DSMC/submodels/`` alongside existing species.
+#. Rebuild with ``./Allwmake``.
+#. Add a 0-D heat-bath case under ``run/`` to confirm equilibrium
+   populations match a Boltzmann distribution at the target
+   translational temperature.
+
+Adding a new reaction
+---------------------
+
+#. Add the per-:math:`(e, v, j)` rate table or TCE / QK parameters
+   in the species-database entries for the reactants.
+#. Register the reaction in the chemistry registry.
+#. Rebuild and run the associated validation case.
+#. Cross-check detailed balance against the backward rate derived
+   from the equilibrium constant.
+
+Adding a new relaxation submodel
+--------------------------------
+
+#. Implement the submodel under
+   ``src/lagrangian/DSMC/submodels/`` following the existing
+   Landau–Teller / state-to-state examples.
+#. Wire the selector through ``relaxationScheme`` in
+   ``dsmcProperties``.
+#. Add a 0-D relaxation validation case.

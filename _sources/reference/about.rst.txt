@@ -1,0 +1,33 @@
+About
+=====
+
+DSMC Rovibronic is a state-to-state extension of the OpenFOAM DSMC
+library developed by Clement Civrais, targeting hypersonic
+non-equilibrium flows where a multi-temperature description is
+inadequate.
+
+The solver builds on top of the MNF (Molecular Nonequilibrium Flow)
+branch of OpenFOAM v2512 and ports the full rovibronic
+:math:`(e_{qn}, v_{qn}, j_{qn})` quantum-state tracking into that
+framework.
+
+Scope
+-----
+
+* DSMC in the rarefied and transitional regimes.
+* Molecular species: N\ :sub:`2`, O\ :sub:`2`, NO, CO, CO\ :sub:`2`,
+  and their dissociation / exchange products.
+* Hypersonic shock-layer chemistry with explicit electronic-state
+  populations.
+
+Licence
+-------
+
+The source repository is private; licensing is handled on a
+per-collaboration basis. Please contact the author for access.
+
+Contact
+-------
+
+Clement Civrais — see the GitHub profile at
+<https://github.com/ClementCivrais>.

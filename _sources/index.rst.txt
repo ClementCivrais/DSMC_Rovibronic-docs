@@ -1,0 +1,49 @@
+DSMC Rovibronic
+===============
+
+A DSMC (Direct Simulation Monte Carlo) solver for hypersonic
+non-equilibrium gas flows, built on top of OpenFOAM v2512 and
+extended with a state-to-state **rovibronic** description of molecular
+internal energy — individual electronic, vibrational, and rotational
+quantum states (:math:`e_{qn}, v_{qn}, j_{qn}`) are tracked on each
+simulator particle.
+
+The solver targets shock-heated air, CO\ :sub:`2`\ , and N\ :sub:`2`
+flows where thermal non-equilibrium and chemistry are tightly coupled
+and a multi-temperature description is inadequate.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: User Documentation
+
+   user/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Theory Guide
+
+   theory/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Examples
+
+   examples/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Reference
+
+   reference/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Developer Documentation
+
+   developer/index
+
+Indices
+-------
+
+* :ref:`genindex`
+* :ref:`search`

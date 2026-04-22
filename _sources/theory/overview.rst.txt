@@ -1,0 +1,39 @@
+Method Overview
+===============
+
+DSMC resolves a rarefied or transitional-regime gas flow by following
+a population of *simulator particles*, each representing a large
+number of real molecules. Motion and collisions are decoupled on a
+sub-mean-collision-time step: particles are advected ballistically,
+then binary collisions are sampled cell-by-cell according to the
+selected collision model (VSS by default).
+
+The rovibronic extension replaces the usual continuous or
+multi-temperature internal-energy model with **explicit quantum
+state tracking**. Every molecular particle carries three integers:
+
+* :math:`e_{qn}` — electronic level index
+* :math:`v_{qn}` — vibrational level index (within the electronic level)
+* :math:`j_{qn}` — rotational level index (within the vibrational level)
+
+Energies, degeneracies, and transition rates are evaluated from
+pre-tabulated level tables, with Dunham-fitted coefficients derived
+from ab-initio potential energy surfaces where available.
+
+What the rovibronic description buys
+------------------------------------
+
+* Correct non-Boltzmann tail populations in strong shocks and rapid
+  expansions, where multi-temperature assumptions fail.
+* Direct coupling between excited-state populations and state-specific
+  dissociation/recombination channels.
+* Predictive chemistry without fitting global rate constants to a
+  particular temperature range.
+
+References
+----------
+
+The article draft at ``docs/Rovibronic Article/`` gives the full
+derivation; the source code report at
+``docs/Source Code Report/rovibronic_dsmc_report.pdf`` walks through
+the solver implementation in detail.

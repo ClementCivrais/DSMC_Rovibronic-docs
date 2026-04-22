@@ -1,0 +1,40 @@
+Chemistry
+=========
+
+Chemistry is handled as state-specific or state-aggregated reactions
+sampled during the collision phase.
+
+Reaction families
+-----------------
+
+* **Dissociation** :math:`\mathrm{AB}(e, v, j) + \mathrm{M} \to
+  \mathrm{A} + \mathrm{B} + \mathrm{M}`
+* **Recombination** (inverse of dissociation) — two-body and, where
+  enabled, three-body (``recombinePQ``).
+* **Exchange** :math:`\mathrm{AB} + \mathrm{C} \to \mathrm{AC} +
+  \mathrm{B}`
+* **Electron-impact ionisation / excitation** (where species
+  database includes the relevant channels).
+
+Rate models
+-----------
+
+Three chemistry backends are implemented:
+
+* **TCE** (Total Collision Energy) — Arrhenius-like from collision
+  energy, the stock DSMC model.
+* **QK** (Quantum-Kinetic) — Bird's threshold-based model extended
+  to per-state activation energies.
+* **State-specific** — per-:math:`(e, v, j)` dissociation rates read
+  from the species database.
+
+The choice is driven by ``chemistrySubmodel`` in
+``constant/dsmcProperties``.
+
+Post-reaction sampling
+----------------------
+
+Internal energy of reaction products is sampled to preserve
+detailed balance against equilibrium populations. A report on
+bug-audit fixes affecting post-reaction sampling is kept at
+``docs/Rovibronic Article/DSMC_Bugs_Report.pdf``.

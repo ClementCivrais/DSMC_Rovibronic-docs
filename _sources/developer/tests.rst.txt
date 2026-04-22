@@ -1,0 +1,21 @@
+Regression Tests
+================
+
+The reference cases under ``run/`` double as regression tests.
+A minimal smoke test passes when:
+
+* The solver builds under the ``of-rovibronic`` environment.
+* Each canonical case under ``run/`` runs to completion without
+  numerical failure (no NaNs, no unbounded energy growth).
+* For heat-bath cases, the final state populations match a Boltzmann
+  distribution at the bath temperature within statistical noise.
+* For 1-D shock cases, the computed macroscopic profiles agree with
+  published reference profiles to within plotting accuracy.
+
+Continuous integration
+----------------------
+
+CI is not wired up yet on this repository — running the reference
+cases by hand after a substantive change is the current standard
+practice. A GitHub Actions workflow that spins up an OpenFOAM
+container and runs the 0-D cases is a worthwhile future addition.

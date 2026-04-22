@@ -1,0 +1,38 @@
+Validation
+==========
+
+Validation status of the rovibronic machinery.
+
+Heat-bath relaxation
+--------------------
+
+* Multi-mode Landau–Teller enforcement verified: the
+  :math:`Z_{\text{fit}}/Z_{\text{input}}` ratio sits at
+  :math:`\approx 0.99` without the ZCorr correction, confirming
+  that ZCorr is **not** needed on the rovibronic Larsen–Borgnakke
+  path.
+
+2-T recombination & three-body channel
+--------------------------------------
+
+* 2-T recombination and the three-body ``recombinePQ`` channel have
+  been exercised in 0-D and 1-D canonical cases.
+* A Larsen–Borgnakke NaN failure mode, traced to unbounded inelastic
+  energy sampling under specific reaction conditions, has been
+  isolated and fixed.
+* A dissociation double-count bug was identified and fixed
+  (details in ``docs/Rovibronic Article/DSMC_Bugs_Report.pdf``).
+
+Shock profiles
+--------------
+
+* 1-D normal-shock profile benchmarks against published Park /
+  Macheret results are tracked under ``run/`` as separate test
+  cases.
+
+Outstanding items
+-----------------
+
+* Full 3-D blunt-body validation (pending).
+* Electronic-state excitation benchmarks against state-resolved
+  master-equation solutions (pending).

@@ -1,0 +1,40 @@
+Running a Case
+==============
+
+Reference test cases live under ``run/``.
+
+Standard workflow
+-----------------
+
+.. code-block:: bash
+
+   cd run/<case>
+   blockMesh
+   dsmcInitialise
+   dsmcFoamRovibronic
+
+Post-process with the standard OpenFOAM tooling (``paraFoam``,
+``postProcess``), or the solver-specific utilities under
+``applications/utilities/`` — see :doc:`post_processing`.
+
+Parallel execution
+------------------
+
+.. code-block:: bash
+
+   decomposePar
+   mpirun -np <N> dsmcFoamRovibronic -parallel
+   reconstructPar
+
+DSMC load balance is particle-count-driven; for strongly non-uniform
+flows use ``dsmcLoadBalance`` (if available) or a finer domain
+decomposition.
+
+Detailed setup guide
+--------------------
+
+The full walk-through of dictionaries, mesh requirements, and
+species-database wiring lives in the LaTeX setup guide in the source
+tree (``docs/Setup Guide/dsmc_case_setup_guide.pdf``). The
+:doc:`input_reference` page summarises the dictionary options exposed
+by this solver beyond stock OpenFOAM DSMC.

@@ -1,0 +1,26 @@
+Getting Started
+===============
+
+DSMC Rovibronic is an extension of the OpenFOAM DSMC library
+(``dsmcFoam``) to a state-to-state description of molecular
+internal energy.
+
+Minimum requirements
+--------------------
+
+* Linux (tested on Ubuntu 22.04 / 24.04)
+* OpenFOAM v2512 (built with the ``of-rovibronic`` environment)
+* GCC 11+ and the usual OpenFOAM build toolchain
+
+Quick tour
+----------
+
+#. :doc:`installation` — compile the solver and its utilities.
+#. :doc:`running` — launch a supplied test case end-to-end.
+#. :doc:`input_reference` — browse dictionaries and options.
+#. :doc:`post_processing` — extract macroscopic fields and population
+   distributions from particle clouds.
+
+New to DSMC in general? Bird's *Molecular Gas Dynamics and the Direct
+Simulation of Gas Flows* is the standard reference; a copy lives at
+``docs/References/`` in the source tree.

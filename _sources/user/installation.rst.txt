@@ -1,0 +1,45 @@
+Installation
+============
+
+.. note::
+   DSMC Rovibronic must be compiled inside the ``of-rovibronic``
+   environment, **not** the stock OpenFOAM environment. The custom
+   bashrc sets paths and environment variables the rovibronic extensions
+   depend on.
+
+Prerequisites
+-------------
+
+* OpenFOAM v2512 built with the rovibronic toolchain.
+* The ``of-rovibronic`` bashrc sourced in the active shell.
+
+Clone
+-----
+
+.. code-block:: bash
+
+   git clone git@github.com:ClementCivrais/DSMC_Rovibronic.git
+   cd DSMC_Rovibronic
+
+Compile
+-------
+
+.. code-block:: bash
+
+   source /path/to/of-rovibronic/etc/bashrc
+   ./Allwmake
+
+The top-level ``Allwmake`` script compiles the libraries under
+``src/`` and the solver applications under ``applications/``.
+
+Verify
+------
+
+.. code-block:: bash
+
+   which dsmcFoamRovibronic
+   dsmcFoamRovibronic -help
+
+If the binary is found and the help text prints, the build is good.
+Any missing-library errors almost always mean the wrong bashrc was
+sourced — re-check the environment.

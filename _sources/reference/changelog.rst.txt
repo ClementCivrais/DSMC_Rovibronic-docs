@@ -1,0 +1,21 @@
+Changelog
+=========
+
+Notable changes to the solver, newest first.
+
+Unreleased
+----------
+
+* Online documentation site scaffolded and published.
+* Landau–Teller enforcement (multi-mode correction) landed.
+
+Recent
+------
+
+* Database update — Dunham fits to ab-initio PES energies.
+* Restructuration of the code and fix of bugs (draft bug audit
+  report in ``docs/Rovibronic Article/DSMC_Bugs_Report.pdf``).
+* Improved database, fixed chemical reactions, added species.
+* Correction of measurements and boundary conditions.
+* Ported full rovibronic quantum-state tracking into the MNF
+  framework.

@@ -1,0 +1,38 @@
+Bibliography
+============
+
+The core references used in building and validating the rovibronic
+DSMC solver. Copies live under ``docs/References/`` in the source
+tree.
+
+Primary references
+------------------
+
+* G. A. Bird — *Molecular Gas Dynamics and the Direct Simulation of
+  Gas Flows*, Oxford (1994).
+* C. White — *Benchmarking, Development and Applications of an Open
+  Source DSMC Solver*, PhD thesis.
+* M. Pfeiffer — *Polyatomic extensions to DSMC*.
+* M. Pfeiffer — *VSS collision cross-section model*.
+* L. Babou — *Partition functions for diatomic molecules*.
+* Bird / Chou / Gao — *Post-reaction internal energy redistribution*.
+
+Solver-specific notes
+---------------------
+
+The following in-repo documents capture derivations specific to this
+solver:
+
+* ``docs/Rovibronic Article/Article_Draft_Rovibronic_DSMC.pdf`` —
+  method derivation.
+* ``docs/Source Code Report/rovibronic_dsmc_report.pdf`` — solver
+  implementation walkthrough.
+* ``doc/LT_Correction_MultiMode.pdf`` — multi-mode
+  Landau–Teller correction.
+* ``doc/LandauTeller_MultiExponential_Derivation.pdf`` —
+  multi-exponential Landau–Teller relaxation time.
+* ``doc/CoupledRelaxationMatrix_Derivation.pdf`` — coupled
+  vibration–rotation relaxation operator.
+* ``doc/chemistry_comparison_piclas_mnf.pdf`` — chemistry
+  benchmark against PICLas.
+* ``doc/bug_audit.pdf`` — internal bug audit.

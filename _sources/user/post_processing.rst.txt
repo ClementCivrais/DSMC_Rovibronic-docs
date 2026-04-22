@@ -1,0 +1,29 @@
+Post-processing
+===============
+
+The solver writes the usual OpenFOAM time directories plus
+per-particle fields capturing the full rovibronic state.
+
+Macroscopic fields
+------------------
+
+Standard DSMC volume fields — number density, translational and
+internal temperatures, pressure, and species mass fractions — are
+written to ``<case>/<time>/`` and can be visualised with
+``paraFoam``.
+
+Quantum-state populations
+-------------------------
+
+Particle-level quantum numbers (:math:`e_{qn}, v_{qn}, j_{qn}`)
+are stored in the Lagrangian cloud. Dedicated utilities under
+``applications/utilities/`` extract state populations and build
+Boltzmann / non-Boltzmann distribution diagnostics.
+
+Validation diagnostics
+----------------------
+
+The :doc:`../reference/validation` page collects canonical checks
+(heat-bath relaxation, isothermal dissociation, shock profiles) used
+to confirm the rovibronic machinery against analytical and published
+results.

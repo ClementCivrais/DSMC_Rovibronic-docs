@@ -1,0 +1,42 @@
+Input Reference
+===============
+
+.. note::
+   This page enumerates the dictionaries and options **specific to the
+   rovibronic extension**. Stock OpenFOAM DSMC options are documented
+   in the OpenFOAM user guide.
+
+``constant/dsmcProperties``
+---------------------------
+
+Top-level solver controls. Rovibronic-specific keys include:
+
+* ``rovibronicModel`` — selects the internal-energy model.
+* ``relaxationScheme`` — Landau–Teller or state-to-state kinetic.
+* ``chemistrySubmodel`` — TCE, QK, or state-specific rates.
+
+(Authoritative list: ``src/lagrangian/DSMC/clouds/dsmcCloud.C``.)
+
+Species database
+----------------
+
+Per-species quantum state data is stored under
+``src/lagrangian/DSMC/submodels/``. Dunham-fitted electronic,
+vibrational, and rotational levels live in the species-database
+files; see ``docs/Database/`` for the data provenance.
+
+Boundary conditions
+-------------------
+
+Standard DSMC patches (``dsmcDiffuseWall``, ``dsmcSpecularWall``,
+``dsmcReflectivePatch``, …) all respect the full rovibronic state
+and re-sample internal energies according to the wall model.
+
+Expanded documentation
+----------------------
+
+Detailed semantics, default values, and worked examples for each
+dictionary key will be folded into this page progressively. Until
+then, the LaTeX setup guide at
+``docs/Setup Guide/dsmc_case_setup_guide.pdf`` is the authoritative
+reference.

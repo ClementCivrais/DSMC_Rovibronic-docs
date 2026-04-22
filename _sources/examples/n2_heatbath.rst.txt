@@ -1,0 +1,44 @@
+N\ :sub:`2` Heat-Bath Relaxation
+================================
+
+A zero-dimensional (0-D) isothermal heat-bath relaxation is the
+cheapest end-to-end validation of the rovibronic relaxation
+machinery. The gas is initialised at a cold internal temperature
+while the translational temperature is held high, and the approach
+to equilibrium is compared to the Landau–Teller analytical solution.
+
+Case layout
+-----------
+
+.. code-block:: text
+
+   run/<case>/
+   ├── 0/              # initial fields
+   ├── constant/       # species, dsmcProperties, rovibronic settings
+   ├── system/         # blockMeshDict, controlDict, decomposeParDict
+   └── postProcessing/ # populated at runtime
+
+Running
+-------
+
+.. code-block:: bash
+
+   cd run/<case>
+   blockMesh && dsmcInitialise && dsmcFoamRovibronic
+
+Expected result
+---------------
+
+* :math:`T_v(t)` relaxes toward :math:`T_t` on the Millikan–White
+  timescale.
+* Final state populations match the Boltzmann distribution at
+  :math:`T_t` within statistical noise.
+* The :math:`Z_{\text{fit}}/Z_{\text{input}}` ratio should sit
+  within :math:`\approx 1\%` of unity — confirming the multi-mode LT
+  enforcement is unbiased.
+
+Adding a new example
+--------------------
+
+Create a new ``.rst`` in this directory, document the setup and the
+expected outcome, and add it to the toctree in ``index.rst``.

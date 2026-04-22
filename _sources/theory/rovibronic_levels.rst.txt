@@ -1,0 +1,44 @@
+Rovibronic Level Structure
+==========================
+
+The molecular internal energy is expanded as
+
+.. math::
+
+   E_{\text{int}}(e, v, j) = E_e(e) + E_v(e, v) + E_r(e, v, j),
+
+where :math:`E_e` is the electronic term energy, :math:`E_v` is the
+vibrational term in electronic level :math:`e`, and :math:`E_r` is
+the rotational term in the :math:`(e, v)` manifold. Each contribution
+is obtained from a Dunham expansion,
+
+.. math::
+
+   E_v(e, v) = \sum_k Y_{k,0}(e)\,(v + 1/2)^k,
+
+.. math::
+
+   E_r(e, v, j) = \sum_{k,\ell} Y_{k,\ell}(e)\,(v + 1/2)^k\,[j(j+1)]^\ell,
+
+fitted to ab-initio potential-energy surfaces. See
+``docs/Database/dunham_coefficients_from_ab_initio_PES.md`` for the
+fit procedure and quality metrics.
+
+Level enumeration and cut-offs
+------------------------------
+
+* Dissociation cut-off: maximum bound :math:`v` for each electronic
+  level is set where the fitted Dunham series diverges from the
+  physical PES.
+* Rotational cut-off: :math:`j_{\max}(e, v)` is enforced from a
+  centrifugal-barrier criterion.
+* Electronic levels: populated up to the highest state included in
+  the species database.
+
+Degeneracies
+------------
+
+Nuclear spin, electronic angular momentum, and rotational degeneracy
+:math:`(2j + 1)` are carried per level so that equilibrium (Boltzmann)
+populations are reproduced exactly in the absence of departures from
+equilibrium.

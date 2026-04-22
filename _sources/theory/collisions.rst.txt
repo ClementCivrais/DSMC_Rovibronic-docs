@@ -1,0 +1,31 @@
+Binary Collisions
+=================
+
+Each candidate collision is sampled according to the NTC (No Time
+Counter) scheme in every computational cell. The collision cross
+section follows the Variable Soft Sphere (VSS) model,
+
+.. math::
+
+   \sigma_T(g) = \sigma_{\text{ref}}
+                 \left(\frac{g_{\text{ref}}}{g}\right)^{2\omega - 1},
+
+with species-pair parameters :math:`\sigma_{\text{ref}}, \omega, \alpha`
+tabulated per interaction in the species database.
+
+For a sampled binary collision, the solver then:
+
+#. Re-distributes translational energy using the VSS scattering law.
+#. Applies internal-energy redistribution via the selected relaxation
+   submodel (see :doc:`relaxation`).
+#. Tests for reactive channels (see :doc:`chemistry`).
+
+State-resolved inelastic collisions
+-----------------------------------
+
+Because the internal energy is quantised, vibrational and rotational
+energy exchange draws transitions :math:`(e, v, j) \to (e', v', j')`
+according to state-specific rates (or effective Landau–Teller /
+Parker models, depending on ``relaxationScheme``). Detailed balance
+is enforced against the level degeneracies defined in
+:doc:`rovibronic_levels`.

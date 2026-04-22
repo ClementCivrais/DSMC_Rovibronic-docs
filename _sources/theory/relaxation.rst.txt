@@ -1,0 +1,41 @@
+Energy Relaxation
+=================
+
+Internal relaxation drives the molecular internal state toward
+equilibrium with the local translational temperature.
+
+Landau–Teller enforcement
+-------------------------
+
+In Landau–Teller mode, relaxation events are sampled with probability
+
+.. math::
+
+   P = \frac{\Delta t}{\tau(T)},
+
+where :math:`\tau(T)` is the species-pair relaxation time
+(Millikan–White or curve-fitted to state-to-state master-equation
+solutions). The implementation correctly accounts for:
+
+* Multi-mode relaxation when multiple internal degrees of freedom are
+  active (see ``doc/LT_Correction_MultiMode.pdf``).
+* Multi-exponential :math:`\tau(T)` fits
+  (``doc/LandauTeller_MultiExponential_Derivation.pdf``).
+* The ZCorr correction where applicable — the
+  :math:`Z_{\text{fit}}/Z_{\text{input}}` ratio was measured to
+  :math:`\approx 0.99` for rovibronic LB without the correction,
+  confirming that ZCorr is not needed in the rovibronic path.
+
+State-to-state relaxation
+-------------------------
+
+When ``relaxationScheme`` selects the state-to-state model,
+transitions are sampled directly from per-pair rate tables rather
+than through an effective :math:`\tau`. This is the most expensive
+but most faithful choice for strong non-equilibrium.
+
+Coupled relaxation matrix
+-------------------------
+
+The coupled vibrational–rotational relaxation operator is derived in
+``doc/CoupledRelaxationMatrix_Derivation.pdf``.
