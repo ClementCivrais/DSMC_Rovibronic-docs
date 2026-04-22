@@ -1,0 +1,213 @@
+Charged-species chemistry
+=========================
+
+.. warning::
+
+   Every charged-species reaction class in the solver —
+   electron-impact ionisation, atom-atom and molecule-atom
+   ionisation channels, atom-ion / atom-electron ionisation,
+   charge exchange, associative ionisation in forward and
+   reverse forms, and the molecule-electron / molecule-ion
+   dissociation-ionisation channels — is **work in progress**.
+   It has been ported into the rovibronic framework but has not
+   yet been reworked, verified, or validated end-to-end.
+   Quantitative results from cases with
+   ``chargedParticles = true`` must be treated as preliminary.
+
+The charged-species chemistry inherits the Larsen-Borgnakke
+machinery and the post-reaction redistribution rules from
+:doc:`chemistry`, but requires additional care on three fronts:
+the state-dependent ionisation threshold of the reacting
+species, the ambipolar treatment of the electron population, and
+the sub-time-stepping that accommodates the very high electron
+collision rate. Each is discussed below.
+
+State-dependent ionisation threshold
+------------------------------------
+
+Unlike the ground-state ionisation potential :math:`E_{\mathrm{IP}}`
+tabulated for the bulk species, the ionisation threshold seen by
+a molecule in an excited rovibronic state depends on its current
+internal energy:
+
+.. math::
+
+   E_{\mathrm{ion}}(n, v, J)
+     = E_{\mathrm{IP}} - E(n, v, J).
+
+A molecule that already carries internal energy
+:math:`E(n, v, J)` requires only the complement
+:math:`E_{\mathrm{IP}} - E(n, v, J)` to reach the ionisation
+continuum. The consequence is that excited states contribute
+disproportionately to the ionisation rate, by the same mechanism
+as in dissociation (:doc:`chemistry`). Ionisation fires whenever
+
+.. math::
+
+   E_{\mathrm{rel}} + E_{\mathrm{int}}(Q)
+     \ge E_{\mathrm{ion}}(n_P, v_P, J_P),
+
+where :math:`P` is the ionising parcel and :math:`Q` the collision
+partner. The post-ionisation available energy
+
+.. math::
+
+   E_{\mathrm{avail}}^{\mathrm{ion}}
+     = E_{\mathrm{rel}} + E_{\mathrm{int}}(Q)
+       - E_{\mathrm{ion}}(n_P, v_P, J_P)
+
+enters the Larsen-Borgnakke redistribution exactly as for the
+neutral channels.
+
+Charge exchange
+---------------
+
+The charge-exchange reaction
+:math:`\mathrm{A}^{+} + \mathrm{B} \to \mathrm{A} + \mathrm{B}^{+}`
+transfers a single electron between the two heavy partners. Its
+heat of reaction is read directly from the database as
+
+.. math::
+
+   \Delta H_{\mathrm{cx}}
+     = E_{\mathrm{IP}}(\mathrm{A})
+       - E_{\mathrm{IP}}(\mathrm{B}).
+
+The available energy is then
+
+.. math::
+
+   E_c = E_{\mathrm{rel}}
+         + E_{\mathrm{int}}(P) + E_{\mathrm{int}}(Q)
+         + \Delta H_{\mathrm{cx}},
+
+and the two products are sampled in succession through the
+two-stage Larsen-Borgnakke procedure of :doc:`chemistry`. No
+user-supplied parameter is required beyond the ionisation
+potentials already tabulated in the species database.
+
+Associative ionisation
+----------------------
+
+Associative ionisation
+:math:`\mathrm{A} + \mathrm{B} \to \mathrm{AB}^{\star}
+\to \mathrm{AB}^{+} + e^{-}` proceeds in two steps: a
+hypothetical intermediate :math:`\mathrm{AB}^{\star}` is first
+sampled in a rovibronic state, and if the state energy lies
+above the intermediate's ionisation threshold, the intermediate
+ionises. Concretely:
+
+#. **Intermediate formation.** Compute the pooled energy
+   :math:`E_c = E_{\mathrm{rel}} + E_{\mathrm{int}}(A) +
+   E_{\mathrm{int}}(B) + D_0(\mathrm{AB})` and sample an
+   intermediate state :math:`(n^{\star}, v^{\star}, J^{\star})`
+   of :math:`\mathrm{AB}^{\star}` from Larsen-Borgnakke against
+   that pool.
+#. **Ionisation test.** If :math:`E_c \ge
+   E_{\mathrm{IP}}(\mathrm{AB}^{\star}) -
+   E(n^{\star}, v^{\star}, J^{\star})`, the intermediate ionises
+   and an electron is produced; otherwise the event reverts to
+   an ordinary neutral collision.
+#. **Product redistribution.** When ionisation fires, the
+   available energy :math:`E_c -
+   E_{\mathrm{IP}}(\mathrm{AB}^{\star}) +
+   E(n^{\star}, v^{\star}, J^{\star})` is distributed between
+   :math:`\mathrm{AB}^{+}` and the new electron through the same
+   Larsen-Borgnakke machinery.
+
+Associative ionisation is a minor channel in most air chemistry
+calculations and currently requires user-supplied QK-type rate
+parameters. The reverse channel
+:math:`\mathrm{AB}^{+} + e^{-} \to \mathrm{A} + \mathrm{B}` is
+implemented symmetrically.
+
+Electron population: ambipolar diffusion
+----------------------------------------
+
+Tracking electrons as independent DSMC parcels on the same
+time-step as the heavy species is prohibitively expensive:
+electrons are lighter by four orders of magnitude and their
+thermal speed is correspondingly higher, so their characteristic
+collision time and advection step would dictate a global DSMC
+:math:`\Delta t` two to three decades smaller than would be
+needed for the heavy gas.
+
+The solver therefore treats the electrons under the **ambipolar
+approximation**: on the simulation timescale the plasma remains
+quasi-neutral, and the electrons are dragged along by the ion
+population through the self-consistent ambipolar electric field.
+Concretely, the code does not advect electron parcels on the
+global DSMC time-step. Each electron is instead **created,
+stored, and moved alongside its parent ion**: whenever an
+ionisation event produces an ion, the electron is added at the
+ion's position (``dsmcCloud.H:323``: "Add an electron where an
+ion is found, after the move function"). The electron's
+contribution to the cell-level macroscopic fields —  number
+density, mass density, momentum, kinetic energy, temperature —
+is accumulated separately in the dedicated electron data
+structures documented at ``dsmcCloud.H:211–229``.
+
+The ambipolar approximation holds on length scales large
+compared to the Debye length and on times long compared to the
+plasma oscillation period. Both are satisfied for the hypersonic
+re-entry regimes of interest, but would need to be revisited for
+high-vacuum plasma-probe applications where the assumption
+breaks down.
+
+Electron collisions: sub-time-stepping
+--------------------------------------
+
+Although the electrons are advected through the ambipolar
+approximation, their **collisions** are not: the collision layer
+still needs to sample electron-neutral and electron-ion
+interactions at a cadence consistent with the electron collision
+rate, which can be one to two orders of magnitude higher than
+the heavy-species rate.
+
+This is handled through the ``noTimeCounterSubCycled`` variant
+of the No-Time-Counter scheme (see :doc:`collision_sampling`).
+Within each global DSMC step :math:`\Delta t`, the electron
+collisions are sampled over :math:`n_{\mathrm{sc}}` internal
+sub-cycles of length
+:math:`\Delta t_{\mathrm{sc}} = \Delta t / n_{\mathrm{sc}}`, so
+that the sampling resolves the electron collision frequency while
+the heavy-species collision loop executes once. The
+``nSubCycles`` key in the
+``noTimeCounterSubCycledProperties`` sub-dictionary sets
+:math:`n_{\mathrm{sc}}`; the reference value for re-entry
+plasma cases is of the order of 30.
+
+Two design choices are worth highlighting:
+
+* **No electron-electron collisions.** Both
+  ``noTimeCounter.C:259`` and
+  ``majorantCollisionFrequency.C:272`` explicitly skip the
+  electron-electron channel: the high electron-electron collision
+  rate would swamp the DSMC candidate budget without materially
+  changing the macroscopic behaviour under the ambipolar
+  assumption (electron-electron collisions thermalise only the
+  electron distribution, which is already Maxwellian in the
+  ambipolar limit).
+* **Energy book-keeping in electron sub-cycles.** Within the
+  sub-cycled loop, the Larsen-Borgnakke machinery of
+  :doc:`larsen_borgnakke` is invoked with the electron's
+  ambipolar velocity rather than a freshly-drawn Maxwellian.
+  This is consistent with the underlying assumption that the
+  electron distribution is already equilibrated on the sub-cycle
+  timescale.
+
+Status
+------
+
+The entire charged-species block is flagged as work in progress
+in :doc:`../classes/reactions`. The present page reflects the
+intended physics and the current implementation; discrepancies
+between the two, if any, will be resolved as the classes are
+reworked and validated. The immediate next steps include:
+
+* re-deriving the QK activation parameters for each charged
+  channel from QCT or experimental rates;
+* running the three-phase validation protocol on a
+  re-entry-representative charged case;
+* validating the ambipolar approximation against a
+  fully-kinetic electron run in a controlled setting.

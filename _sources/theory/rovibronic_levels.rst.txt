@@ -1,58 +1,123 @@
-Rovibronic Level Structure
+Rovibronic level structure
 ==========================
 
 The rovibronic extension replaces the continuous internal energy
 usually carried on a DSMC particle by an indexed triple
 :math:`(n, v, J)` that selects one level out of a three-dimensional
-table. The present section describes how that table is built, which
-symbols are involved, and which assumptions underpin each step.
+energy table. The present section documents how that table is
+built, from the Born-Oppenheimer separation of electronic and
+nuclear motion through to the centrifugal-barrier cut-off, and
+how the associated degeneracies and partition functions are
+evaluated.
 
-Energy expansion
-----------------
+Born-Oppenheimer separation
+---------------------------
 
-We expand the total internal energy of a diatomic molecule as
+The total Hamiltonian of a diatomic molecule in the centre-of-mass
+frame reads
+
+.. math::
+
+   \hat{H}
+     = \hat{T}_{N} + \hat{T}_{e} + \hat{V}_{eN}
+       + \hat{V}_{ee} + \hat{V}_{NN},
+
+where :math:`\hat{T}_{N}` and :math:`\hat{T}_{e}` are the kinetic
+energies of the nuclei and electrons respectively, and the
+remaining terms collect the Coulombic interactions. Because the
+electrons are much lighter than the nuclei
+(:math:`m_e/m_N \sim 10^{-4}`), the Born-Oppenheimer approximation
+separates the problem into a fast electronic sub-problem, solved
+at fixed nuclear positions and yielding a potential-energy
+surface (PES) :math:`V_n(R)` for each electronic state :math:`n`,
+and a slow nuclear sub-problem that evolves on that surface:
+
+.. math::
+
+   \Bigl[-\frac{\hbar^{2}}{2\mu}\frac{1}{R^{2}}
+         \frac{\mathrm{d}}{\mathrm{d}R}
+         \left(R^{2}\frac{\mathrm{d}}{\mathrm{d}R}\right)
+         + \frac{\hbar^{2}\, J(J+1)}{2\mu R^{2}}
+         + V_n(R)\Bigr]\,\chi_{nvJ}(R)
+     = E_{nvJ}\,\chi_{nvJ}(R),
+
+where :math:`\mu` is the reduced mass,
+:math:`\hbar^{2}J(J+1)/(2\mu R^{2})` is the centrifugal
+contribution, and :math:`\chi_{nvJ}(R)` is the radial vibrational
+wave-function. The total internal energy is approximated as a sum,
 
 .. math::
 
    E_{\mathrm{int}}(n, v, J)
      = T_e^{(n)} + E_v^{(n)}(v) + E_r^{(n, v)}(J),
 
-where :math:`T_e^{(n)}` is the electronic term energy of level
-:math:`n`, :math:`E_v^{(n)}` is the vibrational contribution in
-electronic level :math:`n`, and :math:`E_r^{(n,v)}` is the
-rotational contribution in the :math:`(n, v)` manifold. The three
-contributions are modelled as follows.
+where :math:`T_e^{(n)}` is the electronic term energy of state
+:math:`n` (the minimum of :math:`V_n`), :math:`E_v^{(n)}` is the
+vibrational term in electronic level :math:`n`, and
+:math:`E_r^{(n,v)}` is the rotational term in the :math:`(n, v)`
+manifold.
 
-Vibrational ladder (Morse oscillator)
-`````````````````````````````````````
+Vibrational ladder — Morse oscillator
+-------------------------------------
 
-Following the Morse oscillator description, the vibrational term
-energy in electronic level :math:`n` reads
-
-.. math::
-
-   E_v^{(n)}(v) = hc\left[\omega_e^{(n)}\left(v + \tfrac{1}{2}\right)
-                  - \omega_e x_e^{(n)}\left(v + \tfrac{1}{2}\right)^{2}\right],
-
-with the harmonic frequency :math:`\omega_e^{(n)}` and the
-anharmonicity :math:`\omega_e x_e^{(n)}` given in
-:math:`\mathrm{cm}^{-1}`. The ladder is truncated at the dissociation
-limit: the maximum bound vibrational quantum number
-:math:`v_{\max}^{(n)}` is determined as the largest :math:`v` for
-which the fitted series still lies below the dissociation energy
-:math:`E_d^{(n)}` of electronic state :math:`n`.
-
-Rotational sub-ladder (rigid rotor + distortion)
-````````````````````````````````````````````````
-
-For each :math:`(n, v)`, the rotational ladder is built from
+A widely used and tractable model of the molecular PES is the
+Morse potential
 
 .. math::
 
-   E_r^{(n, v)}(J) = B_v\, J(J+1) - D_v\,[J(J+1)]^{2},
+   V_{\mathrm{M}}(R)
+     = D_e\,\bigl[1 - e^{-a(R - R_e)}\bigr]^{2},
 
-with vibration-dependent rotational and centrifugal-distortion
-constants
+with dissociation depth :math:`D_e`, equilibrium bond length
+:math:`R_e`, and range parameter :math:`a`. The Morse potential
+has the distinctive feature of admitting an **analytical
+solution** of the non-rotating radial Schrödinger equation, whose
+eigenvalues are
+
+.. math::
+
+   E_v^{(n)}(v)
+     = hc\left[\omega_e^{(n)}\left(v + \tfrac{1}{2}\right)
+               - \omega_e x_e^{(n)}
+                \left(v + \tfrac{1}{2}\right)^{2}\right],
+
+with the spectroscopic constants :math:`\omega_e^{(n)}` (harmonic
+frequency) and :math:`\omega_e x_e^{(n)}` (anharmonicity)
+related to the Morse parameters through
+:math:`\omega_e = a\sqrt{2D_e/\mu}/(2\pi c)` and
+:math:`\omega_e x_e = hc\,\omega_e^{2}/(4 D_e)`. The quadratic
+correction in :math:`(v + 1/2)` captures the softening of the
+vibrational spacing toward dissociation.
+
+The ladder is truncated at the dissociation limit: the maximum
+bound vibrational quantum number :math:`v_{\max}^{(n)}` is
+determined as the largest :math:`v` for which the fitted series
+still lies below the dissociation energy :math:`E_d^{(n)}` of
+electronic state :math:`n`. In practice a Dunham series is used
+in place of the pure Morse expression, which preserves the
+analytical form of the spacing but allows higher-order terms to
+be fitted to ab-initio data:
+
+.. math::
+
+   E_v^{(n)}(v) = \sum_{k \ge 1} Y_{k,0}^{(n)}
+                  \left(v + \tfrac{1}{2}\right)^{k}.
+
+Rotational sub-ladder — rigid rotor with distortion
+---------------------------------------------------
+
+For each :math:`(n, v)`, the rotational term is built on the
+rigid-rotor energy :math:`B\,J(J+1)`, augmented by a centrifugal-
+distortion correction :math:`-D\,[J(J+1)]^{2}`:
+
+.. math::
+
+   E_r^{(n, v)}(J)
+     = B_v\, J(J+1) - D_v\,[J(J+1)]^{2}.
+
+The rotational and distortion constants :math:`B_v` and
+:math:`D_v` depend on the vibrational state through the
+rotation-vibration coupling:
 
 .. math::
 
@@ -60,57 +125,139 @@ constants
    D_v = D_e - \beta_e\left(v + \tfrac{1}{2}\right).
 
 The maximum rotational quantum number :math:`J_{\max}^{(n,v)}` is
-obtained from a centrifugal-barrier analysis, i.e. as the largest
-:math:`J` for which the effective potential (including the
-centrifugal contribution) still supports a bound state.
+obtained from a **centrifugal-barrier analysis**: as :math:`J`
+grows, the effective potential
 
-Degeneracy
-``````````
+.. math::
 
-The statistical weight of a level is
+   V_{\mathrm{eff}}(R; J)
+     = V_n(R) + \frac{\hbar^{2}\, J(J+1)}{2\mu R^{2}}
+
+develops a maximum that eventually falls below the dissociation
+asymptote; beyond that point the :math:`(n, v, J)` state is no
+longer bound. :math:`J_{\max}^{(n,v)}` is set to the largest
+:math:`J` for which a bound state persists; the numerical
+determination loops over :math:`J` and tests whether the energy
+derived from the Dunham expansion is still smaller than the local
+centrifugal barrier.
+
+Dunham expansion and ab-initio fits
+-----------------------------------
+
+The general expansion carried by the database is
+
+.. math::
+
+   E(n, v, J)
+     = T_e^{(n)}
+     + \sum_{k, \ell \ge 0} Y_{k,\ell}^{(n)}
+       \left(v + \tfrac{1}{2}\right)^{k} [J(J+1)]^{\ell},
+
+which subsumes the Morse-plus-distortion form as the leading
+terms. The coefficients :math:`Y_{k,\ell}^{(n)}` are fitted,
+electronic state by electronic state, against ab-initio PECs or
+against the term values of Huber-Herzberg-style compilations. Fit
+quality and provenance are documented, species by species, in
+``docs/Database/dunham_coefficients_from_ab_initio_PES.md`` in
+the repository.
+
+Degeneracies
+------------
+
+The statistical weight of a rovibronic level is the product of
+rotational and electronic multiplicities:
 
 .. math::
 
    g(n, v, J) = (2J+1)\, g_{\mathrm{elec}}^{(n)},
 
-where :math:`g_{\mathrm{elec}}^{(n)}` accounts for the electronic
-degeneracy (e.g. 3 for a :math:`{}^{3}\Sigma` state, 4 for
-:math:`{}^{2}\Pi`). For homonuclear molecules the parity constraint
-of the nuclear spin further suppresses either even- or odd-:math:`J`
-sub-ladders, which is enforced in the sampling routines.
+where the :math:`(2J+1)` factor counts the :math:`m_J = -J,
+\ldots, +J` projections of the rotational angular momentum, and
+:math:`g_{\mathrm{elec}}^{(n)}` is the electronic spatial-spin
+multiplicity —  for instance :math:`g = 3` for a
+:math:`{}^{3}\Sigma` state, :math:`g = 2` for :math:`{}^{2}\Sigma`,
+and :math:`g = 4` for :math:`{}^{2}\Pi` (spin-orbit doubling
+included). Nuclear spin contributions to the multiplicity cancel
+out across reactant and product in the types of balance we are
+concerned with, and are omitted from the database entries.
+
+Nuclear-spin statistics and ortho/para sub-ladders
+--------------------------------------------------
+
+For homonuclear diatomics such as N\ :sub:`2`, O\ :sub:`2`, and
+H\ :sub:`2`, the symmetry of the nuclear wave-function under
+exchange of the two identical nuclei constrains the allowed
+:math:`(v, J)` combinations:
+
+* symmetric electronic states
+  (:math:`\Sigma^{+}_{g}`, :math:`\Pi_{g}`, …) with nuclei of
+  spin :math:`I`: even :math:`J` pair with one total-spin state
+  count, odd :math:`J` with the complementary one;
+* antisymmetric electronic states
+  (:math:`\Sigma^{-}_{u}`, …): the parity is reversed.
+
+The practical consequence is that, for a homonuclear species,
+only alternate :math:`J` values are physically populated within
+each electronic state. The sampling routines in the solver
+respect this parity constraint by enforcing the allowed parity
+at the Larsen-Borgnakke acceptance step, which amounts to halving
+the effective rotational partition function.
 
 Ground-state normalisation and provenance
 -----------------------------------------
 
-It is important to emphasise that every energy in the database is
-stored relative to the molecular ground state :math:`(n, v, J) =
-(0, 0, 0)`, i.e.
+Every energy in the database is stored **relative to the
+molecular ground state** :math:`(n, v, J) = (0, 0, 0)`:
 
 .. math::
 
    E_{\mathrm{int}}(n, v, J) \leftarrow
      E_{\mathrm{int}}(n, v, J) - E_{\mathrm{int}}(0, 0, 0),
 
-so that the ground state carries zero internal energy by convention.
-This choice has no physical content but ensures that the
-dissociation energy :math:`D_0` that the chemistry module extracts
-from the database is the physical bond energy, rather than the
-fitted potential minimum.
+so that the ground state carries zero internal energy by
+convention. This choice has no physical content, but ensures that
+the dissociation energy :math:`D_0` that the chemistry module
+reads from the database is the physical bond energy, rather than
+the potential minimum :math:`D_e = D_0 + E_v(0, 0, 0)`. It also
+means that the partition functions defined below are explicitly
+computed relative to the ground state, which removes the
+additive constant :math:`T_e^{(0)}` from every rate integral.
 
-The Dunham coefficients are stored in
-``constant/speciesCache/<species>.dat`` together with the
-:math:`(n, v, J)` level tables and the associated degeneracies. Fit
-quality and ab-initio provenance are documented in
-``docs/Database/dunham_coefficients_from_ab_initio_PES.md``.
+Partition functions
+-------------------
+
+The internal partition function of species :math:`s` at
+temperature :math:`T` is the sum, over all bound rovibronic
+levels, of the Boltzmann factor weighted by the level degeneracy:
+
+.. math::
+
+   Q_s^{\mathrm{int}}(T)
+     = \sum_{n=0}^{N_{\mathrm{el}}^{(s)}-1}
+       \sum_{v=0}^{v_{\max}^{(n)}}
+       \sum_{J=0}^{J_{\max}^{(n,v)}}
+       g(n, v, J)\,
+       \exp\!\left[-\frac{E(n, v, J)}{k_B T}\right].
+
+These internal partition functions, together with the
+translational contribution :math:`Q_s^{\mathrm{tr}}(T) =
+V(2\pi m_s k_B T / h^{2})^{3/2}`, enter the equilibrium
+constants used by the chemistry module (see
+:doc:`chemistry`). They are pre-tabulated over the simulation
+temperature range at solver start-up, which turns the run-time
+rate-constant lookups into constant-cost bisection calls.
 
 Typical state-space sizes
 -------------------------
 
-For a diatomic species in air chemistry, the level space is dense.
-As a representative example, O\ :sub:`2` carries six electronic
-states, of the order of 60 vibrational levels per electronic state,
-and on average some 15 rotational levels per vibrational level —
-altogether :math:`\sim 3 \times 10^{5}` rovibronic levels. The
-tables are built once, at solver start-up, and cached on disk so
-that subsequent runs with the same species list incur no rebuild
-cost.
+For a diatomic species in air chemistry, the level space is
+dense. O\ :sub:`2`, for example, carries of order six electronic
+states populated at re-entry temperatures, of the order of 60
+vibrational levels per electronic state, and on average some 15
+rotational levels per vibrational level, for a total of
+:math:`\sim 3 \times 10^{5}` rovibronic levels.
+N\ :sub:`2` has fewer bound electronic states within the energy
+range of interest but a denser rotational ladder, and lands at a
+comparable order of magnitude. The tables are built once, at
+solver start-up, and cached on disk so that subsequent runs with
+the same species list incur no rebuild cost.

@@ -1,0 +1,175 @@
+Adaptation and controllers
+==========================
+
+The present section documents the two families of active agents
+in the solver that modify the simulation state at run-time: the
+adaptation layer, which reshapes the sub-cell and parcel-weight
+resolution without touching the mesh, and the controllers, which
+drive a target macroscopic quantity toward a prescribed value.
+Both are orthogonal to the collision, chemistry, and measurement
+layers, and can be combined at will.
+
+Sub-cell adaptation
+-------------------
+
+The DSMC convergence condition :math:`\Delta x < \lambda/3`
+cannot in general be met everywhere by a fixed mesh, since the
+mean free path varies by orders of magnitude across a hypersonic
+flow. The sub-cell machinery keeps the mesh fixed and instead
+subdivides each cell, per coordinate direction, into
+:math:`L_i` sub-cells of size :math:`\Delta x_i /
+L_i`, where :math:`\Delta x_i` is the parent cell size. Collision
+partner selection (:doc:`collision_sampling`) is then restricted
+to particles within the same sub-cell, tightening the effective
+discretisation where it matters.
+
+The per-cell vector :math:`\mathbf{L}(\mathbf{x})` is recomputed
+at the adaptation interval so that
+
+.. math::
+
+   \frac{\Delta x_i(\mathbf{x})}{L_i(\mathbf{x})}
+     \lesssim r_{\lambda}\,\lambda(\mathbf{x}),
+
+with :math:`r_{\lambda}` the prescribed
+``maxSubCellSizeMFPRatio`` (default :math:`1/3`) and
+:math:`\lambda(\mathbf{x})` the local mean free path. The bounds
+``minSubCellLevels`` and ``maxSubCellLevels`` in the
+``dynamicAdaptationProperties`` sub-dictionary cap the
+adaptation so that runaway refinement in unresolved regions does
+not collapse the per-sub-cell particle count below an
+operational minimum.
+
+Time-step adaptation
+--------------------
+
+The second convergence condition, :math:`\Delta t < \tau_c/3`,
+is enforced through the ``timeStepAdaptation`` switch. At each
+adaptation event the solver computes the Courant number
+
+.. math::
+
+   \mathrm{Co}(\mathbf{x})
+     = \frac{|\bar{\mathbf{v}}(\mathbf{x})|\,\Delta t}
+            {\min_i \Delta x_i(\mathbf{x}) / L_i(\mathbf{x})}
+
+and the ratio of the global time-step to the local mean
+collision time,
+
+.. math::
+
+   r_{\mathrm{MCT}}(\mathbf{x})
+     = \frac{\Delta t}{\tau_c(\mathbf{x})},
+
+and rescales :math:`\Delta t` so that both quantities fall
+below the user-supplied bounds ``maxCourantNumber`` and
+``maxTimeStepMCTRatio``. The rescaling is monotonic across
+adaptation events to avoid oscillations.
+
+Cell-weight adaptation
+----------------------
+
+The statistical resolution condition
+:math:`N_{\mathrm{cell}} \gtrsim 10\text{–}20` is enforced
+through the ``cellWeightedSimulation`` switch. Each cell carries
+an effective parcel weight
+
+.. math::
+
+   F_N^{\mathrm{cell}}(\mathbf{x})
+     = F_N\,w(\mathbf{x}),
+
+with :math:`w(\mathbf{x})` set so that the number of simulator
+parcels per sub-cell meets the target ``particlesPerSubCell``,
+
+.. math::
+
+   w(\mathbf{x})
+     = \frac{n(\mathbf{x})\,V_{\mathrm{subcell}}(\mathbf{x})}
+            {F_N\,\mathtt{particlesPerSubCell}}.
+
+Parcels that cross a cell boundary have their weight updated to
+match the destination cell; the resulting mass, momentum, and
+energy are preserved through a standard split-merge operation
+that is invisible to the user. The ``minParticlesPerSubCell``
+and ``smoothCellWeights`` keys respectively guard against
+runaway weight collapses and smooth the weight field across
+neighbouring cells to avoid ringing.
+
+Controllers — active flow-state drivers
+---------------------------------------
+
+Controllers operate on a named ``cellZone`` and act at an
+interval set in their sub-dictionary.
+
+Temperature controller
+``````````````````````
+
+The ``temperatureController`` maintains a target translational
+temperature :math:`T^{\star}` by rescaling the peculiar
+velocities of the parcels in the zone:
+
+.. math::
+
+   \mathbf{c}_i \leftarrow
+     \sqrt{\frac{T^{\star}}{T_T^{\mathrm{obs}}}}\,\mathbf{c}_i,
+
+where :math:`T_T^{\mathrm{obs}}` is the observed translational
+temperature averaged over the controller's sampling window. The
+rescaling preserves the bulk velocity and the internal state
+exactly; the translational temperature converges to
+:math:`T^{\star}` on the controller interval.
+
+Maxwellian resampling controller
+````````````````````````````````
+
+The ``maxwellianResamplingController`` performs a harder reset:
+at each actuation it redraws the full velocity distribution of
+the parcels in the zone from a Maxwellian at :math:`T^{\star}`.
+The bulk velocity is preserved, but the peculiar-velocity
+distribution is **completely replaced**, which is occasionally
+useful as a hard boundary condition in equilibrium-approach
+studies.
+
+Density controller
+``````````````````
+
+The ``densityController`` maintains a target per-species number
+density :math:`n_s^{\star}` by inserting new parcels (sampled
+from a Maxwellian at the current translational temperature)
+when the population is too low, or deleting parcels at random
+when it is too high. The insertion/deletion is carried out at
+the controller interval and is kept small so that the cell-
+level statistics remain smooth.
+
+Gravitational-acceleration controller
+`````````````````````````````````````
+
+The ``gravitationalAccelerationController`` applies a uniform
+acceleration :math:`\mathbf{g}` to every parcel in the zone on
+every DSMC step,
+
+.. math::
+
+   \mathbf{v}_i \leftarrow \mathbf{v}_i + \mathbf{g}\,\Delta t,
+
+with :math:`\mathbf{g}` supplied through the ``acceleration``
+vector entry in the controller's sub-dictionary. It is the
+simplest possible body-force implementation and is adequate for
+gravity and for constant-field drift in plasma studies.
+
+Orchestration and regression implications
+-----------------------------------------
+
+All controllers and the adapter are orchestrated by the cloud
+(:doc:`../classes/cloud`). They share the single cloud RNG
+``rndGen_``, which is the key observation for the planned
+regression-test infrastructure (see
+:doc:`../guide/regression_tests`): controllers that sample
+Maxwellians (temperature, Maxwellian resampling, density) or
+decide on parcel insertion/deletion draw from the same stream
+as the collision layer, so reproducibility at the collision
+level suffices to reproduce the controller actions deterministically
+under a fixed seed. Bit-identical reproduction in parallel is
+frustrated only by the cell-to-rank ownership history, which is
+itself a :doc:`../classes/load_balancing` concern.

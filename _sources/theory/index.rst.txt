@@ -1,12 +1,24 @@
-Theory Guide
+Theory guide
 ============
+
+The present guide gives a comprehensive account of the physics and
+numerics implemented in the solver, with the goal of mapping every
+capability of the code to its mathematical foundation. Each page
+may be read as a stand-alone technical note and includes
+derivations at a level of detail sufficient to verify, modify, or
+extend the corresponding implementation.
 
 .. toctree::
    :maxdepth: 2
 
-   overview
+   foundations
+   collision_cross_sections
+   collision_sampling
    rovibronic_levels
-   collisions
-   chemistry
+   larsen_borgnakke
    relaxation
+   chemistry
+   chemistry_charged
+   wall_models
    macroscopic_properties
+   adaptation_controllers

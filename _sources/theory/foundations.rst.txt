@@ -1,0 +1,255 @@
+Kinetic foundations and the DSMC algorithm
+==========================================
+
+The present section establishes the kinetic-theoretic foundations
+on which the solver rests, states the regime of validity in terms
+of dimensionless numbers, and describes the DSMC algorithm at the
+level of detail required to interpret the input parameters and the
+numerical diagnostics produced by the code.
+
+The Boltzmann equation
+----------------------
+
+For a dilute monatomic gas, the single-particle phase-space
+distribution :math:`f(\mathbf{x}, \mathbf{v}, t)` satisfies
+
+.. math::
+
+   \frac{\partial f}{\partial t}
+     + \mathbf{v}\cdot\nabla_{\mathbf{x}} f
+     + \mathbf{F}\cdot\nabla_{\mathbf{v}} f
+     = \mathcal{C}[f, f],
+
+with :math:`\mathbf{F}` an external body force (per unit mass) and
+the binary-collision operator
+
+.. math::
+
+   \mathcal{C}[f, f](\mathbf{v})
+     = \int\!\mathrm{d}\mathbf{v}_{\star}\int\!\mathrm{d}\Omega\;
+       |\mathbf{v} - \mathbf{v}_{\star}|\,
+       \sigma(g, \chi)\,
+       \bigl[f'\,f'_{\star} - f\,f_{\star}\bigr],
+
+where :math:`g = |\mathbf{v} - \mathbf{v}_{\star}|`,
+:math:`\sigma(g, \chi)` is the differential cross section at
+relative speed :math:`g` and centre-of-mass scattering angle
+:math:`\chi`, and primes denote post-collision velocities. For a
+polyatomic mixture with internal states indexed by
+:math:`\mathrm{s}`, one carries one distribution
+:math:`f_{\mathrm{s}}` per state and the collision operator
+becomes a sum over reactant states of the corresponding
+state-to-state cross sections.
+
+Three assumptions underpin this form and are carried into DSMC:
+
+* **Molecular chaos** —  the joint distribution of two colliding
+  molecules factorises,
+  :math:`f^{(2)}(\mathbf{v}, \mathbf{v}_{\star})
+  = f(\mathbf{v})\,f(\mathbf{v}_{\star})`.
+* **Binary collisions only** —  three- and higher-body
+  collisions are negligible, which holds for :math:`n d^{3}
+  \ll 1` with :math:`n` the number density and :math:`d` the
+  collision diameter.
+* **Point collisions** —  the collision event is localised at a
+  single point despite the finite collision diameter.
+
+Detailed balance and the H-theorem
+----------------------------------
+
+Detailed balance is the microscopic statement that, at
+thermodynamic equilibrium, the forward and reverse rates of every
+elementary event are equal. Combined with time-reversal symmetry
+of the collision kernel, it implies Boltzmann's H-theorem,
+
+.. math::
+
+   \frac{\mathrm{d}H}{\mathrm{d}t} \le 0, \qquad
+   H = \int f\,\ln f\;\mathrm{d}\mathbf{v},
+
+with equality if and only if :math:`f` is Maxwell-Boltzmann. The
+theorem is the formal justification for interpreting the
+equilibrium distribution of a DSMC simulation —  once transients
+have decayed —  as the correct physical one.
+
+Knudsen number and flow regimes
+-------------------------------
+
+The regime of validity is characterised by the Knudsen number
+
+.. math::
+
+   \mathrm{Kn} = \frac{\lambda}{L},
+
+with :math:`\lambda` the mean free path and :math:`L` a
+characteristic flow length. Standard classification:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Regime
+     - Description
+   * - :math:`\mathrm{Kn} < 10^{-2}`
+     - Continuum: Navier-Stokes with no-slip boundary conditions
+       is adequate.
+   * - :math:`10^{-2} < \mathrm{Kn} < 10^{-1}`
+     - Slip: Navier-Stokes with velocity-slip and
+       temperature-jump conditions on walls.
+   * - :math:`10^{-1} < \mathrm{Kn} < 10`
+     - Transitional: neither continuum nor free-molecular; DSMC
+       is the method of choice.
+   * - :math:`\mathrm{Kn} > 10`
+     - Free-molecular: particles collide almost exclusively with
+       walls; collisionless kinetic-theory expressions apply.
+
+The mean free path in a mixture of species with VHS cross
+sections is
+
+.. math::
+
+   \lambda = \frac{1}{\sqrt{2}\,\pi\,n\,d^{2}}\,
+             \left(\frac{T_{\mathrm{ref}}}{T}\right)^{\omega - 1/2},
+
+where :math:`n` is the total number density, :math:`d` is the
+reference VHS diameter, and :math:`\omega` is the viscosity
+exponent. The mean collision time :math:`\tau_c` is
+:math:`\lambda / \bar{c}` with :math:`\bar{c}` the mean thermal
+speed.
+
+The DSMC time-step
+------------------
+
+DSMC does not solve the Boltzmann equation directly. Instead it
+follows a statistically equivalent particle system, decoupling
+motion and collisions on a sub-mean-collision-time step. One
+global time-step :math:`\Delta t` of the cloud executes, in order:
+
+#. **Advection.** Each simulator particle is advected
+   ballistically over :math:`\Delta t` under the current body
+   force. Parcel-boundary interactions are processed as they
+   arise (walls, cyclic patches, inflow/outflow, processor
+   patches); rovibronic-aware walls resample the internal state
+   from the wall temperature, other patches leave it unchanged.
+#. **Collisions.** In each computational cell of volume
+   :math:`V_c`, collision candidates are generated through the
+   selected partner-selection scheme
+   (:doc:`collision_sampling`) and accepted with probability
+   :math:`\sigma_T\,g / (\sigma_T g)_{\max}`. On acceptance,
+   the binary collision model
+   (:doc:`collision_cross_sections`) rotates the relative
+   velocity and redistributes internal energy through
+   Larsen-Borgnakke sampling (:doc:`larsen_borgnakke`); reactive
+   channels (:doc:`chemistry`) are tested in the same pass.
+#. **Controllers.** Configured flow-state controllers (see
+   :doc:`adaptation_controllers`) sample their target quantities
+   and, if due, act on the parcel population.
+#. **Measurement.** Per-cell accumulators update the primitive
+   moments from which macroscopic fields are later built
+   (:doc:`macroscopic_properties`); per-patch accumulators do
+   the same on boundary faces.
+#. **Adaptation.** If the adaptive machinery
+   (:doc:`adaptation_controllers`) is enabled and the
+   configured adaptation interval has elapsed, sub-cell levels
+   and/or parcel weights are recomputed and :math:`\Delta t` may
+   be revised.
+
+Equivalent-particles factor
+---------------------------
+
+Each simulator particle represents :math:`F_N` real molecules
+(``nEquivalentParticles`` in the input dictionary). The physical
+collision rate scales as :math:`n^{2}`, so the simulated collision
+candidates must scale as :math:`F_N \cdot N^{2}`; the No-Time-
+Counter scheme absorbs this scaling into its expected-candidates
+formula (see :doc:`collision_sampling`). Equivalently,
+:math:`F_N` converts between simulator and physical cross sections
+at every step and is the single knob that trades statistical
+resolution against cost: halving :math:`F_N` doubles the particle
+count per cell and halves the statistical variance.
+
+Numerical convergence conditions
+--------------------------------
+
+Three conditions must be satisfied jointly for DSMC to reproduce
+the Boltzmann solution to leading order:
+
+.. math::
+
+   \Delta x < \frac{\lambda}{3}, \qquad
+   \Delta t < \frac{\tau_c}{3}, \qquad
+   N_{\mathrm{cell}} \gtrsim 10\text{–}20.
+
+The first two are conditions on the discretisation and are the
+reason sub-cell refinement is valuable in regions of steep
+gradients (:doc:`adaptation_controllers`); the third is a
+statistical condition whose violation merely amplifies noise. Bird
+[Bird1994f]_ gives a thorough discussion of the bias introduced
+by violating each condition, which we do not repeat here.
+
+Statistical convergence and errors
+----------------------------------
+
+A cell-level macroscopic field :math:`\langle Q\rangle` is
+estimated from :math:`N` independent samples as
+
+.. math::
+
+   \overline{Q}
+     = \frac{1}{N}\sum_{i=1}^{N} Q_i,
+   \qquad
+   \mathrm{Var}(\overline{Q})
+     = \frac{\mathrm{Var}(Q)}{N},
+
+so that the relative statistical error on a macroscopic quantity
+decays as :math:`1/\sqrt{N}`. Resolving a 1% macroscopic quantity
+requires of the order of :math:`10^{4}` independent samples per
+cell; in steady flows this cost is absorbed through temporal
+averaging after the transient phase has decayed; in unsteady flows
+it is absorbed through ensemble averaging over independent runs.
+The ``measureErrors`` switch on ``dsmcVolFields`` (see
+:doc:`../classes/measurements`) writes the per-cell standard
+deviations alongside the averaged fields so that the statistical
+confidence intervals can be reconstructed post-hoc.
+
+Motivating the rovibronic extension
+-----------------------------------
+
+The stock DSMC internal-energy model carries, on each particle, a
+continuous rotational and vibrational energy, and exchanges energy
+with the translational mode through the Larsen-Borgnakke model.
+Under thermodynamic equilibrium, this reproduces the Boltzmann
+distribution correctly. Under strong non-equilibrium, however,
+two pathologies emerge:
+
+* The **tail** of the internal-energy distribution deviates
+  substantially from the Boltzmann form in strong shocks and
+  rapid expansions, yet it is precisely the tail that drives
+  dissociation and radiation.
+* The **electronic mode** is altogether absent in the continuous
+  formulation, or at best represented by a single average
+  energy, making any coupling with radiation transport solvers
+  semi-phenomenological at best.
+
+The rovibronic extension replaces the continuous internal-energy
+variable by an indexed triple :math:`(n, v, J)` that selects one
+level in a pre-tabulated three-dimensional database
+(:doc:`rovibronic_levels`). Energies, degeneracies, and reaction
+thresholds are then evaluated from Dunham-fitted coefficients
+derived from ab-initio potential-energy surfaces. Concrete
+benefits include non-Boltzmann-tail-resolved chemistry
+[Civrais2024ChemI_f]_, [Civrais2024ChemII_f]_, and the direct
+coupling with radiation transport solvers
+[Civrais2024Electronic_f]_.
+
+.. [Bird1994f] G. A. Bird, *Molecular Gas Dynamics and the Direct
+   Simulation of Gas Flows*, Oxford University Press (1994).
+.. [Civrais2024Electronic_f] C. H. B. Civrais, M. Pfeiffer,
+   C. White, R. Steijl, "Modelling of the electronic excited
+   states in high-temperature flows," *Physics of Fluids* (2024).
+.. [Civrais2024ChemI_f] C. H. B. Civrais, C. White, R. Steijl,
+   "Quantum-kinetic chemistry model with an anharmonic oscillator
+   model: Model derivation and limitations," *Physics of Fluids*.
+.. [Civrais2024ChemII_f] C. H. B. Civrais, C. White, R. Steijl,
+   "Quantum-kinetic chemistry model with an anharmonic oscillator
+   model: Model extension and validation," *Physics of Fluids*.

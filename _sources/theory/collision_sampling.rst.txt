@@ -1,0 +1,159 @@
+Collision sampling
+==================
+
+Given a chosen cross-section model, the second half of the DSMC
+collision step is to decide, in each cell, **how many** candidate
+pairs to draw and **which** of them to accept. Four sampling
+schemes are implemented in the solver. They are mathematically
+equivalent in the limit of infinite particle count but differ in
+statistical efficiency and in the way they handle collision-rate
+disparities across species pairs. The scheme is selected via the
+``collisionPartnerSelectionModel`` key in
+``constant/dsmcProperties``.
+
+No-Time-Counter (NTC)
+---------------------
+
+The No-Time-Counter scheme, introduced by Bird, is the default.
+The per-cell candidate count over :math:`\Delta t` is
+
+.. math::
+
+   N_{\mathrm{cand}}
+     = \frac{1}{2}\,
+       \frac{N(N - 1)\, F_N\, (\sigma_T g)_{\max}\,\Delta t}
+            {V_c},
+
+where :math:`N` is the number of particles in the cell,
+:math:`F_N` is the equivalent-molecules factor, :math:`V_c` is
+the cell volume, and :math:`(\sigma_T g)_{\max}` is a running
+estimate of the maximum of
+:math:`\sigma_T(g_{\mathrm{ref}})\, g`. Each candidate pair
+:math:`(P, Q)` is accepted with probability
+
+.. math::
+
+   P_{\mathrm{acc}} = \frac{\sigma_T(g)\, g}{(\sigma_T g)_{\max}},
+
+which, combined with the candidate-generation formula above,
+recovers the target collision rate
+
+.. math::
+
+   \nu_{\mathrm{coll}}
+     = \frac{N(N - 1)\, F_N\,\langle\sigma_T g\rangle}
+            {2\,V_c}
+
+on expectation, with :math:`\langle \cdot \rangle` the ensemble
+average over the cell distribution. The running maximum
+:math:`(\sigma_T g)_{\max}` is monotonically updated whenever a
+candidate exceeds the current estimate, and is therefore
+self-correcting.
+
+*Validity.* NTC is unbiased in the limit of infinite particle
+count per cell and in the limit of infinite time-steps; the
+leading correction is :math:`O(1/N)` and is addressed by keeping
+:math:`N \gtrsim 10\text{–}20` per cell. Its main limitation is
+that the acceptance probability :math:`\sigma_T g /
+(\sigma_T g)_{\max}` becomes small whenever the cross-section
+distribution across species pairs spans several decades, which
+the alternatives below are designed to address.
+
+No-Time-Counter with sub-cycling
+--------------------------------
+
+When charged species are present, electron-electron and electron-
+neutral collision rates routinely exceed heavy-species collision
+rates by several orders of magnitude. A single DSMC time-step is
+then either too coarse to resolve electron kinetics or too fine
+to be practical for the rest of the flow. The
+``noTimeCounterSubCycled`` variant performs :math:`n_{\mathrm{sc}}`
+internal NTC sub-cycles on the electron population within each
+global DSMC step:
+
+.. math::
+
+   \Delta t_{\mathrm{sc}}
+     = \frac{\Delta t}{n_{\mathrm{sc}}},
+   \qquad
+   N_{\mathrm{cand}}^{\mathrm{sc}}
+     = \frac{1}{2}\,
+       \frac{N_e(N_e - 1)\, F_N\, (\sigma_T g)_{\max}\,
+             \Delta t_{\mathrm{sc}}}{V_c}
+       \times n_{\mathrm{sc}},
+
+so that the total number of sampled electron collisions remains
+unchanged but they are now distributed over :math:`n_{\mathrm{sc}}`
+smaller steps. The key ``nSubCycles`` in the
+``noTimeCounterSubCycledProperties`` sub-dictionary sets
+:math:`n_{\mathrm{sc}}`.
+
+Majorant Collision Frequency (MCF)
+----------------------------------
+
+The majorant collision frequency method addresses the acceptance-
+rate inefficiency of NTC by replacing the global
+:math:`(\sigma_T g)_{\max}` bound by per-pair majorants. For each
+candidate pair, an analytical upper bound
+:math:`\hat{\sigma}_T(g)` is available that is tighter than the
+global maximum; the acceptance probability then becomes
+
+.. math::
+
+   P_{\mathrm{acc}}^{\mathrm{MCF}}
+     = \frac{\sigma_T(g)\, g}{\hat{\sigma}_T(g_{\max})\, g_{\max}}.
+
+The method is particularly effective in multi-species flows in
+which a handful of pairs dominate the collision rate. The
+implementation follows the particle-based formulation of Pfeiffer
+et al. [Pfeiffer2019cs]_.
+
+Simplified Bernoulli Trials (SBT)
+---------------------------------
+
+The SBT scheme of Stefanov replaces the NTC acceptance step by a
+sequence of Bernoulli trials with per-pair probability
+
+.. math::
+
+   P_{\mathrm{coll}}^{\mathrm{SBT}}
+     = \frac{\sigma_T(g)\, g\, F_N\,\Delta t}{V_c / (N - 1)}.
+
+Each particle is tested exactly once against a randomly chosen
+partner, and the global estimate :math:`(\sigma_T g)_{\max}` is
+not needed. SBT is closer in spirit to the original Nanbu
+algorithm and is occasionally preferable in low-particle-per-cell
+regimes, at the cost of a slightly different statistical bias
+profile at small :math:`N`.
+
+Sub-cell resolution of collision partners
+-----------------------------------------
+
+Whichever sampling scheme is chosen, accepted pairs may be
+restricted to particles within the **same sub-cell** of the
+parent cell when the adaptation machinery
+(:doc:`adaptation_controllers`) is enabled. This is the solver's
+principal mechanism for tightening the :math:`\Delta x <
+\lambda/3` condition in regions of locally steep gradients, and
+it is applied transparently to the scheme above: the partner
+pool in the formulae is reduced to the sub-cell inventory, while
+the sampling logic is otherwise unchanged.
+
+Choosing between schemes
+------------------------
+
+In practice:
+
+* use ``noTimeCounter`` for general-purpose DSMC work; it has
+  been exercised on every validation case in the project;
+* use ``noTimeCounterSubCycled`` when ``chargedParticles`` is
+  enabled and electron-electron or electron-neutral collision
+  rates are expected to dominate the global DSMC time-step;
+* consider ``majorantCollisionFrequency`` when the cross-section
+  distribution across species pairs spans several decades;
+* ``simplifiedBernoulliTrials`` is primarily of pedagogical
+  interest in this implementation and is not recommended as a
+  default.
+
+.. [Pfeiffer2019cs] M. Pfeiffer et al., *Physics of Fluids*
+   (2019), https://doi.org/10.1063/1.5119580.

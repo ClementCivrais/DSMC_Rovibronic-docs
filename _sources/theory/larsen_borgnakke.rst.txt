@@ -1,0 +1,179 @@
+Larsen-Borgnakke energy redistribution
+======================================
+
+Once a binary collision has been accepted by the sampling layer
+(:doc:`collision_sampling`), the Larsen-Borgnakke (LB) phantom
+collision model [LarsenBorgnakke1975lb]_ governs the exchange
+of energy between the translational and internal modes of the
+colliding parcels. In the rovibronic extension, the acceptance
+step acts on the discrete :math:`(n, v, J)` state space rather
+than on a continuous internal-energy variable, while the
+underlying statistical structure is preserved.
+
+Collision energy pool
+---------------------
+
+Each collision is characterised by a pooled energy
+
+.. math::
+
+   E_c = E_{\mathrm{rel}}
+       + \sum_{k\in\mathrm{pool}} E_k^{\mathrm{int}},
+
+where :math:`E_{\mathrm{rel}} = \tfrac{1}{2}\,\mu_{12}\,g^{2}` is
+the translational energy in the centre-of-mass frame, and the
+sum runs over those internal modes (rotational, rovibrational,
+rovibronic) that the current event draws upon. The pool is
+conserved by construction: what is added to the internal modes
+in the sampling step is deducted from :math:`E_{\mathrm{rel}}`,
+and vice-versa.
+
+Acceptance-rejection rule
+-------------------------
+
+The LB sampler proposes a trial post-collision internal state for
+the parcel and accepts it with probability proportional to the
+phase-space volume still available to the remaining translational
+degrees of freedom. In the discrete rovibronic formulation, the
+acceptance-rejection criterion reads
+
+.. math::
+
+   f(E')
+     = g(E')\,
+       \left(\frac{E_c - E'}{E_c}\right)^{\alpha_{\mathrm{LB}}},
+
+where :math:`E'` is the energy of the trial state, :math:`g(E')`
+is its degeneracy (see :doc:`rovibronic_levels`), and
+:math:`\alpha_{\mathrm{LB}}` is the LB exponent derived below.
+The acceptance probability is
+
+.. math::
+
+   P_{\mathrm{acc}}^{\mathrm{LB}}
+     = \frac{f(E')}{f_{\max}},
+   \qquad
+   f_{\max} = \max_{E''} f(E''),
+
+and the procedure is iterated until a trial state is accepted.
+
+The role of the degeneracy factor :math:`g(E')` is precisely what
+distinguishes the rovibronic LB from its continuous-variable
+ancestor: in the continuous case :math:`g(E')\propto
+E'{}^{\xi_{\mathrm{int}}/2 - 1}`, while here :math:`g(E')` is the
+exact statistical weight of a single quantum level, and the sum
+over :math:`E'` is replaced by a sum over the enumerated
+:math:`(n, v, J)` triples inside the accessible energy window
+:math:`E' < E_c`.
+
+Larsen-Borgnakke exponent
+-------------------------
+
+For a parcel whose translational degrees of freedom entering the
+relative motion total :math:`\xi_{\mathrm{rel}}`, and whose
+internal modes participating in the current event have pooled
+effective DOF :math:`\xi_{\mathrm{int}}^{\mathrm{pool}}`, the LB
+exponent is
+
+.. math::
+
+   \alpha_{\mathrm{LB}}
+     = \frac{\xi_{\mathrm{rel}}
+             + \xi_{\mathrm{int}}^{\mathrm{pool}}}{2} - 1.
+
+For the VHS cross section, :math:`\xi_{\mathrm{rel}} = 5 - 2\omega`
+with :math:`\omega` the viscosity exponent; for a pure rotational
+event in a diatomic, :math:`\xi_{\mathrm{int}}^{\mathrm{pool}}
+\approx 2`; for a rovibrational event the pool is augmented by
+the temperature-dependent vibrational contribution
+
+.. math::
+
+   \xi_v(T) = \frac{2\,\theta_v/T}{\exp(\theta_v/T) - 1},
+
+with :math:`\theta_v` the characteristic vibrational temperature;
+for a rovibronic event the electronic mode is added similarly.
+The correct use of :math:`\xi_{\mathrm{int}}^{\mathrm{pool}}` is
+the single most delicate step in the implementation, and was the
+source of several compensating bugs in early versions of the
+solver; the current value has been audited against analytical
+expectations and is documented in
+``docs/Rovibronic Article/DSMC_Bugs_Report.pdf``.
+
+Effective degrees of freedom
+----------------------------
+
+The effective DOF of a composite mode :math:`k` at temperature
+:math:`T` are defined, following Boyd [Boyd1990lb]_, through
+
+.. math::
+
+   \xi_k(T) = \frac{2\,\langle E_k\rangle(T)}{k_B T},
+
+where :math:`\langle E_k\rangle(T)` is the thermal average of the
+mode's energy per molecule at :math:`T`, evaluated from the
+partition function,
+
+.. math::
+
+   \langle E_k\rangle(T)
+     = \frac{\sum_{\{i\}} g_i^{(k)}\, E_i^{(k)}\,
+             \exp\!\bigl[-E_i^{(k)}/k_B T\bigr]}
+            {\sum_{\{i\}} g_i^{(k)}\,
+             \exp\!\bigl[-E_i^{(k)}/k_B T\bigr]}.
+
+The sums run over the level subspace relevant to mode :math:`k`:
+rotations at fixed :math:`(n, v)` for mode :math:`R`;
+rovibrations at fixed :math:`n` for mode :math:`RV`; full
+rovibronic space for mode :math:`RVE`. The quantities
+:math:`\xi_k(T)` and :math:`\langle E_k\rangle(T)` are
+pre-tabulated at solver start-up and accessed at run-time
+through a bisection lookup.
+
+Energy accounting and detailed balance
+--------------------------------------
+
+Once a post-collision internal state has been accepted, the
+available translational energy is reduced accordingly,
+
+.. math::
+
+   E_{\mathrm{rel}}' = E_c - \sum_{k\in\mathrm{pool}} E_k'^{(\mathrm{int})},
+
+and the post-collision relative speed is recomputed as
+:math:`g' = \sqrt{2\,E_{\mathrm{rel}}'/\mu_{12}}`. Because the LB
+sampler draws from a thermodynamically weighted distribution over
+accessible states, detailed balance is satisfied by construction
+at equilibrium: the forward and reverse rates of any
+:math:`(n, v, J) \to (n', v', J')` transition are equal, as can
+be verified analytically by integrating the acceptance-rejection
+kernel against a Boltzmann distribution.
+
+Failure modes and mitigations
+-----------------------------
+
+Three failure modes of the LB sampler have been identified and
+addressed in the course of the project:
+
+* **NaN in energy redistribution.** Under a specific configuration
+  of exponents, the proposal energy :math:`E_c - E'` became
+  negative in intermediate arithmetic, producing a NaN. The
+  correction clips negative proposals at machine zero and re-draws
+  the trial state. Documented in ``DSMC_Bugs_Report.pdf``.
+* **Dissociation double-count.** In the early charge-exchange
+  implementation, the dissociation event was sampled twice in a
+  single collision. The fix routes each reactive channel through
+  a single acceptance step.
+* **Wrong effective DOF.** An earlier version of the sampler used
+  the partner's internal DOF in place of the sampled parcel's
+  own. The current implementation uses the parcel's own DOF, and
+  the phase-1 heat-bath validation (:doc:`../examples/n2_heatbath`)
+  passes comfortably as a consequence.
+
+.. [LarsenBorgnakke1975lb] C. Borgnakke and P. S. Larsen,
+   "Statistical collision model for Monte Carlo simulation of
+   polyatomic gas mixture," *Journal of Computational Physics*,
+   **18** (4), 405–420 (1975).
+.. [Boyd1990lb] I. D. Boyd, "Rotational-translational energy
+   transfer in rarefied non-equilibrium flows," *Physics of
+   Fluids A*, **2** (3), 447–452 (1990).

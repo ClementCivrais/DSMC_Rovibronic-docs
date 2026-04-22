@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Method Overview &mdash; DSMC Rovibronic</title>
+  <title>Larsen-Borgnakke energy redistribution &mdash; DSMC Rovibronic</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -23,8 +23,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Rovibronic Level Structure" href="rovibronic_levels.html" />
-    <link rel="prev" title="Theory Guide" href="index.html" /> 
+    <link rel="next" title="Internal-energy relaxation" href="relaxation.html" />
+    <link rel="prev" title="Rovibronic level structure" href="rovibronic_levels.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -129,57 +129,123 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Theory Guide</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Theory Guide</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Method Overview</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#what-the-rovibronic-description-buys">What the rovibronic description buys</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#organisation-of-the-present-guide">Organisation of the present guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Theory guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="foundations.html">Kinetic foundations and the DSMC algorithm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="foundations.html#the-boltzmann-equation">The Boltzmann equation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="foundations.html#detailed-balance-and-the-h-theorem">Detailed balance and the H-theorem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="foundations.html#knudsen-number-and-flow-regimes">Knudsen number and flow regimes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="foundations.html#the-dsmc-time-step">The DSMC time-step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="foundations.html#equivalent-particles-factor">Equivalent-particles factor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="foundations.html#numerical-convergence-conditions">Numerical convergence conditions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="foundations.html#statistical-convergence-and-errors">Statistical convergence and errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="foundations.html#motivating-the-rovibronic-extension">Motivating the rovibronic extension</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="rovibronic_levels.html">Rovibronic Level Structure</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#energy-expansion">Energy expansion</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="rovibronic_levels.html#vibrational-ladder-morse-oscillator">Vibrational ladder (Morse oscillator)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="rovibronic_levels.html#rotational-sub-ladder-rigid-rotor-distortion">Rotational sub-ladder (rigid rotor + distortion)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="rovibronic_levels.html#degeneracy">Degeneracy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_cross_sections.html">Collision cross sections</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#hard-sphere-cross-section">Hard sphere cross section</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#variable-hard-sphere-vhs">Variable Hard Sphere (VHS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#variable-soft-sphere-vss">Variable Soft Sphere (VSS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#post-collision-velocities">Post-collision velocities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#elastic-versus-inelastic-variants">Elastic versus inelastic variants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#coefficient-dictionaries">Coefficient dictionaries</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="collision_sampling.html">Collision sampling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collision_sampling.html#no-time-counter-ntc">No-Time-Counter (NTC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_sampling.html#no-time-counter-with-sub-cycling">No-Time-Counter with sub-cycling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_sampling.html#majorant-collision-frequency-mcf">Majorant Collision Frequency (MCF)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_sampling.html#simplified-bernoulli-trials-sbt">Simplified Bernoulli Trials (SBT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_sampling.html#sub-cell-resolution-of-collision-partners">Sub-cell resolution of collision partners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_sampling.html#choosing-between-schemes">Choosing between schemes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rovibronic_levels.html">Rovibronic level structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#born-oppenheimer-separation">Born-Oppenheimer separation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#vibrational-ladder-morse-oscillator">Vibrational ladder — Morse oscillator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#rotational-sub-ladder-rigid-rotor-with-distortion">Rotational sub-ladder — rigid rotor with distortion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#dunham-expansion-and-ab-initio-fits">Dunham expansion and ab-initio fits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#degeneracies">Degeneracies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#nuclear-spin-statistics-and-ortho-para-sub-ladders">Nuclear-spin statistics and ortho/para sub-ladders</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#ground-state-normalisation-and-provenance">Ground-state normalisation and provenance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#partition-functions">Partition functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#typical-state-space-sizes">Typical state-space sizes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="collisions.html">Binary Collisions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="collisions.html#collision-pair-selection-ntc">Collision-pair selection (NTC)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="collisions.html#vss-cross-section">VSS cross section</a></li>
-<li class="toctree-l3"><a class="reference internal" href="collisions.html#exponent-conventions-for-the-larsen-borgnakke-sampler">Exponent conventions for the Larsen-Borgnakke sampler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="collisions.html#reactive-collisions">Reactive collisions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Larsen-Borgnakke energy redistribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#collision-energy-pool">Collision energy pool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#acceptance-rejection-rule">Acceptance-rejection rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#larsen-borgnakke-exponent">Larsen-Borgnakke exponent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#effective-degrees-of-freedom">Effective degrees of freedom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#energy-accounting-and-detailed-balance">Energy accounting and detailed balance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#failure-modes-and-mitigations">Failure modes and mitigations</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="chemistry.html">Chemistry</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#dissociation-with-asymptote-matching">Dissociation with asymptote matching</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#recombination-from-detailed-balance">Recombination from detailed balance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#exchange-with-automatic-heat-of-reaction">Exchange with automatic heat of reaction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#ionisation-and-charge-exchange">Ionisation and charge exchange</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="chemistry.html#associative-ionisation">Associative ionisation</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#summary-of-design-principles">Summary of design principles</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="relaxation.html">Energy Relaxation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="relaxation.html#landau-teller-rate-per-mode">Landau-Teller rate per mode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="relaxation.html#composite-modes-and-effective-dof">Composite modes and effective DOF</a></li>
-<li class="toctree-l3"><a class="reference internal" href="relaxation.html#parallel-marginal-cascade">Parallel-marginal cascade</a></li>
-<li class="toctree-l3"><a class="reference internal" href="relaxation.html#validation-protocol-phase-by-phase">Validation protocol (phase-by-phase)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relaxation.html">Internal-energy relaxation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#landau-teller-rate-equation">Landau-Teller rate equation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#multi-mode-decomposition">Multi-mode decomposition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#millikan-white-and-parker-correlations">Millikan-White and Parker correlations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#composite-modes-in-the-parallel-marginal-cascade">Composite modes in the parallel-marginal cascade</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#event-selection">Event selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#nizenkov-correction">Nizenkov correction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#phase-by-phase-validation-protocol">Phase-by-phase validation protocol</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation.html#on-the-absence-of-the-classic-zcorr">On the absence of the classic ZCorr</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="macroscopic_properties.html">Macroscopic Properties</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#number-density-and-species-fractions">Number density and species fractions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#translational-temperature">Translational temperature</a></li>
-<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#rotational-vibrational-and-electronic-temperatures">Rotational, vibrational, and electronic temperatures</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="macroscopic_properties.html#status-of-effective-temperatures-under-non-equilibrium">Status of effective temperatures under non-equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemistry.html">Neutral chemistry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#total-collision-energy-tce-model">Total-Collision-Energy (TCE) model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#quantum-kinetic-qk-model-full-derivation">Quantum-Kinetic (QK) model — full derivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#post-reaction-redistribution-of-internal-energy">Post-reaction redistribution of internal energy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#dissociation-with-potential-energy-curve-asymptote-matching">Dissociation with potential-energy-curve asymptote matching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#recombination-from-detailed-balance">Recombination from detailed balance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#atom-exchange-zeldovich-type-reactions">Atom-exchange (Zeldovich-type) reactions</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="chemistry_charged.html">Charged-species chemistry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#charge-exchange">Charge exchange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#status">Status</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wall_models.html">Wall and inflow models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#specular-reflection">Specular reflection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#fully-diffuse-reflection">Fully diffuse reflection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#mixed-diffuse-specular">Mixed diffuse / specular</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#cercignani-lampis-lord-cll-scattering">Cercignani-Lampis-Lord (CLL) scattering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#rovibronic-aware-wall-dsmcmixeddiffusespecularwallrotpatch">Rovibronic-aware wall: <code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#free-stream-inflow">Free-stream inflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#chapman-enskog-inflow">Chapman-Enskog inflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#pressure-and-mass-flow-inlets">Pressure and mass-flow inlets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#particle-deletion">Particle deletion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#cyclic-boundaries">Cyclic boundaries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="macroscopic_properties.html">Macroscopic properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#number-density-and-species-fractions">Number density and species fractions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#bulk-velocity-and-peculiar-velocity">Bulk velocity and peculiar velocity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#translational-temperature">Translational temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#stress-tensor-and-heat-flux">Stress tensor and heat flux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#internal-mode-effective-temperatures">Internal-mode effective temperatures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#mean-free-path-and-mach-number">Mean free path and Mach number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#transport-coefficients-from-vss-parameters">Transport coefficients from VSS parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#population-diagnostics">Population diagnostics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#bin-zone-and-face-flux-outputs">Bin, zone, and face-flux outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="adaptation_controllers.html">Adaptation and controllers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="adaptation_controllers.html#sub-cell-adaptation">Sub-cell adaptation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adaptation_controllers.html#time-step-adaptation">Time-step adaptation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adaptation_controllers.html#cell-weight-adaptation">Cell-weight adaptation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adaptation_controllers.html#controllers-active-flow-state-drivers">Controllers — active flow-state drivers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="adaptation_controllers.html#temperature-controller">Temperature controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adaptation_controllers.html#maxwellian-resampling-controller">Maxwellian resampling controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adaptation_controllers.html#density-controller">Density controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adaptation_controllers.html#gravitational-acceleration-controller">Gravitational-acceleration controller</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="adaptation_controllers.html#orchestration-and-regression-implications">Orchestration and regression implications</a></li>
 </ul>
 </li>
 </ul>
@@ -384,10 +450,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">Theory Guide</a></li>
-      <li class="breadcrumb-item active">Method Overview</li>
+          <li class="breadcrumb-item"><a href="index.html">Theory guide</a></li>
+      <li class="breadcrumb-item active">Larsen-Borgnakke energy redistribution</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/theory/overview.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/theory/larsen_borgnakke.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -395,99 +461,158 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="method-overview">
-<h1>Method Overview<a class="headerlink" href="#method-overview" title="Link to this heading"></a></h1>
-<p>The present section aims to describe the Direct Simulation Monte
-Carlo (DSMC) method as implemented in this solver, and to motivate
-the rovibronic extension that constitutes the novelty of the present
-work.</p>
-<p>The DSMC method <a class="reference internal" href="#bird1994t" id="id1"><span>[Bird1994t]</span></a> resolves a rarefied or transitional gas
-flow by following a population of simulator particles, each
-representing a large number of real molecules. Motion and collisions
-are decoupled on a sub-mean-collision-time step: particles are first
-advected ballistically, and then binary collisions are sampled, cell
-by cell, according to the selected collision model —  the Variable
-Soft Sphere (VSS) model by default. The DSMC method relies on
-considerations from kinetic theory, imposing that the gas be dilute,
-i.e. the mean molecular diameter must be significantly smaller than
-the mean free path and Boltzmann’s molecular chaos assumption must
-hold.</p>
-<p>The novelty of the rovibronic extension lies in the replacement of
-the usual continuous (or multi-temperature) internal-energy model by
-<strong>explicit quantum-state tracking</strong>. Every molecular particle carries
-three integers:</p>
-<ul class="simple">
-<li><p>the electronic level index <span class="math notranslate nohighlight">\(n\)</span>,</p></li>
-<li><p>the vibrational level index <span class="math notranslate nohighlight">\(v\)</span> (within electronic level
-<span class="math notranslate nohighlight">\(n\)</span>), and</p></li>
-<li><p>the rotational level index <span class="math notranslate nohighlight">\(J\)</span> (within the
-<span class="math notranslate nohighlight">\((n, v)\)</span> manifold).</p></li>
-</ul>
-<p>Energies, degeneracies, and transition rates are evaluated from
-pre-tabulated level tables, with Dunham-fitted coefficients derived
-from ab-initio potential-energy surfaces where available.</p>
-<section id="what-the-rovibronic-description-buys">
-<h2>What the rovibronic description buys<a class="headerlink" href="#what-the-rovibronic-description-buys" title="Link to this heading"></a></h2>
-<p>The state-resolved description is more expensive than a bulk
-temperature representation, but delivers three benefits that matter
-in applications of interest:</p>
-<ul class="simple">
-<li><p>Correct non-Boltzmann tail populations in strong shocks and rapid
-expansions, where multi-temperature assumptions fail.</p></li>
-<li><p>Direct coupling between excited-state populations and
-state-specific dissociation, recombination, and charge-exchange
-channels <a class="reference internal" href="#civrais2024chemi-t" id="id2"><span>[Civrais2024ChemI_t]</span></a>, <a class="reference internal" href="#civrais2024chemii-t" id="id3"><span>[Civrais2024ChemII_t]</span></a>.</p></li>
-<li><p>Predictive chemistry without having to fit global rate constants
-to a particular temperature range, because the rate integrals
-are constructed directly from the spectroscopic database.</p></li>
-</ul>
-<p>In particular, coupling between the vibrational and electronic
-modes of molecular species is essential when DSMC is coupled with
-radiation transport solvers <a class="reference internal" href="#civrais2024electronic-t" id="id4"><span>[Civrais2024Electronic_t]</span></a>, or in
-flows in which state-selective dissociation channels (e.g. from
-electronically excited O<sub>2</sub> in re-entry plasmas) alter the
-overall chemistry.</p>
+  <section id="larsen-borgnakke-energy-redistribution">
+<h1>Larsen-Borgnakke energy redistribution<a class="headerlink" href="#larsen-borgnakke-energy-redistribution" title="Link to this heading"></a></h1>
+<p>Once a binary collision has been accepted by the sampling layer
+(<a class="reference internal" href="collision_sampling.html"><span class="doc">Collision sampling</span></a>), the Larsen-Borgnakke (LB) phantom
+collision model <a class="reference internal" href="#larsenborgnakke1975lb" id="id1"><span>[LarsenBorgnakke1975lb]</span></a> governs the exchange
+of energy between the translational and internal modes of the
+colliding parcels. In the rovibronic extension, the acceptance
+step acts on the discrete <span class="math notranslate nohighlight">\((n, v, J)\)</span> state space rather
+than on a continuous internal-energy variable, while the
+underlying statistical structure is preserved.</p>
+<section id="collision-energy-pool">
+<h2>Collision energy pool<a class="headerlink" href="#collision-energy-pool" title="Link to this heading"></a></h2>
+<p>Each collision is characterised by a pooled energy</p>
+<div class="math notranslate nohighlight">
+\[E_c = E_{\mathrm{rel}}
+    + \sum_{k\in\mathrm{pool}} E_k^{\mathrm{int}},\]</div>
+<p>where <span class="math notranslate nohighlight">\(E_{\mathrm{rel}} = \tfrac{1}{2}\,\mu_{12}\,g^{2}\)</span> is
+the translational energy in the centre-of-mass frame, and the
+sum runs over those internal modes (rotational, rovibrational,
+rovibronic) that the current event draws upon. The pool is
+conserved by construction: what is added to the internal modes
+in the sampling step is deducted from <span class="math notranslate nohighlight">\(E_{\mathrm{rel}}\)</span>,
+and vice-versa.</p>
 </section>
-<section id="organisation-of-the-present-guide">
-<h2>Organisation of the present guide<a class="headerlink" href="#organisation-of-the-present-guide" title="Link to this heading"></a></h2>
-<p>The remainder of the Theory Guide develops, in turn:</p>
+<section id="acceptance-rejection-rule">
+<h2>Acceptance-rejection rule<a class="headerlink" href="#acceptance-rejection-rule" title="Link to this heading"></a></h2>
+<p>The LB sampler proposes a trial post-collision internal state for
+the parcel and accepts it with probability proportional to the
+phase-space volume still available to the remaining translational
+degrees of freedom. In the discrete rovibronic formulation, the
+acceptance-rejection criterion reads</p>
+<div class="math notranslate nohighlight">
+\[f(E')
+  = g(E')\,
+    \left(\frac{E_c - E'}{E_c}\right)^{\alpha_{\mathrm{LB}}},\]</div>
+<p>where <span class="math notranslate nohighlight">\(E'\)</span> is the energy of the trial state, <span class="math notranslate nohighlight">\(g(E')\)</span>
+is its degeneracy (see <a class="reference internal" href="rovibronic_levels.html"><span class="doc">Rovibronic level structure</span></a>), and
+<span class="math notranslate nohighlight">\(\alpha_{\mathrm{LB}}\)</span> is the LB exponent derived below.
+The acceptance probability is</p>
+<div class="math notranslate nohighlight">
+\[P_{\mathrm{acc}}^{\mathrm{LB}}
+  = \frac{f(E')}{f_{\max}},
+\qquad
+f_{\max} = \max_{E''} f(E''),\]</div>
+<p>and the procedure is iterated until a trial state is accepted.</p>
+<p>The role of the degeneracy factor <span class="math notranslate nohighlight">\(g(E')\)</span> is precisely what
+distinguishes the rovibronic LB from its continuous-variable
+ancestor: in the continuous case <span class="math notranslate nohighlight">\(g(E')\propto
+E'{}^{\xi_{\mathrm{int}}/2 - 1}\)</span>, while here <span class="math notranslate nohighlight">\(g(E')\)</span> is the
+exact statistical weight of a single quantum level, and the sum
+over <span class="math notranslate nohighlight">\(E'\)</span> is replaced by a sum over the enumerated
+<span class="math notranslate nohighlight">\((n, v, J)\)</span> triples inside the accessible energy window
+<span class="math notranslate nohighlight">\(E' &lt; E_c\)</span>.</p>
+</section>
+<section id="larsen-borgnakke-exponent">
+<h2>Larsen-Borgnakke exponent<a class="headerlink" href="#larsen-borgnakke-exponent" title="Link to this heading"></a></h2>
+<p>For a parcel whose translational degrees of freedom entering the
+relative motion total <span class="math notranslate nohighlight">\(\xi_{\mathrm{rel}}\)</span>, and whose
+internal modes participating in the current event have pooled
+effective DOF <span class="math notranslate nohighlight">\(\xi_{\mathrm{int}}^{\mathrm{pool}}\)</span>, the LB
+exponent is</p>
+<div class="math notranslate nohighlight">
+\[\alpha_{\mathrm{LB}}
+  = \frac{\xi_{\mathrm{rel}}
+          + \xi_{\mathrm{int}}^{\mathrm{pool}}}{2} - 1.\]</div>
+<p>For the VHS cross section, <span class="math notranslate nohighlight">\(\xi_{\mathrm{rel}} = 5 - 2\omega\)</span>
+with <span class="math notranslate nohighlight">\(\omega\)</span> the viscosity exponent; for a pure rotational
+event in a diatomic, <span class="math notranslate nohighlight">\(\xi_{\mathrm{int}}^{\mathrm{pool}}
+\approx 2\)</span>; for a rovibrational event the pool is augmented by
+the temperature-dependent vibrational contribution</p>
+<div class="math notranslate nohighlight">
+\[\xi_v(T) = \frac{2\,\theta_v/T}{\exp(\theta_v/T) - 1},\]</div>
+<p>with <span class="math notranslate nohighlight">\(\theta_v\)</span> the characteristic vibrational temperature;
+for a rovibronic event the electronic mode is added similarly.
+The correct use of <span class="math notranslate nohighlight">\(\xi_{\mathrm{int}}^{\mathrm{pool}}\)</span> is
+the single most delicate step in the implementation, and was the
+source of several compensating bugs in early versions of the
+solver; the current value has been audited against analytical
+expectations and is documented in
+<code class="docutils literal notranslate"><span class="pre">docs/Rovibronic</span> <span class="pre">Article/DSMC_Bugs_Report.pdf</span></code>.</p>
+</section>
+<section id="effective-degrees-of-freedom">
+<h2>Effective degrees of freedom<a class="headerlink" href="#effective-degrees-of-freedom" title="Link to this heading"></a></h2>
+<p>The effective DOF of a composite mode <span class="math notranslate nohighlight">\(k\)</span> at temperature
+<span class="math notranslate nohighlight">\(T\)</span> are defined, following Boyd <a class="reference internal" href="#boyd1990lb" id="id2"><span>[Boyd1990lb]</span></a>, through</p>
+<div class="math notranslate nohighlight">
+\[\xi_k(T) = \frac{2\,\langle E_k\rangle(T)}{k_B T},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\langle E_k\rangle(T)\)</span> is the thermal average of the
+mode’s energy per molecule at <span class="math notranslate nohighlight">\(T\)</span>, evaluated from the
+partition function,</p>
+<div class="math notranslate nohighlight">
+\[\langle E_k\rangle(T)
+  = \frac{\sum_{\{i\}} g_i^{(k)}\, E_i^{(k)}\,
+          \exp\!\bigl[-E_i^{(k)}/k_B T\bigr]}
+         {\sum_{\{i\}} g_i^{(k)}\,
+          \exp\!\bigl[-E_i^{(k)}/k_B T\bigr]}.\]</div>
+<p>The sums run over the level subspace relevant to mode <span class="math notranslate nohighlight">\(k\)</span>:
+rotations at fixed <span class="math notranslate nohighlight">\((n, v)\)</span> for mode <span class="math notranslate nohighlight">\(R\)</span>;
+rovibrations at fixed <span class="math notranslate nohighlight">\(n\)</span> for mode <span class="math notranslate nohighlight">\(RV\)</span>; full
+rovibronic space for mode <span class="math notranslate nohighlight">\(RVE\)</span>. The quantities
+<span class="math notranslate nohighlight">\(\xi_k(T)\)</span> and <span class="math notranslate nohighlight">\(\langle E_k\rangle(T)\)</span> are
+pre-tabulated at solver start-up and accessed at run-time
+through a bisection lookup.</p>
+</section>
+<section id="energy-accounting-and-detailed-balance">
+<h2>Energy accounting and detailed balance<a class="headerlink" href="#energy-accounting-and-detailed-balance" title="Link to this heading"></a></h2>
+<p>Once a post-collision internal state has been accepted, the
+available translational energy is reduced accordingly,</p>
+<div class="math notranslate nohighlight">
+\[E_{\mathrm{rel}}' = E_c - \sum_{k\in\mathrm{pool}} E_k'^{(\mathrm{int})},\]</div>
+<p>and the post-collision relative speed is recomputed as
+<span class="math notranslate nohighlight">\(g' = \sqrt{2\,E_{\mathrm{rel}}'/\mu_{12}}\)</span>. Because the LB
+sampler draws from a thermodynamically weighted distribution over
+accessible states, detailed balance is satisfied by construction
+at equilibrium: the forward and reverse rates of any
+<span class="math notranslate nohighlight">\((n, v, J) \to (n', v', J')\)</span> transition are equal, as can
+be verified analytically by integrating the acceptance-rejection
+kernel against a Boltzmann distribution.</p>
+</section>
+<section id="failure-modes-and-mitigations">
+<h2>Failure modes and mitigations<a class="headerlink" href="#failure-modes-and-mitigations" title="Link to this heading"></a></h2>
+<p>Three failure modes of the LB sampler have been identified and
+addressed in the course of the project:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="rovibronic_levels.html"><span class="doc">Rovibronic Level Structure</span></a> — the spectroscopic database and the
-construction of the <span class="math notranslate nohighlight">\((n, v, J)\)</span> energy tables;</p></li>
-<li><p><a class="reference internal" href="collisions.html"><span class="doc">Binary Collisions</span></a> — the VSS collision model and the no-time-counter
-(NTC) scheme;</p></li>
-<li><p><a class="reference internal" href="chemistry.html"><span class="doc">Chemistry</span></a> — dissociation, recombination, exchange, and
-ionisation, with particular emphasis on the parameter-free
-computation of heats of reaction from the database;</p></li>
-<li><p><a class="reference internal" href="relaxation.html"><span class="doc">Energy Relaxation</span></a> — the parallel-marginal cascade that drives the
-internal modes toward equilibrium, and its validation against the
-multi-exponential Landau-Teller solution;</p></li>
-<li><p><a class="reference internal" href="macroscopic_properties.html"><span class="doc">Macroscopic Properties</span></a> — the inversion from state-resolved
-populations to effective temperatures.</p></li>
+<li><p><strong>NaN in energy redistribution.</strong> Under a specific configuration
+of exponents, the proposal energy <span class="math notranslate nohighlight">\(E_c - E'\)</span> became
+negative in intermediate arithmetic, producing a NaN. The
+correction clips negative proposals at machine zero and re-draws
+the trial state. Documented in <code class="docutils literal notranslate"><span class="pre">DSMC_Bugs_Report.pdf</span></code>.</p></li>
+<li><p><strong>Dissociation double-count.</strong> In the early charge-exchange
+implementation, the dissociation event was sampled twice in a
+single collision. The fix routes each reactive channel through
+a single acceptance step.</p></li>
+<li><p><strong>Wrong effective DOF.</strong> An earlier version of the sampler used
+the partner’s internal DOF in place of the sampled parcel’s
+own. The current implementation uses the parcel’s own DOF, and
+the phase-1 heat-bath validation (<a class="reference internal" href="../examples/n2_heatbath.html"><span class="doc">Landau-Teller heat-bath validation</span></a>)
+passes comfortably as a consequence.</p></li>
 </ul>
 <div role="list" class="citation-list">
-<div class="citation" id="bird1994t" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Bird1994t</a><span class="fn-bracket">]</span></span>
-<p>G. A. Bird, <em>Molecular Gas Dynamics and the Direct
-Simulation of Gas Flows</em>, Oxford University Press (1994).</p>
+<div class="citation" id="larsenborgnakke1975lb" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">LarsenBorgnakke1975lb</a><span class="fn-bracket">]</span></span>
+<p>C. Borgnakke and P. S. Larsen,
+“Statistical collision model for Monte Carlo simulation of
+polyatomic gas mixture,” <em>Journal of Computational Physics</em>,
+<strong>18</strong> (4), 405–420 (1975).</p>
 </div>
-<div class="citation" id="civrais2024electronic-t" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">Civrais2024Electronic_t</a><span class="fn-bracket">]</span></span>
-<p>C. H. B. Civrais, M. Pfeiffer, C. White,
-and R. Steijl, “Modelling of the electronic excited states in
-high-temperature flows,” <em>Physics of Fluids</em> (2024).</p>
-</div>
-<div class="citation" id="civrais2024chemi-t" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Civrais2024ChemI_t</a><span class="fn-bracket">]</span></span>
-<p>C. H. B. Civrais, C. White, and R. Steijl,
-“Quantum-kinetic chemistry model with an anharmonic oscillator
-model: Model derivation and limitations,” <em>Physics of Fluids</em>.</p>
-</div>
-<div class="citation" id="civrais2024chemii-t" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">Civrais2024ChemII_t</a><span class="fn-bracket">]</span></span>
-<p>C. H. B. Civrais, C. White, and R. Steijl,
-“Quantum-kinetic chemistry model with an anharmonic oscillator
-model: Model extension and validation,” <em>Physics of Fluids</em>.</p>
+<div class="citation" id="boyd1990lb" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Boyd1990lb</a><span class="fn-bracket">]</span></span>
+<p>I. D. Boyd, “Rotational-translational energy
+transfer in rarefied non-equilibrium flows,” <em>Physics of
+Fluids A</em>, <strong>2</strong> (3), 447–452 (1990).</p>
 </div>
 </div>
 </section>
@@ -497,8 +622,8 @@ model: Model extension and validation,” <em>Physics of Fluids</em>.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Theory Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="rovibronic_levels.html" class="btn btn-neutral float-right" title="Rovibronic Level Structure" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="rovibronic_levels.html" class="btn btn-neutral float-left" title="Rovibronic level structure" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="relaxation.html" class="btn btn-neutral float-right" title="Internal-energy relaxation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rovibronic Level Structure &mdash; DSMC Rovibronic</title>
+  <title>Rovibronic level structure &mdash; DSMC Rovibronic</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -23,8 +23,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Binary Collisions" href="collisions.html" />
-    <link rel="prev" title="Method Overview" href="overview.html" /> 
+    <link rel="next" title="Larsen-Borgnakke energy redistribution" href="larsen_borgnakke.html" />
+    <link rel="prev" title="Collision sampling" href="collision_sampling.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -129,57 +129,123 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Theory Guide</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Theory Guide</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="overview.html">Method Overview</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="overview.html#what-the-rovibronic-description-buys">What the rovibronic description buys</a></li>
-<li class="toctree-l3"><a class="reference internal" href="overview.html#organisation-of-the-present-guide">Organisation of the present guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Theory guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="foundations.html">Kinetic foundations and the DSMC algorithm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="foundations.html#the-boltzmann-equation">The Boltzmann equation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="foundations.html#detailed-balance-and-the-h-theorem">Detailed balance and the H-theorem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="foundations.html#knudsen-number-and-flow-regimes">Knudsen number and flow regimes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="foundations.html#the-dsmc-time-step">The DSMC time-step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="foundations.html#equivalent-particles-factor">Equivalent-particles factor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="foundations.html#numerical-convergence-conditions">Numerical convergence conditions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="foundations.html#statistical-convergence-and-errors">Statistical convergence and errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="foundations.html#motivating-the-rovibronic-extension">Motivating the rovibronic extension</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Rovibronic Level Structure</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#energy-expansion">Energy expansion</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#vibrational-ladder-morse-oscillator">Vibrational ladder (Morse oscillator)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#rotational-sub-ladder-rigid-rotor-distortion">Rotational sub-ladder (rigid rotor + distortion)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#degeneracy">Degeneracy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_cross_sections.html">Collision cross sections</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#hard-sphere-cross-section">Hard sphere cross section</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#variable-hard-sphere-vhs">Variable Hard Sphere (VHS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#variable-soft-sphere-vss">Variable Soft Sphere (VSS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#post-collision-velocities">Post-collision velocities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#elastic-versus-inelastic-variants">Elastic versus inelastic variants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#coefficient-dictionaries">Coefficient dictionaries</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="collision_sampling.html">Collision sampling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collision_sampling.html#no-time-counter-ntc">No-Time-Counter (NTC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_sampling.html#no-time-counter-with-sub-cycling">No-Time-Counter with sub-cycling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_sampling.html#majorant-collision-frequency-mcf">Majorant Collision Frequency (MCF)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_sampling.html#simplified-bernoulli-trials-sbt">Simplified Bernoulli Trials (SBT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_sampling.html#sub-cell-resolution-of-collision-partners">Sub-cell resolution of collision partners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_sampling.html#choosing-between-schemes">Choosing between schemes</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Rovibronic level structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#born-oppenheimer-separation">Born-Oppenheimer separation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vibrational-ladder-morse-oscillator">Vibrational ladder — Morse oscillator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rotational-sub-ladder-rigid-rotor-with-distortion">Rotational sub-ladder — rigid rotor with distortion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dunham-expansion-and-ab-initio-fits">Dunham expansion and ab-initio fits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#degeneracies">Degeneracies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nuclear-spin-statistics-and-ortho-para-sub-ladders">Nuclear-spin statistics and ortho/para sub-ladders</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ground-state-normalisation-and-provenance">Ground-state normalisation and provenance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#partition-functions">Partition functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#typical-state-space-sizes">Typical state-space sizes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="collisions.html">Binary Collisions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="collisions.html#collision-pair-selection-ntc">Collision-pair selection (NTC)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="collisions.html#vss-cross-section">VSS cross section</a></li>
-<li class="toctree-l3"><a class="reference internal" href="collisions.html#exponent-conventions-for-the-larsen-borgnakke-sampler">Exponent conventions for the Larsen-Borgnakke sampler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="collisions.html#reactive-collisions">Reactive collisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="larsen_borgnakke.html">Larsen-Borgnakke energy redistribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="larsen_borgnakke.html#collision-energy-pool">Collision energy pool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="larsen_borgnakke.html#acceptance-rejection-rule">Acceptance-rejection rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="larsen_borgnakke.html#larsen-borgnakke-exponent">Larsen-Borgnakke exponent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="larsen_borgnakke.html#effective-degrees-of-freedom">Effective degrees of freedom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="larsen_borgnakke.html#energy-accounting-and-detailed-balance">Energy accounting and detailed balance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="larsen_borgnakke.html#failure-modes-and-mitigations">Failure modes and mitigations</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="chemistry.html">Chemistry</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#dissociation-with-asymptote-matching">Dissociation with asymptote matching</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#recombination-from-detailed-balance">Recombination from detailed balance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#exchange-with-automatic-heat-of-reaction">Exchange with automatic heat of reaction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#ionisation-and-charge-exchange">Ionisation and charge exchange</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="chemistry.html#associative-ionisation">Associative ionisation</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#summary-of-design-principles">Summary of design principles</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="relaxation.html">Energy Relaxation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="relaxation.html#landau-teller-rate-per-mode">Landau-Teller rate per mode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="relaxation.html#composite-modes-and-effective-dof">Composite modes and effective DOF</a></li>
-<li class="toctree-l3"><a class="reference internal" href="relaxation.html#parallel-marginal-cascade">Parallel-marginal cascade</a></li>
-<li class="toctree-l3"><a class="reference internal" href="relaxation.html#validation-protocol-phase-by-phase">Validation protocol (phase-by-phase)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relaxation.html">Internal-energy relaxation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#landau-teller-rate-equation">Landau-Teller rate equation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#multi-mode-decomposition">Multi-mode decomposition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#millikan-white-and-parker-correlations">Millikan-White and Parker correlations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#composite-modes-in-the-parallel-marginal-cascade">Composite modes in the parallel-marginal cascade</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#event-selection">Event selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#nizenkov-correction">Nizenkov correction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#phase-by-phase-validation-protocol">Phase-by-phase validation protocol</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation.html#on-the-absence-of-the-classic-zcorr">On the absence of the classic ZCorr</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="macroscopic_properties.html">Macroscopic Properties</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#number-density-and-species-fractions">Number density and species fractions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#translational-temperature">Translational temperature</a></li>
-<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#rotational-vibrational-and-electronic-temperatures">Rotational, vibrational, and electronic temperatures</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="macroscopic_properties.html#status-of-effective-temperatures-under-non-equilibrium">Status of effective temperatures under non-equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemistry.html">Neutral chemistry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#total-collision-energy-tce-model">Total-Collision-Energy (TCE) model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#quantum-kinetic-qk-model-full-derivation">Quantum-Kinetic (QK) model — full derivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#post-reaction-redistribution-of-internal-energy">Post-reaction redistribution of internal energy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#dissociation-with-potential-energy-curve-asymptote-matching">Dissociation with potential-energy-curve asymptote matching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#recombination-from-detailed-balance">Recombination from detailed balance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#atom-exchange-zeldovich-type-reactions">Atom-exchange (Zeldovich-type) reactions</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="chemistry_charged.html">Charged-species chemistry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#charge-exchange">Charge exchange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#status">Status</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wall_models.html">Wall and inflow models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#specular-reflection">Specular reflection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#fully-diffuse-reflection">Fully diffuse reflection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#mixed-diffuse-specular">Mixed diffuse / specular</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#cercignani-lampis-lord-cll-scattering">Cercignani-Lampis-Lord (CLL) scattering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#rovibronic-aware-wall-dsmcmixeddiffusespecularwallrotpatch">Rovibronic-aware wall: <code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#free-stream-inflow">Free-stream inflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#chapman-enskog-inflow">Chapman-Enskog inflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#pressure-and-mass-flow-inlets">Pressure and mass-flow inlets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#particle-deletion">Particle deletion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#cyclic-boundaries">Cyclic boundaries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="macroscopic_properties.html">Macroscopic properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#number-density-and-species-fractions">Number density and species fractions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#bulk-velocity-and-peculiar-velocity">Bulk velocity and peculiar velocity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#translational-temperature">Translational temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#stress-tensor-and-heat-flux">Stress tensor and heat flux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#internal-mode-effective-temperatures">Internal-mode effective temperatures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#mean-free-path-and-mach-number">Mean free path and Mach number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#transport-coefficients-from-vss-parameters">Transport coefficients from VSS parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#population-diagnostics">Population diagnostics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#bin-zone-and-face-flux-outputs">Bin, zone, and face-flux outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="adaptation_controllers.html">Adaptation and controllers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="adaptation_controllers.html#sub-cell-adaptation">Sub-cell adaptation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adaptation_controllers.html#time-step-adaptation">Time-step adaptation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adaptation_controllers.html#cell-weight-adaptation">Cell-weight adaptation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adaptation_controllers.html#controllers-active-flow-state-drivers">Controllers — active flow-state drivers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="adaptation_controllers.html#temperature-controller">Temperature controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adaptation_controllers.html#maxwellian-resampling-controller">Maxwellian resampling controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adaptation_controllers.html#density-controller">Density controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adaptation_controllers.html#gravitational-acceleration-controller">Gravitational-acceleration controller</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="adaptation_controllers.html#orchestration-and-regression-implications">Orchestration and regression implications</a></li>
 </ul>
 </li>
 </ul>
@@ -384,8 +450,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">Theory Guide</a></li>
-      <li class="breadcrumb-item active">Rovibronic Level Structure</li>
+          <li class="breadcrumb-item"><a href="index.html">Theory guide</a></li>
+      <li class="breadcrumb-item active">Rovibronic level structure</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/theory/rovibronic_levels.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -396,94 +462,218 @@
            <div itemprop="articleBody">
              
   <section id="rovibronic-level-structure">
-<h1>Rovibronic Level Structure<a class="headerlink" href="#rovibronic-level-structure" title="Link to this heading"></a></h1>
+<h1>Rovibronic level structure<a class="headerlink" href="#rovibronic-level-structure" title="Link to this heading"></a></h1>
 <p>The rovibronic extension replaces the continuous internal energy
 usually carried on a DSMC particle by an indexed triple
 <span class="math notranslate nohighlight">\((n, v, J)\)</span> that selects one level out of a three-dimensional
-table. The present section describes how that table is built, which
-symbols are involved, and which assumptions underpin each step.</p>
-<section id="energy-expansion">
-<h2>Energy expansion<a class="headerlink" href="#energy-expansion" title="Link to this heading"></a></h2>
-<p>We expand the total internal energy of a diatomic molecule as</p>
+energy table. The present section documents how that table is
+built, from the Born-Oppenheimer separation of electronic and
+nuclear motion through to the centrifugal-barrier cut-off, and
+how the associated degeneracies and partition functions are
+evaluated.</p>
+<section id="born-oppenheimer-separation">
+<h2>Born-Oppenheimer separation<a class="headerlink" href="#born-oppenheimer-separation" title="Link to this heading"></a></h2>
+<p>The total Hamiltonian of a diatomic molecule in the centre-of-mass
+frame reads</p>
+<div class="math notranslate nohighlight">
+\[\hat{H}
+  = \hat{T}_{N} + \hat{T}_{e} + \hat{V}_{eN}
+    + \hat{V}_{ee} + \hat{V}_{NN},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{T}_{N}\)</span> and <span class="math notranslate nohighlight">\(\hat{T}_{e}\)</span> are the kinetic
+energies of the nuclei and electrons respectively, and the
+remaining terms collect the Coulombic interactions. Because the
+electrons are much lighter than the nuclei
+(<span class="math notranslate nohighlight">\(m_e/m_N \sim 10^{-4}\)</span>), the Born-Oppenheimer approximation
+separates the problem into a fast electronic sub-problem, solved
+at fixed nuclear positions and yielding a potential-energy
+surface (PES) <span class="math notranslate nohighlight">\(V_n(R)\)</span> for each electronic state <span class="math notranslate nohighlight">\(n\)</span>,
+and a slow nuclear sub-problem that evolves on that surface:</p>
+<div class="math notranslate nohighlight">
+\[\Bigl[-\frac{\hbar^{2}}{2\mu}\frac{1}{R^{2}}
+      \frac{\mathrm{d}}{\mathrm{d}R}
+      \left(R^{2}\frac{\mathrm{d}}{\mathrm{d}R}\right)
+      + \frac{\hbar^{2}\, J(J+1)}{2\mu R^{2}}
+      + V_n(R)\Bigr]\,\chi_{nvJ}(R)
+  = E_{nvJ}\,\chi_{nvJ}(R),\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu\)</span> is the reduced mass,
+<span class="math notranslate nohighlight">\(\hbar^{2}J(J+1)/(2\mu R^{2})\)</span> is the centrifugal
+contribution, and <span class="math notranslate nohighlight">\(\chi_{nvJ}(R)\)</span> is the radial vibrational
+wave-function. The total internal energy is approximated as a sum,</p>
 <div class="math notranslate nohighlight">
 \[E_{\mathrm{int}}(n, v, J)
   = T_e^{(n)} + E_v^{(n)}(v) + E_r^{(n, v)}(J),\]</div>
-<p>where <span class="math notranslate nohighlight">\(T_e^{(n)}\)</span> is the electronic term energy of level
-<span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(E_v^{(n)}\)</span> is the vibrational contribution in
-electronic level <span class="math notranslate nohighlight">\(n\)</span>, and <span class="math notranslate nohighlight">\(E_r^{(n,v)}\)</span> is the
-rotational contribution in the <span class="math notranslate nohighlight">\((n, v)\)</span> manifold. The three
-contributions are modelled as follows.</p>
-<section id="vibrational-ladder-morse-oscillator">
-<h3>Vibrational ladder (Morse oscillator)<a class="headerlink" href="#vibrational-ladder-morse-oscillator" title="Link to this heading"></a></h3>
-<p>Following the Morse oscillator description, the vibrational term
-energy in electronic level <span class="math notranslate nohighlight">\(n\)</span> reads</p>
-<div class="math notranslate nohighlight">
-\[E_v^{(n)}(v) = hc\left[\omega_e^{(n)}\left(v + \tfrac{1}{2}\right)
-               - \omega_e x_e^{(n)}\left(v + \tfrac{1}{2}\right)^{2}\right],\]</div>
-<p>with the harmonic frequency <span class="math notranslate nohighlight">\(\omega_e^{(n)}\)</span> and the
-anharmonicity <span class="math notranslate nohighlight">\(\omega_e x_e^{(n)}\)</span> given in
-<span class="math notranslate nohighlight">\(\mathrm{cm}^{-1}\)</span>. The ladder is truncated at the dissociation
-limit: the maximum bound vibrational quantum number
-<span class="math notranslate nohighlight">\(v_{\max}^{(n)}\)</span> is determined as the largest <span class="math notranslate nohighlight">\(v\)</span> for
-which the fitted series still lies below the dissociation energy
-<span class="math notranslate nohighlight">\(E_d^{(n)}\)</span> of electronic state <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<p>where <span class="math notranslate nohighlight">\(T_e^{(n)}\)</span> is the electronic term energy of state
+<span class="math notranslate nohighlight">\(n\)</span> (the minimum of <span class="math notranslate nohighlight">\(V_n\)</span>), <span class="math notranslate nohighlight">\(E_v^{(n)}\)</span> is the
+vibrational term in electronic level <span class="math notranslate nohighlight">\(n\)</span>, and
+<span class="math notranslate nohighlight">\(E_r^{(n,v)}\)</span> is the rotational term in the <span class="math notranslate nohighlight">\((n, v)\)</span>
+manifold.</p>
 </section>
-<section id="rotational-sub-ladder-rigid-rotor-distortion">
-<h3>Rotational sub-ladder (rigid rotor + distortion)<a class="headerlink" href="#rotational-sub-ladder-rigid-rotor-distortion" title="Link to this heading"></a></h3>
-<p>For each <span class="math notranslate nohighlight">\((n, v)\)</span>, the rotational ladder is built from</p>
+<section id="vibrational-ladder-morse-oscillator">
+<h2>Vibrational ladder — Morse oscillator<a class="headerlink" href="#vibrational-ladder-morse-oscillator" title="Link to this heading"></a></h2>
+<p>A widely used and tractable model of the molecular PES is the
+Morse potential</p>
 <div class="math notranslate nohighlight">
-\[E_r^{(n, v)}(J) = B_v\, J(J+1) - D_v\,[J(J+1)]^{2},\]</div>
-<p>with vibration-dependent rotational and centrifugal-distortion
-constants</p>
+\[V_{\mathrm{M}}(R)
+  = D_e\,\bigl[1 - e^{-a(R - R_e)}\bigr]^{2},\]</div>
+<p>with dissociation depth <span class="math notranslate nohighlight">\(D_e\)</span>, equilibrium bond length
+<span class="math notranslate nohighlight">\(R_e\)</span>, and range parameter <span class="math notranslate nohighlight">\(a\)</span>. The Morse potential
+has the distinctive feature of admitting an <strong>analytical
+solution</strong> of the non-rotating radial Schrödinger equation, whose
+eigenvalues are</p>
+<div class="math notranslate nohighlight">
+\[E_v^{(n)}(v)
+  = hc\left[\omega_e^{(n)}\left(v + \tfrac{1}{2}\right)
+            - \omega_e x_e^{(n)}
+             \left(v + \tfrac{1}{2}\right)^{2}\right],\]</div>
+<p>with the spectroscopic constants <span class="math notranslate nohighlight">\(\omega_e^{(n)}\)</span> (harmonic
+frequency) and <span class="math notranslate nohighlight">\(\omega_e x_e^{(n)}\)</span> (anharmonicity)
+related to the Morse parameters through
+<span class="math notranslate nohighlight">\(\omega_e = a\sqrt{2D_e/\mu}/(2\pi c)\)</span> and
+<span class="math notranslate nohighlight">\(\omega_e x_e = hc\,\omega_e^{2}/(4 D_e)\)</span>. The quadratic
+correction in <span class="math notranslate nohighlight">\((v + 1/2)\)</span> captures the softening of the
+vibrational spacing toward dissociation.</p>
+<p>The ladder is truncated at the dissociation limit: the maximum
+bound vibrational quantum number <span class="math notranslate nohighlight">\(v_{\max}^{(n)}\)</span> is
+determined as the largest <span class="math notranslate nohighlight">\(v\)</span> for which the fitted series
+still lies below the dissociation energy <span class="math notranslate nohighlight">\(E_d^{(n)}\)</span> of
+electronic state <span class="math notranslate nohighlight">\(n\)</span>. In practice a Dunham series is used
+in place of the pure Morse expression, which preserves the
+analytical form of the spacing but allows higher-order terms to
+be fitted to ab-initio data:</p>
+<div class="math notranslate nohighlight">
+\[E_v^{(n)}(v) = \sum_{k \ge 1} Y_{k,0}^{(n)}
+               \left(v + \tfrac{1}{2}\right)^{k}.\]</div>
+</section>
+<section id="rotational-sub-ladder-rigid-rotor-with-distortion">
+<h2>Rotational sub-ladder — rigid rotor with distortion<a class="headerlink" href="#rotational-sub-ladder-rigid-rotor-with-distortion" title="Link to this heading"></a></h2>
+<p>For each <span class="math notranslate nohighlight">\((n, v)\)</span>, the rotational term is built on the
+rigid-rotor energy <span class="math notranslate nohighlight">\(B\,J(J+1)\)</span>, augmented by a centrifugal-
+distortion correction <span class="math notranslate nohighlight">\(-D\,[J(J+1)]^{2}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[E_r^{(n, v)}(J)
+  = B_v\, J(J+1) - D_v\,[J(J+1)]^{2}.\]</div>
+<p>The rotational and distortion constants <span class="math notranslate nohighlight">\(B_v\)</span> and
+<span class="math notranslate nohighlight">\(D_v\)</span> depend on the vibrational state through the
+rotation-vibration coupling:</p>
 <div class="math notranslate nohighlight">
 \[B_v = B_e - \alpha_e\left(v + \tfrac{1}{2}\right), \qquad
 D_v = D_e - \beta_e\left(v + \tfrac{1}{2}\right).\]</div>
 <p>The maximum rotational quantum number <span class="math notranslate nohighlight">\(J_{\max}^{(n,v)}\)</span> is
-obtained from a centrifugal-barrier analysis, i.e. as the largest
-<span class="math notranslate nohighlight">\(J\)</span> for which the effective potential (including the
-centrifugal contribution) still supports a bound state.</p>
+obtained from a <strong>centrifugal-barrier analysis</strong>: as <span class="math notranslate nohighlight">\(J\)</span>
+grows, the effective potential</p>
+<div class="math notranslate nohighlight">
+\[V_{\mathrm{eff}}(R; J)
+  = V_n(R) + \frac{\hbar^{2}\, J(J+1)}{2\mu R^{2}}\]</div>
+<p>develops a maximum that eventually falls below the dissociation
+asymptote; beyond that point the <span class="math notranslate nohighlight">\((n, v, J)\)</span> state is no
+longer bound. <span class="math notranslate nohighlight">\(J_{\max}^{(n,v)}\)</span> is set to the largest
+<span class="math notranslate nohighlight">\(J\)</span> for which a bound state persists; the numerical
+determination loops over <span class="math notranslate nohighlight">\(J\)</span> and tests whether the energy
+derived from the Dunham expansion is still smaller than the local
+centrifugal barrier.</p>
 </section>
-<section id="degeneracy">
-<h3>Degeneracy<a class="headerlink" href="#degeneracy" title="Link to this heading"></a></h3>
-<p>The statistical weight of a level is</p>
+<section id="dunham-expansion-and-ab-initio-fits">
+<h2>Dunham expansion and ab-initio fits<a class="headerlink" href="#dunham-expansion-and-ab-initio-fits" title="Link to this heading"></a></h2>
+<p>The general expansion carried by the database is</p>
+<div class="math notranslate nohighlight">
+\[E(n, v, J)
+  = T_e^{(n)}
+  + \sum_{k, \ell \ge 0} Y_{k,\ell}^{(n)}
+    \left(v + \tfrac{1}{2}\right)^{k} [J(J+1)]^{\ell},\]</div>
+<p>which subsumes the Morse-plus-distortion form as the leading
+terms. The coefficients <span class="math notranslate nohighlight">\(Y_{k,\ell}^{(n)}\)</span> are fitted,
+electronic state by electronic state, against ab-initio PECs or
+against the term values of Huber-Herzberg-style compilations. Fit
+quality and provenance are documented, species by species, in
+<code class="docutils literal notranslate"><span class="pre">docs/Database/dunham_coefficients_from_ab_initio_PES.md</span></code> in
+the repository.</p>
+</section>
+<section id="degeneracies">
+<h2>Degeneracies<a class="headerlink" href="#degeneracies" title="Link to this heading"></a></h2>
+<p>The statistical weight of a rovibronic level is the product of
+rotational and electronic multiplicities:</p>
 <div class="math notranslate nohighlight">
 \[g(n, v, J) = (2J+1)\, g_{\mathrm{elec}}^{(n)},\]</div>
-<p>where <span class="math notranslate nohighlight">\(g_{\mathrm{elec}}^{(n)}\)</span> accounts for the electronic
-degeneracy (e.g. 3 for a <span class="math notranslate nohighlight">\({}^{3}\Sigma\)</span> state, 4 for
-<span class="math notranslate nohighlight">\({}^{2}\Pi\)</span>). For homonuclear molecules the parity constraint
-of the nuclear spin further suppresses either even- or odd-<span class="math notranslate nohighlight">\(J\)</span>
-sub-ladders, which is enforced in the sampling routines.</p>
+<p>where the <span class="math notranslate nohighlight">\((2J+1)\)</span> factor counts the <span class="math notranslate nohighlight">\(m_J = -J,
+\ldots, +J\)</span> projections of the rotational angular momentum, and
+<span class="math notranslate nohighlight">\(g_{\mathrm{elec}}^{(n)}\)</span> is the electronic spatial-spin
+multiplicity —  for instance <span class="math notranslate nohighlight">\(g = 3\)</span> for a
+<span class="math notranslate nohighlight">\({}^{3}\Sigma\)</span> state, <span class="math notranslate nohighlight">\(g = 2\)</span> for <span class="math notranslate nohighlight">\({}^{2}\Sigma\)</span>,
+and <span class="math notranslate nohighlight">\(g = 4\)</span> for <span class="math notranslate nohighlight">\({}^{2}\Pi\)</span> (spin-orbit doubling
+included). Nuclear spin contributions to the multiplicity cancel
+out across reactant and product in the types of balance we are
+concerned with, and are omitted from the database entries.</p>
 </section>
+<section id="nuclear-spin-statistics-and-ortho-para-sub-ladders">
+<h2>Nuclear-spin statistics and ortho/para sub-ladders<a class="headerlink" href="#nuclear-spin-statistics-and-ortho-para-sub-ladders" title="Link to this heading"></a></h2>
+<p>For homonuclear diatomics such as N<sub>2</sub>, O<sub>2</sub>, and
+H<sub>2</sub>, the symmetry of the nuclear wave-function under
+exchange of the two identical nuclei constrains the allowed
+<span class="math notranslate nohighlight">\((v, J)\)</span> combinations:</p>
+<ul class="simple">
+<li><p>symmetric electronic states
+(<span class="math notranslate nohighlight">\(\Sigma^{+}_{g}\)</span>, <span class="math notranslate nohighlight">\(\Pi_{g}\)</span>, …) with nuclei of
+spin <span class="math notranslate nohighlight">\(I\)</span>: even <span class="math notranslate nohighlight">\(J\)</span> pair with one total-spin state
+count, odd <span class="math notranslate nohighlight">\(J\)</span> with the complementary one;</p></li>
+<li><p>antisymmetric electronic states
+(<span class="math notranslate nohighlight">\(\Sigma^{-}_{u}\)</span>, …): the parity is reversed.</p></li>
+</ul>
+<p>The practical consequence is that, for a homonuclear species,
+only alternate <span class="math notranslate nohighlight">\(J\)</span> values are physically populated within
+each electronic state. The sampling routines in the solver
+respect this parity constraint by enforcing the allowed parity
+at the Larsen-Borgnakke acceptance step, which amounts to halving
+the effective rotational partition function.</p>
 </section>
 <section id="ground-state-normalisation-and-provenance">
 <h2>Ground-state normalisation and provenance<a class="headerlink" href="#ground-state-normalisation-and-provenance" title="Link to this heading"></a></h2>
-<p>It is important to emphasise that every energy in the database is
-stored relative to the molecular ground state <span class="math notranslate nohighlight">\((n, v, J) =
-(0, 0, 0)\)</span>, i.e.</p>
+<p>Every energy in the database is stored <strong>relative to the
+molecular ground state</strong> <span class="math notranslate nohighlight">\((n, v, J) = (0, 0, 0)\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[E_{\mathrm{int}}(n, v, J) \leftarrow
   E_{\mathrm{int}}(n, v, J) - E_{\mathrm{int}}(0, 0, 0),\]</div>
-<p>so that the ground state carries zero internal energy by convention.
-This choice has no physical content but ensures that the
-dissociation energy <span class="math notranslate nohighlight">\(D_0\)</span> that the chemistry module extracts
-from the database is the physical bond energy, rather than the
-fitted potential minimum.</p>
-<p>The Dunham coefficients are stored in
-<code class="docutils literal notranslate"><span class="pre">constant/speciesCache/&lt;species&gt;.dat</span></code> together with the
-<span class="math notranslate nohighlight">\((n, v, J)\)</span> level tables and the associated degeneracies. Fit
-quality and ab-initio provenance are documented in
-<code class="docutils literal notranslate"><span class="pre">docs/Database/dunham_coefficients_from_ab_initio_PES.md</span></code>.</p>
+<p>so that the ground state carries zero internal energy by
+convention. This choice has no physical content, but ensures that
+the dissociation energy <span class="math notranslate nohighlight">\(D_0\)</span> that the chemistry module
+reads from the database is the physical bond energy, rather than
+the potential minimum <span class="math notranslate nohighlight">\(D_e = D_0 + E_v(0, 0, 0)\)</span>. It also
+means that the partition functions defined below are explicitly
+computed relative to the ground state, which removes the
+additive constant <span class="math notranslate nohighlight">\(T_e^{(0)}\)</span> from every rate integral.</p>
+</section>
+<section id="partition-functions">
+<h2>Partition functions<a class="headerlink" href="#partition-functions" title="Link to this heading"></a></h2>
+<p>The internal partition function of species <span class="math notranslate nohighlight">\(s\)</span> at
+temperature <span class="math notranslate nohighlight">\(T\)</span> is the sum, over all bound rovibronic
+levels, of the Boltzmann factor weighted by the level degeneracy:</p>
+<div class="math notranslate nohighlight">
+\[Q_s^{\mathrm{int}}(T)
+  = \sum_{n=0}^{N_{\mathrm{el}}^{(s)}-1}
+    \sum_{v=0}^{v_{\max}^{(n)}}
+    \sum_{J=0}^{J_{\max}^{(n,v)}}
+    g(n, v, J)\,
+    \exp\!\left[-\frac{E(n, v, J)}{k_B T}\right].\]</div>
+<p>These internal partition functions, together with the
+translational contribution <span class="math notranslate nohighlight">\(Q_s^{\mathrm{tr}}(T) =
+V(2\pi m_s k_B T / h^{2})^{3/2}\)</span>, enter the equilibrium
+constants used by the chemistry module (see
+<a class="reference internal" href="chemistry.html"><span class="doc">Neutral chemistry</span></a>). They are pre-tabulated over the simulation
+temperature range at solver start-up, which turns the run-time
+rate-constant lookups into constant-cost bisection calls.</p>
 </section>
 <section id="typical-state-space-sizes">
 <h2>Typical state-space sizes<a class="headerlink" href="#typical-state-space-sizes" title="Link to this heading"></a></h2>
-<p>For a diatomic species in air chemistry, the level space is dense.
-As a representative example, O<sub>2</sub> carries six electronic
-states, of the order of 60 vibrational levels per electronic state,
-and on average some 15 rotational levels per vibrational level —
-altogether <span class="math notranslate nohighlight">\(\sim 3 \times 10^{5}\)</span> rovibronic levels. The
-tables are built once, at solver start-up, and cached on disk so
-that subsequent runs with the same species list incur no rebuild
-cost.</p>
+<p>For a diatomic species in air chemistry, the level space is
+dense. O<sub>2</sub>, for example, carries of order six electronic
+states populated at re-entry temperatures, of the order of 60
+vibrational levels per electronic state, and on average some 15
+rotational levels per vibrational level, for a total of
+<span class="math notranslate nohighlight">\(\sim 3 \times 10^{5}\)</span> rovibronic levels.
+N<sub>2</sub> has fewer bound electronic states within the energy
+range of interest but a denser rotational ladder, and lands at a
+comparable order of magnitude. The tables are built once, at
+solver start-up, and cached on disk so that subsequent runs with
+the same species list incur no rebuild cost.</p>
 </section>
 </section>
 
@@ -491,8 +681,8 @@ cost.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="overview.html" class="btn btn-neutral float-left" title="Method Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="collisions.html" class="btn btn-neutral float-right" title="Binary Collisions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="collision_sampling.html" class="btn btn-neutral float-left" title="Collision sampling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="larsen_borgnakke.html" class="btn btn-neutral float-right" title="Larsen-Borgnakke energy redistribution" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Internal-energy relaxation &mdash; DSMC Rovibronic</title>
+  <title>Collision cross sections &mdash; DSMC Rovibronic</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -23,8 +23,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Neutral chemistry" href="chemistry.html" />
-    <link rel="prev" title="Larsen-Borgnakke energy redistribution" href="larsen_borgnakke.html" /> 
+    <link rel="next" title="Collision sampling" href="collision_sampling.html" />
+    <link rel="prev" title="Kinetic foundations and the DSMC algorithm" href="foundations.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -141,13 +141,13 @@
 <li class="toctree-l3"><a class="reference internal" href="foundations.html#motivating-the-rovibronic-extension">Motivating the rovibronic extension</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="collision_cross_sections.html">Collision cross sections</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#hard-sphere-cross-section">Hard sphere cross section</a></li>
-<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#variable-hard-sphere-vhs">Variable Hard Sphere (VHS)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#variable-soft-sphere-vss">Variable Soft Sphere (VSS)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#post-collision-velocities">Post-collision velocities</a></li>
-<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#elastic-versus-inelastic-variants">Elastic versus inelastic variants</a></li>
-<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#coefficient-dictionaries">Coefficient dictionaries</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Collision cross sections</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hard-sphere-cross-section">Hard sphere cross section</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variable-hard-sphere-vhs">Variable Hard Sphere (VHS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variable-soft-sphere-vss">Variable Soft Sphere (VSS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#post-collision-velocities">Post-collision velocities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#elastic-versus-inelastic-variants">Elastic versus inelastic variants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#coefficient-dictionaries">Coefficient dictionaries</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="collision_sampling.html">Collision sampling</a><ul>
@@ -180,15 +180,15 @@
 <li class="toctree-l3"><a class="reference internal" href="larsen_borgnakke.html#failure-modes-and-mitigations">Failure modes and mitigations</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Internal-energy relaxation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#landau-teller-rate-equation">Landau-Teller rate equation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#multi-mode-decomposition">Multi-mode decomposition</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#millikan-white-and-parker-correlations">Millikan-White and Parker correlations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#composite-modes-in-the-parallel-marginal-cascade">Composite modes in the parallel-marginal cascade</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#event-selection">Event selection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#nizenkov-correction">Nizenkov correction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#phase-by-phase-validation-protocol">Phase-by-phase validation protocol</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#on-the-absence-of-the-classic-zcorr">On the absence of the classic ZCorr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relaxation.html">Internal-energy relaxation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#landau-teller-rate-equation">Landau-Teller rate equation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#multi-mode-decomposition">Multi-mode decomposition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#millikan-white-and-parker-correlations">Millikan-White and Parker correlations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#composite-modes-in-the-parallel-marginal-cascade">Composite modes in the parallel-marginal cascade</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#event-selection">Event selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#nizenkov-correction">Nizenkov correction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#phase-by-phase-validation-protocol">Phase-by-phase validation protocol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#on-the-absence-of-the-classic-zcorr">On the absence of the classic ZCorr</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="chemistry.html">Neutral chemistry</a><ul>
@@ -451,9 +451,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Theory guide</a></li>
-      <li class="breadcrumb-item active">Internal-energy relaxation</li>
+      <li class="breadcrumb-item active">Collision cross sections</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/theory/relaxation.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/theory/collision_cross_sections.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -461,240 +461,184 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="internal-energy-relaxation">
-<h1>Internal-energy relaxation<a class="headerlink" href="#internal-energy-relaxation" title="Link to this heading"></a></h1>
-<p>We now document the relaxation of the rotational, vibrational,
-and electronic internal modes of the molecular species toward
-equilibrium with the translational mode. The present section
-derives the Landau-Teller rate equation from first principles,
-describes the Millikan-White and Parker empirical correlations
-from which the relaxation collision numbers are read, introduces
-the Nizenkov correction that guarantees rate-matching in a
-multi-mode cascade, and documents the parallel-marginal cascade
-by which the solver turns the analytic rate equations into an
-event-by-event sampler on the discrete rovibronic state space.</p>
-<section id="landau-teller-rate-equation">
-<h2>Landau-Teller rate equation<a class="headerlink" href="#landau-teller-rate-equation" title="Link to this heading"></a></h2>
-<p>Under the assumption of an exponential decay of correlations, the
-mean energy <span class="math notranslate nohighlight">\(\langle E_k\rangle\)</span> of internal mode <span class="math notranslate nohighlight">\(k\)</span>
-approaches its equilibrium value <span class="math notranslate nohighlight">\(\langle E_k\rangle(T_T)\)</span>
-at the translational temperature <span class="math notranslate nohighlight">\(T_T\)</span> according to</p>
+  <section id="collision-cross-sections">
+<h1>Collision cross sections<a class="headerlink" href="#collision-cross-sections" title="Link to this heading"></a></h1>
+<p>The present section documents the binary-collision cross-section
+models implemented in the solver: the Hard Sphere (HS) reference,
+the Variable Hard Sphere (VHS), the Variable Soft Sphere (VSS),
+and the degenerate <code class="docutils literal notranslate"><span class="pre">NoBinaryCollision</span></code> model used for
+free-molecular verification. All models are selected through the
+<code class="docutils literal notranslate"><span class="pre">BinaryCollisionModel</span></code> key in <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code>; the
+associated coefficients live in <code class="docutils literal notranslate"><span class="pre">&lt;Model&gt;Coeffs</span></code>.</p>
+<section id="hard-sphere-cross-section">
+<h2>Hard sphere cross section<a class="headerlink" href="#hard-sphere-cross-section" title="Link to this heading"></a></h2>
+<p>Hard sphere collisions are the oldest kinetic-theory model and
+serve as the pedagogical starting point. Two molecules of
+diameters <span class="math notranslate nohighlight">\(d_1, d_2\)</span> are treated as solid spheres that
+collide elastically when <span class="math notranslate nohighlight">\(|\mathbf{r}_1 - \mathbf{r}_2| =
+(d_1 + d_2)/2\)</span>. The resulting total cross section,</p>
 <div class="math notranslate nohighlight">
-\[\frac{\mathrm{d}\,\langle E_k\rangle}{\mathrm{d}t}
-  = \frac{\langle E_k\rangle(T_T) - \langle E_k\rangle(t)}
-         {\tau_k},\]</div>
-<p>where <span class="math notranslate nohighlight">\(\tau_k\)</span> is the relaxation time of mode <span class="math notranslate nohighlight">\(k\)</span>.
-The Landau-Teller form</p>
-<div class="math notranslate nohighlight">
-\[\tau_k = Z_k^{\mathrm{cont}}\,\tau_c,\]</div>
-<p>with <span class="math notranslate nohighlight">\(\tau_c = 1/\nu_{\mathrm{coll}}\)</span> the mean collision
-time, relates the continuum-level relaxation time to a
-<strong>collision number</strong> <span class="math notranslate nohighlight">\(Z_k^{\mathrm{cont}}\)</span>, i.e. the mean
-number of collisions required to equilibrate the mode. Under
-isothermal heat-bath conditions the equation admits the explicit
-solution</p>
-<div class="math notranslate nohighlight">
-\[\langle E_k\rangle(t)
-  = \langle E_k\rangle(T_T)
-    - \bigl[\langle E_k\rangle(T_T) - \langle E_k\rangle(0)\bigr]\,
-      \exp\!\left(-\frac{t}{\tau_k}\right),\]</div>
-<p>which is the reference curve against which the solver is
-validated (<a class="reference internal" href="../examples/n2_heatbath.html"><span class="doc">Landau-Teller heat-bath validation</span></a>).</p>
+\[\sigma_T^{\mathrm{HS}}
+  = \pi\, d_{12}^{2}, \qquad
+d_{12} = \tfrac{1}{2}\,(d_1 + d_2),\]</div>
+<p>is <strong>independent of the relative speed</strong>. The differential cross
+section is isotropic in the centre-of-mass frame. The HS model is
+easy to reason about but has a major limitation: it does not
+reproduce the experimental temperature dependence of gas
+viscosity, which goes as <span class="math notranslate nohighlight">\(\eta(T) \propto T^{\omega}\)</span> with
+<span class="math notranslate nohighlight">\(\omega \approx 0.75\)</span> for most diatomic species instead of
+the HS prediction <span class="math notranslate nohighlight">\(\omega = 1/2\)</span>.</p>
 </section>
-<section id="multi-mode-decomposition">
-<h2>Multi-mode decomposition<a class="headerlink" href="#multi-mode-decomposition" title="Link to this heading"></a></h2>
-<p>When several internal modes relax on well-separated timescales
-<span class="math notranslate nohighlight">\(\tau_R \ll \tau_{RV} \ll \tau_{RVE}\)</span>, the total internal
-energy approaches equilibrium as a sum of exponentials:</p>
+<section id="variable-hard-sphere-vhs">
+<h2>Variable Hard Sphere (VHS)<a class="headerlink" href="#variable-hard-sphere-vhs" title="Link to this heading"></a></h2>
+<p>The VHS model of Bird <a class="reference internal" href="#bird1981c" id="id1"><span>[Bird1981c]</span></a> retains the isotropic
+scattering of the hard sphere but gives the cross section an
+explicit dependence on the relative speed <span class="math notranslate nohighlight">\(g\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[\langle E_{\mathrm{int}}\rangle(t)
-  = \langle E_{\mathrm{int}}\rangle^{\star}
-  - \Delta E_R\, e^{-t/\tau_R}
-  - \Delta E_V\, e^{-t/\tau_{RV}}
-  - \Delta E_E\, e^{-t/\tau_{RVE}},\]</div>
-<p>where <span class="math notranslate nohighlight">\(\Delta E_k\)</span> is the initial energy deficit of mode
-<span class="math notranslate nohighlight">\(k\)</span>. In normalised form,</p>
+\[\sigma_T^{\mathrm{VHS}}(g)
+  = \pi\, d_{\mathrm{ref}}^{2}\,
+    \left(\frac{g_{\mathrm{ref}}}{g}\right)^{2\omega - 1}
+    \frac{1}{\Gamma(5/2 - \omega)},\]</div>
+<p>where <span class="math notranslate nohighlight">\(d_{\mathrm{ref}}\)</span>, <span class="math notranslate nohighlight">\(g_{\mathrm{ref}}\)</span>, and
+<span class="math notranslate nohighlight">\(\omega\)</span> are species-pair parameters. The reference speed is
+related to the reference temperature <span class="math notranslate nohighlight">\(T_{\mathrm{ref}}\)</span>
+(tabulated at 273 K in the reference tutorial) through the most
+probable speed
+<span class="math notranslate nohighlight">\(g_{\mathrm{ref}} = \sqrt{2 k_B T_{\mathrm{ref}}/\mu_{12}}\)</span>
+with <span class="math notranslate nohighlight">\(\mu_{12}\)</span> the reduced mass of the colliding pair.</p>
+<p>The viscosity of a VHS gas is</p>
 <div class="math notranslate nohighlight">
-\[\frac{\langle E_{\mathrm{int}}\rangle^{\star}
-      - \langle E_{\mathrm{int}}\rangle(t)}
-     {\langle E_{\mathrm{int}}\rangle^{\star}
-      - \langle E_{\mathrm{int}}\rangle(0)}
-  = A_R\, e^{-t/\tau_R}
-  + A_V\, e^{-t/\tau_{RV}}
-  + A_E\, e^{-t/\tau_{RVE}},\]</div>
-<p>with <span class="math notranslate nohighlight">\(A_k = \Delta E_k / \Delta E_{\mathrm{tot}}\)</span> and
-<span class="math notranslate nohighlight">\(A_R + A_V + A_E = 1\)</span>.</p>
+\[\eta^{\mathrm{VHS}}(T)
+  = \frac{15}{8}\,\frac{\sqrt{\pi m k_B T}}{\pi d_{\mathrm{ref}}^{2}}\,
+    \frac{\Gamma(4 - \omega)}{\Gamma(5/2 - \omega)\,
+     \Gamma(4 - \omega)}\,
+    \left(\frac{T}{T_{\mathrm{ref}}}\right)^{\omega},\]</div>
+<p>which recovers the experimental <span class="math notranslate nohighlight">\(T^{\omega}\)</span> scaling exactly
+by construction. The angular distribution remains isotropic in the
+centre-of-mass frame: the post-collision relative velocity is
+drawn as</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{g}' = g\,\hat{\mathbf{n}}, \qquad
+\hat{\mathbf{n}} = \bigl(\cos\theta\,\hat{\mathbf{e}}_{z}
+                        + \sin\theta\,\cos\phi\,\hat{\mathbf{e}}_{x}
+                        + \sin\theta\,\sin\phi\,\hat{\mathbf{e}}_{y}\bigr),\]</div>
+<p>with <span class="math notranslate nohighlight">\(\cos\theta\)</span> uniform on <span class="math notranslate nohighlight">\([-1, 1]\)</span> and
+<span class="math notranslate nohighlight">\(\phi\)</span> uniform on <span class="math notranslate nohighlight">\([0, 2\pi)\)</span>.</p>
 </section>
-<section id="millikan-white-and-parker-correlations">
-<h2>Millikan-White and Parker correlations<a class="headerlink" href="#millikan-white-and-parker-correlations" title="Link to this heading"></a></h2>
-<p>The rotational collision number <span class="math notranslate nohighlight">\(Z_r(T)\)</span> is fitted, in the
-manner of Parker <a class="reference internal" href="#parker1959rel" id="id1"><span>[Parker1959rel]</span></a>, to measured rotational-
-translational thermalisation data:</p>
+<section id="variable-soft-sphere-vss">
+<h2>Variable Soft Sphere (VSS)<a class="headerlink" href="#variable-soft-sphere-vss" title="Link to this heading"></a></h2>
+<p>The VSS model of Koura and Matsumoto <a class="reference internal" href="#koura1991c" id="id2"><span>[Koura1991c]</span></a> extends VHS by
+augmenting the same speed-dependent total cross section with an
+<strong>anisotropic</strong> scattering law parameterised by <span class="math notranslate nohighlight">\(\alpha\)</span>.
+The differential cross section in the centre-of-mass frame is</p>
 <div class="math notranslate nohighlight">
-\[Z_r(T)
-  = \frac{Z_r^{\infty}}{1 + (\pi^{3/2}/2)\,\sqrt{\theta_r^{\star}/T}
-                        + (\pi + \pi^{2}/4)\,(\theta_r^{\star}/T)},\]</div>
-<p>with <span class="math notranslate nohighlight">\(\theta_r^{\star}\)</span> a reference rotational temperature
-and <span class="math notranslate nohighlight">\(Z_r^{\infty}\)</span> an asymptotic value that is typically
-fitted to 5–10 for air diatomics. In the DSMC implementation the
-low-temperature asymptote is tabulated directly as
-<code class="docutils literal notranslate"><span class="pre">rotationalRelaxationCollisionNumber</span></code> in the
-<code class="docutils literal notranslate"><span class="pre">&lt;Model&gt;Coeffs</span></code> sub-dictionary.</p>
-<p>The vibrational relaxation time follows the Millikan-White
-correlation <a class="reference internal" href="#millikanwhite1963rel" id="id2"><span>[MillikanWhite1963rel]</span></a>:</p>
+\[\frac{\mathrm{d}\sigma^{\mathrm{VSS}}}{\mathrm{d}\Omega}
+  = \frac{\sigma_T^{\mathrm{VSS}}(g)}{4\pi\,\alpha}\,
+    \left[\cos^{2(\alpha - 1)}\!\tfrac{\chi}{2}\right]
+    \left[\frac{1}{\cos^{2}(\chi/2)}\right],\]</div>
+<p>which concentrates the scattered flux in the forward direction
+when <span class="math notranslate nohighlight">\(\alpha &gt; 1\)</span>. The scattering angle is sampled from</p>
 <div class="math notranslate nohighlight">
-\[p\,\tau_v^{\mathrm{MW}}(T)
-  = \exp\!\left[A\,\bigl(T^{-1/3} - B\bigr) - 18.42\right],
-\qquad \text{[atm}\cdot\text{s]},\]</div>
-<p>with <span class="math notranslate nohighlight">\(A = 1.16 \times 10^{-3}\,\mu^{1/2}\,\theta_v^{4/3}\)</span>
-and <span class="math notranslate nohighlight">\(B = 0.015\,\mu^{1/4}\)</span>, the reduced mass <span class="math notranslate nohighlight">\(\mu\)</span> in
-atomic units, and the characteristic vibrational temperature
-<span class="math notranslate nohighlight">\(\theta_v\)</span> in kelvin. Park’s high-temperature correction,
-<span class="math notranslate nohighlight">\(\tau_v^{\mathrm{Park}} = \tau_v^{\mathrm{MW}} +
-1/(\sigma_v\,c_s\,n_s)\)</span>, brings the relaxation rate under control
-above <span class="math notranslate nohighlight">\(10^{4}~\mathrm{K}\)</span>, where the Millikan-White
-exponential extrapolation would otherwise produce unphysically
-fast relaxation. In the DSMC implementation, the effective
-vibrational collision number
-<code class="docutils literal notranslate"><span class="pre">rovibrationalRelaxationCollisionNumber</span></code> absorbs the combined
-Millikan-White/Park relation, and the database-derived
-<span class="math notranslate nohighlight">\(\tau_v(T)\)</span> is checked against the input at solver
-initialisation.</p>
-<p>Electronic relaxation times are less well characterised
-experimentally than rotational or vibrational ones, and the
-effective <code class="docutils literal notranslate"><span class="pre">rovibronicRelaxationCollisionNumber</span></code> in
-<code class="docutils literal notranslate"><span class="pre">&lt;Model&gt;Coeffs</span></code> is conventionally set to a large value
-(<span class="math notranslate nohighlight">\(10^{3}\text{–}10^{4}\)</span>) that reflects the slow equilibration
-typical of atomic emission observations. Setting it to
-<span class="math notranslate nohighlight">\(\infty\)</span> amounts to freezing the electronic populations —
-useful diagnostically, but physically justified only in short
-transient cases.</p>
+\[\cos\chi
+  = 2\,U^{1/\alpha} - 1,\]</div>
+<p>with <span class="math notranslate nohighlight">\(U\)</span> uniform on <span class="math notranslate nohighlight">\([0, 1]\)</span>; the limit
+<span class="math notranslate nohighlight">\(\alpha = 1\)</span> recovers the isotropic VHS scattering.
+Simultaneously fitting <span class="math notranslate nohighlight">\((d_{\mathrm{ref}}, \omega, \alpha)\)</span>
+to the gas viscosity <em>and</em> the binary diffusion coefficient
+removes the Schmidt-number inconsistency present in the VHS model.
+For common diatomic species the fitted <span class="math notranslate nohighlight">\(\alpha\)</span> lies
+between 1.0 and 1.5.</p>
+<p>Reference parameters for air-chemistry species are tabulated in
+<code class="docutils literal notranslate"><span class="pre">constant/speciesCache/&lt;species&gt;.dat</span></code> and are documented in
+<a class="reference internal" href="../classes/species_database.html"><span class="doc">dsmcSpeciesDatabase — spectroscopic &amp; VSS data</span></a>.</p>
 </section>
-<section id="composite-modes-in-the-parallel-marginal-cascade">
-<h2>Composite modes in the parallel-marginal cascade<a class="headerlink" href="#composite-modes-in-the-parallel-marginal-cascade" title="Link to this heading"></a></h2>
-<p>Rather than redistributing energy independently between each
-internal mode and the translational pool, the solver groups the
-relaxation events into three composite modes organised by the
-sub-space of the rovibronic state that they sample:</p>
-<ul class="simple">
-<li><p>mode <span class="math notranslate nohighlight">\(R\)</span> (rotational-only) samples <span class="math notranslate nohighlight">\(J\)</span> at fixed
-<span class="math notranslate nohighlight">\((n, v)\)</span>; the mode energy is measured relative to the
-floor <span class="math notranslate nohighlight">\(E_R^{\mathrm{floor}} = E(n, v, 0)\)</span>;</p></li>
-<li><p>mode <span class="math notranslate nohighlight">\(RV\)</span> (rovibrational) samples <span class="math notranslate nohighlight">\((v, J)\)</span> at fixed
-<span class="math notranslate nohighlight">\(n\)</span>; floor <span class="math notranslate nohighlight">\(E_{RV}^{\mathrm{floor}} = E(n, 0, 0)\)</span>;</p></li>
-<li><p>mode <span class="math notranslate nohighlight">\(RVE\)</span> (rovibronic) samples <span class="math notranslate nohighlight">\((n, v, J)\)</span> on the
-full table; floor <span class="math notranslate nohighlight">\(E_{RVE}^{\mathrm{floor}} = 0\)</span>.</p></li>
-</ul>
-<p>Each composite mode carries its own effective degrees of
-freedom, computed from the sub-space partition function,</p>
+<section id="post-collision-velocities">
+<h2>Post-collision velocities<a class="headerlink" href="#post-collision-velocities" title="Link to this heading"></a></h2>
+<p>Whatever the choice of cross section, the post-collision
+velocities follow from momentum conservation and the sampled
+relative velocity:</p>
 <div class="math notranslate nohighlight">
-\[\xi_k(T)
-  = \frac{2\,\langle E_k\rangle(T)}{k_B\,T},\]</div>
-<p>and these <span class="math notranslate nohighlight">\(\xi_k(T)\)</span> feed the Larsen-Borgnakke exponent
-(<a class="reference internal" href="larsen_borgnakke.html"><span class="doc">Larsen-Borgnakke energy redistribution</span></a>).</p>
+\[\mathbf{v}_{P}' = \mathbf{v}_{\mathrm{cm}}
+                 + \frac{m_Q}{m_P + m_Q}\,\mathbf{g}', \quad
+\mathbf{v}_{Q}' = \mathbf{v}_{\mathrm{cm}}
+                 - \frac{m_P}{m_P + m_Q}\,\mathbf{g}',\]</div>
+<p>with <span class="math notranslate nohighlight">\(\mathbf{v}_{\mathrm{cm}} = (m_P \mathbf{v}_P +
+m_Q \mathbf{v}_Q)/(m_P + m_Q)\)</span> the centre-of-mass velocity. The
+magnitude of <span class="math notranslate nohighlight">\(\mathbf{g}'\)</span> equals <span class="math notranslate nohighlight">\(g\)</span> for an elastic
+collision; it is smaller for an inelastic one after Larsen-
+Borgnakke sampling has transferred energy to the internal modes
+(see <a class="reference internal" href="larsen_borgnakke.html"><span class="doc">Larsen-Borgnakke energy redistribution</span></a>).</p>
 </section>
-<section id="event-selection">
-<h2>Event selection<a class="headerlink" href="#event-selection" title="Link to this heading"></a></h2>
-<p>On each accepted collision the solver draws a single uniform
-<span class="math notranslate nohighlight">\(R \sim \mathcal{U}(0, 1)\)</span> and selects one of four
-<strong>mutually exclusive</strong> events:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-P_1 &amp;= \frac{1}{Z_r\,C_r}, \\
-P_2 &amp;= \frac{1}{Z_{rv}\,C_{rv}}, \\
-P_3 &amp;= \frac{1}{Z_{rve}\,C_{rve}}, \\
-P_0 &amp;= 1 - P_1 - P_2 - P_3,
-\end{aligned}\end{split}\]</div>
-<p>where event <span class="math notranslate nohighlight">\(E_k\)</span> (for <span class="math notranslate nohighlight">\(k = 1, 2, 3\)</span>) triggers
-Larsen-Borgnakke sampling in the corresponding composite mode,
-and <span class="math notranslate nohighlight">\(E_0\)</span> leaves the internal state unchanged (elastic-like
-event). When <span class="math notranslate nohighlight">\(P_1 + P_2 + P_3 &gt; 1\)</span> the probabilities are
-rescaled to saturate, and a warning is emitted in the solver log:
-the effective collision numbers seen by the simulation then
-differ from the input values.</p>
+<section id="elastic-versus-inelastic-variants">
+<h2>Elastic versus inelastic variants<a class="headerlink" href="#elastic-versus-inelastic-variants" title="Link to this heading"></a></h2>
+<p>The solver distinguishes between collision models that include
+internal-energy exchange and those that do not:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>Internal-energy treatment</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VariableHardSphere</span></code></p></td>
+<td><p>Purely elastic; internal state unchanged on every
+collision. Useful for verification against analytical
+free-molecular results.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">VariableSoftSphere</span></code></p></td>
+<td><p>Purely elastic; anisotropic scattering.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">LarsenBorgnakkeVariableHardSphere</span></code></p></td>
+<td><p>VHS cross section + LB internal-energy redistribution on
+the rovibronic state space. <strong>Default</strong> production model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LarsenBorgnakkeVariableSoftSphere</span></code></p></td>
+<td><p>VSS cross section + LB internal-energy redistribution.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NoBinaryCollision</span></code></p></td>
+<td><p>Binary collisions disabled. Used to isolate boundary-
+driven effects in free-molecular tests.</p></td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="nizenkov-correction">
-<h2>Nizenkov correction<a class="headerlink" href="#nizenkov-correction" title="Link to this heading"></a></h2>
-<p>The collision numbers <span class="math notranslate nohighlight">\(Z_k\)</span> are defined at the continuum
-level, while the cascade acts at the event level. The two are
-related by a temperature-dependent correction factor derived by
-Nizenkov <a class="reference internal" href="#pfeiffer2016rel" id="id3"><span>[Pfeiffer2016rel]</span></a>:</p>
-<div class="math notranslate nohighlight">
-\[C_k
-  = \frac{\xi_T\,(T_T - T'_k)}
-         {\xi_k(T_T)\,T_T - \xi_k(T_k)\,T_k},\]</div>
-<p>where <span class="math notranslate nohighlight">\(\xi_T\)</span> is the translational DOF entering the
-exchange, and <span class="math notranslate nohighlight">\(T'_k\)</span> is the pool temperature that
-satisfies local energy conservation in the cascade event. Without
-the <span class="math notranslate nohighlight">\(C_k\)</span> factors, the macroscopic relaxation observed by
-the solver drifts systematically from the analytical
-Landau-Teller solution; with them in place, the ratio
-<span class="math notranslate nohighlight">\(Z_{k,\mathrm{fit}}/Z_k\)</span> recovers the input to within a few
-percent on the validation cases. A derivation of
-<span class="math notranslate nohighlight">\(C_k\)</span> is given in <code class="docutils literal notranslate"><span class="pre">doc/LT_Correction_MultiMode.pdf</span></code>.</p>
-</section>
-<section id="phase-by-phase-validation-protocol">
-<h2>Phase-by-phase validation protocol<a class="headerlink" href="#phase-by-phase-validation-protocol" title="Link to this heading"></a></h2>
-<p>The cascade is validated phase by phase by sending the collision
-numbers of all but one mode to a very large value,
-<span class="math notranslate nohighlight">\(Z_j \to 10^{9}\)</span> for <span class="math notranslate nohighlight">\(j \ne k\)</span>, and comparing the
-observed relaxation curve against the analytical single-mode LT
-solution.</p>
-<ul class="simple">
-<li><p><strong>Phase 1</strong> —  rotational only: freeze
-<span class="math notranslate nohighlight">\(Z_{rv}, Z_{rve}\)</span>. Initial state <span class="math notranslate nohighlight">\(T_T =
-10^{4}~\mathrm{K}\)</span>, <span class="math notranslate nohighlight">\(T_R(0) = 10^{3}~\mathrm{K}\)</span>. The
-fitted <span class="math notranslate nohighlight">\(Z_r\)</span> should match the input within 5%. At the
-time of writing the ratio is <span class="math notranslate nohighlight">\(Z_{\mathrm{fit}}/Z \approx
-1.07\)</span>, acceptable.</p></li>
-<li><p><strong>Phase 2</strong> —  rovibrational: freeze <span class="math notranslate nohighlight">\(Z_r, Z_{rve}\)</span>.
-Expected: rotational sub-ladder equilibrates near
-instantaneously (because rotational events are frozen, the
-cascade has only one active mode), followed by vibrational
-relaxation. Current ratio <span class="math notranslate nohighlight">\(\approx 0.83\)</span>; the phase
-overcorrects and is under investigation.</p></li>
-<li><p><strong>Phase 3</strong> —  all modes active. Expected triple-exponential
-decay; ratio pending diagnosis.</p></li>
-</ul>
-</section>
-<section id="on-the-absence-of-the-classic-zcorr">
-<h2>On the absence of the classic ZCorr<a class="headerlink" href="#on-the-absence-of-the-classic-zcorr" title="Link to this heading"></a></h2>
-<p>The continuous-variable implementations of Larsen-Borgnakke
-require the so-called ZCorr correction to match the macroscopic
-Landau-Teller rate (since, in the continuous formulation, the
-effective DOF enter the exponent while the sampled population is
-unphysically concentrated near the mean). In the rovibronic
-extension the sampled population is the <em>actual</em> quantum
-distribution, and a direct measurement
-<a class="reference internal" href="#civrais2024vib-rel" id="id4"><span>[Civrais2024Vib_rel]</span></a> of <span class="math notranslate nohighlight">\(Z_{\mathrm{fit}}/Z_{\mathrm{input}}\)</span>
-returns <span class="math notranslate nohighlight">\(\approx 0.99\)</span> without any correction factor,
-confirming that <strong>ZCorr is not required</strong> on the rovibronic
-Larsen-Borgnakke path. The relevant diagnostic history is
-tracked in the in-repo bug-audit report.</p>
+<section id="coefficient-dictionaries">
+<h2>Coefficient dictionaries<a class="headerlink" href="#coefficient-dictionaries" title="Link to this heading"></a></h2>
+<p>For the VHS/VSS elastic variants, <code class="docutils literal notranslate"><span class="pre">&lt;Model&gt;Coeffs</span></code> is essentially
+empty beyond the reference temperature:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">VariableHardSphereCoeffs</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Tref</span><span class="w"> </span><span class="mi">273</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">VariableSoftSphereCoeffs</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Tref</span><span class="w"> </span><span class="mi">273</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>For the LB variants, the same block carries the three relaxation
+collision numbers <span class="math notranslate nohighlight">\(Z_r, Z_{rv}, Z_{rve}\)</span> that govern the
+parallel-marginal cascade (<a class="reference internal" href="relaxation.html"><span class="doc">Internal-energy relaxation</span></a>):</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">LarsenBorgnakkeVariableHardSphereCoeffs</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">Tref</span><span class="w">                                    </span><span class="mi">273</span><span class="p">;</span><span class="w"> </span><span class="c1">// [K]</span>
+<span class="w">    </span><span class="n">rotationalRelaxationCollisionNumber</span><span class="w">     </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="n">rovibrationalRelaxationCollisionNumber</span><span class="w">  </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="n">rovibronicRelaxationCollisionNumber</span><span class="w">     </span><span class="mi">10</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <div role="list" class="citation-list">
-<div class="citation" id="parker1959rel" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Parker1959rel</a><span class="fn-bracket">]</span></span>
-<p>J. G. Parker, “Rotational and vibrational
-relaxation in diatomic gases,” <em>Physics of Fluids</em>, <strong>2</strong>,
-449–462 (1959).</p>
+<div class="citation" id="bird1981c" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Bird1981c</a><span class="fn-bracket">]</span></span>
+<p>G. A. Bird, “Monte-Carlo simulation in an
+engineering context,” <em>Progress in Astronautics and
+Aeronautics</em>, <strong>74</strong>, 239–255 (1981).</p>
 </div>
-<div class="citation" id="millikanwhite1963rel" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">MillikanWhite1963rel</a><span class="fn-bracket">]</span></span>
-<p>R. C. Millikan and D. R. White,
-“Systematics of vibrational relaxation,” <em>Journal of Chemical
-Physics</em>, <strong>39</strong> (12), 3209–3213 (1963).</p>
-</div>
-<div class="citation" id="pfeiffer2016rel" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">Pfeiffer2016rel</a><span class="fn-bracket">]</span></span>
-<p>M. Pfeiffer and P. Nizenkov, “Extension of
-particle-based BGK models to polyatomic species in hypersonic
-flow,” <em>Physics of Fluids</em>, <strong>28</strong>, 027103 (2016).</p>
-</div>
-<div class="citation" id="civrais2024vib-rel" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">Civrais2024Vib_rel</a><span class="fn-bracket">]</span></span>
-<p>C. H. B. Civrais, C. White, R. Steijl,
-“Vibrational modelling with an anharmonic oscillator model in
-Direct Simulation Monte Carlo.”</p>
+<div class="citation" id="koura1991c" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Koura1991c</a><span class="fn-bracket">]</span></span>
+<p>K. Koura and H. Matsumoto, “Variable soft sphere
+molecular model for inverse-power-law or Lennard-Jones
+potential,” <em>Physics of Fluids A</em>, <strong>3</strong> (10), 2459–2465
+(1991).</p>
 </div>
 </div>
 </section>
@@ -704,8 +648,8 @@ Direct Simulation Monte Carlo.”</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="larsen_borgnakke.html" class="btn btn-neutral float-left" title="Larsen-Borgnakke energy redistribution" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="chemistry.html" class="btn btn-neutral float-right" title="Neutral chemistry" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="foundations.html" class="btn btn-neutral float-left" title="Kinetic foundations and the DSMC algorithm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="collision_sampling.html" class="btn btn-neutral float-right" title="Collision sampling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

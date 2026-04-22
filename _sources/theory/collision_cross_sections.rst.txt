@@ -1,0 +1,196 @@
+Collision cross sections
+========================
+
+The present section documents the binary-collision cross-section
+models implemented in the solver: the Hard Sphere (HS) reference,
+the Variable Hard Sphere (VHS), the Variable Soft Sphere (VSS),
+and the degenerate ``NoBinaryCollision`` model used for
+free-molecular verification. All models are selected through the
+``BinaryCollisionModel`` key in ``constant/dsmcProperties``; the
+associated coefficients live in ``<Model>Coeffs``.
+
+Hard sphere cross section
+-------------------------
+
+Hard sphere collisions are the oldest kinetic-theory model and
+serve as the pedagogical starting point. Two molecules of
+diameters :math:`d_1, d_2` are treated as solid spheres that
+collide elastically when :math:`|\mathbf{r}_1 - \mathbf{r}_2| =
+(d_1 + d_2)/2`. The resulting total cross section,
+
+.. math::
+
+   \sigma_T^{\mathrm{HS}}
+     = \pi\, d_{12}^{2}, \qquad
+   d_{12} = \tfrac{1}{2}\,(d_1 + d_2),
+
+is **independent of the relative speed**. The differential cross
+section is isotropic in the centre-of-mass frame. The HS model is
+easy to reason about but has a major limitation: it does not
+reproduce the experimental temperature dependence of gas
+viscosity, which goes as :math:`\eta(T) \propto T^{\omega}` with
+:math:`\omega \approx 0.75` for most diatomic species instead of
+the HS prediction :math:`\omega = 1/2`.
+
+Variable Hard Sphere (VHS)
+--------------------------
+
+The VHS model of Bird [Bird1981c]_ retains the isotropic
+scattering of the hard sphere but gives the cross section an
+explicit dependence on the relative speed :math:`g`:
+
+.. math::
+
+   \sigma_T^{\mathrm{VHS}}(g)
+     = \pi\, d_{\mathrm{ref}}^{2}\,
+       \left(\frac{g_{\mathrm{ref}}}{g}\right)^{2\omega - 1}
+       \frac{1}{\Gamma(5/2 - \omega)},
+
+where :math:`d_{\mathrm{ref}}`, :math:`g_{\mathrm{ref}}`, and
+:math:`\omega` are species-pair parameters. The reference speed is
+related to the reference temperature :math:`T_{\mathrm{ref}}`
+(tabulated at 273 K in the reference tutorial) through the most
+probable speed
+:math:`g_{\mathrm{ref}} = \sqrt{2 k_B T_{\mathrm{ref}}/\mu_{12}}`
+with :math:`\mu_{12}` the reduced mass of the colliding pair.
+
+The viscosity of a VHS gas is
+
+.. math::
+
+   \eta^{\mathrm{VHS}}(T)
+     = \frac{15}{8}\,\frac{\sqrt{\pi m k_B T}}{\pi d_{\mathrm{ref}}^{2}}\,
+       \frac{\Gamma(4 - \omega)}{\Gamma(5/2 - \omega)\,
+        \Gamma(4 - \omega)}\,
+       \left(\frac{T}{T_{\mathrm{ref}}}\right)^{\omega},
+
+which recovers the experimental :math:`T^{\omega}` scaling exactly
+by construction. The angular distribution remains isotropic in the
+centre-of-mass frame: the post-collision relative velocity is
+drawn as
+
+.. math::
+
+   \mathbf{g}' = g\,\hat{\mathbf{n}}, \qquad
+   \hat{\mathbf{n}} = \bigl(\cos\theta\,\hat{\mathbf{e}}_{z}
+                           + \sin\theta\,\cos\phi\,\hat{\mathbf{e}}_{x}
+                           + \sin\theta\,\sin\phi\,\hat{\mathbf{e}}_{y}\bigr),
+
+with :math:`\cos\theta` uniform on :math:`[-1, 1]` and
+:math:`\phi` uniform on :math:`[0, 2\pi)`.
+
+Variable Soft Sphere (VSS)
+--------------------------
+
+The VSS model of Koura and Matsumoto [Koura1991c]_ extends VHS by
+augmenting the same speed-dependent total cross section with an
+**anisotropic** scattering law parameterised by :math:`\alpha`.
+The differential cross section in the centre-of-mass frame is
+
+.. math::
+
+   \frac{\mathrm{d}\sigma^{\mathrm{VSS}}}{\mathrm{d}\Omega}
+     = \frac{\sigma_T^{\mathrm{VSS}}(g)}{4\pi\,\alpha}\,
+       \left[\cos^{2(\alpha - 1)}\!\tfrac{\chi}{2}\right]
+       \left[\frac{1}{\cos^{2}(\chi/2)}\right],
+
+which concentrates the scattered flux in the forward direction
+when :math:`\alpha > 1`. The scattering angle is sampled from
+
+.. math::
+
+   \cos\chi
+     = 2\,U^{1/\alpha} - 1,
+
+with :math:`U` uniform on :math:`[0, 1]`; the limit
+:math:`\alpha = 1` recovers the isotropic VHS scattering.
+Simultaneously fitting :math:`(d_{\mathrm{ref}}, \omega, \alpha)`
+to the gas viscosity *and* the binary diffusion coefficient
+removes the Schmidt-number inconsistency present in the VHS model.
+For common diatomic species the fitted :math:`\alpha` lies
+between 1.0 and 1.5.
+
+Reference parameters for air-chemistry species are tabulated in
+``constant/speciesCache/<species>.dat`` and are documented in
+:doc:`../classes/species_database`.
+
+Post-collision velocities
+-------------------------
+
+Whatever the choice of cross section, the post-collision
+velocities follow from momentum conservation and the sampled
+relative velocity:
+
+.. math::
+
+   \mathbf{v}_{P}' = \mathbf{v}_{\mathrm{cm}}
+                    + \frac{m_Q}{m_P + m_Q}\,\mathbf{g}', \quad
+   \mathbf{v}_{Q}' = \mathbf{v}_{\mathrm{cm}}
+                    - \frac{m_P}{m_P + m_Q}\,\mathbf{g}',
+
+with :math:`\mathbf{v}_{\mathrm{cm}} = (m_P \mathbf{v}_P +
+m_Q \mathbf{v}_Q)/(m_P + m_Q)` the centre-of-mass velocity. The
+magnitude of :math:`\mathbf{g}'` equals :math:`g` for an elastic
+collision; it is smaller for an inelastic one after Larsen-
+Borgnakke sampling has transferred energy to the internal modes
+(see :doc:`larsen_borgnakke`).
+
+Elastic versus inelastic variants
+---------------------------------
+
+The solver distinguishes between collision models that include
+internal-energy exchange and those that do not:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Class
+     - Internal-energy treatment
+   * - ``VariableHardSphere``
+     - Purely elastic; internal state unchanged on every
+       collision. Useful for verification against analytical
+       free-molecular results.
+   * - ``VariableSoftSphere``
+     - Purely elastic; anisotropic scattering.
+   * - ``LarsenBorgnakkeVariableHardSphere``
+     - VHS cross section + LB internal-energy redistribution on
+       the rovibronic state space. **Default** production model.
+   * - ``LarsenBorgnakkeVariableSoftSphere``
+     - VSS cross section + LB internal-energy redistribution.
+   * - ``NoBinaryCollision``
+     - Binary collisions disabled. Used to isolate boundary-
+       driven effects in free-molecular tests.
+
+Coefficient dictionaries
+------------------------
+
+For the VHS/VSS elastic variants, ``<Model>Coeffs`` is essentially
+empty beyond the reference temperature:
+
+.. code-block:: cpp
+
+   VariableHardSphereCoeffs { Tref 273; }
+   VariableSoftSphereCoeffs { Tref 273; }
+
+For the LB variants, the same block carries the three relaxation
+collision numbers :math:`Z_r, Z_{rv}, Z_{rve}` that govern the
+parallel-marginal cascade (:doc:`relaxation`):
+
+.. code-block:: cpp
+
+   LarsenBorgnakkeVariableHardSphereCoeffs
+   {
+       Tref                                    273; // [K]
+       rotationalRelaxationCollisionNumber     2;
+       rovibrationalRelaxationCollisionNumber  10;
+       rovibronicRelaxationCollisionNumber     10;
+   }
+
+.. [Bird1981c] G. A. Bird, "Monte-Carlo simulation in an
+   engineering context," *Progress in Astronautics and
+   Aeronautics*, **74**, 239–255 (1981).
+.. [Koura1991c] K. Koura and H. Matsumoto, "Variable soft sphere
+   molecular model for inverse-power-law or Lennard-Jones
+   potential," *Physics of Fluids A*, **3** (10), 2459–2465
+   (1991).

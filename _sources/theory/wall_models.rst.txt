@@ -1,0 +1,186 @@
+Wall and inflow models
+======================
+
+The present section documents the physical models attached to
+domain boundaries. Four families are distinguished —  specular,
+diffuse, Cercignani-Lampis-Lord, and rovibronic-aware —
+together with the accommodation coefficients and the treatment of
+the internal degrees of freedom at reflection.
+
+Specular reflection
+-------------------
+
+A specular wall reverses the velocity component normal to the
+patch face and leaves the tangential components unchanged,
+
+.. math::
+
+   \mathbf{v}' = \mathbf{v} - 2\,(\mathbf{v}\cdot\hat{\mathbf{n}})\,
+                 \hat{\mathbf{n}},
+
+with :math:`\hat{\mathbf{n}}` the outward face normal. The
+internal state of the parcel is unaffected, and no momentum,
+energy, or mass is exchanged with the wall. Specular walls are
+primarily of use in symmetry planes, periodic surrogates, and
+free-molecular verification.
+
+Fully diffuse reflection
+------------------------
+
+The Maxwellian diffuse wall thermalises the reflected parcel
+with the wall. After reflection, the velocity is drawn from the
+half-Maxwellian at the wall temperature :math:`T_w`,
+
+.. math::
+
+   f_w(\mathbf{v}) \propto
+     (\mathbf{v}\cdot\hat{\mathbf{n}}_w)\;
+     \exp\!\left[-\frac{m\,|\mathbf{v} - \mathbf{v}_w|^{2}}
+                      {2\,k_B\,T_w}\right],
+   \qquad \mathbf{v}\cdot\hat{\mathbf{n}}_w > 0,
+
+with :math:`\mathbf{v}_w` the (usually zero) wall velocity and
+:math:`\hat{\mathbf{n}}_w` the inward-pointing face normal. In
+the continuous-internal-energy implementation the internal
+energy is redrawn from a Boltzmann distribution at :math:`T_w`;
+the rovibronic-aware variant discussed below redraws the
+quantum state :math:`(n, v, J)` instead.
+
+Mixed diffuse / specular
+------------------------
+
+The Maxwell mixed model introduces an accommodation coefficient
+:math:`\alpha \in [0, 1]`: a fraction :math:`\alpha` of incoming
+parcels reflect diffusely, the remainder specularly. In the
+implemented variant ``dsmcMixedDiffuseSpecularWallPatch``,
+:math:`\alpha` is a single scalar; the field variant
+``dsmcMixedDiffuseSpecularWallFieldPatch`` allows :math:`\alpha`
+and :math:`T_w` to vary patch face by patch face.
+
+Cercignani-Lampis-Lord (CLL) scattering
+---------------------------------------
+
+The CLL model [Lord1991wa]_ offers an anisotropic alternative to
+the fully-diffuse Maxwellian kernel, with two accommodation
+coefficients :math:`\alpha_n` and :math:`\alpha_t` for the
+normal and tangential components of the momentum. Writing
+:math:`V_n, V_t` for the normal and tangential velocity
+magnitudes scaled by :math:`\sqrt{2 k_B T_w / m}`, the CLL
+kernel samples post-collision :math:`V_n', V_t'` from
+
+.. math::
+
+   V_n' = \sqrt{(1 - \alpha_n)\,V_n^{2}
+                + 2\,\sqrt{(1 - \alpha_n)\,\alpha_n}\,V_n\,V_r\cos\theta
+                + \alpha_n\,V_r^{2}},
+
+.. math::
+
+   V_t' = (1 - \alpha_t)\,V_t + \sqrt{\alpha_t\,(2 - \alpha_t)}\,V_r',
+
+with :math:`V_r, V_r'` Maxwell-Boltzmann-distributed thermal
+speeds and :math:`\theta` uniform on :math:`[0, 2\pi)`. The two
+limits :math:`\alpha_n = \alpha_t = 0` (specular) and
+:math:`\alpha_n = \alpha_t = 1` (fully diffuse) are recovered
+from the same kernel.
+
+Rovibronic-aware wall: ``dsmcMixedDiffuseSpecularWallRotPatch``
+----------------------------------------------------------------
+
+The rovibronic-aware wall is the only boundary class that samples
+on the quantum-state space at reflection. It behaves like the
+Maxwell mixed model for the velocity, but replaces the internal-
+energy redistribution by a Boltzmann draw over the species'
+rovibronic levels:
+
+.. math::
+
+   P(n, v, J)
+     = \frac{g(n, v, J)\,\exp\!\bigl[-E(n, v, J)/k_B\,T_w\bigr]}
+            {\displaystyle\sum_{n',v',J'}
+              g(n', v', J')\,\exp\!\bigl[-E(n', v', J')/k_B\,T_w\bigr]},
+
+with :math:`T_w` the wall temperature. The partition function in
+the denominator is the full internal partition function of
+:doc:`rovibronic_levels`. This is the right choice for flows in
+which the internal populations impinging on the wall carry
+information (radiation, catalysis, non-equilibrium boundary
+layers) and must be equilibrated with the wall on reflection.
+
+Free-stream inflow
+------------------
+
+The free-stream inflow patch injects parcels drawn from a
+Maxwellian distribution at prescribed density :math:`n_\infty`,
+temperature :math:`T_\infty`, and drift velocity
+:math:`\mathbf{v}_\infty`. The number of particles entering the
+domain over a patch face of area :math:`A_f` during
+:math:`\Delta t` follows from the half-range flux integral:
+
+.. math::
+
+   \dot{N}_{\mathrm{in}}
+     = \frac{n_\infty\,A_f\,\Delta t}{\sqrt{2\pi\,m/k_B T_\infty}}\,
+       \bigl[\exp(-s^{2}) + \sqrt{\pi}\,s\,(1 + \mathrm{erf}\,s)\bigr],
+
+with :math:`s = (\mathbf{v}_\infty\cdot\hat{\mathbf{n}}_w) /
+\sqrt{2 k_B T_\infty/m}` the speed ratio. Sampled velocities
+follow the acceptance-rejection construction of Bird.
+
+Chapman-Enskog inflow
+---------------------
+
+The ``dsmcChapmanEnskogFreeStreamInflowPatch`` extends the
+Maxwellian inflow with a first-order Chapman-Enskog correction
+accounting for a non-zero stress and heat flux at the patch
+face,
+
+.. math::
+
+   f(\mathbf{v}) = f_{\mathrm{MB}}(\mathbf{v})\,
+                   \Bigl[1 + \tfrac{2}{5}\,\tilde{\mathbf{q}}\cdot\mathbf{c}\,
+                              (\mathbf{c}^{2} - 5/2)
+                       + \tilde{\boldsymbol{\tau}} : \mathbf{c}\,\mathbf{c}
+                   \Bigr],
+
+with :math:`\mathbf{c}` the peculiar velocity in units of the
+most-probable speed, and :math:`\tilde{\mathbf{q}},
+\tilde{\boldsymbol{\tau}}` the scaled heat-flux and stress
+tensors. This is the natural inflow when coupling DSMC to a
+continuum upstream, where non-zero Navier-Stokes-like
+first-order moments characterise the state of the gas.
+
+Pressure and mass-flow inlets
+-----------------------------
+
+Pressure- and mass-flow-driven inlets
+(``dsmcWangPressureInlet``, ``dsmcLiouFangPressureInlet``,
+``dsmcMassFlowRateInlet``) apply Maxwellian sampling at an
+inferred density chosen so that the desired pressure or the
+desired mass flow rate is respected in the long-time average.
+They are the natural choice when the upstream reservoir is
+better characterised through :math:`p_0` or :math:`\dot{m}`
+than through :math:`n_\infty`.
+
+Particle deletion
+-----------------
+
+Parcels that reach a ``dsmcDeletionPatch`` are removed from the
+simulation. The patch supports either the ``allSpecies`` switch
+or a ``typeIds`` list, so that outflow patches may be made
+species-selective when required.
+
+Cyclic boundaries
+-----------------
+
+The ``dsmcCyclicBoundaries`` block in ``boundariesDict`` supports
+periodic pairing. The
+``dsmcReflectiveParticleMembranePatch`` variant reflects a
+user-specified fraction of incoming parcels back into the domain
+while letting the rest pass through; this is the mechanism used,
+for instance, to model permeable membranes in micro-nano-flow
+applications.
+
+.. [Lord1991wa] R. G. Lord, "Some extensions to the
+   Cercignani-Lampis gas-surface scattering kernel," *Physics
+   of Fluids A*, **3** (4), 706–710 (1991).

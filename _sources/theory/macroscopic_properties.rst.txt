@@ -1,87 +1,213 @@
-Macroscopic Properties
+Macroscopic properties
 ======================
 
-Volume-averaged fields are accumulated from the simulator particles
-in each computational cell. Below we summarise how the common
-diagnostics are defined in the rovibronic setting, and we emphasise
-the status of the per-mode "temperatures" as effective scalars
-extracted from population distributions rather than as primary
-thermodynamic variables.
+Volume- and time-averaged moments of the simulator-particle
+distribution constitute the macroscopic output of the solver.
+The present section defines, for each field, the estimator used
+by the solver, the inversion from sampled moments to effective
+temperatures, and the corresponding transport coefficients that
+close the rarefied continuum description.
 
 Number density and species fractions
 ------------------------------------
 
 For a cell of volume :math:`V_{\mathrm{cell}}` containing
-:math:`N_s` simulator particles of species :math:`s`, each
-representing :math:`w = \mathtt{nEquivalentParticles}` real
-molecules,
+:math:`N_s` simulator parcels of species :math:`s`, each
+representing :math:`F_N` real molecules,
 
 .. math::
 
-   n_s = \frac{N_s\, w}{V_{\mathrm{cell}}}, \qquad
-   x_s = \frac{n_s}{\displaystyle\sum_{s'} n_{s'}}.
+   n_s = \frac{N_s\, F_N}{V_{\mathrm{cell}}}, \qquad
+   \rho_s = m_s\, n_s, \qquad
+   x_s = \frac{n_s}{\displaystyle \sum_{s'} n_{s'}}.
+
+Bulk velocity and peculiar velocity
+-----------------------------------
+
+The bulk velocity and the peculiar velocity of a parcel follow
+from the mass-weighted moments:
+
+.. math::
+
+   \bar{\mathbf{v}}
+     = \frac{\displaystyle\sum_{i}
+             m_i\,\mathbf{v}_i}
+            {\displaystyle\sum_{i} m_i},
+   \qquad
+   \mathbf{c}_i = \mathbf{v}_i - \bar{\mathbf{v}}.
 
 Translational temperature
 -------------------------
 
 The translational temperature is extracted, as in standard DSMC,
-from the second moment of the peculiar velocity,
+from the second central moment of the velocity,
 
 .. math::
 
-   \frac{3}{2}\, k_B T_T
-     = \frac{1}{N} \sum_{i=1}^{N}
-       \tfrac{1}{2}\, m_i\,(\mathbf{v}_i - \bar{\mathbf{v}})^{2}.
+   \tfrac{3}{2}\, k_B\, T_T
+     = \frac{1}{N}\sum_{i=1}^{N}
+       \tfrac{1}{2}\,m_i\,c_i^{2}.
 
-Rotational, vibrational, and electronic temperatures
-----------------------------------------------------
+In strongly anisotropic flows (boundary layers, shocks), the
+directional temperatures
 
-For each composite internal mode :math:`k \in \{R,\,V,\,E\}`, we
-first average the mode-specific energy over the cell,
-:math:`\langle E_k\rangle = \frac{1}{N}\sum_i E_k^{(i)}`, and then
-invert the (pre-tabulated) equilibrium relation
-:math:`\langle E_k\rangle(T_k)` by bisection to obtain the effective
-temperature :math:`T_k`. The associated effective DOF is
+.. math::
+
+   k_B\,T_{x}
+     = \frac{1}{N}\sum_i m_i\,c_{i,x}^{2},
+   \qquad\text{etc.,}
+
+are available from the same cell accumulators and are useful
+diagnostics of the onset of translational non-equilibrium.
+
+Stress tensor and heat flux
+---------------------------
+
+The translational stress tensor and heat flux are
+
+.. math::
+
+   \mathbf{P} = \sum_{s} \left\langle
+     \rho_s\,\mathbf{c}\,\mathbf{c}
+   \right\rangle,
+   \qquad
+   \mathbf{q} = \sum_{s} \left\langle
+     \tfrac{1}{2}\,\rho_s\,|\mathbf{c}|^{2}\,\mathbf{c}
+     + n_s\,E_s^{\mathrm{int}}\,\mathbf{c}
+   \right\rangle,
+
+with :math:`\langle\cdot\rangle` the cell average and
+:math:`E_s^{\mathrm{int}}` the internal energy carried by each
+parcel of species :math:`s`. The pressure scalar is
+:math:`p = \tfrac{1}{3}\,\mathrm{tr}\,\mathbf{P}`, and the
+deviatoric stress is :math:`\boldsymbol{\tau} = \mathbf{P} -
+p\,\mathbf{I}`. Both quantities are written to the time
+directories when ``measureHeatFluxShearStress`` is enabled on the
+``dsmcVolFields`` field model (see :doc:`../classes/measurements`).
+
+Internal-mode effective temperatures
+------------------------------------
+
+For each composite internal mode
+:math:`k \in \{R, V, E\}`, the solver first averages the
+per-parcel mode energy over the cell,
+
+.. math::
+
+   \langle E_k\rangle
+     = \frac{1}{N_s}
+       \sum_i E_k^{(i)},
+
+and then inverts the pre-tabulated equilibrium relation
+:math:`\langle E_k\rangle(T_k)` by bisection to obtain the
+effective mode temperature :math:`T_k`. The bisection uses the
+internal partition function of :doc:`rovibronic_levels`, which
+covers the simulation temperature range at solver start-up; if
+the sampled mode energy lies outside the tabulated range, the
+bisection extrapolates and a warning is printed.
+
+The effective DOF of each mode follow immediately,
 
 .. math::
 
    \xi_k(T_k) = \frac{2\,\langle E_k\rangle(T_k)}{k_B\,T_k},
 
-which matches the definition used in the Landau-Teller cascade (see
-:doc:`relaxation`).
+and are the same quantities that enter the Larsen-Borgnakke
+exponent (:doc:`larsen_borgnakke`).
 
-Status of effective temperatures under non-equilibrium
-``````````````````````````````````````````````````````
+Under strong non-equilibrium these :math:`T_k` are **cell-level
+effective temperatures** rather than thermodynamic temperatures.
+They reproduce the first moment of the population distribution
+but do not characterise the distribution as a whole. Any
+downstream coupling that assumes a Boltzmann shape (radiation
+transport, inter-code coupling) should revisit that assumption
+against the population diagnostics below.
 
-It is important to emphasise that, under strong non-equilibrium —
-for instance in the early stages of a shock-heated flow, or in a
-rapidly expanding nozzle —  the quantities :math:`T_R`,
-:math:`T_V`, :math:`T_E` are **cell-level effective temperatures**
-rather than thermodynamic temperatures. They correctly describe the
-first moment of the population distribution but do not characterise
-the distribution as a whole, which in general is strongly
-non-Boltzmann. The physical solution resides in the state-resolved
-population vector :math:`P(n, v, J)` itself, and any downstream
-coupling that assumes a Boltzmann shape (e.g. coupling with a
-radiation transport solver) must be revisited accordingly
-[Civrais2024Electronic_m]_.
+Mean free path and Mach number
+------------------------------
+
+Derived fields exposed by the ``dsmcVolFields`` field model
+include:
+
+.. math::
+
+   \lambda
+     = \frac{1}{\sqrt{2}\,\pi\,n\,d^{2}}\,
+       \left(\frac{T_{\mathrm{ref}}}{T}\right)^{\omega - 1/2},
+   \qquad
+   \mathrm{Ma}
+     = \frac{|\bar{\mathbf{v}}|}
+            {\sqrt{\gamma\,k_B\,T_T/m}},
+
+which are needed to verify the DSMC convergence conditions
+*a posteriori* and to position the flow within the Knudsen
+classification of :doc:`foundations`.
+
+Transport coefficients from VSS parameters
+------------------------------------------
+
+In the free-molecular-to-transitional regime, the VSS parameters
+:math:`(d_{\mathrm{ref}}, \omega, \alpha)` in
+:doc:`../classes/species_database` determine the transport
+coefficients that close the continuum description. The viscosity,
+
+.. math::
+
+   \eta(T)
+     = \frac{5}{16}\,\frac{(\pi\, m\, k_B T)^{1/2}}
+                          {\pi\,d_{\mathrm{ref}}^{2}}\,
+       \frac{(1 - \alpha/2)\,\alpha}
+            {\Gamma(9/2 - \omega)}\,
+       \left(\frac{T}{T_{\mathrm{ref}}}\right)^{\omega},
+
+and the thermal conductivity,
+
+.. math::
+
+   \kappa(T)
+     = \frac{15\,k_B}{4\,m}\,\eta(T),
+
+follow directly and recover the empirical
+:math:`T^{\omega}` scaling by construction. The resulting
+Prandtl number :math:`\mathrm{Pr} = \mu c_p/\kappa = 2/3` is the
+standard value for a monatomic VSS gas; deviations in polyatomic
+species are captured through the rovibronic internal DOF of
+:doc:`rovibronic_levels`.
 
 Population diagnostics
 ----------------------
 
-Per-cell histograms over :math:`(n, v, J)` are available from the
-post-processing utilities under ``applications/utilities/``. Typical
-use cases include:
+Beyond the scalar fields above, the
+``dsmcRovibronicPopulation`` field model
+(:doc:`../classes/measurements`) accumulates the full four-index
+array :math:`P(\mathrm{cell}; n, v, J)` for a selected species
+inside a selected zone. The output of this diagnostic is the
+only observable that directly reflects the central promise of
+the rovibronic extension: it shows the distribution as the
+simulation actually carries it, rather than the Boltzmann
+projection that the effective temperatures report. Typical
+uses include:
 
-* the vibrational population :math:`P(v)` at fixed electronic state
-  :math:`n`, plotted against the Boltzmann distribution at
-  :math:`T_T` (a direct diagnostic of vibrational non-equilibrium);
-* the rotational population :math:`P(J)` at fixed :math:`(n, v)`
-  to assess the assumption of rotational equilibrium;
-* the electronic population :math:`P(n)` as a function of time in
-  shock-heated flows, to monitor the rate at which the excited
-  electronic manifolds become populated.
+* plotting the vibrational population :math:`P(v)` at fixed
+  electronic state and comparing it against the Boltzmann
+  distribution at :math:`T_T`;
+* monitoring the population of the first few excited electronic
+  levels as a function of time in a shock-heated flow;
+* constructing rotational-vibrational distributions to assess
+  the assumption of rotational-vibrational equilibrium under
+  non-equilibrium chemistry.
 
-.. [Civrais2024Electronic_m] C. H. B. Civrais, M. Pfeiffer, C. White,
-   and R. Steijl, "Modelling of the electronic excited states in
-   high-temperature flows," *Physics of Fluids* (2024).
+Bin, zone, and face-flux outputs
+--------------------------------
+
+The :doc:`../classes/measurements` page catalogues the
+configurable field models that complement the per-cell
+``dsmcVolFields`` output: one-, two-, and three-dimensional bin
+histograms (``dsmcBinsMethod``) for mesh-independent profiles,
+zone averages (``dsmcZone``) for zero-dimensional reference
+quantities, velocity and speed distributions
+(``dsmcVelocityDistributionZone``,
+``dsmcSpeedDistributionZone``), and flux integrals through named
+face zones (``dsmcMassFluxSurface``). The present page
+concentrates on the underlying per-cell estimators; the
+configurable layer is documented in full on the class page.

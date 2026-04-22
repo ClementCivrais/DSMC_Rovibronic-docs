@@ -1,29 +1,240 @@
-Chemistry
-=========
+Neutral chemistry
+=================
 
-Chemistry is handled as state-specific or state-aggregated reactions
-sampled during the collision phase. The reactive channels supported
-by the solver are dissociation, recombination, exchange, electron-
-impact ionisation, associative ionisation, and charge exchange. One
-of the defining design choices of the rovibronic extension is that
-**heats of reaction are extracted automatically from the
-spectroscopic database**, so that the user is not required to supply
-them in the input dictionary, and so that thermodynamic consistency
-between the database and the reaction rates is guaranteed by
-construction [Civrais2024ChemI_c]_, [Civrais2024ChemII_c]_.
+The present section derives the reactive channels of
+**neutral-species chemistry** as implemented in the solver:
+the Quantum-Kinetic (QK) model, its Total-Collision-Energy (TCE)
+ancestor, and the post-reaction redistribution of internal
+energy. Charged-species reactions, which inherit the same
+statistical machinery but require additional care around the
+electron population, are treated separately in
+:doc:`chemistry_charged`.
 
-Dissociation with asymptote matching
-------------------------------------
+Total-Collision-Energy (TCE) model
+----------------------------------
 
-When a diatomic molecule AB in electronic level :math:`n`
-dissociates, the electronic states of the product atoms are
-determined by matching the molecular potential-energy-curve (PEC)
-dissociation asymptote. This ensures that Wigner-Witmer correlation
-rules are respected and that product atoms emerge in the correct
-electronic configuration.
+Bird's TCE model [Bird1994ch]_ computes the reaction probability
+from the collision energy :math:`E_c`, the activation energy
+:math:`E_a`, and a fit to an experimental Arrhenius rate
+:math:`k(T) = A\, T^{b}\,\exp(-E_a/k_B T)`. Starting from the
+equilibrium rate constant
 
-For each molecular electronic state :math:`n` we define the
-asymptote energy
+.. math::
+
+   k^{\mathrm{eq}}(T)
+     = \int_{E_a}^{\infty}
+       P_{\mathrm{reac}}^{\mathrm{TCE}}(E_c)\,
+       \sigma_T(E_c)\, g(E_c)\,
+       f^{\mathrm{eq}}(E_c; T)\,
+       \mathrm{d}E_c,
+
+and matching to the Arrhenius form for a VHS gas yields the
+closed-form reaction probability
+
+.. math::
+
+   P_{\mathrm{reac}}^{\mathrm{TCE}}(E_c)
+     = C_1\,\left(\frac{E_c - E_a}{E_c}\right)^{C_2}
+       \left(\frac{E_c}{k_B T_{\mathrm{ref}}}\right)^{C_3}
+       \Theta(E_c - E_a),
+
+where :math:`\Theta` is the Heaviside step and the three
+coefficients :math:`C_1, C_2, C_3` are derived analytically from
+:math:`A, b, \omega`:
+
+.. math::
+
+   C_1 = \frac{A\,(\omega - 1/2)!\,T_{\mathrm{ref}}^{1 - \omega}}
+              {(b + 3/2 - \omega)!\,(m_{12}/2k_B)^{1/2}},
+
+.. math::
+
+   C_2 = b + \tfrac{1}{2} - \omega, \qquad
+   C_3 = 1 - \omega + b.
+
+The TCE model is a **global** reaction model: every collision
+above :math:`E_a` has the same reaction probability regardless of
+the reactants' internal states. This is its virtue (no per-state
+data required) and its limitation (it cannot describe the
+influence of excited-state populations on reaction rates).
+
+Quantum-Kinetic (QK) model — full derivation
+--------------------------------------------
+
+The QK model of Bird [Bird2011qk]_, in its rovibronic extension
+adopted here [Civrais2024ChemI_ch]_, replaces the TCE activation
+energy by a **state-dependent threshold** for each reactant
+:math:`(n, v, J)` triple. The derivation proceeds in four steps.
+
+**Step 1 — microscopic reaction probability.** We start from the
+principle that the reaction can only proceed when the collision
+energy exceeds the state-specific dissociation energy
+:math:`E_{\mathrm{diss}}^{(n,v,J)}`. For a VHS cross section the
+post-threshold reaction probability derives from the classical
+line-of-centres model:
+
+.. math::
+
+   P_{\mathrm{reac}}^{\mathrm{QK}}(E_c; n, v, J)
+     = \left(1 - \frac{E_{\mathrm{diss}}^{(n,v,J)}}{E_c}\right)^{3/2 - \omega}
+       \Theta\!\bigl(E_c - E_{\mathrm{diss}}^{(n,v,J)}\bigr),
+
+where :math:`E_{\mathrm{diss}}^{(n, v, J)} = D_0 - E(n, v, J)`
+is the energy needed to break the bond *given* that the molecule
+already carries internal energy :math:`E(n, v, J)`.
+
+**Step 2 — state-resolved reaction rate.** Integrating the above
+against the Maxwell-Boltzmann distribution of collision energies
+for a VHS gas,
+
+.. math::
+
+   f^{\mathrm{eq}}(E_c; T)
+     = \frac{E_c^{3/2 - \omega}}
+            {(k_B T)^{5/2 - \omega}\,\Gamma(5/2 - \omega)}\,
+       \exp\!\left(-\frac{E_c}{k_B T}\right),
+
+yields the state-resolved rate
+
+.. math::
+
+   k^{\mathrm{QK}}_{nvJ}(T)
+     = H(T)\,
+       \Gamma\!\left(\tfrac{5}{2} - \omega,\;
+         \frac{E_{\mathrm{diss}}^{(n, v, J)}}{k_B T}\right),
+
+where :math:`H(T)` is the VHS binary-rate kernel
+
+.. math::
+
+   H(T) = \sigma_{\mathrm{ref}}^{\mathrm{VHS}}\,
+          \sqrt{\frac{8\,k_B T}{\pi\,\mu_{12}}}\,
+          \left(\frac{T}{T_{\mathrm{ref}}}\right)^{1/2 - \omega}
+          \frac{1}{\Gamma(5/2 - \omega)},
+
+and :math:`\Gamma(s, x)` is the upper incomplete gamma function.
+
+**Step 3 — Boltzmann-weighted total rate.** Averaging over the
+reactant's internal-state population yields the macroscopic rate
+
+.. math::
+
+   k^{\mathrm{QK}}(T)
+     = \frac{\displaystyle\sum_{n, v, J} g(n, v, J)\,
+             e^{-E(n,v,J)/k_B T}\,
+             H(T)\,\Gamma\!\left(\tfrac{5}{2} - \omega,\;
+               \tfrac{E_{\mathrm{diss}}^{(n,v,J)}}{k_B T}\right)}
+            {Q_{\mathrm{int}}(T)},
+
+with :math:`Q_{\mathrm{int}}(T)` the internal partition function
+(see :doc:`rovibronic_levels`). The summand makes manifest that
+excited states contribute disproportionately to the rate, because
+their dissociation threshold :math:`D_0 - E(n, v, J)` is smaller
+than the ground-state value :math:`D_0`.
+
+**Step 4 — acceptance-rejection at the collision.** At run-time,
+each collision is tested against the QK probability
+
+.. math::
+
+   P_{\mathrm{reac}}^{\mathrm{QK}}(E_c; n_P, v_P, J_P)
+     = \left(1 - \frac{E_{\mathrm{diss}}^{(n_P, v_P, J_P)}}{E_c}\right)^{3/2 - \omega}
+       \Theta\!\bigl(E_c - E_{\mathrm{diss}}^{(n_P, v_P, J_P)}\bigr),
+
+drawn for the dissociating parcel :math:`P` only; the partner
+parcel :math:`Q` merely supplies its share of the collision
+energy. If the probability exceeds the uniform random draw, the
+reaction fires and the post-reaction energy redistribution begins.
+
+Post-reaction redistribution of internal energy
+-----------------------------------------------
+
+Once a reaction has fired, the pooled energy available to the
+products is
+
+.. math::
+
+   E_{\mathrm{avail}} = E_c + \Delta H
+                        - E_{\mathrm{diss}}^{(n_P, v_P, J_P)},
+
+where :math:`E_c = E_{\mathrm{rel}} + E_{\mathrm{int}}(P) +
+E_{\mathrm{int}}(Q)` is the collision energy pool,
+:math:`\Delta H` is the heat of reaction (automatically read
+from the database for dissociation, recombination, and exchange;
+cf. :doc:`../theory/chemistry`). The redistribution proceeds in
+the order below.
+
+**Product-state enumeration.** For a dissociation
+:math:`\mathrm{AB}(n, v, J) + \mathrm{M} \to \mathrm{A}(n_1) +
+\mathrm{B}(n_2) + \mathrm{M}`, the product atoms' electronic
+states :math:`(n_1, n_2)` are determined at initialisation by
+the asymptote-matching algorithm below. For an exchange
+reaction, two molecular / atomic products must be sampled.
+
+**Larsen-Borgnakke sampling for the first product.** The first
+product's state :math:`(n', v', J')_{\mathrm{AC}}` is sampled by
+acceptance-rejection,
+
+.. math::
+
+   f_{1}(E_{\mathrm{AC}}')
+     = g(E_{\mathrm{AC}}')\,
+       \left(\frac{E_{\mathrm{avail}}
+                    - E_{\mathrm{AC}}'}{E_{\mathrm{avail}}}\right)^{\alpha_{1}},
+
+with exponent
+
+.. math::
+
+   \alpha_{1}
+     = \frac{\xi_{\mathrm{rel}} + \xi_{\mathrm{AC}}^{\mathrm{int}}
+             + \xi_{\mathrm{B}}^{\mathrm{int}}}{2} - 1,
+
+where the exponent pools the translational DOF *and* the internal
+DOF of every product whose state has not yet been sampled.
+
+**Energy update.** The remaining pool is
+
+.. math::
+
+   E_{\mathrm{avail}}' = E_{\mathrm{avail}} - E_{\mathrm{AC}}'.
+
+**Second-product state.** The second product's state is sampled
+in the same way, with exponent
+
+.. math::
+
+   \alpha_{2}
+     = \frac{\xi_{\mathrm{rel}} + \xi_{\mathrm{B}}^{\mathrm{int}}}{2} - 1,
+
+and energy :math:`E_{\mathrm{B}}'` drawn against :math:`E_{\mathrm{avail}}'`.
+
+**Post-reaction translational energy.** The remaining pool,
+
+.. math::
+
+   E_{\mathrm{rel}}'
+     = E_{\mathrm{avail}}' - E_{\mathrm{B}}',
+
+becomes the translational kinetic energy of the products'
+relative motion. The post-reaction relative speed is
+:math:`g' = \sqrt{2 E_{\mathrm{rel}}'/\mu'}`, with :math:`\mu'`
+the reduced mass of the products, and the product velocities
+follow from the conservation laws applied to the product pair.
+
+**Detailed balance.** The sequential acceptance-rejection above
+reproduces the thermodynamically-weighted product-state
+distribution at equilibrium, and the forward and backward rates
+of any channel are connected through the equilibrium constant.
+This is the key property that allows the recombination rate to
+be derived parameter-free from the dissociation rate (below).
+
+Dissociation with potential-energy-curve asymptote matching
+-----------------------------------------------------------
+
+When the molecule AB dissociates from electronic state :math:`n`,
+the electronic states of the product atoms are determined by
+**matching the PEC asymptote**. Define the asymptote energy
 
 .. math::
 
@@ -35,37 +246,29 @@ and the excess asymptote
 
    \Delta E(n) = \mathrm{asymptote}(n) - \mathrm{asymptote}(0).
 
-We then search among all feasible pairs :math:`(n_1, n_2)` of
-product-atom electronic states for the combination that minimises
+For each molecular electronic state, we search over all feasible
+pairs :math:`(n_1, n_2)` of product-atom electronic states for
+the combination that minimises
 
 .. math::
 
-   \mathrm{err}(n_1, n_2) = \bigl|\,E_{A}(n_1) + E_{B}(n_2)
-                             - \Delta E(n)\,\bigr|.
+   \mathrm{err}(n_1, n_2)
+     = \bigl|\,E_{A}(n_1) + E_{B}(n_2) - \Delta E(n)\,\bigr|.
 
-The mapping :math:`n \mapsto (n_1^{\star}, n_2^{\star})` is built at
-initialisation and printed to the terminal, together with the
-matching error for each channel; the error is typically smaller
-than :math:`1~\mathrm{cm}^{-1}`. At reaction time, the product
-electronic states are looked up deterministically, and the available
-energy
-
-.. math::
-
-   E_{\mathrm{avail}} = E_{\mathrm{rel}}
-                      + E_{\mathrm{int}}(Q)
-                      - E_{\mathrm{diss}}(n, v, J)
-
-is redistributed via Larsen-Borgnakke sampling between the products'
-translational and internal modes.
+The mapping :math:`n \mapsto (n_1^{\star}, n_2^{\star})` is built
+at initialisation, stored in a look-up table, and printed to the
+terminal together with its residual errors (typically smaller
+than :math:`1~\mathrm{cm}^{-1}`). The match guarantees that the
+Wigner-Witmer correlation rules are obeyed at the solver level,
+without any user input.
 
 Recombination from detailed balance
 -----------------------------------
 
-The recombination rate :math:`k^{\mathrm{rec}}(T)` is not an input
-parameter but is derived from the corresponding dissociation rate
-:math:`k^{D}(T)` and the equilibrium constant
-:math:`K_{\mathrm{eq}}(T)` through
+The three-body recombination rate
+:math:`\mathrm{A} + \mathrm{B} + \mathrm{M} \to \mathrm{AB} +
+\mathrm{M}` is not a free parameter. It is derived from the
+dissociation rate through the equilibrium constant,
 
 .. math::
 
@@ -75,142 +278,57 @@ with
 
 .. math::
 
-   K_{\mathrm{eq}}(T) =
-     \frac{(2\pi m_A k_B T)^{3/2}\,(2\pi m_B k_B T)^{3/2}\,h^{3}}
-          {(2\pi m_{AB} k_B T)^{3/2}}
-     \frac{Q_A\,Q_B}{Q_{AB}}\,
-     \exp\!\left(-\frac{D_0}{k_B T}\right),
+   K_{\mathrm{eq}}(T)
+     = \frac{(2\pi m_A k_B T)^{3/2}\,(2\pi m_B k_B T)^{3/2}\,h^{3}}
+            {(2\pi m_{\mathrm{AB}} k_B T)^{3/2}}\,
+       \frac{Q_A(T)\,Q_B(T)}{Q_{\mathrm{AB}}(T)}\,
+       \exp\!\left(-\frac{D_0}{k_B T}\right).
 
-where the partition functions :math:`Q_i(T)` are pre-tabulated from
-the rovibronic database and the dissociation energy :math:`D_0` is
-read directly from the product molecule's ground-state database
-entry. The dissociation rate is itself constructed by summing over
-accessible rovibronic states,
+The partition functions :math:`Q_i(T)` are built at
+initialisation from the rovibronic database, and
+:math:`D_0` is read from the molecule's database entry. The
+user supplies neither the recombination rate nor the heat of
+reaction; both are computed internally. Run-time, a collision
+between :math:`\mathrm{A}` and :math:`\mathrm{B}` in the
+presence of a third body :math:`\mathrm{M}` is tested with
+probability :math:`P_{\mathrm{rec}} = n_M k^{\mathrm{rec}}(T) /
+\nu_{\mathrm{coll}}(\mathrm{A},\mathrm{B})`.
 
-.. math::
-
-   k^{D}(T) = H(T) \sum_{n,v,J} g_{nvJ}\,
-              \exp\!\left(-\tfrac{E_{nvJ}}{k_B T}\right)\,
-              \Gamma\!\left(\tfrac{5}{2} - \omega,\;
-                             \tfrac{E_{\mathrm{diss}}^{nvJ}
-                                     - E_{nvJ}}{k_B T}\right)
-              \Big/ Q_{\mathrm{int}}(T),
-
-with :math:`H(T)` the VSS binary-rate kernel and
-:math:`\Gamma(s, x)` the upper incomplete gamma function. The
-resulting scheme is **parameter-free**: neither the user nor a
-separate reaction dictionary supplies the recombination rate.
-
-Exchange with automatic heat of reaction
+Atom-exchange (Zeldovich-type) reactions
 ----------------------------------------
 
-For a Zeldovich-type exchange reaction
-:math:`\mathrm{AB} + \mathrm{C} \to \mathrm{AC} + \mathrm{B}`, the
-heat of reaction is computed automatically as
+For :math:`\mathrm{AB} + \mathrm{C} \to \mathrm{AC} + \mathrm{B}`,
+the heat of reaction is computed automatically from the database
+as
 
 .. math::
 
    \Delta H_{\mathrm{exch}}
-     = D_0(\mathrm{AC}) - D_0(\mathrm{AB}),
+     = D_0(\mathrm{AC}) - D_0(\mathrm{AB}).
 
-where both dissociation energies are read from the database. The
-available energy for the reaction is then
-
-.. math::
-
-   E_c = E_{\mathrm{rel}} + E_{\mathrm{int}}(\mathrm{AB})
-       + E_{\mathrm{int}}(\mathrm{C}) + \Delta H_{\mathrm{exch}},
-
-and the reaction probability in the quantum-kinetic (QK) model
-reads
+The QK reaction probability,
 
 .. math::
 
-   P_{\mathrm{exch}} =
-     \frac{\bigl[1 - E_{\mathrm{act}}/E_c\bigr]^{3/2 - \omega}}
-          {\displaystyle \sum_{n,v,J}^{\mathrm{BC}} g(n, v, J)
-           \bigl[1 - E(n, v, J)/E_c\bigr]^{3/2 - \omega}}.
+   P_{\mathrm{exch}}^{\mathrm{QK}}(E_c; n, v, J)
+     = \frac{\bigl[1 - E_{\mathrm{act}}^{(n,v,J)}/E_c\bigr]^{3/2 - \omega}}
+            {\displaystyle\sum_{n',v',J'}^{\mathrm{BC}}
+              g(n', v', J')\,
+              \bigl[1 - E(n', v', J')/E_c\bigr]^{3/2 - \omega}},
 
-On reaction, the product molecule :math:`\mathrm{AC}` is sampled
-first in :math:`(n', v', J')` from Larsen-Borgnakke, followed by the
-product atom :math:`\mathrm{B}` in its electronic state. The
-remaining pool :math:`E_c' = E_c - E(n', v', J')_{\mathrm{AC}} -
-E_{\mathrm{B}}` becomes the product relative translational energy.
+normalises the state-resolved threshold by the Boltzmann-averaged
+denominator over the product-molecule level space, and fires
+through the two-stage LB sampling described above. Start-up
+diagnostics print the computed heat against literature values:
+:math:`\mathrm{N}_2 + \mathrm{O} \to \mathrm{NO} + \mathrm{N}`
+returns :math:`\Delta H \approx -37\,732~\mathrm{K}`, within 1%
+of the tabulated value.
 
-Diagnostic output at start-up confirms the computed heats against
-the literature. For instance, for
-:math:`\mathrm{N_2} + \mathrm{O} \to \mathrm{NO} + \mathrm{N}` the
-reported heat is :math:`\Delta H \approx -37\,732~\mathrm{K}`,
-within 1% of the tabulated literature value.
-
-Legacy input dictionaries in which the user explicitly provided the
-exchange heat ``heatOfReactionExch`` are silently ignored, and such
-keys may be removed for clarity.
-
-Ionisation and charge exchange
-------------------------------
-
-When ``chargedParticles`` is enabled, the solver adds the ionisation
-and charge-exchange channels. The ionisation threshold is **fully
-state-dependent**: a molecule in an excited :math:`(n, v, J)` state
-requires less energy to ionise than one in the ground state,
-
-.. math::
-
-   E_{\mathrm{ion}}(n, v, J)
-     = E_{\mathrm{IP}} - E_{\mathrm{int}}(n, v, J),
-
-and ionisation proceeds whenever
-:math:`E_{\mathrm{rel}} + E_{\mathrm{int}}(Q) \geq
-E_{\mathrm{ion}}(n_P, v_P, J_P)`. On ionisation, the product cation
-retains the internal state of the neutral, and a free electron is
-created at the ion's position with zero relative kinetic energy in
-the current implementation.
-
-The heat of a charge-exchange reaction
-:math:`\mathrm{A}^{+} + \mathrm{B} \to \mathrm{A} + \mathrm{B}^{+}`
-is similarly derived from the database as
-
-.. math::
-
-   \Delta H_{\mathrm{cx}} = \mathrm{IP}(\mathrm{A})
-                          - \mathrm{IP}(\mathrm{B}).
-
-Associative ionisation
-``````````````````````
-
-The channel :math:`\mathrm{A} + \mathrm{B} \to \mathrm{AB}^{\star}
-\to \mathrm{AB}^{+} + e^{-}` is treated in two steps: a hypothetical
-intermediate AB\*\ is first formed and sampled in its rovibronic
-state; if the available energy exceeds its state-dependent
-ionisation threshold, the intermediate ionises, producing the cation
-and the electron; otherwise the event reverts to an ordinary
-collision. Associative ionisation is a minor channel in most air
-chemistry calculations and currently requires user-supplied QK-type
-rate coefficients.
-
-Summary of design principles
-----------------------------
-
-It is useful to recapitulate the three guiding principles of the
-rovibronic chemistry module:
-
-* **Spectroscopic database as single source of truth** — level
-  energies, partition functions, dissociation energies, and
-  ionisation potentials are all read from the same
-  ``constant/speciesCache/`` files.
-* **No user-supplied heats of reaction** for dissociation,
-  recombination, and exchange. Only the ionisation potentials
-  remain an input, since they live outside the diatomic
-  potential-energy-curve description.
-* **Detailed balance enforced by construction** — forward rates
-  are sampled from the tabulated levels, and backward rates are
-  obtained through the equilibrium constant, built from the same
-  tables.
-
-.. [Civrais2024ChemI_c] C. H. B. Civrais, C. White, and R. Steijl,
+.. [Bird1994ch] G. A. Bird, *Molecular Gas Dynamics and the
+   Direct Simulation of Gas Flows*, Oxford University Press
+   (1994).
+.. [Bird2011qk] G. A. Bird, "The Q-K model for gas-phase chemical
+   reaction rates," *Physics of Fluids*, **23**, 106101 (2011).
+.. [Civrais2024ChemI_ch] C. H. B. Civrais, C. White, R. Steijl,
    "Quantum-kinetic chemistry model with an anharmonic oscillator
    model: Model derivation and limitations," *Physics of Fluids*.
-.. [Civrais2024ChemII_c] C. H. B. Civrais, C. White, and R. Steijl,
-   "Quantum-kinetic chemistry model with an anharmonic oscillator
-   model: Model extension and validation," *Physics of Fluids*.
