@@ -1,31 +1,83 @@
 Binary Collisions
 =================
 
-Each candidate collision is sampled according to the NTC (No Time
-Counter) scheme in every computational cell. The collision cross
-section follows the Variable Soft Sphere (VSS) model,
+Binary-collision sampling is the kinetic core of the DSMC method. We
+follow the standard No-Time-Counter (NTC) scheme on a cell-by-cell
+basis, with the cross section provided by the Variable Soft Sphere
+(VSS) model, and we route every internal-energy redistribution
+through the parallel-marginal cascade described in :doc:`relaxation`.
+
+Collision-pair selection (NTC)
+------------------------------
+
+In each cell, the expected number of collision candidates over the
+DSMC time-step :math:`\Delta t` is
 
 .. math::
 
-   \sigma_T(g) = \sigma_{\text{ref}}
-                 \left(\frac{g_{\text{ref}}}{g}\right)^{2\omega - 1},
+   N_{\mathrm{cand}} = \tfrac{1}{2}\, \frac{N(N-1)\, F_N\,
+                       (\sigma_T g)_{\max}\, \Delta t}{V_c},
 
-with species-pair parameters :math:`\sigma_{\text{ref}}, \omega, \alpha`
-tabulated per interaction in the species database.
+where :math:`N` is the number of particles in the cell,
+:math:`F_N` is the equivalent-molecules factor
+(``nEquivalentParticles`` in the input dictionary),
+:math:`V_c` is the cell volume, and
+:math:`(\sigma_T g)_{\max}` is a running estimate of the maximum
+of the collisional cross section–speed product. Candidates are
+drawn at random from the cell inventory and accepted with
+probability :math:`\sigma_T g / (\sigma_T g)_{\max}`.
 
-For a sampled binary collision, the solver then:
+VSS cross section
+-----------------
 
-#. Re-distributes translational energy using the VSS scattering law.
-#. Applies internal-energy redistribution via the selected relaxation
-   submodel (see :doc:`relaxation`).
-#. Tests for reactive channels (see :doc:`chemistry`).
+The total collisional cross section is modelled with the VSS law
 
-State-resolved inelastic collisions
------------------------------------
+.. math::
 
-Because the internal energy is quantised, vibrational and rotational
-energy exchange draws transitions :math:`(e, v, j) \to (e', v', j')`
-according to state-specific rates (or effective Landau–Teller /
-Parker models, depending on ``relaxationScheme``). Detailed balance
-is enforced against the level degeneracies defined in
-:doc:`rovibronic_levels`.
+   \sigma_T(g) = \sigma_{\mathrm{ref}}
+                 \left(\frac{g_{\mathrm{ref}}}{g}\right)^{2\omega - 1},
+
+where :math:`\sigma_{\mathrm{ref}}`, :math:`g_{\mathrm{ref}}`,
+:math:`\omega` (the viscosity exponent), and :math:`\alpha` (the
+scattering exponent) are species-pair parameters tabulated in the
+species database. Post-collision relative velocities follow the VSS
+scattering law, parameterised by :math:`\alpha`, which interpolates
+between isotropic (:math:`\alpha = 1`) and forward-peaked scattering.
+
+Exponent conventions for the Larsen-Borgnakke sampler
+-----------------------------------------------------
+
+The Larsen-Borgnakke acceptance-rejection exponent used throughout
+the solver is
+
+.. math::
+
+   \alpha_{\mathrm{LB}} =
+     \frac{\xi_{\mathrm{rel}} + \sum_k \xi_k^{\mathrm{pooled}}}{2} - 1,
+
+where :math:`\xi_{\mathrm{rel}}` is the translational degrees-of-
+freedom (DOF) entering the relative motion, and
+:math:`\xi_k^{\mathrm{pooled}}` denotes the effective DOF of those
+internal modes that participate in the current event. It is
+important to emphasise that the exponent must be built from the
+DOF of the particle whose state is being sampled —  a subtle point
+that was the source of two corrected bugs in earlier versions of
+the solver, documented in ``docs/Rovibronic Article/DSMC_Bugs_Report.pdf``.
+
+Reactive collisions
+-------------------
+
+Once a binary collision has been accepted, the collision pair is
+tested in turn for:
+
+#. inelastic internal-energy redistribution (see :doc:`relaxation`);
+#. reactive channels: dissociation, recombination, exchange, and,
+   when :math:`\mathrm{chargedParticles}` is enabled, ionisation
+   and charge exchange (see :doc:`chemistry`).
+
+Each channel draws from the same pool of available energy
+:math:`E_c = E_{\mathrm{rel}} + E_{\mathrm{int}}(P) +
+E_{\mathrm{int}}(Q)`, augmented by any heat of reaction. The
+available-energy bookkeeping is the single unifying thread of the
+collision logic and is where care with DOF and ground-state
+normalisation pays off.

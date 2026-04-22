@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Landau-Teller heat-bath validation &mdash; DSMC Rovibronic</title>
+  <title>Regression Tests (roadmap) &mdash; DSMC Rovibronic</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -19,12 +19,10 @@
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
-      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Reference" href="../reference/index.html" />
-    <link rel="prev" title="Examples" href="index.html" /> 
+    <link rel="prev" title="Regression Tests (current practice)" href="tests.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -152,15 +150,15 @@
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Landau-Teller heat-bath validation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#case-layout">Case layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#running-the-case">Running the case</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#three-phase-validation-protocol">Three-phase validation protocol</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#expected-outcome">Expected outcome</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#current-status">Current status</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#adding-a-new-example">Adding a new example</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2_heatbath.html">Landau-Teller heat-bath validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#case-layout">Case layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#three-phase-validation-protocol">Three-phase validation protocol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#expected-outcome">Expected outcome</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#current-status">Current status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#adding-a-new-example">Adding a new example</a></li>
 </ul>
 </li>
 </ul>
@@ -202,41 +200,41 @@
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Developer Documentation</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Developer Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../developer/architecture.html">Architecture</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../developer/architecture.html#top-level-source-layout">Top-level source layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../developer/architecture.html#the-dsmc-core">The DSMC core</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../developer/architecture.html#the-rovibronic-extension">The rovibronic extension</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../developer/architecture.html#rovibronic-aware-boundary">Rovibronic-aware boundary</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../developer/architecture.html#species-database">Species database</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#top-level-source-layout">Top-level source layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#the-dsmc-core">The DSMC core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#the-rovibronic-extension">The rovibronic extension</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="architecture.html#rovibronic-aware-boundary">Rovibronic-aware boundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="architecture.html#species-database">Species database</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../developer/architecture.html#random-number-generator">Random-number generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#random-number-generator">Random-number generator</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_feature.html">Adding a Feature</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../developer/adding_a_feature.html#adding-a-new-species">Adding a new species</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../developer/adding_a_feature.html#adding-a-new-reaction">Adding a new reaction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../developer/adding_a_feature.html#adding-a-new-relaxation-sub-model">Adding a new relaxation sub-model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adding_a_feature.html">Adding a Feature</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="adding_a_feature.html#adding-a-new-species">Adding a new species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adding_a_feature.html#adding-a-new-reaction">Adding a new reaction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adding_a_feature.html#adding-a-new-relaxation-sub-model">Adding a new relaxation sub-model</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/tests.html">Regression Tests (current practice)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../developer/tests.html#manual-smoke-tests">Manual smoke tests</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../developer/tests.html#continuous-integration">Continuous integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">Regression Tests (current practice)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#manual-smoke-tests">Manual smoke tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#continuous-integration">Continuous integration</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html">Regression Tests (roadmap)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../developer/regression_tests.html#rationale">Rationale</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../developer/regression_tests.html#current-rng-state">Current RNG state</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../developer/regression_tests.html#proposed-design">Proposed design</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../developer/regression_tests.html#dictionary-driven-seed">Dictionary-driven seed</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../developer/regression_tests.html#test-cases">Test cases</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../developer/regression_tests.html#harness">Harness</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Regression Tests (roadmap)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rationale">Rationale</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#current-rng-state">Current RNG state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#proposed-design">Proposed design</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dictionary-driven-seed">Dictionary-driven seed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#test-cases">Test cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#harness">Harness</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../developer/regression_tests.html#acceptance-criteria">Acceptance criteria</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../developer/regression_tests.html#status">Status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#acceptance-criteria">Acceptance criteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#status">Status</a></li>
 </ul>
 </li>
 </ul>
@@ -257,10 +255,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">Examples</a></li>
-      <li class="breadcrumb-item active">Landau-Teller heat-bath validation</li>
+          <li class="breadcrumb-item"><a href="index.html">Developer Documentation</a></li>
+      <li class="breadcrumb-item active">Regression Tests (roadmap)</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/examples/n2_heatbath.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/developer/regression_tests.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -268,92 +266,133 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="landau-teller-heat-bath-validation">
-<h1>Landau-Teller heat-bath validation<a class="headerlink" href="#landau-teller-heat-bath-validation" title="Link to this heading"></a></h1>
-<p>A zero-dimensional isothermal heat-bath relaxation is the cheapest
-end-to-end check of the rovibronic relaxation machinery, and it is
-the canonical test we use for validation of any change to the
-cascade logic. The gas is initialised at a cold internal temperature
-while the translational temperature is held high; the approach to
-equilibrium is then compared to the multi-exponential Landau-Teller
-(LT) analytical solution developed in <a class="reference internal" href="../theory/relaxation.html"><span class="doc">Energy Relaxation</span></a>.</p>
-<p>The reference set-up lives in <code class="docutils literal notranslate"><span class="pre">run/Tutorial/</span></code>; variants that pin
-one or more collision numbers <span class="math notranslate nohighlight">\(Z_k \to \infty\)</span> are prepared by
-copying the tutorial and editing the relaxation-collision-number
-entries in <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code>.</p>
-<section id="case-layout">
-<h2>Case layout<a class="headerlink" href="#case-layout" title="Link to this heading"></a></h2>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>run/Tutorial/
-├── constant/
-│   ├── dsmcProperties      # nEquivalentParticles, Z_k, typeIdList, rovibronicDatabase
-│   ├── speciesCache/       # 259 species database files
-│   └── polyMesh/
-└── system/
-    ├── controlDict         # deltaT, endTime, writeInterval
-    ├── dsmcInitialiseDict  # initial T_T, T_int, numberDensities
-    ├── boundariesDict      # closed box (no inflow/outflow)
-    ├── chemReactDict       # chemistry (off for pure relaxation)
-    └── …
+  <section id="regression-tests-roadmap">
+<h1>Regression Tests (roadmap)<a class="headerlink" href="#regression-tests-roadmap" title="Link to this heading"></a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The infrastructure described on this page is <strong>planned, not yet
+implemented</strong>. It is included here as a design document, so that
+the intent is recorded and reviewable before any code lands.
+Current practice, based on manual smoke tests, is summarised on
+<a class="reference internal" href="tests.html"><span class="doc">Regression Tests (current practice)</span></a>.</p>
+</div>
+<section id="rationale">
+<h2>Rationale<a class="headerlink" href="#rationale" title="Link to this heading"></a></h2>
+<p>Every substantive change to the collision, chemistry, or relaxation
+modules has the potential to perturb downstream macroscopic
+diagnostics in subtle ways. We therefore wish to build a
+<strong>deterministic regression-test harness</strong> that is exercised every
+time the solver is recompiled, and that ensures:</p>
+<ol class="arabic simple">
+<li><p>the build succeeds under the <code class="docutils literal notranslate"><span class="pre">of-rovibronic</span></code> environment;</p></li>
+<li><p>a curated set of short cases runs to completion;</p></li>
+<li><p>the macroscopic outputs of each case are identical to, or lie
+within a predefined tolerance of, a committed baseline.</p></li>
+</ol>
+<p>The harness should be fast enough to run after every compile
+(minutes, not hours), and the baselines should be auditable in
+version control (plain-text, diff-friendly outputs).</p>
+</section>
+<section id="current-rng-state">
+<h2>Current RNG state<a class="headerlink" href="#current-rng-state" title="Link to this heading"></a></h2>
+<p>A single <code class="docutils literal notranslate"><span class="pre">Foam::Random</span></code> instance, <code class="docutils literal notranslate"><span class="pre">rndGen_</span></code>, is held on the
+cloud; every RNG consumer in the solver goes through it via
+<code class="docutils literal notranslate"><span class="pre">cloud_.rndGen()</span></code>. It is constructed at
+<code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/clouds/dsmcCloud.C:1122</span></code> as</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">rndGen_</span><span class="p">(</span><span class="n">label</span><span class="p">(</span><span class="n">clock</span><span class="o">::</span><span class="n">getTime</span><span class="p">())</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">7183</span><span class="o">*</span><span class="n">Pstream</span><span class="o">::</span><span class="n">myProcNo</span><span class="p">())</span>
 </pre></div>
 </div>
+<p>which is non-deterministic by design: the wall-clock time enters
+the seed, and each MPI rank is given a distinct offset. This is
+the right choice for production runs but prevents bit-identical
+reproduction across runs, and is therefore the first thing to
+change.</p>
+<p>The single-entry-point design is, however, a significant asset: we
+do <strong>not</strong> need to thread a seed through every sub-model. A single
+edit to the seeding line above is sufficient, provided the new
+<code class="docutils literal notranslate"><span class="pre">randomSeed</span></code> surface is itself reproducible.</p>
 </section>
-<section id="running-the-case">
-<h2>Running the case<a class="headerlink" href="#running-the-case" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>run/Tutorial
-blockMesh
-dsmcInitialise
-dsmcFoam
+<section id="proposed-design">
+<h2>Proposed design<a class="headerlink" href="#proposed-design" title="Link to this heading"></a></h2>
+<section id="dictionary-driven-seed">
+<h3>Dictionary-driven seed<a class="headerlink" href="#dictionary-driven-seed" title="Link to this heading"></a></h3>
+<p>Expose a new key on <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">randomSeed</span>              <span class="mi">42</span><span class="p">;</span>   <span class="o">//</span> <span class="n">optional</span><span class="p">;</span> <span class="k">if</span> <span class="n">absent</span><span class="p">,</span> <span class="n">clock</span><span class="o">-</span><span class="n">based</span> <span class="n">seed</span>
 </pre></div>
 </div>
+<p>When present, the key is plumbed into <code class="docutils literal notranslate"><span class="pre">dsmcCloud::dsmcCloud(...)</span></code>
+and replaces the clock-based seed. Parallel runs retain the
+rank-offset decoration so that different ranks continue to sample
+independent streams.</p>
 </section>
-<section id="three-phase-validation-protocol">
-<h2>Three-phase validation protocol<a class="headerlink" href="#three-phase-validation-protocol" title="Link to this heading"></a></h2>
-<p>The cascade is stressed phase-by-phase by setting to very large
-values the collision numbers of those modes that we wish to freeze.
-Concretely, in <code class="docutils literal notranslate"><span class="pre">LarsenBorgnakkeVariableHardSphereCoeffs</span></code>:</p>
+<section id="test-cases">
+<h3>Test cases<a class="headerlink" href="#test-cases" title="Link to this heading"></a></h3>
+<p>Commit a small number of curated cases under <code class="docutils literal notranslate"><span class="pre">run/tests/</span></code>:</p>
 <ul class="simple">
-<li><p><strong>Phase 1</strong> — rotational only: set
-<code class="docutils literal notranslate"><span class="pre">rovibrationalRelaxationCollisionNumber</span></code> and
-<code class="docutils literal notranslate"><span class="pre">rovibronicRelaxationCollisionNumber</span></code> to <span class="math notranslate nohighlight">\(10^{9}\)</span>;
-keep <code class="docutils literal notranslate"><span class="pre">rotationalRelaxationCollisionNumber</span></code> at its nominal
-value. Initial state: <span class="math notranslate nohighlight">\(T_T = 10^{4}~\mathrm{K}\)</span>,
-<span class="math notranslate nohighlight">\(T_R(0) = 10^{3}~\mathrm{K}\)</span>.</p></li>
-<li><p><strong>Phase 2</strong> — rovibrational: freeze the rotational sub-ladder
-instead (<code class="docutils literal notranslate"><span class="pre">rotationalRelaxationCollisionNumber</span></code> <span class="math notranslate nohighlight">\(= 10^{9}\)</span>),
-keep <span class="math notranslate nohighlight">\(Z_{rve}\)</span> frozen as well.</p></li>
-<li><p><strong>Phase 3</strong> — all modes active, at their nominal values.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run/tests/0d_heatbath_rotational/</span></code> — Phase-1 heat-bath
+(rotational only) at 10<sup>4</sup> K, short integration;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run/tests/0d_heatbath_rovibrational/</span></code> — Phase-2 heat-bath;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run/tests/0d_dissociation_O2/</span></code> — short isothermal
+dissociation of O<sub>2</sub> against the detailed-balance
+recombination;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run/tests/1d_shock_N2/</span></code> — one-dimensional normal shock in
+N<sub>2</sub> at a representative Mach number.</p></li>
+</ul>
+<p>Each test case ships with a reference output under
+<code class="docutils literal notranslate"><span class="pre">run/tests/&lt;case&gt;/regressionReferenceData/</span></code>. For 0-D cases this
+is the time series of macroscopic energies; for the 1-D shock this
+is the profile at a reference time.</p>
+</section>
+<section id="harness">
+<h3>Harness<a class="headerlink" href="#harness" title="Link to this heading"></a></h3>
+<p>A shell script <code class="docutils literal notranslate"><span class="pre">Alltest</span></code> at the top level, or a GitHub Actions
+workflow on the private repository, carries out the following
+steps after each rebuild:</p>
+<ol class="arabic simple">
+<li><p>source the <code class="docutils literal notranslate"><span class="pre">of-rovibronic</span></code> environment;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">./Allwmake</span></code>;</p></li>
+<li><p>for each case under <code class="docutils literal notranslate"><span class="pre">run/tests/</span></code>:</p>
+<ul class="simple">
+<li><p>copy the case to a scratch directory;</p></li>
+<li><p>run <code class="docutils literal notranslate"><span class="pre">blockMesh</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcInitialise</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>;</p></li>
+<li><p>compare the computed macroscopic outputs against the
+committed reference with a small numerical tolerance.</p></li>
+</ul>
+</li>
+<li><p>exit non-zero on any deviation; write a short report to
+standard output.</p></li>
+</ol>
+</section>
+</section>
+<section id="acceptance-criteria">
+<h2>Acceptance criteria<a class="headerlink" href="#acceptance-criteria" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Serial runs</strong>: bit-identical to the reference (no tolerance).
+Achievable because the RNG stream is fully determined by the
+<code class="docutils literal notranslate"><span class="pre">randomSeed</span></code> and the collision-order loop is deterministic on
+a single rank.</p></li>
+<li><p><strong>Parallel runs</strong>: agreement within a loose tolerance on cell-
+averaged macroscopic quantities. Bit-identical reproduction in
+parallel is not guaranteed, because the collision order depends
+on cell-to-rank ownership; the tolerance is there to absorb
+that source of non-determinism without masking actual
+regressions.</p></li>
 </ul>
 </section>
-<section id="expected-outcome">
-<h2>Expected outcome<a class="headerlink" href="#expected-outcome" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p>The composite-mode energies <span class="math notranslate nohighlight">\(\langle E_R\rangle(t)\)</span>,
-<span class="math notranslate nohighlight">\(\langle E_{RV}\rangle(t)\)</span>, <span class="math notranslate nohighlight">\(\langle E_{RVE}\rangle(t)\)</span>
-should follow the expected single/double/triple-exponential LT
-approach to equilibrium.</p></li>
-<li><p>The fitted collision numbers should agree with the input values
-to within 5%: <span class="math notranslate nohighlight">\(|Z_{k,\mathrm{fit}}/Z_k - 1| &lt; 5\%\)</span>.</p></li>
-<li><p>The ratio <span class="math notranslate nohighlight">\(Z_{\mathrm{fit}}/Z_{\mathrm{input}}\)</span> of the
-rovibronic path sits at <span class="math notranslate nohighlight">\(\approx 0.99\)</span> without any
-ZCorr-style correction (see <a class="reference internal" href="../theory/relaxation.html"><span class="doc">Energy Relaxation</span></a>).</p></li>
-</ul>
-</section>
-<section id="current-status">
-<h2>Current status<a class="headerlink" href="#current-status" title="Link to this heading"></a></h2>
-<p>At the time of writing, Phase 1 passes comfortably
-(<span class="math notranslate nohighlight">\(Z_{\mathrm{fit}}/Z \approx 1.07\)</span>), Phase 2 overcorrects
-(<span class="math notranslate nohighlight">\(\approx 0.83\)</span>), and Phase 3 is still being diagnosed. The
-relevant session notes live in the project memory and in the draft
-bug report <code class="docutils literal notranslate"><span class="pre">docs/Rovibronic</span> <span class="pre">Article/DSMC_Bugs_Report.pdf</span></code>.</p>
-</section>
-<section id="adding-a-new-example">
-<h2>Adding a new example<a class="headerlink" href="#adding-a-new-example" title="Link to this heading"></a></h2>
-<p>Each supported test case is documented on its own page under
-<code class="docutils literal notranslate"><span class="pre">docs/online-documentation/examples/</span></code>. When adding a new example,
-describe the set-up, the expected analytical (or published)
-reference, the success criteria, and the command sequence required
-to reproduce the result. Then add the page to the toctree in
-<code class="docutils literal notranslate"><span class="pre">examples/index.rst</span></code>.</p>
+<section id="status">
+<h2>Status<a class="headerlink" href="#status" title="Link to this heading"></a></h2>
+<p>Planned, not yet implemented. The immediate next steps once this
+documentation is deployed are:</p>
+<ol class="arabic simple">
+<li><p>edit the seeding line in <code class="docutils literal notranslate"><span class="pre">dsmcCloud.C</span></code> to read an optional
+<code class="docutils literal notranslate"><span class="pre">randomSeed</span></code> key from <code class="docutils literal notranslate"><span class="pre">dsmcProperties</span></code>;</p></li>
+<li><p>draft the first zero-dimensional test case and its reference
+output under <code class="docutils literal notranslate"><span class="pre">run/tests/</span></code>;</p></li>
+<li><p>wire up a minimal <code class="docutils literal notranslate"><span class="pre">Alltest</span></code> driver.</p></li>
+</ol>
+<p>The detailed plan will be tracked outside the documentation, but
+the design intent should remain on this page so that future
+collaborators can audit the rationale.</p>
 </section>
 </section>
 
@@ -361,8 +400,7 @@ to reproduce the result. Then add the page to the toctree in
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../reference/index.html" class="btn btn-neutral float-right" title="Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tests.html" class="btn btn-neutral float-left" title="Regression Tests (current practice)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

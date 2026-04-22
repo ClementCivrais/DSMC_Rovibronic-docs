@@ -7,3 +7,4 @@ Developer Documentation
    architecture
    adding_a_feature
    tests
+   regression_tests

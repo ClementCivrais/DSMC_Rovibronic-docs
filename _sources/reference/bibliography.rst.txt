@@ -1,38 +1,92 @@
 Bibliography
 ============
 
-The core references used in building and validating the rovibronic
-DSMC solver. Copies live under ``docs/References/`` in the source
-tree.
+The present section collects the principal references cited in the
+documentation, organised in three groups: foundational DSMC
+literature, the dsmcFoam+ lineage, and the peer-reviewed
+publications describing the rovibronic extension of the present
+solver. Copies of most of the external references are distributed
+under ``docs/References/`` in the source tree.
 
-Primary references
-------------------
+Foundational DSMC literature
+----------------------------
 
-* G. A. Bird — *Molecular Gas Dynamics and the Direct Simulation of
-  Gas Flows*, Oxford (1994).
-* C. White — *Benchmarking, Development and Applications of an Open
-  Source DSMC Solver*, PhD thesis.
-* M. Pfeiffer — *Polyatomic extensions to DSMC*.
-* M. Pfeiffer — *VSS collision cross-section model*.
-* L. Babou — *Partition functions for diatomic molecules*.
-* Bird / Chou / Gao — *Post-reaction internal energy redistribution*.
+* G. A. Bird, *Molecular Gas Dynamics and the Direct Simulation of
+  Gas Flows*, Oxford University Press (1994).
+* C. Borgnakke and P. S. Larsen, "Statistical collision model for
+  Monte Carlo simulation of polyatomic gas mixture," *Journal of
+  Computational Physics*, **18** (4), 405–420 (1975).
+* I. D. Boyd, "Rotational and vibrational non-equilibrium effects in
+  rarefied hypersonic flow," *Journal of Thermophysics and Heat
+  Transfer*, **4** (4), 478–484 (1990).
+* I. D. Boyd, "Modeling backward chemical rate processes in the
+  direct simulation Monte Carlo method," *Physics of Fluids*,
+  **19**, 126110 (2007).
+* R. C. Millikan and D. R. White, "Systematics of vibrational
+  relaxation," *Journal of Chemical Physics*, **39** (12),
+  3209–3213 (1963).
+* M. Pfeiffer and P. Nizenkov, "Extension of particle-based BGK
+  models to polyatomic species," *Physics of Fluids*, **28**,
+  027103 (2016).
 
-Solver-specific notes
+The dsmcFoam+ lineage
 ---------------------
 
-The following in-repo documents capture derivations specific to this
-solver:
+* C. White, M. K. Borg, T. J. Scanlon, S. M. Longshaw,
+  R. C. Palharini, D. R. Emerson, and J. M. Reese,
+  "dsmcFoam+: An OpenFOAM based direct simulation Monte Carlo
+  solver," *Computer Physics Communications*, **224**, 22–43
+  (2018).
+* C. White, *Benchmarking, Development and Applications of an Open
+  Source DSMC Solver*, PhD thesis, University of Glasgow.
+  Copy: ``docs/References/White C. - (Thesis) - Benchmarking,
+  Development and Applications of an Open Source DSMC Solver.pdf``.
+
+Publications associated with the rovibronic extension
+-----------------------------------------------------
+
+All authored or co-authored by the lead developer:
+
+* C. H. B. Civrais, M. Pfeiffer, C. White, and R. Steijl,
+  "Modelling of the electronic excited states in high-temperature
+  flows," *Physics of Fluids* (2024).
+* C. H. B. Civrais, C. White, and R. Steijl,
+  "Quantum-kinetic chemistry model with an anharmonic oscillator
+  model: Model derivation and limitations," *Physics of Fluids*.
+* C. H. B. Civrais, C. White, and R. Steijl,
+  "Quantum-kinetic chemistry model with an anharmonic oscillator
+  model: Model extension and validation," *Physics of Fluids*.
+* C. H. B. Civrais, C. White, and R. Steijl,
+  "Vibrational modelling with an anharmonic oscillator model in
+  Direct Simulation Monte Carlo."
+* C. H. B. Civrais, C. White, and R. Steijl,
+  "Extension of the normal shock wave relations for calorically
+  imperfect gases."
+* C. H. B. Civrais, *Rovibronic Modelling in Direct Simulation
+  Monte Carlo for Hypersonic Non-Equilibrium Flows*, PhD thesis,
+  University of Glasgow (2024).
+
+In-repository derivations and notes
+-----------------------------------
+
+The following documents, authored by the lead developer, capture
+derivations and audits specific to this implementation:
 
 * ``docs/Rovibronic Article/Article_Draft_Rovibronic_DSMC.pdf`` —
   method derivation.
-* ``docs/Source Code Report/rovibronic_dsmc_report.pdf`` — solver
-  implementation walkthrough.
-* ``doc/LT_Correction_MultiMode.pdf`` — multi-mode
-  Landau–Teller correction.
+* ``docs/Source Code Report/rovibronic_dsmc_report.pdf`` —
+  solver implementation walk-through.
+* ``docs/Rovibronic Article/DSMC_Bugs_Report.pdf`` —
+  bug-audit report, with fixes and justifications.
+* ``doc/LT_Correction_MultiMode.pdf`` —
+  multi-mode Landau-Teller correction.
 * ``doc/LandauTeller_MultiExponential_Derivation.pdf`` —
-  multi-exponential Landau–Teller relaxation time.
-* ``doc/CoupledRelaxationMatrix_Derivation.pdf`` — coupled
-  vibration–rotation relaxation operator.
-* ``doc/chemistry_comparison_piclas_mnf.pdf`` — chemistry
-  benchmark against PICLas.
-* ``doc/bug_audit.pdf`` — internal bug audit.
+  multi-exponential Landau-Teller relaxation time.
+* ``doc/CoupledRelaxationMatrix_Derivation.pdf`` —
+  coupled vibration-rotation relaxation operator.
+* ``doc/chemistry_comparison_piclas_mnf.pdf`` —
+  chemistry benchmark against PICLas.
+* ``doc/exponent_calculation.pdf`` —
+  Larsen-Borgnakke exponent calculation.
+* ``doc/bug_audit.pdf`` —
+  internal bug audit, cross-referenced with the bug report above.

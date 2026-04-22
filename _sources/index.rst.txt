@@ -1,16 +1,39 @@
 DSMC Rovibronic
 ===============
 
-A DSMC (Direct Simulation Monte Carlo) solver for hypersonic
-non-equilibrium gas flows, built on top of OpenFOAM v2512 and
-extended with a state-to-state **rovibronic** description of molecular
-internal energy — individual electronic, vibrational, and rotational
-quantum states (:math:`e_{qn}, v_{qn}, j_{qn}`) are tracked on each
-simulator particle.
+The modelling of aerothermodynamic flows is extremely challenging, as
+it combines both aerodynamics and thermodynamics in a regime in which
+the gas is out of equilibrium and the classical continuum assumptions
+fail. The Direct Simulation Monte Carlo (DSMC) method provides a
+particle-based description of the gas that remains valid throughout
+the rarefied and transitional regimes, and is therefore the method of
+choice for hypersonic re-entry, nozzle expansion, and high-altitude
+plume simulations.
 
-The solver targets shock-heated air, CO\ :sub:`2`\ , and N\ :sub:`2`
-flows where thermal non-equilibrium and chemistry are tightly coupled
-and a multi-temperature description is inadequate.
+The present solver is a **custom rovibronic version of dsmcFoam+**,
+itself a modification of the legacy OpenFOAM DSMC solver
+``dsmcFoam``. The dsmcFoam+ solver, from which this work descends,
+was developed by C. White and co-workers at the University of
+Glasgow [White2018]_; the rovibronic extension described here is
+developed by C. Civrais (University of California, Irvine) under
+the supervision of C. White (University of Glasgow, PI). The
+solver inherits the full DSMC core of dsmcFoam+ and extends it with
+a state-resolved description of the molecular internal energy, in
+which each simulator particle carries three integers —  the
+electronic :math:`n`, vibrational :math:`v`, and rotational
+:math:`J` quantum numbers —  that index energy and degeneracy
+tables computed from spectroscopic constants. We thereby replace
+the usual continuous, or multi-temperature, representation of the
+internal energy by a discrete, physically grounded rovibronic level
+structure, and recover the non-Boltzmann population distributions
+that characterise strong shocks, rapid expansions, and
+state-selective chemistry.
+
+The methodological foundations of the rovibronic extension have
+been published in a series of articles [Civrais2024Electronic]_,
+[Civrais2024ChemI]_, [Civrais2024ChemII]_, [Civrais2024Vib]_,
+[Civrais2024Shock]_, and are documented in detail in the lead
+developer's doctoral thesis [CivraisThesis]_.
 
 .. toctree::
    :maxdepth: 2
@@ -47,3 +70,27 @@ Indices
 
 * :ref:`genindex`
 * :ref:`search`
+
+.. [White2018] C. White, M. K. Borg, T. J. Scanlon, S. M. Longshaw,
+   R. C. Palharini, D. R. Emerson, and J. M. Reese,
+   "dsmcFoam+: An OpenFOAM based direct simulation Monte Carlo
+   solver," *Computer Physics Communications*, **224**, 22–43
+   (2018).
+.. [Civrais2024Electronic] C. H. B. Civrais, M. Pfeiffer, C. White,
+   and R. Steijl, "Modelling of the electronic excited states in
+   high-temperature flows," *Physics of Fluids* (2024).
+.. [Civrais2024ChemI] C. H. B. Civrais, C. White, and R. Steijl,
+   "Quantum-kinetic chemistry model with an anharmonic oscillator
+   model: Model derivation and limitations," *Physics of Fluids*.
+.. [Civrais2024ChemII] C. H. B. Civrais, C. White, and R. Steijl,
+   "Quantum-kinetic chemistry model with an anharmonic oscillator
+   model: Model extension and validation," *Physics of Fluids*.
+.. [Civrais2024Vib] C. H. B. Civrais, C. White, and R. Steijl,
+   "Vibrational modelling with an anharmonic oscillator model in
+   Direct Simulation Monte Carlo."
+.. [Civrais2024Shock] C. H. B. Civrais, C. White, and R. Steijl,
+   "Extension of the normal shock wave relations for calorically
+   imperfect gases."
+.. [CivraisThesis] C. H. B. Civrais, *Rovibronic Modelling in Direct
+   Simulation Monte Carlo for Hypersonic Non-Equilibrium Flows*,
+   PhD thesis, University of Glasgow (2024).

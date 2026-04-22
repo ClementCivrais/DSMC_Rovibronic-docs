@@ -2,44 +2,58 @@ Installation
 ============
 
 .. note::
-   DSMC Rovibronic must be compiled inside the ``of-rovibronic``
-   environment, **not** the stock OpenFOAM environment. The custom
-   bashrc sets paths and environment variables the rovibronic extensions
-   depend on.
+   The solver must be compiled inside the ``of-rovibronic``
+   environment, and **not** the stock OpenFOAM environment. The
+   custom bashrc configures the paths and environment variables on
+   which the rovibronic extensions depend; sourcing the stock
+   OpenFOAM bashrc in its place is the single most common cause of
+   build failures.
 
 Prerequisites
 -------------
 
-* OpenFOAM v2512 built with the rovibronic toolchain.
-* The ``of-rovibronic`` bashrc sourced in the active shell.
+We assume that OpenFOAM v2512 has already been built with the
+rovibronic tool-chain, and that the associated ``etc/bashrc`` is
+available on disk.
 
-Clone
------
+Cloning the repository
+----------------------
 
 .. code-block:: bash
 
    git clone git@github.com:ClementCivrais/DSMC_Rovibronic.git
    cd DSMC_Rovibronic
 
-Compile
--------
+Compilation
+-----------
+
+We source the environment, then invoke the top-level ``Allwmake``
+script, which compiles the libraries in ``src/`` and the applications
+in ``applications/``:
 
 .. code-block:: bash
 
    source /path/to/of-rovibronic/etc/bashrc
    ./Allwmake
 
-The top-level ``Allwmake`` script compiles the libraries under
-``src/`` and the solver applications under ``applications/``.
+Upon completion, the solver executable and its associated utilities
+are installed in ``$FOAM_USER_APPBIN``. The solver binary is named
+``dsmcFoam``; the rovibronic capability is supplied by the DSMC
+library to which it is linked, rather than by a renamed executable.
 
-Verify
-------
+Verification
+------------
+
+A minimal sanity check consists in confirming that the binary is
+visible in the path and that its help message can be displayed:
 
 .. code-block:: bash
 
-   which dsmcFoamRovibronic
-   dsmcFoamRovibronic -help
+   which dsmcFoam
+   dsmcFoam -help
 
-If the binary is found and the help text prints, the build is good.
-Any missing-library errors almost always mean the wrong bashrc was
-sourced — re-check the environment.
+Any ``cannot find library`` or unresolved-symbol error at this stage
+almost invariably indicates that the incorrect bashrc has been
+sourced. It is important to emphasise that re-sourcing the correct
+environment alone is not sufficient once the wrong libraries have
+been loaded into a shell; a fresh shell is the safest remedy.

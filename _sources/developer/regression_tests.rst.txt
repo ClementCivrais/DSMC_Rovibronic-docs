@@ -1,0 +1,133 @@
+Regression Tests (roadmap)
+==========================
+
+.. warning::
+   The infrastructure described on this page is **planned, not yet
+   implemented**. It is included here as a design document, so that
+   the intent is recorded and reviewable before any code lands.
+   Current practice, based on manual smoke tests, is summarised on
+   :doc:`tests`.
+
+Rationale
+---------
+
+Every substantive change to the collision, chemistry, or relaxation
+modules has the potential to perturb downstream macroscopic
+diagnostics in subtle ways. We therefore wish to build a
+**deterministic regression-test harness** that is exercised every
+time the solver is recompiled, and that ensures:
+
+#. the build succeeds under the ``of-rovibronic`` environment;
+#. a curated set of short cases runs to completion;
+#. the macroscopic outputs of each case are identical to, or lie
+   within a predefined tolerance of, a committed baseline.
+
+The harness should be fast enough to run after every compile
+(minutes, not hours), and the baselines should be auditable in
+version control (plain-text, diff-friendly outputs).
+
+Current RNG state
+-----------------
+
+A single ``Foam::Random`` instance, ``rndGen_``, is held on the
+cloud; every RNG consumer in the solver goes through it via
+``cloud_.rndGen()``. It is constructed at
+``src/lagrangian/DSMC/clouds/dsmcCloud.C:1122`` as
+
+.. code-block:: cpp
+
+   rndGen_(label(clock::getTime()) + 7183*Pstream::myProcNo())
+
+which is non-deterministic by design: the wall-clock time enters
+the seed, and each MPI rank is given a distinct offset. This is
+the right choice for production runs but prevents bit-identical
+reproduction across runs, and is therefore the first thing to
+change.
+
+The single-entry-point design is, however, a significant asset: we
+do **not** need to thread a seed through every sub-model. A single
+edit to the seeding line above is sufficient, provided the new
+``randomSeed`` surface is itself reproducible.
+
+Proposed design
+---------------
+
+Dictionary-driven seed
+``````````````````````
+
+Expose a new key on ``constant/dsmcProperties``::
+
+   randomSeed              42;   // optional; if absent, clock-based seed
+
+When present, the key is plumbed into ``dsmcCloud::dsmcCloud(...)``
+and replaces the clock-based seed. Parallel runs retain the
+rank-offset decoration so that different ranks continue to sample
+independent streams.
+
+Test cases
+``````````
+
+Commit a small number of curated cases under ``run/tests/``:
+
+* ``run/tests/0d_heatbath_rotational/`` — Phase-1 heat-bath
+  (rotational only) at 10\ :sup:`4`\  K, short integration;
+* ``run/tests/0d_heatbath_rovibrational/`` — Phase-2 heat-bath;
+* ``run/tests/0d_dissociation_O2/`` — short isothermal
+  dissociation of O\ :sub:`2` against the detailed-balance
+  recombination;
+* ``run/tests/1d_shock_N2/`` — one-dimensional normal shock in
+  N\ :sub:`2` at a representative Mach number.
+
+Each test case ships with a reference output under
+``run/tests/<case>/regressionReferenceData/``. For 0-D cases this
+is the time series of macroscopic energies; for the 1-D shock this
+is the profile at a reference time.
+
+Harness
+```````
+
+A shell script ``Alltest`` at the top level, or a GitHub Actions
+workflow on the private repository, carries out the following
+steps after each rebuild:
+
+#. source the ``of-rovibronic`` environment;
+#. ``./Allwmake``;
+#. for each case under ``run/tests/``:
+
+   * copy the case to a scratch directory;
+   * run ``blockMesh``, ``dsmcInitialise``, ``dsmcFoam``;
+   * compare the computed macroscopic outputs against the
+     committed reference with a small numerical tolerance.
+
+#. exit non-zero on any deviation; write a short report to
+   standard output.
+
+Acceptance criteria
+-------------------
+
+* **Serial runs**: bit-identical to the reference (no tolerance).
+  Achievable because the RNG stream is fully determined by the
+  ``randomSeed`` and the collision-order loop is deterministic on
+  a single rank.
+* **Parallel runs**: agreement within a loose tolerance on cell-
+  averaged macroscopic quantities. Bit-identical reproduction in
+  parallel is not guaranteed, because the collision order depends
+  on cell-to-rank ownership; the tolerance is there to absorb
+  that source of non-determinism without masking actual
+  regressions.
+
+Status
+------
+
+Planned, not yet implemented. The immediate next steps once this
+documentation is deployed are:
+
+#. edit the seeding line in ``dsmcCloud.C`` to read an optional
+   ``randomSeed`` key from ``dsmcProperties``;
+#. draft the first zero-dimensional test case and its reference
+   output under ``run/tests/``;
+#. wire up a minimal ``Alltest`` driver.
+
+The detailed plan will be tracked outside the documentation, but
+the design intent should remain on this page so that future
+collaborators can audit the rationale.

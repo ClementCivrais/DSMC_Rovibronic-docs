@@ -51,32 +51,42 @@
 <li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../user/getting_started.html">Getting Started</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../user/getting_started.html#minimum-requirements">Minimum requirements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/getting_started.html#quick-tour">Quick tour</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/getting_started.html#a-brief-tour-of-the-documentation">A brief tour of the documentation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../user/installation.html">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../user/installation.html#prerequisites">Prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/installation.html#clone">Clone</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/installation.html#compile">Compile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/installation.html#verify">Verify</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/installation.html#cloning-the-repository">Cloning the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/installation.html#compilation">Compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/installation.html#verification">Verification</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../user/running.html">Running a Case</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../user/running.html#standard-workflow">Standard workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/running.html#serial-execution">Serial execution</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../user/running.html#parallel-execution">Parallel execution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/running.html#detailed-setup-guide">Detailed setup guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/running.html#startup-diagnostics">Startup diagnostics</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html">Input Reference</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#species-database">Species database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#boundary-conditions">Boundary conditions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#expanded-documentation">Expanded documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#case-directory-layout">Case directory layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../user/input_reference.html#relaxation-collision-numbers">Relaxation collision numbers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../user/input_reference.html#rovibronicdatabase-sub-dictionary"><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#constant-speciescache"><code class="docutils literal notranslate"><span class="pre">constant/speciesCache/</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#system-dsmcinitialisedict"><code class="docutils literal notranslate"><span class="pre">system/dsmcInitialiseDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#system-boundariesdict"><code class="docutils literal notranslate"><span class="pre">system/boundariesDict</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../user/input_reference.html#available-patch-models">Available patch models</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../user/post_processing.html">Post-processing</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../user/post_processing.html#macroscopic-fields">Macroscopic fields</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/post_processing.html#quantum-state-populations">Quantum-state populations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/post_processing.html#state-resolved-populations">State-resolved populations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../user/post_processing.html#validation-diagnostics">Validation diagnostics</a></li>
 </ul>
 </li>
@@ -88,34 +98,54 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Theory Guide</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="overview.html">Method Overview</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="overview.html#what-the-rovibronic-description-buys">What the rovibronic description buys</a></li>
-<li class="toctree-l3"><a class="reference internal" href="overview.html#references">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html#organisation-of-the-present-guide">Organisation of the present guide</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="rovibronic_levels.html">Rovibronic Level Structure</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#level-enumeration-and-cut-offs">Level enumeration and cut-offs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#degeneracies">Degeneracies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#energy-expansion">Energy expansion</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rovibronic_levels.html#vibrational-ladder-morse-oscillator">Vibrational ladder (Morse oscillator)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rovibronic_levels.html#rotational-sub-ladder-rigid-rotor-distortion">Rotational sub-ladder (rigid rotor + distortion)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rovibronic_levels.html#degeneracy">Degeneracy</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#ground-state-normalisation-and-provenance">Ground-state normalisation and provenance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#typical-state-space-sizes">Typical state-space sizes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="collisions.html">Binary Collisions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="collisions.html#state-resolved-inelastic-collisions">State-resolved inelastic collisions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collisions.html#collision-pair-selection-ntc">Collision-pair selection (NTC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collisions.html#vss-cross-section">VSS cross section</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collisions.html#exponent-conventions-for-the-larsen-borgnakke-sampler">Exponent conventions for the Larsen-Borgnakke sampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collisions.html#reactive-collisions">Reactive collisions</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="chemistry.html">Chemistry</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#reaction-families">Reaction families</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#rate-models">Rate models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#post-reaction-sampling">Post-reaction sampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#dissociation-with-asymptote-matching">Dissociation with asymptote matching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#recombination-from-detailed-balance">Recombination from detailed balance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#exchange-with-automatic-heat-of-reaction">Exchange with automatic heat of reaction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#ionisation-and-charge-exchange">Ionisation and charge exchange</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="chemistry.html#associative-ionisation">Associative ionisation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#summary-of-design-principles">Summary of design principles</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="relaxation.html">Energy Relaxation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="relaxation.html#landauteller-enforcement">Landau–Teller enforcement</a></li>
-<li class="toctree-l3"><a class="reference internal" href="relaxation.html#state-to-state-relaxation">State-to-state relaxation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="relaxation.html#coupled-relaxation-matrix">Coupled relaxation matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#landau-teller-rate-per-mode">Landau-Teller rate per mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#composite-modes-and-effective-dof">Composite modes and effective DOF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#parallel-marginal-cascade">Parallel-marginal cascade</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#validation-protocol-phase-by-phase">Validation protocol (phase-by-phase)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#on-the-absence-of-the-classic-zcorr">On the absence of the classic ZCorr</a></li>
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Macroscopic Properties</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#number-density-and-species-fractions">Number density and species fractions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#temperatures">Temperatures</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#population-distributions">Population distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#translational-temperature">Translational temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rotational-vibrational-and-electronic-temperatures">Rotational, vibrational, and electronic temperatures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#status-of-effective-temperatures-under-non-equilibrium">Status of effective temperatures under non-equilibrium</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#population-diagnostics">Population diagnostics</a></li>
 </ul>
 </li>
 </ul>
@@ -124,10 +154,12 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../examples/n2_heatbath.html">N<sub>2</sub> Heat-Bath Relaxation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2_heatbath.html">Landau-Teller heat-bath validation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#case-layout">Case layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#expected-result">Expected result</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#three-phase-validation-protocol">Three-phase validation protocol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#expected-outcome">Expected outcome</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#current-status">Current status</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#adding-a-new-example">Adding a new example</a></li>
 </ul>
 </li>
@@ -139,20 +171,26 @@
 <li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../reference/about.html">About</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../reference/about.html#scope">Scope</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#licence">Licence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#lineage">Lineage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#target-applications">Target applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#development-team">Development team</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#licence-and-access">Licence and access</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/about.html#contact">Contact</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/validation.html">Validation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#heat-bath-relaxation">Heat-bath relaxation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#t-recombination-three-body-channel">2-T recombination &amp; three-body channel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#heat-bath-relaxation-landau-teller">Heat-bath relaxation (Landau-Teller)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#two-temperature-recombination-and-three-body-channel">Two-temperature recombination and three-body channel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#heats-of-reaction">Heats of reaction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#shock-profiles">Shock profiles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#outstanding-items">Outstanding items</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html">Bibliography</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#primary-references">Primary references</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#solver-specific-notes">Solver-specific notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#foundational-dsmc-literature">Foundational DSMC literature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#the-dsmcfoam-lineage">The dsmcFoam+ lineage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#publications-associated-with-the-rovibronic-extension">Publications associated with the rovibronic extension</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#in-repository-derivations-and-notes">In-repository derivations and notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/changelog.html">Changelog</a><ul>
@@ -169,17 +207,36 @@
 <li class="toctree-l2"><a class="reference internal" href="../developer/architecture.html">Architecture</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../developer/architecture.html#top-level-source-layout">Top-level source layout</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../developer/architecture.html#the-dsmc-core">The DSMC core</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../developer/architecture.html#the-rovibronic-extension">The rovibronic extension</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer/architecture.html#the-rovibronic-extension">The rovibronic extension</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer/architecture.html#rovibronic-aware-boundary">Rovibronic-aware boundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer/architecture.html#species-database">Species database</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer/architecture.html#random-number-generator">Random-number generator</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_feature.html">Adding a Feature</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../developer/adding_a_feature.html#adding-a-new-species">Adding a new species</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../developer/adding_a_feature.html#adding-a-new-reaction">Adding a new reaction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../developer/adding_a_feature.html#adding-a-new-relaxation-submodel">Adding a new relaxation submodel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer/adding_a_feature.html#adding-a-new-relaxation-sub-model">Adding a new relaxation sub-model</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/tests.html">Regression Tests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../developer/tests.html">Regression Tests (current practice)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../developer/tests.html#manual-smoke-tests">Manual smoke tests</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../developer/tests.html#continuous-integration">Continuous integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html">Regression Tests (roadmap)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../developer/regression_tests.html#rationale">Rationale</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer/regression_tests.html#current-rng-state">Current RNG state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer/regression_tests.html#proposed-design">Proposed design</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer/regression_tests.html#dictionary-driven-seed">Dictionary-driven seed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer/regression_tests.html#test-cases">Test cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer/regression_tests.html#harness">Harness</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer/regression_tests.html#acceptance-criteria">Acceptance criteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer/regression_tests.html#status">Status</a></li>
 </ul>
 </li>
 </ul>
@@ -213,37 +270,82 @@
              
   <section id="macroscopic-properties">
 <h1>Macroscopic Properties<a class="headerlink" href="#macroscopic-properties" title="Link to this heading"></a></h1>
-<p>Volume-averaged fields are accumulated from simulator particles in
-each cell.</p>
+<p>Volume-averaged fields are accumulated from the simulator particles
+in each computational cell. Below we summarise how the common
+diagnostics are defined in the rovibronic setting, and we emphasise
+the status of the per-mode “temperatures” as effective scalars
+extracted from population distributions rather than as primary
+thermodynamic variables.</p>
 <section id="number-density-and-species-fractions">
 <h2>Number density and species fractions<a class="headerlink" href="#number-density-and-species-fractions" title="Link to this heading"></a></h2>
+<p>For a cell of volume <span class="math notranslate nohighlight">\(V_{\mathrm{cell}}\)</span> containing
+<span class="math notranslate nohighlight">\(N_s\)</span> simulator particles of species <span class="math notranslate nohighlight">\(s\)</span>, each
+representing <span class="math notranslate nohighlight">\(w = \mathtt{nEquivalentParticles}\)</span> real
+molecules,</p>
 <div class="math notranslate nohighlight">
-\[n_s = \frac{N_s w}{V_{\text{cell}}}, \qquad
-x_s = \frac{n_s}{\sum_{s'} n_{s'}},\]</div>
-<p>where <span class="math notranslate nohighlight">\(N_s\)</span> is the number of particles of species <span class="math notranslate nohighlight">\(s\)</span> in
-the cell and <span class="math notranslate nohighlight">\(w\)</span> is the particle weight.</p>
+\[n_s = \frac{N_s\, w}{V_{\mathrm{cell}}}, \qquad
+x_s = \frac{n_s}{\displaystyle\sum_{s'} n_{s'}}.\]</div>
 </section>
-<section id="temperatures">
-<h2>Temperatures<a class="headerlink" href="#temperatures" title="Link to this heading"></a></h2>
+<section id="translational-temperature">
+<h2>Translational temperature<a class="headerlink" href="#translational-temperature" title="Link to this heading"></a></h2>
+<p>The translational temperature is extracted, as in standard DSMC,
+from the second moment of the peculiar velocity,</p>
+<div class="math notranslate nohighlight">
+\[\frac{3}{2}\, k_B T_T
+  = \frac{1}{N} \sum_{i=1}^{N}
+    \tfrac{1}{2}\, m_i\,(\mathbf{v}_i - \bar{\mathbf{v}})^{2}.\]</div>
+</section>
+<section id="rotational-vibrational-and-electronic-temperatures">
+<h2>Rotational, vibrational, and electronic temperatures<a class="headerlink" href="#rotational-vibrational-and-electronic-temperatures" title="Link to this heading"></a></h2>
+<p>For each composite internal mode <span class="math notranslate nohighlight">\(k \in \{R,\,V,\,E\}\)</span>, we
+first average the mode-specific energy over the cell,
+<span class="math notranslate nohighlight">\(\langle E_k\rangle = \frac{1}{N}\sum_i E_k^{(i)}\)</span>, and then
+invert the (pre-tabulated) equilibrium relation
+<span class="math notranslate nohighlight">\(\langle E_k\rangle(T_k)\)</span> by bisection to obtain the effective
+temperature <span class="math notranslate nohighlight">\(T_k\)</span>. The associated effective DOF is</p>
+<div class="math notranslate nohighlight">
+\[\xi_k(T_k) = \frac{2\,\langle E_k\rangle(T_k)}{k_B\,T_k},\]</div>
+<p>which matches the definition used in the Landau-Teller cascade (see
+<a class="reference internal" href="relaxation.html"><span class="doc">Energy Relaxation</span></a>).</p>
+<section id="status-of-effective-temperatures-under-non-equilibrium">
+<h3>Status of effective temperatures under non-equilibrium<a class="headerlink" href="#status-of-effective-temperatures-under-non-equilibrium" title="Link to this heading"></a></h3>
+<p>It is important to emphasise that, under strong non-equilibrium —
+for instance in the early stages of a shock-heated flow, or in a
+rapidly expanding nozzle —  the quantities <span class="math notranslate nohighlight">\(T_R\)</span>,
+<span class="math notranslate nohighlight">\(T_V\)</span>, <span class="math notranslate nohighlight">\(T_E\)</span> are <strong>cell-level effective temperatures</strong>
+rather than thermodynamic temperatures. They correctly describe the
+first moment of the population distribution but do not characterise
+the distribution as a whole, which in general is strongly
+non-Boltzmann. The physical solution resides in the state-resolved
+population vector <span class="math notranslate nohighlight">\(P(n, v, J)\)</span> itself, and any downstream
+coupling that assumes a Boltzmann shape (e.g. coupling with a
+radiation transport solver) must be revisited accordingly
+<a class="reference internal" href="#civrais2024electronic-m" id="id1"><span>[Civrais2024Electronic_m]</span></a>.</p>
+</section>
+</section>
+<section id="population-diagnostics">
+<h2>Population diagnostics<a class="headerlink" href="#population-diagnostics" title="Link to this heading"></a></h2>
+<p>Per-cell histograms over <span class="math notranslate nohighlight">\((n, v, J)\)</span> are available from the
+post-processing utilities under <code class="docutils literal notranslate"><span class="pre">applications/utilities/</span></code>. Typical
+use cases include:</p>
 <ul class="simple">
-<li><p><strong>Translational</strong> <span class="math notranslate nohighlight">\(T_t\)</span> — from the peculiar-velocity second
-moment.</p></li>
-<li><p><strong>Rotational</strong> <span class="math notranslate nohighlight">\(T_r\)</span> — from the rotational-energy per molecule
-under the quantum rotational partition function.</p></li>
-<li><p><strong>Vibrational</strong> <span class="math notranslate nohighlight">\(T_v\)</span> — same, using the vibrational partition
-function of each electronic level.</p></li>
-<li><p><strong>Electronic</strong> <span class="math notranslate nohighlight">\(T_e\)</span> — from the distribution across
-electronic levels.</p></li>
+<li><p>the vibrational population <span class="math notranslate nohighlight">\(P(v)\)</span> at fixed electronic state
+<span class="math notranslate nohighlight">\(n\)</span>, plotted against the Boltzmann distribution at
+<span class="math notranslate nohighlight">\(T_T\)</span> (a direct diagnostic of vibrational non-equilibrium);</p></li>
+<li><p>the rotational population <span class="math notranslate nohighlight">\(P(J)\)</span> at fixed <span class="math notranslate nohighlight">\((n, v)\)</span>
+to assess the assumption of rotational equilibrium;</p></li>
+<li><p>the electronic population <span class="math notranslate nohighlight">\(P(n)\)</span> as a function of time in
+shock-heated flows, to monitor the rate at which the excited
+electronic manifolds become populated.</p></li>
 </ul>
-<p>In the state-to-state regime these “temperatures” are best
-interpreted as effective temperatures extracted from the non-Boltzmann
-populations; the physical solution lives in the population vector
-itself.</p>
-</section>
-<section id="population-distributions">
-<h2>Population distributions<a class="headerlink" href="#population-distributions" title="Link to this heading"></a></h2>
-<p>Per-cell histograms over <span class="math notranslate nohighlight">\((e, v, j)\)</span> are available via the
-post-processing utilities (see <a class="reference internal" href="../user/post_processing.html"><span class="doc">Post-processing</span></a>).</p>
+<div role="list" class="citation-list">
+<div class="citation" id="civrais2024electronic-m" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Civrais2024Electronic_m</a><span class="fn-bracket">]</span></span>
+<p>C. H. B. Civrais, M. Pfeiffer, C. White,
+and R. Steijl, “Modelling of the electronic excited states in
+high-temperature flows,” <em>Physics of Fluids</em> (2024).</p>
+</div>
+</div>
 </section>
 </section>
 

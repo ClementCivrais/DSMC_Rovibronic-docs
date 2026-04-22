@@ -1,26 +1,35 @@
 Getting Started
 ===============
 
-DSMC Rovibronic is an extension of the OpenFOAM DSMC library
-(``dsmcFoam``) to a state-to-state description of molecular
-internal energy.
+The present page provides the minimum orientation required to compile
+the solver, run the reference case, and locate the documentation of
+each subsystem. Readers unfamiliar with the Direct Simulation Monte
+Carlo (DSMC) method are referred to Bird's monograph [Bird1994]_,
+which remains the standard reference on the underlying kinetic theory
+and on the algorithms we build upon.
 
 Minimum requirements
 --------------------
 
-* Linux (tested on Ubuntu 22.04 / 24.04)
-* OpenFOAM v2512 (built with the ``of-rovibronic`` environment)
-* GCC 11+ and the usual OpenFOAM build toolchain
+* Linux (tested on Ubuntu 22.04 and 24.04);
+* OpenFOAM v2512 compiled with the ``of-rovibronic`` environment;
+* GCC 11 or later, together with the usual OpenFOAM build tool-chain;
+* Python 3.10 or later for local documentation previews (optional).
 
-Quick tour
-----------
+A brief tour of the documentation
+---------------------------------
 
-#. :doc:`installation` — compile the solver and its utilities.
-#. :doc:`running` — launch a supplied test case end-to-end.
-#. :doc:`input_reference` — browse dictionaries and options.
-#. :doc:`post_processing` — extract macroscopic fields and population
-   distributions from particle clouds.
+#. :doc:`installation` — how to compile the solver and its utilities.
+#. :doc:`running` — how to execute the reference case end-to-end.
+#. :doc:`input_reference` — the authoritative list of dictionaries
+   and keys exposed by the rovibronic extension.
+#. :doc:`post_processing` — how to extract macroscopic fields and
+   state-resolved population distributions.
+#. :doc:`../theory/index` — the derivations and algorithms underlying
+   the solver, drawn from the author's own publications.
+#. :doc:`../developer/regression_tests` — the planned regression-test
+   framework (deterministic seeding, recompile smoke tests); **still
+   to be implemented**.
 
-New to DSMC in general? Bird's *Molecular Gas Dynamics and the Direct
-Simulation of Gas Flows* is the standard reference; a copy lives at
-``docs/References/`` in the source tree.
+.. [Bird1994] G. A. Bird, *Molecular Gas Dynamics and the Direct
+   Simulation of Gas Flows*, Oxford University Press (1994).

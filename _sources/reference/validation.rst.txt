@@ -1,38 +1,88 @@
 Validation
 ==========
 
-Validation status of the rovibronic machinery.
+We collect in the present page the canonical checks that are
+exercised whenever the rovibronic machinery is modified. The scope
+is deliberately lightweight —  the goal is to assemble a coherent
+baseline against which regressions can be detected (see the
+planned :doc:`../developer/regression_tests`), rather than to
+revisit every published validation case.
 
-Heat-bath relaxation
---------------------
+Heat-bath relaxation (Landau-Teller)
+------------------------------------
 
-* Multi-mode Landau–Teller enforcement verified: the
-  :math:`Z_{\text{fit}}/Z_{\text{input}}` ratio sits at
-  :math:`\approx 0.99` without the ZCorr correction, confirming
-  that ZCorr is **not** needed on the rovibronic Larsen–Borgnakke
-  path.
+The three-phase isothermal heat-bath protocol described in
+:doc:`../examples/n2_heatbath` is the primary validation of the
+parallel-marginal relaxation cascade. The current status is:
 
-2-T recombination & three-body channel
---------------------------------------
+* **Phase 1 (rotational only)** — passes comfortably;
+  :math:`Z_{\mathrm{fit}}/Z_{\mathrm{input}} \approx 1.07`.
+* **Phase 2 (rovibrational)** — overcorrects;
+  :math:`\approx 0.83`. Investigation ongoing; the trail points to
+  the pooled effective DOF used in the Larsen-Borgnakke exponent.
+* **Phase 3 (all modes active)** — pending diagnosis.
 
-* 2-T recombination and the three-body ``recombinePQ`` channel have
-  been exercised in 0-D and 1-D canonical cases.
-* A Larsen–Borgnakke NaN failure mode, traced to unbounded inelastic
-  energy sampling under specific reaction conditions, has been
-  isolated and fixed.
-* A dissociation double-count bug was identified and fixed
-  (details in ``docs/Rovibronic Article/DSMC_Bugs_Report.pdf``).
+The ratio :math:`Z_{\mathrm{fit}}/Z_{\mathrm{input}}` of the
+rovibronic Larsen-Borgnakke path sits at :math:`\approx 0.99`
+without any Z-correction factor, confirming that the classic ZCorr
+used in continuous-internal-energy formulations is **not needed**
+on the rovibronic path.
+
+Two-temperature recombination and three-body channel
+----------------------------------------------------
+
+The 2-T recombination path, together with the three-body
+``recombinePQ`` channel, has been exercised in zero-dimensional
+and one-dimensional canonical cases. Two historical failure modes
+have been isolated and fixed in the course of validation:
+
+* a Larsen-Borgnakke NaN, traced to unbounded inelastic energy
+  sampling under a specific configuration of reaction exponents;
+* a dissociation double-count bug associated with the wrong
+  branch of the collision index in the early charge-exchange
+  implementation.
+
+The full list of bug-audit findings, together with the
+corresponding fixes and short justifications, is collected in
+``docs/Rovibronic Article/DSMC_Bugs_Report.pdf`` in the source
+tree.
+
+Heats of reaction
+-----------------
+
+Startup diagnostics print the automatically-computed heats of
+reaction :math:`\Delta H = D_0(\mathrm{products}) -
+D_0(\mathrm{reactants})` for each registered exchange and
+recombination channel. Representative values for air chemistry
+agree with the literature to within 1%:
+
+* :math:`\mathrm{N}_2 + \mathrm{O} \to \mathrm{NO} + \mathrm{N}`:
+  :math:`\Delta H \approx -37\,700~\mathrm{K}` (lit.) vs.
+  :math:`-37\,732~\mathrm{K}` (database).
+* :math:`\mathrm{O}_2 + \mathrm{N} \to \mathrm{NO} + \mathrm{O}`:
+  :math:`\Delta H \approx +16\,000~\mathrm{K}` (lit.) vs.
+  :math:`+16\,150~\mathrm{K}` (database).
 
 Shock profiles
 --------------
 
-* 1-D normal-shock profile benchmarks against published Park /
-  Macheret results are tracked under ``run/`` as separate test
-  cases.
+One-dimensional normal-shock profile benchmarks against the
+Park and Macheret reference data, as published in
+[Civrais2024Shock_v]_, are tracked as separate cases under
+``run/``. Re-running these after a substantive change to the
+collision or chemistry modules is the recommended next-level
+validation beyond the heat-bath test.
 
 Outstanding items
 -----------------
 
-* Full 3-D blunt-body validation (pending).
+* Full three-dimensional blunt-body validation (pending).
 * Electronic-state excitation benchmarks against state-resolved
   master-equation solutions (pending).
+* Formalisation of the present manual checks into a
+  regression-test framework with deterministic random seeding —
+  see :doc:`../developer/regression_tests`.
+
+.. [Civrais2024Shock_v] C. H. B. Civrais, C. White, and R. Steijl,
+   "Extension of the normal shock wave relations for calorically
+   imperfect gases."

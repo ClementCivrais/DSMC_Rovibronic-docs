@@ -1,44 +1,92 @@
-N\ :sub:`2` Heat-Bath Relaxation
-================================
+Landau-Teller heat-bath validation
+==================================
 
-A zero-dimensional (0-D) isothermal heat-bath relaxation is the
-cheapest end-to-end validation of the rovibronic relaxation
-machinery. The gas is initialised at a cold internal temperature
-while the translational temperature is held high, and the approach
-to equilibrium is compared to the Landau–Teller analytical solution.
+A zero-dimensional isothermal heat-bath relaxation is the cheapest
+end-to-end check of the rovibronic relaxation machinery, and it is
+the canonical test we use for validation of any change to the
+cascade logic. The gas is initialised at a cold internal temperature
+while the translational temperature is held high; the approach to
+equilibrium is then compared to the multi-exponential Landau-Teller
+(LT) analytical solution developed in :doc:`../theory/relaxation`.
+
+The reference set-up lives in ``run/Tutorial/``; variants that pin
+one or more collision numbers :math:`Z_k \to \infty` are prepared by
+copying the tutorial and editing the relaxation-collision-number
+entries in ``constant/dsmcProperties``.
 
 Case layout
 -----------
 
 .. code-block:: text
 
-   run/<case>/
-   ├── 0/              # initial fields
-   ├── constant/       # species, dsmcProperties, rovibronic settings
-   ├── system/         # blockMeshDict, controlDict, decomposeParDict
-   └── postProcessing/ # populated at runtime
+   run/Tutorial/
+   ├── constant/
+   │   ├── dsmcProperties      # nEquivalentParticles, Z_k, typeIdList, rovibronicDatabase
+   │   ├── speciesCache/       # 259 species database files
+   │   └── polyMesh/
+   └── system/
+       ├── controlDict         # deltaT, endTime, writeInterval
+       ├── dsmcInitialiseDict  # initial T_T, T_int, numberDensities
+       ├── boundariesDict      # closed box (no inflow/outflow)
+       ├── chemReactDict       # chemistry (off for pure relaxation)
+       └── …
 
-Running
--------
+Running the case
+----------------
 
 .. code-block:: bash
 
-   cd run/<case>
-   blockMesh && dsmcInitialise && dsmcFoamRovibronic
+   cd run/Tutorial
+   blockMesh
+   dsmcInitialise
+   dsmcFoam
 
-Expected result
----------------
+Three-phase validation protocol
+-------------------------------
 
-* :math:`T_v(t)` relaxes toward :math:`T_t` on the Millikan–White
-  timescale.
-* Final state populations match the Boltzmann distribution at
-  :math:`T_t` within statistical noise.
-* The :math:`Z_{\text{fit}}/Z_{\text{input}}` ratio should sit
-  within :math:`\approx 1\%` of unity — confirming the multi-mode LT
-  enforcement is unbiased.
+The cascade is stressed phase-by-phase by setting to very large
+values the collision numbers of those modes that we wish to freeze.
+Concretely, in ``LarsenBorgnakkeVariableHardSphereCoeffs``:
+
+* **Phase 1** — rotational only: set
+  ``rovibrationalRelaxationCollisionNumber`` and
+  ``rovibronicRelaxationCollisionNumber`` to :math:`10^{9}`;
+  keep ``rotationalRelaxationCollisionNumber`` at its nominal
+  value. Initial state: :math:`T_T = 10^{4}~\mathrm{K}`,
+  :math:`T_R(0) = 10^{3}~\mathrm{K}`.
+* **Phase 2** — rovibrational: freeze the rotational sub-ladder
+  instead (``rotationalRelaxationCollisionNumber`` :math:`= 10^{9}`),
+  keep :math:`Z_{rve}` frozen as well.
+* **Phase 3** — all modes active, at their nominal values.
+
+Expected outcome
+----------------
+
+* The composite-mode energies :math:`\langle E_R\rangle(t)`,
+  :math:`\langle E_{RV}\rangle(t)`, :math:`\langle E_{RVE}\rangle(t)`
+  should follow the expected single/double/triple-exponential LT
+  approach to equilibrium.
+* The fitted collision numbers should agree with the input values
+  to within 5%: :math:`|Z_{k,\mathrm{fit}}/Z_k - 1| < 5\%`.
+* The ratio :math:`Z_{\mathrm{fit}}/Z_{\mathrm{input}}` of the
+  rovibronic path sits at :math:`\approx 0.99` without any
+  ZCorr-style correction (see :doc:`../theory/relaxation`).
+
+Current status
+--------------
+
+At the time of writing, Phase 1 passes comfortably
+(:math:`Z_{\mathrm{fit}}/Z \approx 1.07`), Phase 2 overcorrects
+(:math:`\approx 0.83`), and Phase 3 is still being diagnosed. The
+relevant session notes live in the project memory and in the draft
+bug report ``docs/Rovibronic Article/DSMC_Bugs_Report.pdf``.
 
 Adding a new example
 --------------------
 
-Create a new ``.rst`` in this directory, document the setup and the
-expected outcome, and add it to the toctree in ``index.rst``.
+Each supported test case is documented on its own page under
+``docs/online-documentation/examples/``. When adding a new example,
+describe the set-up, the expected analytical (or published)
+reference, the success criteria, and the command sequence required
+to reproduce the result. Then add the page to the toctree in
+``examples/index.rst``.

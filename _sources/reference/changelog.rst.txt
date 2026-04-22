@@ -6,16 +6,22 @@ Notable changes to the solver, newest first.
 Unreleased
 ----------
 
-* Online documentation site scaffolded and published.
-* Landau–Teller enforcement (multi-mode correction) landed.
+* Online documentation scaffolded and re-drafted in the lead
+  developer's voice, with theory, input reference, examples, and
+  a regression-test roadmap.
+* Landau-Teller multi-mode enforcement (parallel-marginal cascade)
+  landed; phase-by-phase validation in progress.
 
 Recent
 ------
 
-* Database update — Dunham fits to ab-initio PES energies.
-* Restructuration of the code and fix of bugs (draft bug audit
-  report in ``docs/Rovibronic Article/DSMC_Bugs_Report.pdf``).
+* Database update — Dunham fits to ab-initio potential-energy
+  surfaces.
+* Restructuration of the code and bug fixes, covered in the draft
+  bug-audit report at
+  ``docs/Rovibronic Article/DSMC_Bugs_Report.pdf``.
 * Improved database, fixed chemical reactions, added species.
-* Correction of measurements and boundary conditions.
-* Ported full rovibronic quantum-state tracking into the MNF
-  framework.
+* Correction of measurements and boundary conditions; addition of
+  the in-repo LaTeX reports under ``doc/``.
+* Port of the full rovibronic :math:`(n, v, J)` quantum-state
+  tracking onto the dsmcFoam+ framework.

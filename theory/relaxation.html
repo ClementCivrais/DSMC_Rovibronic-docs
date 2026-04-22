@@ -51,32 +51,42 @@
 <li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../user/getting_started.html">Getting Started</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../user/getting_started.html#minimum-requirements">Minimum requirements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/getting_started.html#quick-tour">Quick tour</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/getting_started.html#a-brief-tour-of-the-documentation">A brief tour of the documentation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../user/installation.html">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../user/installation.html#prerequisites">Prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/installation.html#clone">Clone</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/installation.html#compile">Compile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/installation.html#verify">Verify</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/installation.html#cloning-the-repository">Cloning the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/installation.html#compilation">Compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/installation.html#verification">Verification</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../user/running.html">Running a Case</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../user/running.html#standard-workflow">Standard workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/running.html#serial-execution">Serial execution</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../user/running.html#parallel-execution">Parallel execution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/running.html#detailed-setup-guide">Detailed setup guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/running.html#startup-diagnostics">Startup diagnostics</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../user/input_reference.html">Input Reference</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#species-database">Species database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#boundary-conditions">Boundary conditions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#expanded-documentation">Expanded documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#case-directory-layout">Case directory layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../user/input_reference.html#relaxation-collision-numbers">Relaxation collision numbers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../user/input_reference.html#rovibronicdatabase-sub-dictionary"><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#constant-speciescache"><code class="docutils literal notranslate"><span class="pre">constant/speciesCache/</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#system-dsmcinitialisedict"><code class="docutils literal notranslate"><span class="pre">system/dsmcInitialiseDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#system-boundariesdict"><code class="docutils literal notranslate"><span class="pre">system/boundariesDict</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../user/input_reference.html#available-patch-models">Available patch models</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../user/post_processing.html">Post-processing</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../user/post_processing.html#macroscopic-fields">Macroscopic fields</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../user/post_processing.html#quantum-state-populations">Quantum-state populations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user/post_processing.html#state-resolved-populations">State-resolved populations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../user/post_processing.html#validation-diagnostics">Validation diagnostics</a></li>
 </ul>
 </li>
@@ -88,34 +98,54 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Theory Guide</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="overview.html">Method Overview</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="overview.html#what-the-rovibronic-description-buys">What the rovibronic description buys</a></li>
-<li class="toctree-l3"><a class="reference internal" href="overview.html#references">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html#organisation-of-the-present-guide">Organisation of the present guide</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="rovibronic_levels.html">Rovibronic Level Structure</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#level-enumeration-and-cut-offs">Level enumeration and cut-offs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#degeneracies">Degeneracies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#energy-expansion">Energy expansion</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rovibronic_levels.html#vibrational-ladder-morse-oscillator">Vibrational ladder (Morse oscillator)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rovibronic_levels.html#rotational-sub-ladder-rigid-rotor-distortion">Rotational sub-ladder (rigid rotor + distortion)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rovibronic_levels.html#degeneracy">Degeneracy</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#ground-state-normalisation-and-provenance">Ground-state normalisation and provenance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#typical-state-space-sizes">Typical state-space sizes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="collisions.html">Binary Collisions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="collisions.html#state-resolved-inelastic-collisions">State-resolved inelastic collisions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collisions.html#collision-pair-selection-ntc">Collision-pair selection (NTC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collisions.html#vss-cross-section">VSS cross section</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collisions.html#exponent-conventions-for-the-larsen-borgnakke-sampler">Exponent conventions for the Larsen-Borgnakke sampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collisions.html#reactive-collisions">Reactive collisions</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="chemistry.html">Chemistry</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#reaction-families">Reaction families</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#rate-models">Rate models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#post-reaction-sampling">Post-reaction sampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#dissociation-with-asymptote-matching">Dissociation with asymptote matching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#recombination-from-detailed-balance">Recombination from detailed balance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#exchange-with-automatic-heat-of-reaction">Exchange with automatic heat of reaction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#ionisation-and-charge-exchange">Ionisation and charge exchange</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="chemistry.html#associative-ionisation">Associative ionisation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#summary-of-design-principles">Summary of design principles</a></li>
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Energy Relaxation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#landauteller-enforcement">Landau–Teller enforcement</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#state-to-state-relaxation">State-to-state relaxation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#coupled-relaxation-matrix">Coupled relaxation matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#landau-teller-rate-per-mode">Landau-Teller rate per mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#composite-modes-and-effective-dof">Composite modes and effective DOF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parallel-marginal-cascade">Parallel-marginal cascade</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#validation-protocol-phase-by-phase">Validation protocol (phase-by-phase)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#on-the-absence-of-the-classic-zcorr">On the absence of the classic ZCorr</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="macroscopic_properties.html">Macroscopic Properties</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#number-density-and-species-fractions">Number density and species fractions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#temperatures">Temperatures</a></li>
-<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#population-distributions">Population distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#translational-temperature">Translational temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#rotational-vibrational-and-electronic-temperatures">Rotational, vibrational, and electronic temperatures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="macroscopic_properties.html#status-of-effective-temperatures-under-non-equilibrium">Status of effective temperatures under non-equilibrium</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="macroscopic_properties.html#population-diagnostics">Population diagnostics</a></li>
 </ul>
 </li>
 </ul>
@@ -124,10 +154,12 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../examples/n2_heatbath.html">N<sub>2</sub> Heat-Bath Relaxation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/n2_heatbath.html">Landau-Teller heat-bath validation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#case-layout">Case layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#expected-result">Expected result</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#three-phase-validation-protocol">Three-phase validation protocol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#expected-outcome">Expected outcome</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#current-status">Current status</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/n2_heatbath.html#adding-a-new-example">Adding a new example</a></li>
 </ul>
 </li>
@@ -139,20 +171,26 @@
 <li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../reference/about.html">About</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../reference/about.html#scope">Scope</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#licence">Licence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#lineage">Lineage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#target-applications">Target applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#development-team">Development team</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/about.html#licence-and-access">Licence and access</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/about.html#contact">Contact</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/validation.html">Validation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#heat-bath-relaxation">Heat-bath relaxation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#t-recombination-three-body-channel">2-T recombination &amp; three-body channel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#heat-bath-relaxation-landau-teller">Heat-bath relaxation (Landau-Teller)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#two-temperature-recombination-and-three-body-channel">Two-temperature recombination and three-body channel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#heats-of-reaction">Heats of reaction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#shock-profiles">Shock profiles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#outstanding-items">Outstanding items</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html">Bibliography</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#primary-references">Primary references</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#solver-specific-notes">Solver-specific notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#foundational-dsmc-literature">Foundational DSMC literature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#the-dsmcfoam-lineage">The dsmcFoam+ lineage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#publications-associated-with-the-rovibronic-extension">Publications associated with the rovibronic extension</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#in-repository-derivations-and-notes">In-repository derivations and notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/changelog.html">Changelog</a><ul>
@@ -169,17 +207,36 @@
 <li class="toctree-l2"><a class="reference internal" href="../developer/architecture.html">Architecture</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../developer/architecture.html#top-level-source-layout">Top-level source layout</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../developer/architecture.html#the-dsmc-core">The DSMC core</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../developer/architecture.html#the-rovibronic-extension">The rovibronic extension</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer/architecture.html#the-rovibronic-extension">The rovibronic extension</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer/architecture.html#rovibronic-aware-boundary">Rovibronic-aware boundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer/architecture.html#species-database">Species database</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer/architecture.html#random-number-generator">Random-number generator</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../developer/adding_a_feature.html">Adding a Feature</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../developer/adding_a_feature.html#adding-a-new-species">Adding a new species</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../developer/adding_a_feature.html#adding-a-new-reaction">Adding a new reaction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../developer/adding_a_feature.html#adding-a-new-relaxation-submodel">Adding a new relaxation submodel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer/adding_a_feature.html#adding-a-new-relaxation-sub-model">Adding a new relaxation sub-model</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../developer/tests.html">Regression Tests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../developer/tests.html">Regression Tests (current practice)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../developer/tests.html#manual-smoke-tests">Manual smoke tests</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../developer/tests.html#continuous-integration">Continuous integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../developer/regression_tests.html">Regression Tests (roadmap)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../developer/regression_tests.html#rationale">Rationale</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer/regression_tests.html#current-rng-state">Current RNG state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer/regression_tests.html#proposed-design">Proposed design</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer/regression_tests.html#dictionary-driven-seed">Dictionary-driven seed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer/regression_tests.html#test-cases">Test cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer/regression_tests.html#harness">Harness</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer/regression_tests.html#acceptance-criteria">Acceptance criteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer/regression_tests.html#status">Status</a></li>
 </ul>
 </li>
 </ul>
@@ -213,38 +270,151 @@
              
   <section id="energy-relaxation">
 <h1>Energy Relaxation<a class="headerlink" href="#energy-relaxation" title="Link to this heading"></a></h1>
-<p>Internal relaxation drives the molecular internal state toward
-equilibrium with the local translational temperature.</p>
-<section id="landauteller-enforcement">
-<h2>Landau–Teller enforcement<a class="headerlink" href="#landauteller-enforcement" title="Link to this heading"></a></h2>
-<p>In Landau–Teller mode, relaxation events are sampled with probability</p>
+<p>Internal relaxation drives the rovibronic population of each
+molecular species toward equilibrium with the local translational
+temperature. In the present solver this is achieved through a
+<strong>parallel-marginal cascade</strong> in which rotational, rovibrational,
+and rovibronic events are mutually exclusive at the single-collision
+level, yet reproduce the correct multi-exponential Landau-Teller
+relaxation of the composite internal energy in the macroscopic
+limit <a class="reference internal" href="#civraisthesis-r" id="id1"><span>[CivraisThesis_r]</span></a>.</p>
+<section id="landau-teller-rate-per-mode">
+<h2>Landau-Teller rate per mode<a class="headerlink" href="#landau-teller-rate-per-mode" title="Link to this heading"></a></h2>
+<p>Following the Landau-Teller framework, the mean internal energy in
+mode <span class="math notranslate nohighlight">\(k\)</span> approaches its equilibrium value with time constant
+<span class="math notranslate nohighlight">\(\tau_k\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[P = \frac{\Delta t}{\tau(T)},\]</div>
-<p>where <span class="math notranslate nohighlight">\(\tau(T)\)</span> is the species-pair relaxation time
-(Millikan–White or curve-fitted to state-to-state master-equation
-solutions). The implementation correctly accounts for:</p>
+\[\frac{\mathrm{d}\,\langle E_k\rangle}{\mathrm{d}t}
+  = \frac{\langle E_k\rangle(T_T) - \langle E_k\rangle(t)}
+         {Z_k^{\mathrm{cont}}\,\tau_c},\]</div>
+<p>where <span class="math notranslate nohighlight">\(T_T\)</span> is the translational temperature,
+<span class="math notranslate nohighlight">\(Z_k^{\mathrm{cont}}\)</span> is the continuum collision number for
+mode <span class="math notranslate nohighlight">\(k\)</span>, and <span class="math notranslate nohighlight">\(\tau_c = 1/\nu_{\mathrm{coll}}\)</span> is the
+mean collision time. Under isothermal conditions the solution is a
+simple exponential decay; in the multi-mode case, with three
+composite modes relaxing on well-separated timescales, the
+approach is the sum of three exponentials</p>
+<div class="math notranslate nohighlight">
+\[\langle E_{\mathrm{int}}\rangle(t) =
+  \langle E_{\mathrm{int}}\rangle^{\star}
+  - \Delta E_R\, e^{-t/\tau_R}
+  - \Delta E_V\, e^{-t/\tau_{RV}}
+  - \Delta E_E\, e^{-t/\tau_{RVE}}.\]</div>
+<p>Equivalently,</p>
+<div class="math notranslate nohighlight">
+\[\frac{\langle E_{\mathrm{int}}\rangle^{\star}
+      - \langle E_{\mathrm{int}}\rangle(t)}
+     {\langle E_{\mathrm{int}}\rangle^{\star}
+      - \langle E_{\mathrm{int}}\rangle(0)}
+= A_R e^{-t/\tau_R} + A_V e^{-t/\tau_{RV}} + A_E e^{-t/\tau_{RVE}},\]</div>
+<p>with mode amplitudes <span class="math notranslate nohighlight">\(A_k = \Delta E_k / \Delta E_{\mathrm{total}}\)</span>
+satisfying <span class="math notranslate nohighlight">\(A_R + A_V + A_E = 1\)</span>.</p>
+</section>
+<section id="composite-modes-and-effective-dof">
+<h2>Composite modes and effective DOF<a class="headerlink" href="#composite-modes-and-effective-dof" title="Link to this heading"></a></h2>
+<p>We identify three composite modes, each characterised by which
+quantum numbers are sampled and by the energy floor below which the
+mode’s contribution vanishes:</p>
 <ul class="simple">
-<li><p>Multi-mode relaxation when multiple internal degrees of freedom are
-active (see <code class="docutils literal notranslate"><span class="pre">doc/LT_Correction_MultiMode.pdf</span></code>).</p></li>
-<li><p>Multi-exponential <span class="math notranslate nohighlight">\(\tau(T)\)</span> fits
-(<code class="docutils literal notranslate"><span class="pre">doc/LandauTeller_MultiExponential_Derivation.pdf</span></code>).</p></li>
-<li><p>The ZCorr correction where applicable — the
-<span class="math notranslate nohighlight">\(Z_{\text{fit}}/Z_{\text{input}}\)</span> ratio was measured to
-<span class="math notranslate nohighlight">\(\approx 0.99\)</span> for rovibronic LB without the correction,
-confirming that ZCorr is not needed in the rovibronic path.</p></li>
+<li><p>mode <span class="math notranslate nohighlight">\(R\)</span> (rotational only) — samples <span class="math notranslate nohighlight">\(J\)</span> at fixed
+<span class="math notranslate nohighlight">\((n, v)\)</span>; floor <span class="math notranslate nohighlight">\(E_R^{\mathrm{floor}} = E(n, v, 0)\)</span>;</p></li>
+<li><p>mode <span class="math notranslate nohighlight">\(RV\)</span> (rovibrational) — samples <span class="math notranslate nohighlight">\((v, J)\)</span> at fixed
+<span class="math notranslate nohighlight">\(n\)</span>; floor <span class="math notranslate nohighlight">\(E_{RV}^{\mathrm{floor}} = E(n, 0, 0)\)</span>;</p></li>
+<li><p>mode <span class="math notranslate nohighlight">\(RVE\)</span> (rovibronic) — samples <span class="math notranslate nohighlight">\((n, v, J)\)</span> over
+the full table; floor <span class="math notranslate nohighlight">\(E_{RVE}^{\mathrm{floor}} = 0\)</span>.</p></li>
 </ul>
+<p>The effective degrees of freedom of each composite mode are computed
+on the fly from the Boltzmann average</p>
+<div class="math notranslate nohighlight">
+\[\xi_k(T) = \frac{2 \langle E_k\rangle(T)}{k_B T},\]</div>
+<p>evaluated from the tabulated partition functions.</p>
 </section>
-<section id="state-to-state-relaxation">
-<h2>State-to-state relaxation<a class="headerlink" href="#state-to-state-relaxation" title="Link to this heading"></a></h2>
-<p>When <code class="docutils literal notranslate"><span class="pre">relaxationScheme</span></code> selects the state-to-state model,
-transitions are sampled directly from per-pair rate tables rather
-than through an effective <span class="math notranslate nohighlight">\(\tau\)</span>. This is the most expensive
-but most faithful choice for strong non-equilibrium.</p>
+<section id="parallel-marginal-cascade">
+<h2>Parallel-marginal cascade<a class="headerlink" href="#parallel-marginal-cascade" title="Link to this heading"></a></h2>
+<p>On each accepted collision we draw a single uniform
+<span class="math notranslate nohighlight">\(R \sim \mathcal{U}(0, 1)\)</span> and select one of four mutually
+exclusive events <span class="math notranslate nohighlight">\(\{E_0, E_1, E_2, E_3\}\)</span> with probabilities</p>
+<div class="math notranslate nohighlight">
+\[P_1 = \frac{1}{Z_{r}\,C_{r}}, \quad
+P_2 = \frac{1}{Z_{rv}\,C_{rv}}, \quad
+P_3 = \frac{1}{Z_{rve}\,C_{rve}},\]</div>
+<p>and <span class="math notranslate nohighlight">\(P_0 = 1 - P_1 - P_2 - P_3\)</span>. Events <span class="math notranslate nohighlight">\(E_1,\,E_2,\,E_3\)</span>
+correspond to rotational, rovibrational, and rovibronic sampling on
+their respective subspaces, with Larsen-Borgnakke acceptance and
+the exponent</p>
+<div class="math notranslate nohighlight">
+\[\alpha_k = \tfrac{1}{2}(\xi_{\mathrm{rel}} + \xi_k^{\mathrm{pooled}})
+           - 1\]</div>
+<p>where <span class="math notranslate nohighlight">\(\xi_k^{\mathrm{pooled}}\)</span> is the effective DOF of the
+mode plus any lower modes that re-equilibrate at the same event.
+Event <span class="math notranslate nohighlight">\(E_0\)</span> leaves the internal state unchanged (elastic-like
+collision from the internal-energy standpoint).</p>
+<p>The factors <span class="math notranslate nohighlight">\(C_k\)</span> are the <strong>Nizenkov correction factors</strong></p>
+<div class="math notranslate nohighlight">
+\[C_k = \frac{\xi_T\,(T_T - T'_k)}
+           {\xi_k(T_T)\,T_T - \xi_k(T_k)\,T_k},\]</div>
+<p>where <span class="math notranslate nohighlight">\(T'_k\)</span> is the pool temperature satisfying local energy
+conservation. Their role is to recover the target Landau-Teller
+rate per mode from the cell-level acceptance statistics; without
+them, the macroscopic relaxation drifts systematically from the
+analytical LT solution.</p>
+<p>When the sum <span class="math notranslate nohighlight">\(P_1 + P_2 + P_3 &gt; 1\)</span>, the probabilities are
+rescaled to saturate the collision; this effectively raises the
+operational <span class="math notranslate nohighlight">\(Z_k\)</span> seen by the solver, and is flagged in the
+diagnostic output.</p>
 </section>
-<section id="coupled-relaxation-matrix">
-<h2>Coupled relaxation matrix<a class="headerlink" href="#coupled-relaxation-matrix" title="Link to this heading"></a></h2>
-<p>The coupled vibrational–rotational relaxation operator is derived in
-<code class="docutils literal notranslate"><span class="pre">doc/CoupledRelaxationMatrix_Derivation.pdf</span></code>.</p>
+<section id="validation-protocol-phase-by-phase">
+<h2>Validation protocol (phase-by-phase)<a class="headerlink" href="#validation-protocol-phase-by-phase" title="Link to this heading"></a></h2>
+<p>The cascade is validated in three phases, each isolating one
+composite mode by sending the collision numbers of the others to
+infinity (i.e. setting them to very large values in the input
+dictionary):</p>
+<ul class="simple">
+<li><p><strong>Phase 1</strong> — rotational only:
+<span class="math notranslate nohighlight">\(Z_{rv} = Z_{rve} = \infty\)</span>; initial condition
+<span class="math notranslate nohighlight">\(T_T = 10^{4}~\mathrm{K}\)</span>, <span class="math notranslate nohighlight">\(T_R(0) = 10^{3}~\mathrm{K}\)</span>.
+Expected: single-exponential decay with time constant
+<span class="math notranslate nohighlight">\(\tau_R = Z_r^{\mathrm{cont}}\,\tau_c\)</span>.</p></li>
+<li><p><strong>Phase 2</strong> — rovibrational:
+<span class="math notranslate nohighlight">\(Z_r = \infty\)</span>, <span class="math notranslate nohighlight">\(Z_{rve} = \infty\)</span>.
+Expected: double-exponential decay with a fast rotational
+equilibration followed by vibrational relaxation.</p></li>
+<li><p><strong>Phase 3</strong> — all modes active: finite
+<span class="math notranslate nohighlight">\(Z_r,\,Z_{rv},\,Z_{rve}\)</span>.
+Expected: triple-exponential with the hierarchy
+<span class="math notranslate nohighlight">\(\tau_R \ll \tau_{RV} \ll \tau_{RVE}\)</span>.</p></li>
+</ul>
+<p>Success is declared when the fitted collision number satisfies
+<span class="math notranslate nohighlight">\(|Z_{k,\mathrm{fit}}/Z_k - 1| &lt; 5\%\)</span>. At the time of writing,
+Phase 1 passes comfortably (<span class="math notranslate nohighlight">\(Z_{\mathrm{fit}}/Z \approx 1.07\)</span>),
+Phase 2 overcorrects (<span class="math notranslate nohighlight">\(\approx 0.83\)</span>), and Phase 3 is still
+being diagnosed.</p>
+</section>
+<section id="on-the-absence-of-the-classic-zcorr">
+<h2>On the absence of the classic ZCorr<a class="headerlink" href="#on-the-absence-of-the-classic-zcorr" title="Link to this heading"></a></h2>
+<p>A separate study of the rovibronic Larsen-Borgnakke path showed that
+the ratio <span class="math notranslate nohighlight">\(Z_{\mathrm{fit}}/Z_{\mathrm{input}}\)</span> sits at
+approximately 0.99 without any additional Z-correction factor
+<a class="reference internal" href="#civrais2024vib-r" id="id2"><span>[Civrais2024Vib_r]</span></a>. The classic ZCorr used in continuous-
+internal-energy models is therefore <strong>not required</strong> on the
+rovibronic LB path, and its prior inclusion was traced to a
+compensating bug that has since been fixed; the interested reader
+will find the full analysis in
+<code class="docutils literal notranslate"><span class="pre">docs/Rovibronic</span> <span class="pre">Article/DSMC_Bugs_Report.pdf</span></code>.</p>
+<div role="list" class="citation-list">
+<div class="citation" id="civraisthesis-r" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">CivraisThesis_r</a><span class="fn-bracket">]</span></span>
+<p>C. H. B. Civrais, <em>Rovibronic Modelling in
+Direct Simulation Monte Carlo for Hypersonic Non-Equilibrium
+Flows</em>, PhD thesis, University of Glasgow (2024).</p>
+</div>
+<div class="citation" id="civrais2024vib-r" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Civrais2024Vib_r</a><span class="fn-bracket">]</span></span>
+<p>C. H. B. Civrais, C. White, and R. Steijl,
+“Vibrational modelling with an anharmonic oscillator model in
+Direct Simulation Monte Carlo.”</p>
+</div>
+</div>
 </section>
 </section>
 

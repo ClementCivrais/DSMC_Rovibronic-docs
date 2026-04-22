@@ -50,32 +50,42 @@
 <li class="toctree-l1"><a class="reference internal" href="user/index.html">User Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="user/getting_started.html">Getting Started</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="user/getting_started.html#minimum-requirements">Minimum requirements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="user/getting_started.html#quick-tour">Quick tour</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user/getting_started.html#a-brief-tour-of-the-documentation">A brief tour of the documentation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="user/installation.html">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="user/installation.html#prerequisites">Prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="user/installation.html#clone">Clone</a></li>
-<li class="toctree-l3"><a class="reference internal" href="user/installation.html#compile">Compile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="user/installation.html#verify">Verify</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user/installation.html#cloning-the-repository">Cloning the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user/installation.html#compilation">Compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user/installation.html#verification">Verification</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="user/running.html">Running a Case</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="user/running.html#standard-workflow">Standard workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user/running.html#serial-execution">Serial execution</a></li>
 <li class="toctree-l3"><a class="reference internal" href="user/running.html#parallel-execution">Parallel execution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="user/running.html#detailed-setup-guide">Detailed setup guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user/running.html#startup-diagnostics">Startup diagnostics</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="user/input_reference.html">Input Reference</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="user/input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="user/input_reference.html#species-database">Species database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="user/input_reference.html#boundary-conditions">Boundary conditions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="user/input_reference.html#expanded-documentation">Expanded documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user/input_reference.html#case-directory-layout">Case directory layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user/input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="user/input_reference.html#relaxation-collision-numbers">Relaxation collision numbers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="user/input_reference.html#rovibronicdatabase-sub-dictionary"><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="user/input_reference.html#constant-speciescache"><code class="docutils literal notranslate"><span class="pre">constant/speciesCache/</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="user/input_reference.html#system-dsmcinitialisedict"><code class="docutils literal notranslate"><span class="pre">system/dsmcInitialiseDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="user/input_reference.html#system-boundariesdict"><code class="docutils literal notranslate"><span class="pre">system/boundariesDict</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="user/input_reference.html#available-patch-models">Available patch models</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="user/input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="user/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="user/post_processing.html">Post-processing</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="user/post_processing.html#macroscopic-fields">Macroscopic fields</a></li>
-<li class="toctree-l3"><a class="reference internal" href="user/post_processing.html#quantum-state-populations">Quantum-state populations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user/post_processing.html#state-resolved-populations">State-resolved populations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="user/post_processing.html#validation-diagnostics">Validation diagnostics</a></li>
 </ul>
 </li>
@@ -87,34 +97,54 @@
 <li class="toctree-l1"><a class="reference internal" href="theory/index.html">Theory Guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="theory/overview.html">Method Overview</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="theory/overview.html#what-the-rovibronic-description-buys">What the rovibronic description buys</a></li>
-<li class="toctree-l3"><a class="reference internal" href="theory/overview.html#references">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/overview.html#organisation-of-the-present-guide">Organisation of the present guide</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="theory/rovibronic_levels.html">Rovibronic Level Structure</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="theory/rovibronic_levels.html#level-enumeration-and-cut-offs">Level enumeration and cut-offs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="theory/rovibronic_levels.html#degeneracies">Degeneracies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/rovibronic_levels.html#energy-expansion">Energy expansion</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="theory/rovibronic_levels.html#vibrational-ladder-morse-oscillator">Vibrational ladder (Morse oscillator)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory/rovibronic_levels.html#rotational-sub-ladder-rigid-rotor-distortion">Rotational sub-ladder (rigid rotor + distortion)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory/rovibronic_levels.html#degeneracy">Degeneracy</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="theory/rovibronic_levels.html#ground-state-normalisation-and-provenance">Ground-state normalisation and provenance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/rovibronic_levels.html#typical-state-space-sizes">Typical state-space sizes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="theory/collisions.html">Binary Collisions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="theory/collisions.html#state-resolved-inelastic-collisions">State-resolved inelastic collisions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/collisions.html#collision-pair-selection-ntc">Collision-pair selection (NTC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/collisions.html#vss-cross-section">VSS cross section</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/collisions.html#exponent-conventions-for-the-larsen-borgnakke-sampler">Exponent conventions for the Larsen-Borgnakke sampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/collisions.html#reactive-collisions">Reactive collisions</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="theory/chemistry.html">Chemistry</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="theory/chemistry.html#reaction-families">Reaction families</a></li>
-<li class="toctree-l3"><a class="reference internal" href="theory/chemistry.html#rate-models">Rate models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="theory/chemistry.html#post-reaction-sampling">Post-reaction sampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/chemistry.html#dissociation-with-asymptote-matching">Dissociation with asymptote matching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/chemistry.html#recombination-from-detailed-balance">Recombination from detailed balance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/chemistry.html#exchange-with-automatic-heat-of-reaction">Exchange with automatic heat of reaction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/chemistry.html#ionisation-and-charge-exchange">Ionisation and charge exchange</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="theory/chemistry.html#associative-ionisation">Associative ionisation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="theory/chemistry.html#summary-of-design-principles">Summary of design principles</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="theory/relaxation.html">Energy Relaxation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="theory/relaxation.html#landauteller-enforcement">Landau–Teller enforcement</a></li>
-<li class="toctree-l3"><a class="reference internal" href="theory/relaxation.html#state-to-state-relaxation">State-to-state relaxation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="theory/relaxation.html#coupled-relaxation-matrix">Coupled relaxation matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/relaxation.html#landau-teller-rate-per-mode">Landau-Teller rate per mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/relaxation.html#composite-modes-and-effective-dof">Composite modes and effective DOF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/relaxation.html#parallel-marginal-cascade">Parallel-marginal cascade</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/relaxation.html#validation-protocol-phase-by-phase">Validation protocol (phase-by-phase)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/relaxation.html#on-the-absence-of-the-classic-zcorr">On the absence of the classic ZCorr</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="theory/macroscopic_properties.html">Macroscopic Properties</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="theory/macroscopic_properties.html#number-density-and-species-fractions">Number density and species fractions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="theory/macroscopic_properties.html#temperatures">Temperatures</a></li>
-<li class="toctree-l3"><a class="reference internal" href="theory/macroscopic_properties.html#population-distributions">Population distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/macroscopic_properties.html#translational-temperature">Translational temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/macroscopic_properties.html#rotational-vibrational-and-electronic-temperatures">Rotational, vibrational, and electronic temperatures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="theory/macroscopic_properties.html#status-of-effective-temperatures-under-non-equilibrium">Status of effective temperatures under non-equilibrium</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="theory/macroscopic_properties.html#population-diagnostics">Population diagnostics</a></li>
 </ul>
 </li>
 </ul>
@@ -123,10 +153,12 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/n2_heatbath.html">N<sub>2</sub> Heat-Bath Relaxation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/n2_heatbath.html">Landau-Teller heat-bath validation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="examples/n2_heatbath.html#case-layout">Case layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/n2_heatbath.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/n2_heatbath.html#expected-result">Expected result</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/n2_heatbath.html#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/n2_heatbath.html#three-phase-validation-protocol">Three-phase validation protocol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/n2_heatbath.html#expected-outcome">Expected outcome</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/n2_heatbath.html#current-status">Current status</a></li>
 <li class="toctree-l3"><a class="reference internal" href="examples/n2_heatbath.html#adding-a-new-example">Adding a new example</a></li>
 </ul>
 </li>
@@ -138,20 +170,26 @@
 <li class="toctree-l1"><a class="reference internal" href="reference/index.html">Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="reference/about.html">About</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="reference/about.html#scope">Scope</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/about.html#licence">Licence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/about.html#lineage">Lineage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/about.html#target-applications">Target applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/about.html#development-team">Development team</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/about.html#licence-and-access">Licence and access</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/about.html#contact">Contact</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="reference/validation.html">Validation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/validation.html#heat-bath-relaxation">Heat-bath relaxation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/validation.html#t-recombination-three-body-channel">2-T recombination &amp; three-body channel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/validation.html#heat-bath-relaxation-landau-teller">Heat-bath relaxation (Landau-Teller)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/validation.html#two-temperature-recombination-and-three-body-channel">Two-temperature recombination and three-body channel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/validation.html#heats-of-reaction">Heats of reaction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/validation.html#shock-profiles">Shock profiles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/validation.html#outstanding-items">Outstanding items</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="reference/bibliography.html">Bibliography</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/bibliography.html#primary-references">Primary references</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/bibliography.html#solver-specific-notes">Solver-specific notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/bibliography.html#foundational-dsmc-literature">Foundational DSMC literature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/bibliography.html#the-dsmcfoam-lineage">The dsmcFoam+ lineage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/bibliography.html#publications-associated-with-the-rovibronic-extension">Publications associated with the rovibronic extension</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/bibliography.html#in-repository-derivations-and-notes">In-repository derivations and notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="reference/changelog.html">Changelog</a><ul>
@@ -168,17 +206,36 @@
 <li class="toctree-l2"><a class="reference internal" href="developer/architecture.html">Architecture</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="developer/architecture.html#top-level-source-layout">Top-level source layout</a></li>
 <li class="toctree-l3"><a class="reference internal" href="developer/architecture.html#the-dsmc-core">The DSMC core</a></li>
-<li class="toctree-l3"><a class="reference internal" href="developer/architecture.html#the-rovibronic-extension">The rovibronic extension</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer/architecture.html#the-rovibronic-extension">The rovibronic extension</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="developer/architecture.html#rovibronic-aware-boundary">Rovibronic-aware boundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="developer/architecture.html#species-database">Species database</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="developer/architecture.html#random-number-generator">Random-number generator</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="developer/adding_a_feature.html">Adding a Feature</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="developer/adding_a_feature.html#adding-a-new-species">Adding a new species</a></li>
 <li class="toctree-l3"><a class="reference internal" href="developer/adding_a_feature.html#adding-a-new-reaction">Adding a new reaction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="developer/adding_a_feature.html#adding-a-new-relaxation-submodel">Adding a new relaxation submodel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer/adding_a_feature.html#adding-a-new-relaxation-sub-model">Adding a new relaxation sub-model</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="developer/tests.html">Regression Tests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developer/tests.html">Regression Tests (current practice)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developer/tests.html#manual-smoke-tests">Manual smoke tests</a></li>
 <li class="toctree-l3"><a class="reference internal" href="developer/tests.html#continuous-integration">Continuous integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="developer/regression_tests.html">Regression Tests (roadmap)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developer/regression_tests.html#rationale">Rationale</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer/regression_tests.html#current-rng-state">Current RNG state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer/regression_tests.html#proposed-design">Proposed design</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="developer/regression_tests.html#dictionary-driven-seed">Dictionary-driven seed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="developer/regression_tests.html#test-cases">Test cases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="developer/regression_tests.html#harness">Harness</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="developer/regression_tests.html#acceptance-criteria">Acceptance criteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer/regression_tests.html#status">Status</a></li>
 </ul>
 </li>
 </ul>
@@ -211,15 +268,37 @@
              
   <section id="dsmc-rovibronic">
 <h1>DSMC Rovibronic<a class="headerlink" href="#dsmc-rovibronic" title="Link to this heading"></a></h1>
-<p>A DSMC (Direct Simulation Monte Carlo) solver for hypersonic
-non-equilibrium gas flows, built on top of OpenFOAM v2512 and
-extended with a state-to-state <strong>rovibronic</strong> description of molecular
-internal energy — individual electronic, vibrational, and rotational
-quantum states (<span class="math notranslate nohighlight">\(e_{qn}, v_{qn}, j_{qn}\)</span>) are tracked on each
-simulator particle.</p>
-<p>The solver targets shock-heated air, CO<sub>2</sub>, and N<sub>2</sub>
-flows where thermal non-equilibrium and chemistry are tightly coupled
-and a multi-temperature description is inadequate.</p>
+<p>The modelling of aerothermodynamic flows is extremely challenging, as
+it combines both aerodynamics and thermodynamics in a regime in which
+the gas is out of equilibrium and the classical continuum assumptions
+fail. The Direct Simulation Monte Carlo (DSMC) method provides a
+particle-based description of the gas that remains valid throughout
+the rarefied and transitional regimes, and is therefore the method of
+choice for hypersonic re-entry, nozzle expansion, and high-altitude
+plume simulations.</p>
+<p>The present solver is a <strong>custom rovibronic version of dsmcFoam+</strong>,
+itself a modification of the legacy OpenFOAM DSMC solver
+<code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>. The dsmcFoam+ solver, from which this work descends,
+was developed by C. White and co-workers at the University of
+Glasgow <a class="reference internal" href="#white2018" id="id1"><span>[White2018]</span></a>; the rovibronic extension described here is
+developed by C. Civrais (University of California, Irvine) under
+the supervision of C. White (University of Glasgow, PI). The
+solver inherits the full DSMC core of dsmcFoam+ and extends it with
+a state-resolved description of the molecular internal energy, in
+which each simulator particle carries three integers —  the
+electronic <span class="math notranslate nohighlight">\(n\)</span>, vibrational <span class="math notranslate nohighlight">\(v\)</span>, and rotational
+<span class="math notranslate nohighlight">\(J\)</span> quantum numbers —  that index energy and degeneracy
+tables computed from spectroscopic constants. We thereby replace
+the usual continuous, or multi-temperature, representation of the
+internal energy by a discrete, physically grounded rovibronic level
+structure, and recover the non-Boltzmann population distributions
+that characterise strong shocks, rapid expansions, and
+state-selective chemistry.</p>
+<p>The methodological foundations of the rovibronic extension have
+been published in a series of articles <a class="reference internal" href="#civrais2024electronic" id="id2"><span>[Civrais2024Electronic]</span></a>,
+<a class="reference internal" href="#civrais2024chemi" id="id3"><span>[Civrais2024ChemI]</span></a>, <a class="reference internal" href="#civrais2024chemii" id="id4"><span>[Civrais2024ChemII]</span></a>, <a class="reference internal" href="#civrais2024vib" id="id5"><span>[Civrais2024Vib]</span></a>,
+<a class="reference internal" href="#civrais2024shock" id="id6"><span>[Civrais2024Shock]</span></a>, and are documented in detail in the lead
+developer’s doctoral thesis <a class="reference internal" href="#civraisthesis" id="id7"><span>[CivraisThesis]</span></a>.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
 <ul>
@@ -251,7 +330,7 @@ and a multi-temperature description is inadequate.</p>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/n2_heatbath.html">N<sub>2</sub> Heat-Bath Relaxation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/n2_heatbath.html">Landau-Teller heat-bath validation</a></li>
 </ul>
 </li>
 </ul>
@@ -274,7 +353,8 @@ and a multi-temperature description is inadequate.</p>
 <li class="toctree-l1"><a class="reference internal" href="developer/index.html">Developer Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="developer/architecture.html">Architecture</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developer/adding_a_feature.html">Adding a Feature</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developer/tests.html">Regression Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer/tests.html">Regression Tests (current practice)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer/regression_tests.html">Regression Tests (roadmap)</a></li>
 </ul>
 </li>
 </ul>
@@ -285,6 +365,52 @@ and a multi-temperature description is inadequate.</p>
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
+<div role="list" class="citation-list">
+<div class="citation" id="white2018" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">White2018</a><span class="fn-bracket">]</span></span>
+<p>C. White, M. K. Borg, T. J. Scanlon, S. M. Longshaw,
+R. C. Palharini, D. R. Emerson, and J. M. Reese,
+“dsmcFoam+: An OpenFOAM based direct simulation Monte Carlo
+solver,” <em>Computer Physics Communications</em>, <strong>224</strong>, 22–43
+(2018).</p>
+</div>
+<div class="citation" id="civrais2024electronic" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Civrais2024Electronic</a><span class="fn-bracket">]</span></span>
+<p>C. H. B. Civrais, M. Pfeiffer, C. White,
+and R. Steijl, “Modelling of the electronic excited states in
+high-temperature flows,” <em>Physics of Fluids</em> (2024).</p>
+</div>
+<div class="citation" id="civrais2024chemi" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">Civrais2024ChemI</a><span class="fn-bracket">]</span></span>
+<p>C. H. B. Civrais, C. White, and R. Steijl,
+“Quantum-kinetic chemistry model with an anharmonic oscillator
+model: Model derivation and limitations,” <em>Physics of Fluids</em>.</p>
+</div>
+<div class="citation" id="civrais2024chemii" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">Civrais2024ChemII</a><span class="fn-bracket">]</span></span>
+<p>C. H. B. Civrais, C. White, and R. Steijl,
+“Quantum-kinetic chemistry model with an anharmonic oscillator
+model: Model extension and validation,” <em>Physics of Fluids</em>.</p>
+</div>
+<div class="citation" id="civrais2024vib" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">Civrais2024Vib</a><span class="fn-bracket">]</span></span>
+<p>C. H. B. Civrais, C. White, and R. Steijl,
+“Vibrational modelling with an anharmonic oscillator model in
+Direct Simulation Monte Carlo.”</p>
+</div>
+<div class="citation" id="civrais2024shock" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">Civrais2024Shock</a><span class="fn-bracket">]</span></span>
+<p>C. H. B. Civrais, C. White, and R. Steijl,
+“Extension of the normal shock wave relations for calorically
+imperfect gases.”</p>
+</div>
+<div class="citation" id="civraisthesis" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">CivraisThesis</a><span class="fn-bracket">]</span></span>
+<p>C. H. B. Civrais, <em>Rovibronic Modelling in Direct
+Simulation Monte Carlo for Hypersonic Non-Equilibrium Flows</em>,
+PhD thesis, University of Glasgow (2024).</p>
+</div>
+</div>
 </section>
 </section>
 

@@ -1,39 +1,87 @@
 Macroscopic Properties
 ======================
 
-Volume-averaged fields are accumulated from simulator particles in
-each cell.
+Volume-averaged fields are accumulated from the simulator particles
+in each computational cell. Below we summarise how the common
+diagnostics are defined in the rovibronic setting, and we emphasise
+the status of the per-mode "temperatures" as effective scalars
+extracted from population distributions rather than as primary
+thermodynamic variables.
 
 Number density and species fractions
 ------------------------------------
 
+For a cell of volume :math:`V_{\mathrm{cell}}` containing
+:math:`N_s` simulator particles of species :math:`s`, each
+representing :math:`w = \mathtt{nEquivalentParticles}` real
+molecules,
+
 .. math::
 
-   n_s = \frac{N_s w}{V_{\text{cell}}}, \qquad
-   x_s = \frac{n_s}{\sum_{s'} n_{s'}},
+   n_s = \frac{N_s\, w}{V_{\mathrm{cell}}}, \qquad
+   x_s = \frac{n_s}{\displaystyle\sum_{s'} n_{s'}}.
 
-where :math:`N_s` is the number of particles of species :math:`s` in
-the cell and :math:`w` is the particle weight.
+Translational temperature
+-------------------------
 
-Temperatures
-------------
+The translational temperature is extracted, as in standard DSMC,
+from the second moment of the peculiar velocity,
 
-* **Translational** :math:`T_t` — from the peculiar-velocity second
-  moment.
-* **Rotational** :math:`T_r` — from the rotational-energy per molecule
-  under the quantum rotational partition function.
-* **Vibrational** :math:`T_v` — same, using the vibrational partition
-  function of each electronic level.
-* **Electronic** :math:`T_e` — from the distribution across
-  electronic levels.
+.. math::
 
-In the state-to-state regime these "temperatures" are best
-interpreted as effective temperatures extracted from the non-Boltzmann
-populations; the physical solution lives in the population vector
-itself.
+   \frac{3}{2}\, k_B T_T
+     = \frac{1}{N} \sum_{i=1}^{N}
+       \tfrac{1}{2}\, m_i\,(\mathbf{v}_i - \bar{\mathbf{v}})^{2}.
 
-Population distributions
-------------------------
+Rotational, vibrational, and electronic temperatures
+----------------------------------------------------
 
-Per-cell histograms over :math:`(e, v, j)` are available via the
-post-processing utilities (see :doc:`../user/post_processing`).
+For each composite internal mode :math:`k \in \{R,\,V,\,E\}`, we
+first average the mode-specific energy over the cell,
+:math:`\langle E_k\rangle = \frac{1}{N}\sum_i E_k^{(i)}`, and then
+invert the (pre-tabulated) equilibrium relation
+:math:`\langle E_k\rangle(T_k)` by bisection to obtain the effective
+temperature :math:`T_k`. The associated effective DOF is
+
+.. math::
+
+   \xi_k(T_k) = \frac{2\,\langle E_k\rangle(T_k)}{k_B\,T_k},
+
+which matches the definition used in the Landau-Teller cascade (see
+:doc:`relaxation`).
+
+Status of effective temperatures under non-equilibrium
+``````````````````````````````````````````````````````
+
+It is important to emphasise that, under strong non-equilibrium —
+for instance in the early stages of a shock-heated flow, or in a
+rapidly expanding nozzle —  the quantities :math:`T_R`,
+:math:`T_V`, :math:`T_E` are **cell-level effective temperatures**
+rather than thermodynamic temperatures. They correctly describe the
+first moment of the population distribution but do not characterise
+the distribution as a whole, which in general is strongly
+non-Boltzmann. The physical solution resides in the state-resolved
+population vector :math:`P(n, v, J)` itself, and any downstream
+coupling that assumes a Boltzmann shape (e.g. coupling with a
+radiation transport solver) must be revisited accordingly
+[Civrais2024Electronic_m]_.
+
+Population diagnostics
+----------------------
+
+Per-cell histograms over :math:`(n, v, J)` are available from the
+post-processing utilities under ``applications/utilities/``. Typical
+use cases include:
+
+* the vibrational population :math:`P(v)` at fixed electronic state
+  :math:`n`, plotted against the Boltzmann distribution at
+  :math:`T_T` (a direct diagnostic of vibrational non-equilibrium);
+* the rotational population :math:`P(J)` at fixed :math:`(n, v)`
+  to assess the assumption of rotational equilibrium;
+* the electronic population :math:`P(n)` as a function of time in
+  shock-heated flows, to monitor the rate at which the excited
+  electronic manifolds become populated.
+
+.. [Civrais2024Electronic_m] C. H. B. Civrais, M. Pfeiffer, C. White,
+   and R. Steijl, "Modelling of the electronic excited states in
+   high-temperature flows," *Physics of Fluids* (2024).

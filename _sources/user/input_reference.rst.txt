@@ -1,42 +1,328 @@
 Input Reference
 ===============
 
-.. note::
-   This page enumerates the dictionaries and options **specific to the
-   rovibronic extension**. Stock OpenFOAM DSMC options are documented
-   in the OpenFOAM user guide.
+The present page enumerates the dictionaries and keys specific to
+the rovibronic extension. Stock OpenFOAM DSMC options are documented
+in the OpenFOAM user guide and are not repeated here. Every key
+listed below has been cross-referenced against its parser in
+``src/lagrangian/DSMC/clouds/dsmcCloud.C`` (or the neighbouring
+sub-model readers), so that the documentation reflects the keys that
+the solver *actually* reads, rather than an idealised interface.
+
+Case directory layout
+---------------------
+
+A canonical rovibronic case follows the standard OpenFOAM
+three-fold layout. The reference tutorial ``run/Tutorial/`` is
+organised as:
+
+.. code-block:: text
+
+   Tutorial/
+   ├── constant/
+   │   ├── dsmcProperties         # primary solver configuration
+   │   ├── speciesCache/          # species database (one .dat per species)
+   │   └── polyMesh/              # OpenFOAM mesh
+   └── system/
+       ├── controlDict            # time stepping, output frequency
+       ├── blockMeshDict          # mesh generator input
+       ├── dsmcInitialiseDict     # particle initialisation
+       ├── boundariesDict         # boundary conditions
+       ├── chemReactDict          # chemical reactions
+       ├── controllersDict        # flow controllers (optional)
+       ├── fieldPropertiesDict    # field-sampling controls
+       ├── decomposeParDict       # parallel decomposition
+       └── fvSchemes, fvSolution  # (unused by DSMC but required)
 
 ``constant/dsmcProperties``
 ---------------------------
 
-Top-level solver controls. Rovibronic-specific keys include:
+The top-level solver configuration. The keys listed below are read in
+``dsmcCloud.C`` at lines 49–92 (species database path) and 1040–1061
+(solver-level switches and sub-models).
 
-* ``rovibronicModel`` — selects the internal-energy model.
-* ``relaxationScheme`` — Landau–Teller or state-to-state kinetic.
-* ``chemistrySubmodel`` — TCE, QK, or state-specific rates.
+.. list-table::
+   :header-rows: 1
+   :widths: 30 15 15 40
 
-(Authoritative list: ``src/lagrangian/DSMC/clouds/dsmcCloud.C``.)
+   * - Key
+     - Type
+     - Example
+     - Role
+   * - ``solution``
+     - dict
+     - see below
+     - Solver activation and coupling controls (standard OpenFOAM).
+   * - ``nEquivalentParticles``
+     - scalar
+     - ``625000``
+     - Number of real molecules represented by each simulator
+       particle. Lower values increase statistical resolution but
+       raise the computational cost. A cell-level target of at least
+       10–20 particles is recommended.
+   * - ``chemicalReactions``
+     - Switch
+     - ``false``
+     - Activates the chemistry module; reactions are then read from
+       ``system/chemReactDict``.
+   * - ``chargedParticles``
+     - Switch
+     - ``false``
+     - Enables the charged-particle (plasma) extensions, including
+       ionisation and charge exchange.
+   * - ``adsorption``
+     - Switch
+     - ``false``
+     - Enables the surface-adsorption sub-model.
+   * - ``axisymmetricSimulation``
+     - Switch
+     - ``false``
+     - Enables the axisymmetric geometry treatment.
+   * - ``adaptiveSimulation``
+     - Switch
+     - ``false``
+     - Enables adaptive time-stepping and cell weighting.
+   * - ``cellWeightedSimulation``
+     - Switch
+     - ``false``
+     - Enables cell-weighted parcel statistics.
+   * - ``BinaryCollisionModel``
+     - word
+     - ``LarsenBorgnakkeVariableHardSphere``
+     - Binary collision model class. Alternative:
+       ``LarsenBorgnakkeVariableSoftSphere``.
+   * - ``<Model>Coeffs``
+     - dict
+     - see below
+     - Model-specific coefficients (reference temperature and the
+       three relaxation collision numbers).
+   * - ``collisionPartnerSelectionModel``
+     - word
+     - ``noTimeCounter``
+     - Collision-pair selection algorithm (NTC is the standard
+       choice).
+   * - ``typeIdList``
+     - wordList
+     - see below
+     - List of species present in the simulation; the *order* of
+       this list defines the integer type-IDs used internally.
+   * - ``rovibronicDatabase``
+     - dict
+     - see below
+     - Rovibronic database configuration.
 
-Species database
-----------------
+Example excerpt taken verbatim from ``run/Tutorial/constant/dsmcProperties``:
 
-Per-species quantum state data is stored under
-``src/lagrangian/DSMC/submodels/``. Dunham-fitted electronic,
-vibrational, and rotational levels live in the species-database
-files; see ``docs/Database/`` for the data provenance.
+.. code-block:: cpp
 
-Boundary conditions
--------------------
+   nEquivalentParticles                        625000;
+   chemicalReactions                           false;
+   chargedParticles                            false;
+   adsorption                                  false;
+   axisymmetricSimulation                      false;
 
-Standard DSMC patches (``dsmcDiffuseWall``, ``dsmcSpecularWall``,
-``dsmcReflectivePatch``, …) all respect the full rovibronic state
-and re-sample internal energies according to the wall model.
+   BinaryCollisionModel                        LarsenBorgnakkeVariableHardSphere;
+   LarsenBorgnakkeVariableHardSphereCoeffs
+   {
+       Tref                                    273; // [K]
+       rotationalRelaxationCollisionNumber     2;   // [-]
+       rovibrationalRelaxationCollisionNumber  10;  // [-]
+       rovibronicRelaxationCollisionNumber     10;  // [-]
+   }
 
-Expanded documentation
+   collisionPartnerSelectionModel              noTimeCounter;
+
+   typeIdList (O2 O O2+ O+ E- N2 N2+ NO NO+ N N+ H2 H He CN CO Ar);
+
+   rovibronicDatabase
+   {
+       computeEnergyLevels  true;
+       databasePath         "constant/speciesCache";
+   }
+
+Relaxation collision numbers
+````````````````````````````
+
+The three collision numbers :math:`Z_r`, :math:`Z_{rv}`, and
+:math:`Z_{rve}` govern the rotational, rovibrational, and rovibronic
+relaxation rates respectively, and enter the parallel-marginal
+cascade discussed in :doc:`../theory/relaxation`. Representative
+orders of magnitude, drawn from air chemistry at :math:`10^4~\mathrm{K}`,
+are:
+
+* :math:`Z_r \sim 2\text{–}10` — the rotational mode relaxes within
+  a few collisions;
+* :math:`Z_{rv} \sim 50\text{–}500` — the vibrational mode is slower
+  by one to two orders of magnitude;
+* :math:`Z_{rve} \sim 500\text{–}5000` — the electronic mode is the
+  slowest and is only weakly populated below a few tens of thousands
+  of Kelvin.
+
+Setting any :math:`Z_k \to \infty` effectively freezes the
+corresponding mode and is used as a diagnostic during the phase-by-
+phase validation protocol (see :doc:`../reference/validation`).
+
+``rovibronicDatabase`` sub-dictionary
+`````````````````````````````````````
+
+* ``computeEnergyLevels`` (Switch) — if ``true``, the solver builds
+  the :math:`(n, v, J)` energy and degeneracy tables at start-up
+  from the species database.
+* ``databasePath`` (fileName) — directory containing the per-species
+  ``.dat`` files. In the reference tutorial this points to
+  ``constant/speciesCache``.
+
+``constant/speciesCache/``
+--------------------------
+
+The species database is distributed as one ASCII ``.dat`` file per
+species, named after the species symbol (e.g. ``O2.dat``, ``N2.dat``,
+``NO.dat``). The reference tutorial ships 259 such files, covering
+the diatomic molecules of air chemistry, their atomic fragments,
+the first few ion species, and the electron.
+
+Each file contains, in order:
+
+#. the Variable Soft Sphere (VSS) collision parameters
+   (:math:`\sigma_{\mathrm{ref}}`, :math:`\omega`, :math:`\alpha`,
+   :math:`T_{\mathrm{ref}}`);
+#. the Dunham coefficients fitted to an ab-initio potential energy
+   surface, one block per electronic state;
+#. the three-dimensional ``internalEnergyList[n][v][J]`` table, in
+   Joules, with the :math:`(0, 0, 0)` ground-state level normalised
+   to zero;
+#. the associated degeneracy table
+   ``degeneracyList[n][v][J]``, which accounts for the rotational
+   multiplicity :math:`(2J+1)` and the electronic degeneracy
+   :math:`g_{\mathrm{elec}}^{(n)}`;
+#. the ionisation potential and, for molecules, the dissociation
+   energy.
+
+Provenance and fit quality of the Dunham coefficients are documented
+in ``docs/Database/dunham_coefficients_from_ab_initio_PES.md``.
+
+``system/dsmcInitialiseDict``
+-----------------------------
+
+Specifies the initial particle distribution. The main entries are:
+
+* ``configurations`` (list) — one entry per sub-domain to populate.
+  Each entry contains:
+
+  * ``type`` — fill strategy (``dsmcMeshFill`` is the standard
+    whole-domain option);
+  * ``initialDistributionType`` — velocity distribution; typically
+    ``maxwellian``;
+  * ``numberDensities`` — per-species number density in
+    :math:`\mathrm{m}^{-3}`;
+  * ``translationalTemperature`` — Maxwell-Boltzmann sampling
+    temperature for the particle velocities;
+  * ``internalTemperature`` — Boltzmann sampling temperature used
+    for the rovibronic state indices :math:`(n, v, J)`;
+  * ``velocity`` — bulk flow velocity (vector).
+
+Example:
+
+.. code-block:: cpp
+
+   configurations
+   (
+       configuration
+       {
+           type                        dsmcMeshFill;
+           initialDistributionType     maxwellian;
+           numberDensities
+           {
+               O2      1e23;
+           };
+           translationalTemperature    20000;
+           internalTemperature         20000;
+           velocity                    (0 0 0);
+       }
+   );
+
+``system/boundariesDict``
+-------------------------
+
+Three top-level lists are read:
+``dsmcPatchBoundaries``, ``dsmcCyclicBoundaries``, and
+``dsmcGeneralBoundaries``. Each entry pairs a patch name with a
+``boundaryModel`` drawn from the classes listed below.
+
+Available patch models
+``````````````````````
+
+The following patch classes are implemented in
+``src/lagrangian/DSMC/boundaries/derived/patchBoundaries/``:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Class
+     - Purpose
+   * - ``dsmcDiffuseWallPatch``
+     - Fully diffuse reflection at a specified wall temperature.
+   * - ``dsmcSpecularWallPatch``
+     - Perfectly specular reflection.
+   * - ``dsmcMixedDiffuseSpecularWallPatch``
+     - Weighted mixture of diffuse and specular reflection.
+   * - ``dsmcMixedDiffuseSpecularWallRotPatch``
+     - **Rovibronic-aware** variant: the internal state is
+       re-sampled on diffuse reflection using the wall temperature.
+   * - ``dsmcCLLWallPatch``
+     - Cercignani-Lampis-Lord scattering model.
+   * - ``dsmcDeletionPatch``
+     - Particle sink (outflow or selective deletion).
+   * - ``dsmcFreeStreamInflowPatch``
+     - Maxwellian free-stream inflow.
+   * - ``dsmcChapmanEnskogFreeStreamInflowPatch``
+     - Chapman-Enskog (first-order non-equilibrium) inflow.
+   * - ``dsmcWangPressureInlet``,
+       ``dsmcLiouFangPressureInlet``,
+       ``dsmcMassFlowRateInlet``
+     - Alternative pressure- and mass-flow-rate-driven inlets.
+
+Cyclic and field-patch variants of several of the above are also
+available; see the source tree for the complete list.
+
+``system/chemReactDict``
+------------------------
+
+Enabled when ``chemicalReactions`` is set to ``true`` in
+``dsmcProperties``. Each reaction is specified as a named block of
+the form:
+
+.. code-block:: cpp
+
+   reactionName
+   {
+       reactionModel      dissociationIonisationTypeISameSpecies;
+       reactants          (N2 N2);
+       productsOfDissociationReaction (N N N2);
+       aCoeff             ...;
+       bCoeff             ...;
+   }
+
+The dissociation and atom-exchange heats of reaction are **computed
+automatically** from the database entries
+:math:`D_0 = E_{\mathrm{diss}}(n{=}0, v{=}0, J{=}0)` and do not need
+to be supplied by the user. Only the ionisation heat, which depends
+on an input ionisation potential, remains a user-facing parameter.
+
+A detailed description of each reaction model is given in
+:doc:`../theory/chemistry`.
+
+``system/controlDict``
 ----------------------
 
-Detailed semantics, default values, and worked examples for each
-dictionary key will be folded into this page progressively. Until
-then, the LaTeX setup guide at
-``docs/Setup Guide/dsmc_case_setup_guide.pdf`` is the authoritative
-reference.
+Standard OpenFOAM; the rovibronic extension adds a single
+convenience key:
+
+* ``nTerminalOutputs`` (label) — number of solver time-steps between
+  terminal progress messages.
+
+The ``application`` entry is informational only; the executable that
+must actually be invoked is ``dsmcFoam``, regardless of the string
+supplied here (the reference tutorial uses ``dsmcFoamPlus`` as the
+colloquial project name).

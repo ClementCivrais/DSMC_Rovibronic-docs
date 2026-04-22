@@ -1,41 +1,170 @@
 Energy Relaxation
 =================
 
-Internal relaxation drives the molecular internal state toward
-equilibrium with the local translational temperature.
+Internal relaxation drives the rovibronic population of each
+molecular species toward equilibrium with the local translational
+temperature. In the present solver this is achieved through a
+**parallel-marginal cascade** in which rotational, rovibrational,
+and rovibronic events are mutually exclusive at the single-collision
+level, yet reproduce the correct multi-exponential Landau-Teller
+relaxation of the composite internal energy in the macroscopic
+limit [CivraisThesis_r]_.
 
-Landau–Teller enforcement
--------------------------
+Landau-Teller rate per mode
+---------------------------
 
-In Landau–Teller mode, relaxation events are sampled with probability
+Following the Landau-Teller framework, the mean internal energy in
+mode :math:`k` approaches its equilibrium value with time constant
+:math:`\tau_k`:
 
 .. math::
 
-   P = \frac{\Delta t}{\tau(T)},
+   \frac{\mathrm{d}\,\langle E_k\rangle}{\mathrm{d}t}
+     = \frac{\langle E_k\rangle(T_T) - \langle E_k\rangle(t)}
+            {Z_k^{\mathrm{cont}}\,\tau_c},
 
-where :math:`\tau(T)` is the species-pair relaxation time
-(Millikan–White or curve-fitted to state-to-state master-equation
-solutions). The implementation correctly accounts for:
+where :math:`T_T` is the translational temperature,
+:math:`Z_k^{\mathrm{cont}}` is the continuum collision number for
+mode :math:`k`, and :math:`\tau_c = 1/\nu_{\mathrm{coll}}` is the
+mean collision time. Under isothermal conditions the solution is a
+simple exponential decay; in the multi-mode case, with three
+composite modes relaxing on well-separated timescales, the
+approach is the sum of three exponentials
 
-* Multi-mode relaxation when multiple internal degrees of freedom are
-  active (see ``doc/LT_Correction_MultiMode.pdf``).
-* Multi-exponential :math:`\tau(T)` fits
-  (``doc/LandauTeller_MultiExponential_Derivation.pdf``).
-* The ZCorr correction where applicable — the
-  :math:`Z_{\text{fit}}/Z_{\text{input}}` ratio was measured to
-  :math:`\approx 0.99` for rovibronic LB without the correction,
-  confirming that ZCorr is not needed in the rovibronic path.
+.. math::
 
-State-to-state relaxation
+   \langle E_{\mathrm{int}}\rangle(t) =
+     \langle E_{\mathrm{int}}\rangle^{\star}
+     - \Delta E_R\, e^{-t/\tau_R}
+     - \Delta E_V\, e^{-t/\tau_{RV}}
+     - \Delta E_E\, e^{-t/\tau_{RVE}}.
+
+Equivalently,
+
+.. math::
+
+   \frac{\langle E_{\mathrm{int}}\rangle^{\star}
+         - \langle E_{\mathrm{int}}\rangle(t)}
+        {\langle E_{\mathrm{int}}\rangle^{\star}
+         - \langle E_{\mathrm{int}}\rangle(0)}
+   = A_R e^{-t/\tau_R} + A_V e^{-t/\tau_{RV}} + A_E e^{-t/\tau_{RVE}},
+
+with mode amplitudes :math:`A_k = \Delta E_k / \Delta E_{\mathrm{total}}`
+satisfying :math:`A_R + A_V + A_E = 1`.
+
+Composite modes and effective DOF
+---------------------------------
+
+We identify three composite modes, each characterised by which
+quantum numbers are sampled and by the energy floor below which the
+mode's contribution vanishes:
+
+* mode :math:`R` (rotational only) — samples :math:`J` at fixed
+  :math:`(n, v)`; floor :math:`E_R^{\mathrm{floor}} = E(n, v, 0)`;
+* mode :math:`RV` (rovibrational) — samples :math:`(v, J)` at fixed
+  :math:`n`; floor :math:`E_{RV}^{\mathrm{floor}} = E(n, 0, 0)`;
+* mode :math:`RVE` (rovibronic) — samples :math:`(n, v, J)` over
+  the full table; floor :math:`E_{RVE}^{\mathrm{floor}} = 0`.
+
+The effective degrees of freedom of each composite mode are computed
+on the fly from the Boltzmann average
+
+.. math::
+
+   \xi_k(T) = \frac{2 \langle E_k\rangle(T)}{k_B T},
+
+evaluated from the tabulated partition functions.
+
+Parallel-marginal cascade
 -------------------------
 
-When ``relaxationScheme`` selects the state-to-state model,
-transitions are sampled directly from per-pair rate tables rather
-than through an effective :math:`\tau`. This is the most expensive
-but most faithful choice for strong non-equilibrium.
+On each accepted collision we draw a single uniform
+:math:`R \sim \mathcal{U}(0, 1)` and select one of four mutually
+exclusive events :math:`\{E_0, E_1, E_2, E_3\}` with probabilities
 
-Coupled relaxation matrix
--------------------------
+.. math::
 
-The coupled vibrational–rotational relaxation operator is derived in
-``doc/CoupledRelaxationMatrix_Derivation.pdf``.
+   P_1 = \frac{1}{Z_{r}\,C_{r}}, \quad
+   P_2 = \frac{1}{Z_{rv}\,C_{rv}}, \quad
+   P_3 = \frac{1}{Z_{rve}\,C_{rve}},
+
+and :math:`P_0 = 1 - P_1 - P_2 - P_3`. Events :math:`E_1,\,E_2,\,E_3`
+correspond to rotational, rovibrational, and rovibronic sampling on
+their respective subspaces, with Larsen-Borgnakke acceptance and
+the exponent
+
+.. math::
+
+   \alpha_k = \tfrac{1}{2}(\xi_{\mathrm{rel}} + \xi_k^{\mathrm{pooled}})
+              - 1
+
+where :math:`\xi_k^{\mathrm{pooled}}` is the effective DOF of the
+mode plus any lower modes that re-equilibrate at the same event.
+Event :math:`E_0` leaves the internal state unchanged (elastic-like
+collision from the internal-energy standpoint).
+
+The factors :math:`C_k` are the **Nizenkov correction factors**
+
+.. math::
+
+   C_k = \frac{\xi_T\,(T_T - T'_k)}
+              {\xi_k(T_T)\,T_T - \xi_k(T_k)\,T_k},
+
+where :math:`T'_k` is the pool temperature satisfying local energy
+conservation. Their role is to recover the target Landau-Teller
+rate per mode from the cell-level acceptance statistics; without
+them, the macroscopic relaxation drifts systematically from the
+analytical LT solution.
+
+When the sum :math:`P_1 + P_2 + P_3 > 1`, the probabilities are
+rescaled to saturate the collision; this effectively raises the
+operational :math:`Z_k` seen by the solver, and is flagged in the
+diagnostic output.
+
+Validation protocol (phase-by-phase)
+------------------------------------
+
+The cascade is validated in three phases, each isolating one
+composite mode by sending the collision numbers of the others to
+infinity (i.e. setting them to very large values in the input
+dictionary):
+
+* **Phase 1** — rotational only:
+  :math:`Z_{rv} = Z_{rve} = \infty`; initial condition
+  :math:`T_T = 10^{4}~\mathrm{K}`, :math:`T_R(0) = 10^{3}~\mathrm{K}`.
+  Expected: single-exponential decay with time constant
+  :math:`\tau_R = Z_r^{\mathrm{cont}}\,\tau_c`.
+* **Phase 2** — rovibrational:
+  :math:`Z_r = \infty`, :math:`Z_{rve} = \infty`.
+  Expected: double-exponential decay with a fast rotational
+  equilibration followed by vibrational relaxation.
+* **Phase 3** — all modes active: finite
+  :math:`Z_r,\,Z_{rv},\,Z_{rve}`.
+  Expected: triple-exponential with the hierarchy
+  :math:`\tau_R \ll \tau_{RV} \ll \tau_{RVE}`.
+
+Success is declared when the fitted collision number satisfies
+:math:`|Z_{k,\mathrm{fit}}/Z_k - 1| < 5\%`. At the time of writing,
+Phase 1 passes comfortably (:math:`Z_{\mathrm{fit}}/Z \approx 1.07`),
+Phase 2 overcorrects (:math:`\approx 0.83`), and Phase 3 is still
+being diagnosed.
+
+On the absence of the classic ZCorr
+-----------------------------------
+
+A separate study of the rovibronic Larsen-Borgnakke path showed that
+the ratio :math:`Z_{\mathrm{fit}}/Z_{\mathrm{input}}` sits at
+approximately 0.99 without any additional Z-correction factor
+[Civrais2024Vib_r]_. The classic ZCorr used in continuous-
+internal-energy models is therefore **not required** on the
+rovibronic LB path, and its prior inclusion was traced to a
+compensating bug that has since been fixed; the interested reader
+will find the full analysis in
+``docs/Rovibronic Article/DSMC_Bugs_Report.pdf``.
+
+.. [CivraisThesis_r] C. H. B. Civrais, *Rovibronic Modelling in
+   Direct Simulation Monte Carlo for Hypersonic Non-Equilibrium
+   Flows*, PhD thesis, University of Glasgow (2024).
+.. [Civrais2024Vib_r] C. H. B. Civrais, C. White, and R. Steijl,
+   "Vibrational modelling with an anharmonic oscillator model in
+   Direct Simulation Monte Carlo."

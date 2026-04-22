@@ -1,29 +1,43 @@
 Post-processing
 ===============
 
-The solver writes the usual OpenFOAM time directories plus
-per-particle fields capturing the full rovibronic state.
+The solver writes the usual OpenFOAM time directories, augmented by
+per-particle fields that capture the full rovibronic state. We
+distinguish three families of diagnostics: macroscopic fields,
+state-resolved populations, and dedicated validation quantities.
 
 Macroscopic fields
 ------------------
 
-Standard DSMC volume fields — number density, translational and
-internal temperatures, pressure, and species mass fractions — are
-written to ``<case>/<time>/`` and can be visualised with
-``paraFoam``.
+The standard DSMC volume fields —  number density, translational
+and internal temperatures, pressure, species mass fractions, and
+mean velocity —  are written to ``<case>/<time>/`` and may be
+visualised with ``paraFoam``. Under strong non-equilibrium conditions,
+the internal temperatures should be interpreted as cell-level
+effective temperatures extracted from the population distributions;
+the physical solution resides in the populations themselves (see
+:doc:`../theory/macroscopic_properties`).
 
-Quantum-state populations
--------------------------
+State-resolved populations
+--------------------------
 
-Particle-level quantum numbers (:math:`e_{qn}, v_{qn}, j_{qn}`)
-are stored in the Lagrangian cloud. Dedicated utilities under
-``applications/utilities/`` extract state populations and build
-Boltzmann / non-Boltzmann distribution diagnostics.
+The rovibronic quantum numbers :math:`(n, v, J)` are stored on each
+Lagrangian parcel and can be extracted via dedicated utilities under
+``applications/utilities/``. Typical use cases include:
+
+* plotting the vibrational population :math:`P(v)` at fixed
+  electronic state, and comparing it against the Boltzmann
+  distribution at the local translational temperature;
+* monitoring the population of the first few excited electronic
+  levels as a function of time in a shock-heated flow;
+* constructing rotational–vibrational distributions to assess the
+  assumption of rotational–vibrational equilibrium.
 
 Validation diagnostics
 ----------------------
 
-The :doc:`../reference/validation` page collects canonical checks
-(heat-bath relaxation, isothermal dissociation, shock profiles) used
-to confirm the rovibronic machinery against analytical and published
-results.
+The :doc:`../reference/validation` page collects the canonical checks
+used to confirm the rovibronic machinery: heat-bath relaxation
+against the multi-exponential Landau-Teller solution, isothermal
+dissociation against the equilibrium constant, and one-dimensional
+shock profiles against published reference data.

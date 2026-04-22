@@ -1,39 +1,87 @@
 Method Overview
 ===============
 
-DSMC resolves a rarefied or transitional-regime gas flow by following
-a population of *simulator particles*, each representing a large
-number of real molecules. Motion and collisions are decoupled on a
-sub-mean-collision-time step: particles are advected ballistically,
-then binary collisions are sampled cell-by-cell according to the
-selected collision model (VSS by default).
+The present section aims to describe the Direct Simulation Monte
+Carlo (DSMC) method as implemented in this solver, and to motivate
+the rovibronic extension that constitutes the novelty of the present
+work.
 
-The rovibronic extension replaces the usual continuous or
-multi-temperature internal-energy model with **explicit quantum
-state tracking**. Every molecular particle carries three integers:
+The DSMC method [Bird1994t]_ resolves a rarefied or transitional gas
+flow by following a population of simulator particles, each
+representing a large number of real molecules. Motion and collisions
+are decoupled on a sub-mean-collision-time step: particles are first
+advected ballistically, and then binary collisions are sampled, cell
+by cell, according to the selected collision model —  the Variable
+Soft Sphere (VSS) model by default. The DSMC method relies on
+considerations from kinetic theory, imposing that the gas be dilute,
+i.e. the mean molecular diameter must be significantly smaller than
+the mean free path and Boltzmann's molecular chaos assumption must
+hold.
 
-* :math:`e_{qn}` — electronic level index
-* :math:`v_{qn}` — vibrational level index (within the electronic level)
-* :math:`j_{qn}` — rotational level index (within the vibrational level)
+The novelty of the rovibronic extension lies in the replacement of
+the usual continuous (or multi-temperature) internal-energy model by
+**explicit quantum-state tracking**. Every molecular particle carries
+three integers:
+
+* the electronic level index :math:`n`,
+* the vibrational level index :math:`v` (within electronic level
+  :math:`n`), and
+* the rotational level index :math:`J` (within the
+  :math:`(n, v)` manifold).
 
 Energies, degeneracies, and transition rates are evaluated from
 pre-tabulated level tables, with Dunham-fitted coefficients derived
-from ab-initio potential energy surfaces where available.
+from ab-initio potential-energy surfaces where available.
 
 What the rovibronic description buys
 ------------------------------------
 
+The state-resolved description is more expensive than a bulk
+temperature representation, but delivers three benefits that matter
+in applications of interest:
+
 * Correct non-Boltzmann tail populations in strong shocks and rapid
   expansions, where multi-temperature assumptions fail.
-* Direct coupling between excited-state populations and state-specific
-  dissociation/recombination channels.
-* Predictive chemistry without fitting global rate constants to a
-  particular temperature range.
+* Direct coupling between excited-state populations and
+  state-specific dissociation, recombination, and charge-exchange
+  channels [Civrais2024ChemI_t]_, [Civrais2024ChemII_t]_.
+* Predictive chemistry without having to fit global rate constants
+  to a particular temperature range, because the rate integrals
+  are constructed directly from the spectroscopic database.
 
-References
-----------
+In particular, coupling between the vibrational and electronic
+modes of molecular species is essential when DSMC is coupled with
+radiation transport solvers [Civrais2024Electronic_t]_, or in
+flows in which state-selective dissociation channels (e.g. from
+electronically excited O\ :sub:`2` in re-entry plasmas) alter the
+overall chemistry.
 
-The article draft at ``docs/Rovibronic Article/`` gives the full
-derivation; the source code report at
-``docs/Source Code Report/rovibronic_dsmc_report.pdf`` walks through
-the solver implementation in detail.
+Organisation of the present guide
+---------------------------------
+
+The remainder of the Theory Guide develops, in turn:
+
+* :doc:`rovibronic_levels` — the spectroscopic database and the
+  construction of the :math:`(n, v, J)` energy tables;
+* :doc:`collisions` — the VSS collision model and the no-time-counter
+  (NTC) scheme;
+* :doc:`chemistry` — dissociation, recombination, exchange, and
+  ionisation, with particular emphasis on the parameter-free
+  computation of heats of reaction from the database;
+* :doc:`relaxation` — the parallel-marginal cascade that drives the
+  internal modes toward equilibrium, and its validation against the
+  multi-exponential Landau-Teller solution;
+* :doc:`macroscopic_properties` — the inversion from state-resolved
+  populations to effective temperatures.
+
+.. [Bird1994t] G. A. Bird, *Molecular Gas Dynamics and the Direct
+   Simulation of Gas Flows*, Oxford University Press (1994).
+.. [Civrais2024Electronic_t] C. H. B. Civrais, M. Pfeiffer, C. White,
+   and R. Steijl, "Modelling of the electronic excited states in
+   high-temperature flows," *Physics of Fluids* (2024).
+.. [Civrais2024ChemI_t] C. H. B. Civrais, C. White, and R. Steijl,
+   "Quantum-kinetic chemistry model with an anharmonic oscillator
+   model: Model derivation and limitations," *Physics of Fluids*.
+.. [Civrais2024ChemII_t] C. H. B. Civrais, C. White, and R. Steijl,
+   "Quantum-kinetic chemistry model with an anharmonic oscillator
+   model: Model extension and validation," *Physics of Fluids*.

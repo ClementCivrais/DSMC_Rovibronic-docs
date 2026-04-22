@@ -1,33 +1,95 @@
 About
 =====
 
-DSMC Rovibronic is a state-to-state extension of the OpenFOAM DSMC
-library developed by Clement Civrais, targeting hypersonic
-non-equilibrium flows where a multi-temperature description is
-inadequate.
-
-The solver builds on top of the MNF (Molecular Nonequilibrium Flow)
-branch of OpenFOAM v2512 and ports the full rovibronic
-:math:`(e_{qn}, v_{qn}, j_{qn})` quantum-state tracking into that
-framework.
-
 Scope
 -----
 
-* DSMC in the rarefied and transitional regimes.
-* Molecular species: N\ :sub:`2`, O\ :sub:`2`, NO, CO, CO\ :sub:`2`,
-  and their dissociation / exchange products.
-* Hypersonic shock-layer chemistry with explicit electronic-state
-  populations.
+DSMC Rovibronic is a custom research version of **dsmcFoam+**, itself
+a modification of the legacy OpenFOAM Direct Simulation Monte Carlo
+(DSMC) solver ``dsmcFoam``. The rovibronic extension introduces
+state-to-state tracking of the electronic, vibrational, and
+rotational quantum numbers on each simulator particle, and is aimed
+at hypersonic non-equilibrium flows in which a multi-temperature
+description is inadequate, and at regimes in which DSMC is coupled
+with radiation transport solvers.
 
-Licence
+Lineage
 -------
 
+The solver inherits a three-generation lineage:
+
+* ``dsmcFoam`` — the legacy OpenFOAM DSMC solver, developed within
+  the OpenFOAM Foundation.
+* ``dsmcFoam+`` — a re-engineered and extended DSMC solver
+  introduced by C. White and co-workers at the University of
+  Glasgow [White2018_a]_, which has since served as the basis for
+  a range of hypersonic non-equilibrium studies.
+* **DSMC Rovibronic** (the present solver) — a custom rovibronic
+  extension developed on top of dsmcFoam+, adding state-resolved
+  :math:`(n, v, J)` internal-energy tracking, automatic database-
+  driven heats of reaction, and a multi-mode Landau-Teller
+  cascade.
+
+Target applications
+-------------------
+
+* DSMC in the rarefied and transitional regimes, with an emphasis
+  on hypersonic re-entry and high-altitude flight.
+* Diatomic species of air chemistry —  N\ :sub:`2`, O\ :sub:`2`,
+  NO, CO, CO\ :sub:`2` —  together with their dissociation,
+  exchange, and ionisation products.
+* Shock-layer chemistry with explicit electronic-state populations,
+  as required by coupling with radiation transport solvers.
+
+Development team
+----------------
+
+The current development team is:
+
+* **C. White** (Principal Investigator) — University of Glasgow,
+  James Watt School of Engineering. Original developer of
+  dsmcFoam+ [White2018_a]_, thesis adviser for the rovibronic
+  extension.
+* **C. H. B. Civrais** (Lead developer) — University of California,
+  Irvine. Developer of the rovibronic extension, author of the
+  associated peer-reviewed publications
+  [Civrais2024Electronic_a]_, [Civrais2024ChemI_a]_,
+  [Civrais2024ChemII_a]_, [Civrais2024Vib_a]_, and of the underlying
+  doctoral thesis [CivraisThesis_a]_.
+
+Licence and access
+------------------
+
 The source repository is private; licensing is handled on a
-per-collaboration basis. Please contact the author for access.
+per-collaboration basis. The documentation site, on the other hand,
+is public, and is intended to support collaborators, reviewers, and
+prospective users seeking an overview of the method. Please
+contact the development team for access to the source.
 
 Contact
 -------
 
-Clement Civrais — see the GitHub profile at
-<https://github.com/ClementCivrais>.
+* Clement Civrais — <https://github.com/ClementCivrais>
+* Craig White — University of Glasgow, James Watt School of
+  Engineering.
+
+.. [White2018_a] C. White, M. K. Borg, T. J. Scanlon, S. M. Longshaw,
+   R. C. Palharini, D. R. Emerson, and J. M. Reese,
+   "dsmcFoam+: An OpenFOAM based direct simulation Monte Carlo
+   solver," *Computer Physics Communications*, **224**, 22–43
+   (2018).
+.. [Civrais2024Electronic_a] C. H. B. Civrais, M. Pfeiffer, C. White,
+   and R. Steijl, "Modelling of the electronic excited states in
+   high-temperature flows," *Physics of Fluids* (2024).
+.. [Civrais2024ChemI_a] C. H. B. Civrais, C. White, and R. Steijl,
+   "Quantum-kinetic chemistry model with an anharmonic oscillator
+   model: Model derivation and limitations," *Physics of Fluids*.
+.. [Civrais2024ChemII_a] C. H. B. Civrais, C. White, and R. Steijl,
+   "Quantum-kinetic chemistry model with an anharmonic oscillator
+   model: Model extension and validation," *Physics of Fluids*.
+.. [Civrais2024Vib_a] C. H. B. Civrais, C. White, and R. Steijl,
+   "Vibrational modelling with an anharmonic oscillator model in
+   Direct Simulation Monte Carlo."
+.. [CivraisThesis_a] C. H. B. Civrais, *Rovibronic Modelling in
+   Direct Simulation Monte Carlo for Hypersonic Non-Equilibrium
+   Flows*, PhD thesis, University of Glasgow (2024).

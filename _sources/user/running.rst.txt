@@ -1,40 +1,55 @@
 Running a Case
 ==============
 
-Reference test cases live under ``run/``.
+The reference case distributed with the solver lives under
+``run/Tutorial/``. We describe below the standard invocation
+sequence, together with the parallel variant; a detailed walk-through
+of dictionaries, mesh requirements, and species-database wiring is
+given in the companion setup guide at
+``docs/Setup Guide/dsmc_case_setup_guide.pdf``, while each input
+dictionary is documented individually in :doc:`input_reference`.
 
-Standard workflow
------------------
+Serial execution
+----------------
 
 .. code-block:: bash
 
-   cd run/<case>
+   cd run/Tutorial
    blockMesh
    dsmcInitialise
-   dsmcFoamRovibronic
+   dsmcFoam
 
-Post-process with the standard OpenFOAM tooling (``paraFoam``,
-``postProcess``), or the solver-specific utilities under
-``applications/utilities/`` — see :doc:`post_processing`.
+The three stages carry out, respectively, mesh generation, particle
+initialisation (drawing positions, velocities, and rovibronic states
+from the distributions specified in ``system/dsmcInitialiseDict``),
+and the time integration itself. Post-processing may then be carried
+out with the standard OpenFOAM tools (``paraFoam``, ``postProcess``)
+or with the solver-specific utilities under
+``applications/utilities/`` —  see :doc:`post_processing` for an
+overview.
 
 Parallel execution
 ------------------
 
+For production runs on multiple cores we decompose the domain,
+launch the solver in parallel, and reconstruct the resulting fields:
+
 .. code-block:: bash
 
    decomposePar
-   mpirun -np <N> dsmcFoamRovibronic -parallel
+   mpirun -np <N> dsmcFoam -parallel
    reconstructPar
 
-DSMC load balance is particle-count-driven; for strongly non-uniform
-flows use ``dsmcLoadBalance`` (if available) or a finer domain
-decomposition.
+As the DSMC load balance is particle-count driven, strongly
+non-uniform flows benefit from a finer spatial decomposition, or
+from on-the-fly load balancing where available.
 
-Detailed setup guide
---------------------
+Startup diagnostics
+-------------------
 
-The full walk-through of dictionaries, mesh requirements, and
-species-database wiring lives in the LaTeX setup guide in the source
-tree (``docs/Setup Guide/dsmc_case_setup_guide.pdf``). The
-:doc:`input_reference` page summarises the dictionary options exposed
-by this solver beyond stock OpenFOAM DSMC.
+At initialisation the solver prints a summary of the rovibronic
+database together with the asymptote-matching errors for each
+dissociation channel. These errors should remain below approximately
+:math:`1~\mathrm{cm}^{-1}`; significantly larger values are usually
+symptomatic of missing or corrupted entries in
+``constant/speciesCache/``.
