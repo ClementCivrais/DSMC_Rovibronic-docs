@@ -1,0 +1,13 @@
+Tools
+=====
+
+A small collection of browser-side tools that run entirely in the
+reader's browser (no server, no data sent anywhere). The
+calculators below are intended to help prepare DSMC cases — in
+particular to estimate the mean free path and the associated
+numerical convergence bounds before a mesh is generated.
+
+.. toctree::
+   :maxdepth: 1
+
+   mean_free_path
