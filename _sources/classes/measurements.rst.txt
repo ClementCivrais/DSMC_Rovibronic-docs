@@ -39,6 +39,128 @@ calls. Field models are therefore trivially composable: one can
 attach any number of them to the same run, with different
 species filters, zones, and output cadences.
 
+Design philosophy — on-the-fly accumulation
+-------------------------------------------
+
+The measurement framework is built on two design choices inherited
+from the dsmcFoam+ lineage [White2013m]_ and preserved in the
+rovibronic extension:
+
+* **On-the-fly accumulation.** Raw particle properties —  position,
+  velocities, species type, internal state —  are too voluminous to
+  write out every time-step for post-processing. Instead, every
+  measurement performs its sampling on the fly: at each DSMC step
+  the relevant moments are accumulated in memory, and only the
+  processed macroscopic quantities are written to disk at the
+  user-specified write interval. This turns a memory-bound
+  problem (writing :math:`O(10^{6\text{-}9})` particles every step
+  for :math:`O(10^{5\text{-}8})` steps) into a compute-bound one.
+* **Burn-in control.** Every measurement model exposes a
+  ``resetAtOutput`` switch together with a
+  ``resetAtOutputUntilTime`` cut-off, so that the user can let the
+  flow evolve to steady state and only *then* start accumulating
+  statistics. The same switch allows long-window averaging in
+  steady flows or continuous accumulation in ensemble-averaged
+  unsteady flows.
+* **Species filtering.** Every model accepts a ``typeIds`` list;
+  sampling is restricted to parcels whose species index matches.
+  Leaving the list empty selects every species in the simulation.
+  Multiple instances of the same model with different
+  ``typeIds`` can therefore be attached to the same run to
+  produce per-species diagnostics alongside the mixture-averaged
+  ones.
+* **Parallelism.** Every sampler is fully parallelised.
+  Per-cell and per-face accumulators live on the owning rank
+  only; global reductions are performed at the write interval,
+  so that the per-step overhead is strictly local. Sampling zones
+  that span rank boundaries are handled by the reduction
+  documented below.
+
+All measurement models share these ingredients and are declared
+in the single ``system/fieldPropertiesDict`` file:
+
+.. code-block:: cpp
+
+   fields
+   (
+       volFieldsN2 { fieldModel dsmcVolFields;            /* … */ }
+       binsShock   { fieldModel dsmcBinsMethod;           /* … */ }
+       zoneReactor { fieldModel dsmcZone;                 /* … */ }
+       popO2       { fieldModel dsmcRovibronicPopulation; /* … */ }
+       fluxInlet   { fieldModel dsmcMassFluxSurface;      /* … */ }
+       velInflow   { fieldModel dsmcVelocityDistributionZone; /* … */ }
+   );
+
+Parallel reduction
+``````````````````
+
+For a measurement volume :math:`\mathcal{Z}` (a zone of cells, a
+bin, or the whole mesh) that may be split across
+:math:`n_{\mathrm{proc}}` MPI ranks, the total number of
+simulator parcels in :math:`\mathcal{Z}` is
+
+.. math::
+
+   N_{\mathcal{Z}}
+     = \sum_{p=1}^{n_{\mathrm{proc}}}
+         \sum_{c=1}^{n_{\mathrm{cells}}^{(p)}} N_c,
+
+where :math:`N_c` is the number of parcels in cell :math:`c` on
+rank :math:`p` and :math:`n_{\mathrm{cells}}^{(p)}` is the number
+of :math:`\mathcal{Z}`'s cells resident on that rank. The same
+reduction is applied to every accumulated moment — mass,
+momentum, kinetic energy, internal energy, higher-order tensors.
+Processor patches receive an additional :math:`0.5` weighting on
+shared faces to avoid double-counting in face-flux measurements
+(see below).
+
+Number-density normalisation
+````````````````````````````
+
+With simulator particles each representing :math:`F_N` real
+molecules, the number density in a measurement volume is
+
+.. math::
+
+   n_{\mathcal{Z}}
+     = \frac{F_N\,N_{\mathcal{Z}}}
+            {\displaystyle\sum_{c \in \mathcal{Z}} V_c},
+
+with :math:`V_c` the mesh volume of cell :math:`c`. The division
+by the *total* volume of :math:`\mathcal{Z}`'s cells — not just
+by :math:`V_{\mathrm{cell}}` — is what makes the zone model an
+honest cell-averaged estimator independent of the zone's cell
+count; the factor :math:`F_N` is the ``nEquivalentParticles``
+key of :doc:`../theory/foundations`. Every derived field (mass
+density, velocity, stress, heat flux) inherits the same
+normalisation.
+
+Statistical estimator
+`````````````````````
+
+Every macroscopic field of interest is a moment of the parcel
+distribution that is accumulated in time, yielding (for a
+time-averaged measurement)
+
+.. math::
+
+   \overline{Q}
+     = \frac{1}{N_{\mathrm{samples}}}
+       \sum_{k=1}^{N_{\mathrm{samples}}}
+         \frac{1}{N_{\mathcal{Z}}^{(k)}}
+           \sum_{i \in \mathcal{Z}^{(k)}} q_i^{(k)},
+
+where :math:`N_{\mathrm{samples}}` is the number of DSMC steps
+in the current accumulation window and :math:`q_i` is the
+per-parcel quantity (mass, momentum component, etc.). The
+statistical error on :math:`\overline{Q}` goes as
+:math:`\sigma_Q / \sqrt{N_{\mathrm{samples}} N_{\mathcal{Z}}}`,
+so that the statistical quality of a measurement improves both
+with parcel density and with averaging time. The
+``measureErrors`` switch on ``dsmcVolFields`` writes the
+per-cell :math:`\sigma_Q` companion fields so that 95%
+confidence intervals can be reconstructed post-hoc.
+
 Time-averaging controls
 -----------------------
 
@@ -123,6 +245,28 @@ than a single continuous number.
 Volume-field model — ``dsmcVolFields``
 --------------------------------------
 
+Theoretical basis — three-dimensional method of cells
+`````````````````````````````````````````````````````
+
+``dsmcVolFields`` is conceptually the **three-dimensional method
+of cells**: at each DSMC step, every cell of the mesh is visited,
+the parcels it contains are sampled, and the accumulated moments
+are converted to macroscopic fields at the write interval. The
+spatial resolution is inherited from the mesh —  as dense or as
+coarse as the mesh allows —  and therefore defers to the
+sub-cell adaptation layer
+(:doc:`../theory/adaptation_controllers`) for tightening the
+resolution locally without a re-mesh. Every macroscopic field of
+:doc:`../theory/macroscopic_properties` is built from the
+per-cell moments of :math:`N`, :math:`\rho\mathbf{v}`,
+:math:`\rho v^{2}`, :math:`\rho\mathbf{c}\mathbf{c}`, and the
+internal energy accumulated per species; the per-cell bisection
+inversion against the rovibronic partition function delivers the
+effective internal temperature.
+
+Default production measurement
+``````````````````````````````
+
 The ``dsmcVolFields`` field model
 (``macroscopicProperties/derived/combined/dsmcVolFields/``) is the
 default production measurement. It produces the standard DSMC
@@ -198,6 +342,57 @@ recommended.
 
 Bin model — ``dsmcBinsMethod``
 ------------------------------
+
+Theoretical basis — Method of Bins (MOB)
+````````````````````````````````````````
+
+The Method of Bins, as described in White's thesis [White2013m]_,
+splits a user-defined region of the domain into :math:`n_b`
+bins and accumulates the spatial average of the desired
+properties inside each bin. The bins are **independent of the
+computational mesh**, so that the measurement resolution can be
+either finer or coarser than the mesh, and can follow a geometry
+(line, radial shell, angular sector) unrelated to the mesh
+topology. This is the tool of choice when the DSMC mesh has
+been designed for collision resolution (:math:`\lambda/3`-sized
+cells) but the post-processing plots must be sampled on a
+different geometry —  a one-dimensional line through a shock, a
+radial profile around an axisymmetric body, or a cylindrical
+cross-section through a nozzle.
+
+For efficiency the MOB is merged with the Method of Zones
+(below): particles are looped over per-cell rather than per-
+particle, so that particles outside the measurement zone
+contribute zero cost. For a segmental bin stack between
+:math:`\mathbf{r}_s` and :math:`\mathbf{r}_e` with :math:`n_b`
+uniformly-spaced bins of width
+
+.. math::
+
+   \Delta r
+     = \frac{|\mathbf{r}_e - \mathbf{r}_s|}{n_b},
+
+a particle at position :math:`\mathbf{r}_i` is assigned the bin
+index
+
+.. math::
+
+   b_i
+     = \left\lfloor
+         \frac{(\mathbf{r}_i - \mathbf{r}_s)\cdot
+               (\mathbf{r}_e - \mathbf{r}_s)}
+              {\Delta r\,|\mathbf{r}_e - \mathbf{r}_s|}
+       \right\rfloor,
+
+projecting the particle's displacement along the bin axis and
+normalising by the bin width. An analogous projection rule
+handles cylindrical, radial, and spherical bin geometries. Per-
+bin totals are then divided by the bin volume :math:`A_b\,\Delta r`
+(``area`` entry × bin width) to recover proper densities and
+intensive quantities.
+
+Usage
+`````
 
 The ``dsmcBinsMethod`` field model
 (``macroscopicProperties/derived/combined/dsmcBinsMethod/``)
@@ -310,6 +505,63 @@ therefore directly usable in Python / gnuplot / Matlab pipelines.
 Zone model — ``dsmcZone``
 -------------------------
 
+Theoretical basis — Method of Zones (MOZ)
+`````````````````````````````````````````
+
+The Method of Zones, as introduced in White's thesis
+[White2013m]_, is the conceptually simplest sampling technique:
+a measurement zone :math:`\mathcal{Z}` is defined as a
+collection of connected mesh cells —  which may span any shape,
+size, or location on the mesh —  and all sampled quantities are
+spatial averages over :math:`\mathcal{Z}`. Because the zone is
+one collection of cells, the method cannot resolve spatial
+gradients inside the zone; the value returned is a single scalar,
+vector, or tensor per write step. This is the natural tool when
+the flow is spatially homogeneous inside :math:`\mathcal{Z}`, or
+when only an integral quantity (a reactor-averaged rate, a
+thrust, a heat-balance budget) is needed.
+
+The efficiency of the MOZ relies on OpenFOAM's cell occupancy
+index: because the cloud already knows which parcels live in
+which cell after the movement stage, there is no need to loop
+over all parcels and test membership. The sampler loops only
+over the cells of :math:`\mathcal{Z}`, and over the parcels that
+each such cell holds. The number density in the zone, accounting
+for the possibility that :math:`\mathcal{Z}` is split across
+MPI ranks, is
+
+.. math::
+
+   n_{\mathcal{Z}}
+     = \frac{F_N\,N_{\mathcal{Z}}}
+            {\displaystyle\sum_{c\in\mathcal{Z}} V_c},
+   \qquad
+   N_{\mathcal{Z}}
+     = \sum_{p=1}^{n_{\mathrm{proc}}}
+         \sum_{c=1}^{n_{\mathrm{cells}}^{(p, \mathcal{Z})}} N_c,
+
+which is the same pair of formulas given in the opening section.
+Higher moments (momentum, stress, heat flux, internal energy)
+follow the same reduction.
+
+Rovibronic extension
+````````````````````
+
+The rovibronic variant of ``dsmcZone`` differs from the dsmcFoam+
+original in its internal-temperature diagnostic: rather than
+computing :math:`T_\mathrm{int}` from a species-dependent
+harmonic-oscillator closure (which is inconsistent across species
+in a mixture), it accumulates the raw internal energy per
+species and inverts
+:math:`\langle E_\mathrm{int}^{(s)}\rangle(T_{\mathrm{int}}^{(s)})`
+by Newton-Raphson against the pre-tabulated rovibronic partition
+function (:doc:`../theory/rovibronic_levels`). Mixture-averaged
+temperatures are built from the per-species effective
+temperatures weighted by population.
+
+Usage
+`````
+
 The ``dsmcZone`` field model
 (``macroscopicProperties/derived/combined/dsmcZone/``) returns
 the volume-averaged macroscopic properties over a named
@@ -360,6 +612,53 @@ alongside the mixture-averaged values.
 Rovibronic population — ``dsmcRovibronicPopulation``
 ----------------------------------------------------
 
+Theoretical basis — state-resolved distribution function
+````````````````````````````````````````````````````````
+
+Where the scalar macroscopic fields of
+:doc:`../theory/macroscopic_properties` summarise the internal
+state of the gas through effective temperatures that invert the
+first moment of the population distribution, the state-resolved
+population diagnostic is the distribution itself. For a species
+:math:`s` in a sampling zone, we define
+
+.. math::
+
+   P^{(s)}(n, v, J)
+     = \frac{1}{N^{(s)}_{\mathcal{Z}}}
+       \sum_{i\,\in\,\mathcal{Z}^{(s)}}
+         \delta_{(n_i, v_i, J_i),\,(n, v, J)},
+
+the fraction of parcels in :math:`\mathcal{Z}` whose quantum
+state indices match :math:`(n, v, J)`. Summation over the level
+space returns unity by construction,
+
+.. math::
+
+   \sum_{n, v, J} P^{(s)}(n, v, J) = 1,
+
+and the average internal energy is
+
+.. math::
+
+   \langle E_\mathrm{int}^{(s)}\rangle
+     = \sum_{n, v, J} E^{(s)}(n, v, J)\,P^{(s)}(n, v, J).
+
+The diagnostic writes the four-index array
+:math:`(c, n, v, J) \mapsto P(c; n, v, J)` (per cell of the
+sampling zone) together with the energy and degeneracy look-up
+tables, so that plots of the form "log :math:`P(v) / g(v)`
+versus :math:`E(v)`" reveal the departure from Boltzmann
+directly: a Boltzmann distribution appears as a straight line
+whose slope is :math:`-1/(k_B T)`, and any curvature is a
+non-Boltzmann signature.
+
+This is the only observable that directly reflects the central
+promise of the rovibronic extension.
+
+Usage
+`````
+
 The ``dsmcRovibronicPopulation`` field model
 (``macroscopicProperties/derived/otherFields/dsmcRovibronicPopulation/``)
 is the diagnostic that directly exercises the central promise of
@@ -407,6 +706,65 @@ Typical plots built from this output:
 Face-flux measurement — ``dsmcMassFluxSurface``
 -----------------------------------------------
 
+Theoretical basis — fluxal measurements on faces
+````````````````````````````````````````````````
+
+OpenFOAM tags every interior and boundary face with an owner cell
+:math:`P` and a neighbour cell :math:`Q`, and the face normal
+:math:`\hat{\mathbf{n}}_f` is defined as pointing from
+:math:`P` to :math:`Q`. A parcel :math:`i` crossing face :math:`f`
+with velocity :math:`\mathbf{c}_i` contributes to the face flux
+with sign
+
+.. math::
+
+   \mathrm{sgn}(\mathbf{c}_i \cdot \hat{\mathbf{n}}_f)
+     = \begin{cases}
+         +1, & \mathbf{c}_i \cdot \hat{\mathbf{n}}_f > 0,\\
+         \;\;0, & \mathbf{c}_i \cdot \hat{\mathbf{n}}_f = 0,\\
+         -1, & \mathbf{c}_i \cdot \hat{\mathbf{n}}_f < 0,
+       \end{cases}
+
+so that an outgoing parcel (positive with respect to the face
+normal) contributes :math:`+m_i`, an incoming parcel contributes
+:math:`-m_i`, and a parcel moving exactly tangentially
+contributes nothing. The OpenFOAM particle-tracking algorithm
+flags every such face crossing during a time-step, so no extra
+geometric search is required.
+
+Summing over the time-averaging window, the mean mass flow rate
+through a face :math:`f` of area :math:`A_f` is
+
+.. math::
+
+   \langle \dot{m}_f\rangle
+     = \frac{1}{t_{\mathrm{av}}}\,
+       \sum_{i\,\in\,\Delta N_f(t \to t_n)}
+         m_i\,\mathrm{sgn}(\mathbf{c}_i\cdot\hat{\mathbf{n}}_f),
+
+with :math:`t_{\mathrm{av}}` the averaging duration and
+:math:`\Delta N_f(t \to t_n)` the total number of parcels that
+cross :math:`f` during the interval. The corresponding mass flux
+per unit area is :math:`\langle\dot{m}_f\rangle / A_f`. The
+sampler accumulates this on a per-face basis and writes totals
+for the union of faces in a user-named ``faceZone`` — so that
+the flux through an inlet, through a periodic surrogate face, or
+across a plane cutting the domain can be measured directly from
+the simulation without post-processing.
+
+Parallel treatment
+``````````````````
+
+Faces that lie on a processor patch (a shared boundary between
+two MPI ranks) are weighted by :math:`\tfrac{1}{2}` when
+accumulated on each side, so that after global reduction the
+total is counted exactly once. Without this factor, processor-
+local flux sums would be inflated by a factor of two on every
+parallel-patch face.
+
+Usage
+`````
+
 ``dsmcMassFluxSurface``
 (``macroscopicProperties/derived/massFlux/dsmcMassFluxSurface/``)
 integrates mass, number, momentum, and energy fluxes through a
@@ -432,6 +790,43 @@ downstream case.
 
 Velocity and speed distributions
 --------------------------------
+
+Theoretical basis — translational distribution functions
+````````````````````````````````````````````````````````
+
+The two velocity-distribution tools accumulate histograms of,
+respectively, the Cartesian velocity components
+:math:`P^{(s)}(v_\alpha)` for :math:`\alpha \in \{x, y, z\}` and
+the speed magnitude :math:`P^{(s)}(|\mathbf{c}|)`, each over a
+named ``cellZone``. In a gas in translational equilibrium, the
+Maxwell-Boltzmann distributions are
+
+.. math::
+
+   P_\mathrm{MB}(v_\alpha)
+     = \left(\frac{m_s}{2\pi k_B T}\right)^{1/2}
+       \exp\!\left[-\frac{m_s\,(v_\alpha - \bar{v}_\alpha)^{2}}
+                         {2 k_B T}\right],
+
+.. math::
+
+   P_\mathrm{MB}(|\mathbf{c}|)
+     = 4\pi\,|\mathbf{c}|^{2}
+       \left(\frac{m_s}{2\pi k_B T}\right)^{3/2}
+       \exp\!\left[-\frac{m_s\,|\mathbf{c}|^{2}}
+                         {2 k_B T}\right].
+
+Departures of the sampled histogram from these references are the
+primary diagnostic of translational non-equilibrium —
+specifically, the bimodal speed distribution that characterises
+the interior of a strong shock, or the elongated tail of a rapid
+expansion. Deviations from :math:`P_\mathrm{MB}(|\mathbf{c}|)`
+in the exit region of a micro-channel flow were the original
+motivation for the MOZ-based diagnostic in White's thesis
+[White2013m]_.
+
+Usage
+`````
 
 ``dsmcVelocityDistributionZone`` and
 ``dsmcSpeedDistributionZone``
@@ -488,3 +883,10 @@ species filters, zones, and time options. A zone-averaged
 bin-averaged ``dsmcBinsMethod`` across a shock, and a
 state-resolved ``dsmcRovibronicPopulation`` in the shock layer
 is a fairly standard combination for a re-entry simulation.
+
+.. [White2013m] C. White, *Benchmarking, Development and
+   Applications of an Open Source DSMC Solver*, PhD thesis,
+   University of Glasgow (2013). Section 4.3 introduces the
+   measurement framework, the Method of Zones, the Method of
+   Bins, the fluxal face-crossing sampler, and the cell-field
+   sampler on which the present implementation builds.

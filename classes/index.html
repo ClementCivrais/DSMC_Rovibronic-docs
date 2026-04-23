@@ -384,22 +384,50 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="measurements.html">Measurements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#design-philosophy-on-the-fly-accumulation">Design philosophy — on-the-fly accumulation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#parallel-reduction">Parallel reduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#number-density-normalisation">Number-density normalisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#statistical-estimator">Statistical estimator</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="measurements.html#time-averaging-controls">Time-averaging controls</a></li>
 <li class="toctree-l3"><a class="reference internal" href="measurements.html#cellmeasurements-the-per-cell-primitive-accumulator"><code class="docutils literal notranslate"><span class="pre">cellMeasurements</span></code> — the per-cell primitive accumulator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="measurements.html#boundarymeasurements-the-per-patch-primitive-accumulator"><code class="docutils literal notranslate"><span class="pre">boundaryMeasurements</span></code> — the per-patch primitive accumulator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="measurements.html#volume-field-model-dsmcvolfields">Volume-field model — <code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#volume-field-model-dsmcvolfields">Volume-field model — <code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#theoretical-basis-three-dimensional-method-of-cells">Theoretical basis — three-dimensional method of cells</a></li>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#default-production-measurement">Default production measurement</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="measurements.html#bin-model-dsmcbinsmethod">Bin model — <code class="docutils literal notranslate"><span class="pre">dsmcBinsMethod</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#theoretical-basis-method-of-bins-mob">Theoretical basis — Method of Bins (MOB)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="measurements.html#bin-model-sub-classes">Bin model sub-classes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="measurements.html#fields-measured-in-each-bin">Fields measured in each bin</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="measurements.html#zone-model-dsmczone">Zone model — <code class="docutils literal notranslate"><span class="pre">dsmcZone</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#theoretical-basis-method-of-zones-moz">Theoretical basis — Method of Zones (MOZ)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#rovibronic-extension">Rovibronic extension</a></li>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#id4">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="measurements.html#output-fields">Output fields</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="measurements.html#rovibronic-population-dsmcrovibronicpopulation">Rovibronic population — <code class="docutils literal notranslate"><span class="pre">dsmcRovibronicPopulation</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="measurements.html#face-flux-measurement-dsmcmassfluxsurface">Face-flux measurement — <code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#rovibronic-population-dsmcrovibronicpopulation">Rovibronic population — <code class="docutils literal notranslate"><span class="pre">dsmcRovibronicPopulation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#theoretical-basis-state-resolved-distribution-function">Theoretical basis — state-resolved distribution function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#id5">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#face-flux-measurement-dsmcmassfluxsurface">Face-flux measurement — <code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#theoretical-basis-fluxal-measurements-on-faces">Theoretical basis — fluxal measurements on faces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#parallel-treatment">Parallel treatment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#id6">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#theoretical-basis-translational-distribution-functions">Theoretical basis — translational distribution functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="measurements.html#id8">Usage</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="measurements.html#orchestration-and-lifecycle">Orchestration and lifecycle</a></li>
 </ul>
 </li>
@@ -601,6 +629,7 @@ reflect a validated state.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="measurements.html">Measurements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="measurements.html#design-philosophy-on-the-fly-accumulation">Design philosophy — on-the-fly accumulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="measurements.html#time-averaging-controls">Time-averaging controls</a></li>
 <li class="toctree-l2"><a class="reference internal" href="measurements.html#cellmeasurements-the-per-cell-primitive-accumulator"><code class="docutils literal notranslate"><span class="pre">cellMeasurements</span></code> — the per-cell primitive accumulator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="measurements.html#boundarymeasurements-the-per-patch-primitive-accumulator"><code class="docutils literal notranslate"><span class="pre">boundaryMeasurements</span></code> — the per-patch primitive accumulator</a></li>
