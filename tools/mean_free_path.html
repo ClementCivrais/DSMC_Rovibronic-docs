@@ -24,7 +24,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Examples" href="../examples/index.html" />
-    <link rel="prev" title="Tools" href="index.html" /> 
+    <link rel="prev" title="Measurements" href="../classes/measurements.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -56,7 +56,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#build-openfoam">Build OpenFOAM</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#running-multiple-dsmcfoam-variants-side-by-side">Running multiple dsmcFoam+ variants side-by-side</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-3-clone-the-dsmc-rovibronic-repository">Step 3 — Clone the DSMC Rovibronic repository</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-4-build-the-solver">Step 4 — Build the solver</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#verification">Verification</a></li>
@@ -437,17 +440,14 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tools</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tools</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Mean free path calculator</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#calculator">Calculator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#background">Background</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#derivation">Derivation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#caveats">Caveats</a></li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Mean free path calculator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#calculator">Calculator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#background">Background</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#derivation">Derivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#caveats">Caveats</a></li>
 </ul>
 </li>
 </ul>
@@ -457,6 +457,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/relaxation_landau_teller.html">Landau-Teller heat-bath relaxation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#phase-selection">Phase selection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#running-the-case">Running the case</a></li>
@@ -471,53 +473,68 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html">Isothermal reactive heat-bath</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#reactions-included">Reactions included</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#running-the-case">Running the case</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#expected-outcome">Expected outcome</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#use-as-a-validation">Use as a validation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/free_space_periodic.html">Free-space periodic equilibrium</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/free_space_periodic.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/free_space_periodic.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/free_space_periodic.html#case-parameters">Case parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/collision_rate_test.html">Collision-rate test</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/collision_rate_test.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/collision_rate_test.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/collision_rate_test.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/micro_scale_test_case.html">Micro-scale channel flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/micro_scale_test_case.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/micro_scale_test_case.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/micro_scale_test_case.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/micro_scale_test_case.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hypersonic_flat_plate.html">Hypersonic flat plate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#useful-validations">Useful validations</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/supersonic_corner.html">Supersonic corner</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/supersonic_corner.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/supersonic_corner.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/supersonic_corner.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/supersonic_corner.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html">Axisymmetric blunt cylinder</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html#useful-validations">Useful validations</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/orion_107km.html">Orion capsule at 107 km (non-reacting)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/orion_107km.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/orion_107km.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/orion_107km.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/orion_107km.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/orion_107km.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html">Chemical-reaction demonstration (WIP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#theoretical-basis">Theoretical basis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#species">Species</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#registered-reactions">Registered reactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#running">Running</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#expected-behaviour">Expected behaviour</a></li>
 </ul>
@@ -570,7 +587,6 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">Tools</a></li>
       <li class="breadcrumb-item active">Mean free path calculator</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/tools/mean_free_path.rst.txt" rel="nofollow"> View page source</a>
@@ -1375,7 +1391,7 @@ potential,” <em>Physics of Fluids A</em>, <strong>3</strong> (10), 2459–2465
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Tools" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../classes/measurements.html" class="btn btn-neutral float-left" title="Measurements" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../examples/index.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

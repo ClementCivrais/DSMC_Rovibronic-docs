@@ -56,7 +56,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#build-openfoam">Build OpenFOAM</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#running-multiple-dsmcfoam-variants-side-by-side">Running multiple dsmcFoam+ variants side-by-side</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-3-clone-the-dsmc-rovibronic-repository">Step 3 — Clone the DSMC Rovibronic repository</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-4-build-the-solver">Step 4 — Build the solver</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#verification">Verification</a></li>
@@ -437,17 +440,14 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tools</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html">Mean free path calculator</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#calculator">Calculator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#background">Background</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#derivation">Derivation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#caveats">Caveats</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/mean_free_path.html">Mean free path calculator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html#calculator">Calculator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html#background">Background</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#derivation">Derivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#caveats">Caveats</a></li>
 </ul>
 </li>
 </ul>
@@ -457,6 +457,8 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="relaxation_landau_teller.html">Landau-Teller heat-bath relaxation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#phase-selection">Phase selection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#running-the-case">Running the case</a></li>
@@ -471,53 +473,68 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="isothermal_reactive_heatbath.html">Isothermal reactive heat-bath</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#reactions-included">Reactions included</a></li>
 <li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#running-the-case">Running the case</a></li>
 <li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#expected-outcome">Expected outcome</a></li>
-<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#use-as-a-validation">Use as a validation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="free_space_periodic.html">Free-space periodic equilibrium</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="free_space_periodic.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="free_space_periodic.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="free_space_periodic.html#case-parameters">Case parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="collision_rate_test.html">Collision-rate test</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="micro_scale_test_case.html">Micro-scale channel flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="hypersonic_flat_plate.html">Hypersonic flat plate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#useful-validations">Useful validations</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="supersonic_corner.html">Supersonic corner</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="axisymmetric_blunt_cylinder.html">Axisymmetric blunt cylinder</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#useful-validations">Useful validations</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="orion_107km.html">Orion capsule at 107 km (non-reacting)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orion_107km.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orion_107km.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orion_107km.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Chemical-reaction demonstration (WIP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#theoretical-basis">Theoretical basis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#species">Species</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#registered-reactions">Registered reactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#running">Running</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#expected-behaviour">Expected behaviour</a></li>
 </ul>
@@ -601,6 +618,37 @@ stacks dissociation, exchange, and recombination reactions from
 the neutral block onto the ionisation channels from the charged
 block, and is designed as an end-to-end smoke test of every
 <code class="docutils literal notranslate"><span class="pre">reactionModel</span></code> in the <code class="docutils literal notranslate"><span class="pre">chemReactDict</span></code>.</p>
+<section id="theoretical-basis">
+<h2>Theoretical basis<a class="headerlink" href="#theoretical-basis" title="Link to this heading"></a></h2>
+<p>The case exercises two complementary reaction blocks:</p>
+<ul class="simple">
+<li><p><strong>Neutral chemistry</strong> — dissociation via the Quantum-Kinetic
+(QK) model, Zeldovich exchange with automatic heat-of-reaction
+computation, and three-body recombination from detailed
+balance. Full derivations are given in
+<a class="reference internal" href="../theory/chemistry.html"><span class="doc">Neutral chemistry</span></a>; the post-reaction Larsen-Borgnakke
+redistribution is described in <a class="reference internal" href="../theory/larsen_borgnakke.html"><span class="doc">Larsen-Borgnakke energy redistribution</span></a>.
+This block is validated and produces quantitatively meaningful
+results.</p></li>
+<li><p><strong>Charged-species chemistry</strong> — electron-impact ionisation,
+atom-atom / atom-ion / molecule-ion ionisation channels,
+charge exchange, and associative ionisation (forward and
+reverse). The underlying physics —  state-dependent ionisation
+threshold <span class="math notranslate nohighlight">\(E_{\mathrm{ion}}(n,v,J) = E_{\mathrm{IP}}
+- E(n,v,J)\)</span>, the <strong>ambipolar-diffusion</strong> treatment of
+electrons (created at their parent ion’s position), and the
+<strong>electron sub-time-stepping</strong> through
+<code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> —  is documented in
+<a class="reference internal" href="../theory/chemistry_charged.html"><span class="doc">Charged-species chemistry</span></a>. Every class in this block
+is flagged as <em>work in progress</em> on
+<a class="reference internal" href="../classes/reactions.html"><span class="doc">Reaction classes</span></a>; the code paths are in place but
+have not been end-to-end verified.</p></li>
+</ul>
+<p>The case therefore serves as (a) a gating test for changes to
+any of the neutral reaction classes, and (b) an integration
+smoke test for the charged-species code paths, without
+implying quantitative correctness of the latter.</p>
+</section>
 <section id="species">
 <h2>Species<a class="headerlink" href="#species" title="Link to this heading"></a></h2>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>typeIdList ( N2 O2 NO N O  N2+ O2+ NO+ N+ O+  E- );
@@ -621,6 +669,38 @@ block, and is designed as an end-to-end smoke test of every
 the ionisation channels exposed by the
 <code class="docutils literal notranslate"><span class="pre">dissociationIonisationTypeI*</span></code> classes through their
 <code class="docutils literal notranslate"><span class="pre">productsOfIonisedMolecule</span></code> entries.</p>
+</section>
+<section id="validation-goals">
+<h2>Validation goals<a class="headerlink" href="#validation-goals" title="Link to this heading"></a></h2>
+<p>Given the WIP status of the charged block, the goals are tiered:</p>
+<ol class="arabic simple">
+<li><p><strong>Neutral-phase element conservation.</strong> Before ionisation
+becomes significant, the case must conserve the total number
+density of N atoms and O atoms to within statistical noise
+— the same check as for
+<a class="reference internal" href="isothermal_reactive_heatbath.html"><span class="doc">Isothermal reactive heat-bath</span></a>.</p></li>
+<li><p><strong>Terminal consistency of ionisation heats.</strong> The heats of
+reaction printed at start-up for the ionisation channels
+must agree with the underlying database ionisation
+potentials; a discrepancy here is always a bug in the
+dictionary wiring rather than in the physics.</p></li>
+<li><p><strong>Smoke-test execution of every charged reaction class.</strong>
+Each of the charged-species reaction classes
+(<code class="docutils literal notranslate"><span class="pre">atomAtomIonisation*</span></code>, <code class="docutils literal notranslate"><span class="pre">atomElectronIonisation</span></code>,
+<code class="docutils literal notranslate"><span class="pre">atomIonIonisation</span></code>, <code class="docutils literal notranslate"><span class="pre">chargeExchange</span></code>,
+<code class="docutils literal notranslate"><span class="pre">forwardAssociativeIonisation*</span></code>,
+<code class="docutils literal notranslate"><span class="pre">reverseAssociativeIonisation</span></code>,
+<code class="docutils literal notranslate"><span class="pre">moleculeElectronDissociationIonisation</span></code>,
+<code class="docutils literal notranslate"><span class="pre">moleculeIonDissociationIonisation</span></code>) should fire a non-zero
+number of events over the case duration; a class with a
+persistently zero event count typically indicates a missing
+reactant / product wiring rather than a physically
+impossible channel.</p></li>
+<li><p><strong>No NaN / no unphysical drift.</strong> The charged-phase
+macroscopic fields must remain finite throughout the run,
+even if quantitative agreement with literature rates is
+not yet expected.</p></li>
+</ol>
 </section>
 <section id="running">
 <h2>Running<a class="headerlink" href="#running" title="Link to this heading"></a></h2>

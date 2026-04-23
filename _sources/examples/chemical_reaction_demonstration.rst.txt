@@ -21,6 +21,38 @@ the neutral block onto the ionisation channels from the charged
 block, and is designed as an end-to-end smoke test of every
 ``reactionModel`` in the ``chemReactDict``.
 
+Theoretical basis
+-----------------
+
+The case exercises two complementary reaction blocks:
+
+* **Neutral chemistry** — dissociation via the Quantum-Kinetic
+  (QK) model, Zeldovich exchange with automatic heat-of-reaction
+  computation, and three-body recombination from detailed
+  balance. Full derivations are given in
+  :doc:`../theory/chemistry`; the post-reaction Larsen-Borgnakke
+  redistribution is described in :doc:`../theory/larsen_borgnakke`.
+  This block is validated and produces quantitatively meaningful
+  results.
+* **Charged-species chemistry** — electron-impact ionisation,
+  atom-atom / atom-ion / molecule-ion ionisation channels,
+  charge exchange, and associative ionisation (forward and
+  reverse). The underlying physics —  state-dependent ionisation
+  threshold :math:`E_{\mathrm{ion}}(n,v,J) = E_{\mathrm{IP}}
+  - E(n,v,J)`, the **ambipolar-diffusion** treatment of
+  electrons (created at their parent ion's position), and the
+  **electron sub-time-stepping** through
+  ``noTimeCounterSubCycled`` —  is documented in
+  :doc:`../theory/chemistry_charged`. Every class in this block
+  is flagged as *work in progress* on
+  :doc:`../classes/reactions`; the code paths are in place but
+  have not been end-to-end verified.
+
+The case therefore serves as (a) a gating test for changes to
+any of the neutral reaction classes, and (b) an integration
+smoke test for the charged-species code paths, without
+implying quantitative correctness of the latter.
+
 Species
 -------
 
@@ -43,6 +75,38 @@ The charged block (work in progress — see warning above) adds
 the ionisation channels exposed by the
 ``dissociationIonisationTypeI*`` classes through their
 ``productsOfIonisedMolecule`` entries.
+
+Validation goals
+----------------
+
+Given the WIP status of the charged block, the goals are tiered:
+
+#. **Neutral-phase element conservation.** Before ionisation
+   becomes significant, the case must conserve the total number
+   density of N atoms and O atoms to within statistical noise
+   — the same check as for
+   :doc:`isothermal_reactive_heatbath`.
+#. **Terminal consistency of ionisation heats.** The heats of
+   reaction printed at start-up for the ionisation channels
+   must agree with the underlying database ionisation
+   potentials; a discrepancy here is always a bug in the
+   dictionary wiring rather than in the physics.
+#. **Smoke-test execution of every charged reaction class.**
+   Each of the charged-species reaction classes
+   (``atomAtomIonisation*``, ``atomElectronIonisation``,
+   ``atomIonIonisation``, ``chargeExchange``,
+   ``forwardAssociativeIonisation*``,
+   ``reverseAssociativeIonisation``,
+   ``moleculeElectronDissociationIonisation``,
+   ``moleculeIonDissociationIonisation``) should fire a non-zero
+   number of events over the case duration; a class with a
+   persistently zero event count typically indicates a missing
+   reactant / product wiring rather than a physically
+   impossible channel.
+#. **No NaN / no unphysical drift.** The charged-phase
+   macroscopic fields must remain finite throughout the run,
+   even if quantitative agreement with literature rates is
+   not yet expected.
 
 Running
 -------

@@ -7,23 +7,75 @@ A periodic N\ :sub:`2` / O\ :sub:`2` case specifically designed
 to stress the collision-partner-selection layer. The
 ``cellMeasurements`` class accumulates the per-cell collision
 count and the mean collision separation, both of which are
-written alongside the macroscopic fields. The case allows a
-direct comparison between the theoretical collision frequency
+written alongside the macroscopic fields.
 
-.. math::
+Theoretical basis
+-----------------
 
-   \nu_{\mathrm{coll}}
-     = \frac{1}{2}\,n\,\langle\sigma_T\,g\rangle
+The case directly probes two theory pages of the guide:
 
-evaluated from the VSS parameters of the species and the
-collision rate sampled by the solver.
+* :doc:`../theory/collision_cross_sections` — the Variable Hard
+  Sphere (VHS) cross section
 
-Agreement to within statistical noise is the sanity check that
-the No-Time-Counter estimator
-(:doc:`../theory/collision_sampling`) is correctly implemented
-and that the acceptance probability
-:math:`\sigma_T g / (\sigma_T g)_{\max}` is not systematically
-biased.
+  .. math::
+
+     \sigma_T^{\mathrm{VHS}}(g)
+       = \pi\,d_{\mathrm{ref}}^{2}\,
+         \left(\frac{g_{\mathrm{ref}}}{g}\right)^{2\omega - 1}
+         \frac{1}{\Gamma(5/2 - \omega)}
+
+  fixes the collision cross section at any relative speed
+  :math:`g`; the species-pair parameters :math:`d_\mathrm{ref},
+  \omega` are read from :doc:`../classes/species_database`.
+* :doc:`../theory/collision_sampling` — the No-Time-Counter
+  (NTC) scheme draws
+
+  .. math::
+
+     N_{\mathrm{cand}}
+       = \frac{1}{2}\,\frac{N(N-1)\,F_N\,
+         (\sigma_T g)_{\max}\,\Delta t}{V_c}
+
+  candidates per cell per time-step and accepts them with
+  probability :math:`\sigma_T g / (\sigma_T g)_{\max}`, so that
+  the expected cell-level collision rate is
+
+  .. math::
+
+     \nu_{\mathrm{coll}}
+       = \frac{N(N-1)\,F_N\,\langle \sigma_T g\rangle}{2\,V_c}.
+
+The case is the tightest available check that this construction
+is bug-free at the cell level: agreement between the sampled
+rate and the Maxwell-averaged theoretical rate is the acceptance
+criterion.
+
+Validation goals
+----------------
+
+Two quantitative targets:
+
+#. **Collision rate.** The cell-averaged collision rate
+   accumulated in ``cellMeasurements`` should match
+   :math:`\nu_{\mathrm{coll}}` evaluated from the VSS species
+   parameters to within a few percent. A systematic bias is
+   usually traceable to either the :math:`(\sigma_T g)_{\max}`
+   estimator, to an incorrect :math:`F_N` normalisation, or to
+   a dropped factor of :math:`1/2` on a self-species candidate
+   pair.
+#. **Mean collision separation** — at equilibrium the
+   characteristic collision separation should be comparable to
+   :math:`\lambda / 2` with :math:`\lambda` the VSS mean free
+   path predicted by the calculator at
+   :doc:`../tools/mean_free_path`. A large departure in either
+   direction is a signal that the DSMC sub-cell resolution is
+   too coarse (collisions occur between parcels that are not
+   close neighbours, inflating the separation) or that the
+   particle-per-cell count is below the statistical floor.
+
+Passing both checks is the sanity gate before running any case
+that depends quantitatively on the collision rate (chemistry,
+shock structure, boundary-layer drag).
 
 Running
 -------

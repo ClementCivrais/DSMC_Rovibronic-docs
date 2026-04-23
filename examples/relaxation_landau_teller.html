@@ -56,7 +56,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#build-openfoam">Build OpenFOAM</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#running-multiple-dsmcfoam-variants-side-by-side">Running multiple dsmcFoam+ variants side-by-side</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-3-clone-the-dsmc-rovibronic-repository">Step 3 — Clone the DSMC Rovibronic repository</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-4-build-the-solver">Step 4 — Build the solver</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#verification">Verification</a></li>
@@ -437,17 +440,14 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tools</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html">Mean free path calculator</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#calculator">Calculator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#background">Background</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#derivation">Derivation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#caveats">Caveats</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/mean_free_path.html">Mean free path calculator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html#calculator">Calculator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html#background">Background</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#derivation">Derivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#caveats">Caveats</a></li>
 </ul>
 </li>
 </ul>
@@ -457,6 +457,8 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Landau-Teller heat-bath relaxation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#phase-selection">Phase selection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#running-the-case">Running the case</a></li>
@@ -471,53 +473,68 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="isothermal_reactive_heatbath.html">Isothermal reactive heat-bath</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#reactions-included">Reactions included</a></li>
 <li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#running-the-case">Running the case</a></li>
 <li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#expected-outcome">Expected outcome</a></li>
-<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#use-as-a-validation">Use as a validation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="free_space_periodic.html">Free-space periodic equilibrium</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="free_space_periodic.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="free_space_periodic.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="free_space_periodic.html#case-parameters">Case parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="collision_rate_test.html">Collision-rate test</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="micro_scale_test_case.html">Micro-scale channel flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="hypersonic_flat_plate.html">Hypersonic flat plate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#useful-validations">Useful validations</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="supersonic_corner.html">Supersonic corner</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="axisymmetric_blunt_cylinder.html">Axisymmetric blunt cylinder</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#useful-validations">Useful validations</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="orion_107km.html">Orion capsule at 107 km (non-reacting)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orion_107km.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orion_107km.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orion_107km.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="chemical_reaction_demonstration.html">Chemical-reaction demonstration (WIP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#theoretical-basis">Theoretical basis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#species">Species</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#registered-reactions">Registered reactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#running">Running</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#expected-behaviour">Expected behaviour</a></li>
 </ul>
@@ -586,12 +603,73 @@
 <p>Directory: <code class="docutils literal notranslate"><span class="pre">tutorials/relaxationLandauTeller/</span></code>.</p>
 <p>A zero-dimensional (0-D) isothermal heat-bath case that exercises
 the parallel-marginal relaxation cascade of the rovibronic
-Larsen-Borgnakke sampler (<a class="reference internal" href="../theory/relaxation.html"><span class="doc">Internal-energy relaxation</span></a>). The
-translational temperature is held at <span class="math notranslate nohighlight">\(T_t = 10\,000~\mathrm{K}\)</span>
-by the large thermal inertia of the heat bath, and the internal
-state is initialised at <span class="math notranslate nohighlight">\(T_\mathrm{int}(0) = 1\,000~\mathrm{K}\)</span>.
-The mean internal energy is expected to decay exponentially toward
-its equilibrium value at the heat-bath temperature.</p>
+Larsen-Borgnakke sampler. The translational temperature is held
+at <span class="math notranslate nohighlight">\(T_t = 10\,000~\mathrm{K}\)</span> by the large thermal inertia
+of the heat bath, and the internal state is initialised at
+<span class="math notranslate nohighlight">\(T_\mathrm{int}(0) = 1\,000~\mathrm{K}\)</span>. The mean internal
+energy is expected to decay exponentially toward its equilibrium
+value at the heat-bath temperature.</p>
+<section id="theoretical-basis">
+<h2>Theoretical basis<a class="headerlink" href="#theoretical-basis" title="Link to this heading"></a></h2>
+<p>The case sits at the intersection of two theory pages of the
+guide:</p>
+<ul>
+<li><p><a class="reference internal" href="../theory/relaxation.html"><span class="doc">Internal-energy relaxation</span></a> derives the Landau-Teller rate
+equation</p>
+<div class="math notranslate nohighlight">
+\[\frac{\mathrm{d}\langle E_k\rangle}{\mathrm{d}t}
+  = \frac{\langle E_k\rangle(T_T) - \langle E_k\rangle(t)}
+         {Z_k^{\mathrm{cont}}\,\tau_c},\]</div>
+<p>its isothermal single-exponential solution, the Millikan-White
+and Parker correlations from which <span class="math notranslate nohighlight">\(Z_k\)</span> is estimated,
+and the parallel-marginal cascade together with the Nizenkov
+correction <span class="math notranslate nohighlight">\(C_k\)</span> that together turn the continuum rate
+equation into an event-by-event sampler on the
+<span class="math notranslate nohighlight">\((n, v, J)\)</span> state space.</p>
+</li>
+<li><p><a class="reference internal" href="../theory/larsen_borgnakke.html"><span class="doc">Larsen-Borgnakke energy redistribution</span></a> documents the acceptance-
+rejection kernel on the discrete rovibronic space that is
+applied in every accepted collision, with the exponent
+<span class="math notranslate nohighlight">\(\alpha_{\mathrm{LB}} = (\xi_{\mathrm{rel}} +
+\xi_{\mathrm{int}}^{\mathrm{pool}})/2 - 1\)</span> and the effective
+DOF <span class="math notranslate nohighlight">\(\xi_k(T) = 2 \langle E_k\rangle(T)/(k_B T)\)</span>.</p></li>
+</ul>
+<p>The validation protocol (the four phases of
+<a class="reference internal" href="../reference/validation.html"><span class="doc">Validation</span></a>) is the practical application of
+those two pages: by silencing all but one composite channel, the
+corresponding single-mode LT decay can be isolated and compared
+to its analytical form, thereby verifying each ingredient of the
+cascade in turn.</p>
+</section>
+<section id="validation-goals">
+<h2>Validation goals<a class="headerlink" href="#validation-goals" title="Link to this heading"></a></h2>
+<p>The case targets the following quantitative checks, which
+together constitute the <em>acceptance reference</em> for the
+relaxation module:</p>
+<ol class="arabic simple">
+<li><p><strong>Single-exponential decay</strong> of each composite mode when run
+in isolation; the DSMC points must sit on the analytical LT
+curve to within statistical noise (no fit).</p></li>
+<li><p><strong>Reference equilibrium energy</strong> <span class="math notranslate nohighlight">\(E_k^{\star}\)</span> read
+from the restricted sub-manifold of
+<a class="reference internal" href="../theory/rovibronic_levels.html"><span class="doc">Rovibronic level structure</span></a> that the sampler actually
+accesses in the current phase (J-Boltzmann per
+<span class="math notranslate nohighlight">\((n_p, v_p)\)</span> in Phase 1, <span class="math notranslate nohighlight">\((v, J)\)</span>-Boltzmann at
+<span class="math notranslate nohighlight">\(n_p\)</span> in Phase 2, triplet-only or full-manifold
+Boltzmann in Phase 3 / Phase 4).</p></li>
+<li><p><strong>Fitted collision number</strong>
+<span class="math notranslate nohighlight">\(Z_{k,\mathrm{fit}}\)</span> recovered from the decay
+time-constant must agree with the input <span class="math notranslate nohighlight">\(Z_k\)</span> to within
+5 %.</p></li>
+<li><p><strong>No ZCorr artefact</strong> on the rovibronic Larsen-Borgnakke
+path: the continuous-variable ZCorr correction should not
+appear in the fitted <span class="math notranslate nohighlight">\(Z_k\)</span>, consistently with the
+argument in <a class="reference internal" href="../theory/relaxation.html"><span class="doc">Internal-energy relaxation</span></a>.</p></li>
+</ol>
+<p>Passing all four checks on all four phases is the gating
+criterion for any change to the Larsen-Borgnakke sampler, to the
+Nizenkov correction tables, or to the rovibronic database.</p>
+</section>
 <section id="phase-selection">
 <h2>Phase selection<a class="headerlink" href="#phase-selection" title="Link to this heading"></a></h2>
 <p>The tutorial is configured for <strong>Phase 1</strong> of the four-phase
@@ -601,10 +679,10 @@ rovibronic channels are silenced by setting their collision
 numbers to <span class="math notranslate nohighlight">\(10^{9}\)</span>. To run the remaining phases, copy the
 case and adjust the three collision-number entries in
 <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code>:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Phase 1 (rotational only):     Z_r = 5,    Z_rv = 1e9, Z_rve = 1e9
-Phase 2 (rovibrational):       Z_r = 1e9,  Z_rv = 50,  Z_rve = 1e9
-Phase 3 (rovibronic, spin-cons.):      Z_r = 5,  Z_rv = 50,  Z_rve = 500   (allowSpinForbidden=false)
-Phase 4 (rovibronic, full manifold):   Z_r = 5,  Z_rv = 50,  Z_rve = 500   (allowSpinForbidden=true)
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Phase 1 (rotational only):             Z_r = 5,    Z_rv = 1e9, Z_rve = 1e9
+Phase 2 (rovibrational):               Z_r = 1e9,  Z_rv = 50,  Z_rve = 1e9
+Phase 3 (rovibronic, spin-cons.):      Z_r = 5,    Z_rv = 50,  Z_rve = 500   (allowSpinForbidden=false)
+Phase 4 (rovibronic, full manifold):   Z_r = 5,    Z_rv = 50,  Z_rve = 500   (allowSpinForbidden=true)
 </pre></div>
 </div>
 </section>

@@ -5,12 +5,77 @@ Directory: ``tutorials/relaxationLandauTeller/``.
 
 A zero-dimensional (0-D) isothermal heat-bath case that exercises
 the parallel-marginal relaxation cascade of the rovibronic
-Larsen-Borgnakke sampler (:doc:`../theory/relaxation`). The
-translational temperature is held at :math:`T_t = 10\,000~\mathrm{K}`
-by the large thermal inertia of the heat bath, and the internal
-state is initialised at :math:`T_\mathrm{int}(0) = 1\,000~\mathrm{K}`.
-The mean internal energy is expected to decay exponentially toward
-its equilibrium value at the heat-bath temperature.
+Larsen-Borgnakke sampler. The translational temperature is held
+at :math:`T_t = 10\,000~\mathrm{K}` by the large thermal inertia
+of the heat bath, and the internal state is initialised at
+:math:`T_\mathrm{int}(0) = 1\,000~\mathrm{K}`. The mean internal
+energy is expected to decay exponentially toward its equilibrium
+value at the heat-bath temperature.
+
+Theoretical basis
+-----------------
+
+The case sits at the intersection of two theory pages of the
+guide:
+
+* :doc:`../theory/relaxation` derives the Landau-Teller rate
+  equation
+
+  .. math::
+
+     \frac{\mathrm{d}\langle E_k\rangle}{\mathrm{d}t}
+       = \frac{\langle E_k\rangle(T_T) - \langle E_k\rangle(t)}
+              {Z_k^{\mathrm{cont}}\,\tau_c},
+
+  its isothermal single-exponential solution, the Millikan-White
+  and Parker correlations from which :math:`Z_k` is estimated,
+  and the parallel-marginal cascade together with the Nizenkov
+  correction :math:`C_k` that together turn the continuum rate
+  equation into an event-by-event sampler on the
+  :math:`(n, v, J)` state space.
+* :doc:`../theory/larsen_borgnakke` documents the acceptance-
+  rejection kernel on the discrete rovibronic space that is
+  applied in every accepted collision, with the exponent
+  :math:`\alpha_{\mathrm{LB}} = (\xi_{\mathrm{rel}} +
+  \xi_{\mathrm{int}}^{\mathrm{pool}})/2 - 1` and the effective
+  DOF :math:`\xi_k(T) = 2 \langle E_k\rangle(T)/(k_B T)`.
+
+The validation protocol (the four phases of
+:doc:`../reference/validation`) is the practical application of
+those two pages: by silencing all but one composite channel, the
+corresponding single-mode LT decay can be isolated and compared
+to its analytical form, thereby verifying each ingredient of the
+cascade in turn.
+
+Validation goals
+----------------
+
+The case targets the following quantitative checks, which
+together constitute the *acceptance reference* for the
+relaxation module:
+
+#. **Single-exponential decay** of each composite mode when run
+   in isolation; the DSMC points must sit on the analytical LT
+   curve to within statistical noise (no fit).
+#. **Reference equilibrium energy** :math:`E_k^{\star}` read
+   from the restricted sub-manifold of
+   :doc:`../theory/rovibronic_levels` that the sampler actually
+   accesses in the current phase (J-Boltzmann per
+   :math:`(n_p, v_p)` in Phase 1, :math:`(v, J)`-Boltzmann at
+   :math:`n_p` in Phase 2, triplet-only or full-manifold
+   Boltzmann in Phase 3 / Phase 4).
+#. **Fitted collision number**
+   :math:`Z_{k,\mathrm{fit}}` recovered from the decay
+   time-constant must agree with the input :math:`Z_k` to within
+   5 %.
+#. **No ZCorr artefact** on the rovibronic Larsen-Borgnakke
+   path: the continuous-variable ZCorr correction should not
+   appear in the fitted :math:`Z_k`, consistently with the
+   argument in :doc:`../theory/relaxation`.
+
+Passing all four checks on all four phases is the gating
+criterion for any change to the Larsen-Borgnakke sampler, to the
+Nizenkov correction tables, or to the rovibronic database.
 
 Phase selection
 ---------------
@@ -25,10 +90,10 @@ case and adjust the three collision-number entries in
 
 .. code-block:: text
 
-   Phase 1 (rotational only):     Z_r = 5,    Z_rv = 1e9, Z_rve = 1e9
-   Phase 2 (rovibrational):       Z_r = 1e9,  Z_rv = 50,  Z_rve = 1e9
-   Phase 3 (rovibronic, spin-cons.):      Z_r = 5,  Z_rv = 50,  Z_rve = 500   (allowSpinForbidden=false)
-   Phase 4 (rovibronic, full manifold):   Z_r = 5,  Z_rv = 50,  Z_rve = 500   (allowSpinForbidden=true)
+   Phase 1 (rotational only):             Z_r = 5,    Z_rv = 1e9, Z_rve = 1e9
+   Phase 2 (rovibrational):               Z_r = 1e9,  Z_rv = 50,  Z_rve = 1e9
+   Phase 3 (rovibronic, spin-cons.):      Z_r = 5,    Z_rv = 50,  Z_rve = 500   (allowSpinForbidden=false)
+   Phase 4 (rovibronic, full manifold):   Z_r = 5,    Z_rv = 50,  Z_rve = 500   (allowSpinForbidden=true)
 
 Case parameters
 ---------------

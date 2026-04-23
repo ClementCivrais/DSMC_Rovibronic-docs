@@ -19,6 +19,7 @@
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -55,7 +56,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#build-openfoam">Build OpenFOAM</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#running-multiple-dsmcfoam-variants-side-by-side">Running multiple dsmcFoam+ variants side-by-side</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-3-clone-the-dsmc-rovibronic-repository">Step 3 — Clone the DSMC Rovibronic repository</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-4-build-the-solver">Step 4 — Build the solver</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#verification">Verification</a></li>
@@ -436,17 +440,14 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tools</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html">Mean free path calculator</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#calculator">Calculator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#background">Background</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#derivation">Derivation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#caveats">Caveats</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/mean_free_path.html">Mean free path calculator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html#calculator">Calculator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html#background">Background</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#derivation">Derivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#caveats">Caveats</a></li>
 </ul>
 </li>
 </ul>
@@ -456,6 +457,8 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="relaxation_landau_teller.html">Landau-Teller heat-bath relaxation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#phase-selection">Phase selection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#running-the-case">Running the case</a></li>
@@ -470,53 +473,68 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="isothermal_reactive_heatbath.html">Isothermal reactive heat-bath</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#reactions-included">Reactions included</a></li>
 <li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#running-the-case">Running the case</a></li>
 <li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#expected-outcome">Expected outcome</a></li>
-<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#use-as-a-validation">Use as a validation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="free_space_periodic.html">Free-space periodic equilibrium</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="free_space_periodic.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="free_space_periodic.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="free_space_periodic.html#case-parameters">Case parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="collision_rate_test.html">Collision-rate test</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="micro_scale_test_case.html">Micro-scale channel flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="hypersonic_flat_plate.html">Hypersonic flat plate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#useful-validations">Useful validations</a></li>
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Supersonic corner</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="axisymmetric_blunt_cylinder.html">Axisymmetric blunt cylinder</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#useful-validations">Useful validations</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="orion_107km.html">Orion capsule at 107 km (non-reacting)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orion_107km.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orion_107km.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orion_107km.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="chemical_reaction_demonstration.html">Chemical-reaction demonstration (WIP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#theoretical-basis">Theoretical basis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#species">Species</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#registered-reactions">Registered reactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#running">Running</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#expected-behaviour">Expected behaviour</a></li>
 </ul>
@@ -586,7 +604,7 @@
 <p>A supersonic flow of N<sub>2</sub> over a 2-D compression corner.
 The case exercises the interaction of an oblique shock with a
 boundary layer and a compression fan —  the “shock-boundary-
-layer interaction” problem that is central to inlet and
+layer interaction” (SBLI) problem that is central to inlet and
 control-surface aerodynamics at hypersonic speeds.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -598,6 +616,51 @@ therefore a slightly different physical problem than the
 monatomic baseline, but a better match for the solver’s
 intended applications.</p>
 </div>
+<section id="theoretical-basis">
+<h2>Theoretical basis<a class="headerlink" href="#theoretical-basis" title="Link to this heading"></a></h2>
+<p>The case combines three distinct physical ingredients:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../theory/foundations.html"><span class="doc">Kinetic foundations and the DSMC algorithm</span></a> — the flow is supersonic,
+compressible, and partly rarefied in the shock structure.
+DSMC captures the shock as a finite-thickness transition
+region of a few mean free paths rather than a jump
+discontinuity.</p></li>
+<li><p><a class="reference internal" href="../theory/collision_cross_sections.html"><span class="doc">Collision cross sections</span></a> and
+<a class="reference internal" href="../theory/collision_sampling.html"><span class="doc">Collision sampling</span></a> — the collision kernel
+and the NTC sampler determine the shock thickness; any
+change to the cross section or to the acceptance rule shows
+up here as a shift in the shock profile.</p></li>
+<li><p><a class="reference internal" href="../theory/wall_models.html"><span class="doc">Wall and inflow models</span></a> — the walls downstream of the
+corner are fully-diffuse (<code class="docutils literal notranslate"><span class="pre">dsmcDiffuseWallPatch</span></code>) at the
+specified <span class="math notranslate nohighlight">\(T_w\)</span>, which drives the growth of the
+recompression boundary layer after the corner and the
+associated wall heat-flux peak at the reattachment point.</p></li>
+<li><p><a class="reference internal" href="../theory/relaxation.html"><span class="doc">Internal-energy relaxation</span></a> — the post-shock state is not
+in internal equilibrium; the rotational-vibrational cascade
+drives <span class="math notranslate nohighlight">\(T_{\mathrm{int}}\)</span> toward <span class="math notranslate nohighlight">\(T_t\)</span> over a
+few mean collision times, and the resulting internal
+temperature gradient feeds into the heat-flux vector
+measured by <a class="reference internal" href="../classes/measurements.html"><span class="doc">Measurements</span></a>.</p></li>
+</ul>
+</section>
+<section id="validation-goals">
+<h2>Validation goals<a class="headerlink" href="#validation-goals" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Oblique-shock angle</strong> — the observed shock angle must
+follow the oblique-shock relation
+<span class="math notranslate nohighlight">\(\tan\theta_w = 2\cot\beta\,(M^{2}\sin^{2}\beta - 1)/
+(M^{2}(\gamma + \cos 2\beta) + 2)\)</span> at the free-stream Mach
+number, within the finite-thickness uncertainty of a DSMC
+shock.</p></li>
+<li><p><strong>Separation / reattachment</strong> — if the corner angle is
+large enough to induce separation, the observed separation
+and reattachment locations should agree with the published
+SBLI literature for similar conditions.</p></li>
+<li><p><strong>Wall heat-flux peak</strong> — the heat-flux peak at the
+reattachment point should match the Edney-type scaling laws
+for SBLI interactions at hypersonic speeds.</p></li>
+</ol>
+</section>
 <section id="case-parameters">
 <h2>Case parameters<a class="headerlink" href="#case-parameters" title="Link to this heading"></a></h2>
 <ul class="simple">

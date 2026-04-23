@@ -167,6 +167,68 @@ Henceforth a fresh shell is initialised by running
    wrong environment has been sourced in a shell, is to open a
    fresh one.
 
+Running multiple dsmcFoam+ variants side-by-side
+````````````````````````````````````````````````
+
+In practice a single OpenFOAM installation often hosts several
+co-existing variants of the DSMC code — the stock dsmcFoam+
+``master``, a ``vibronic`` branch, the present ``rovibronic``
+branch, and whatever other forks are under active development.
+Each variant should have its own ``$WM_PROJECT_USER_DIR`` so
+that their builds, symlinks, and run directories do not clash.
+The OpenFOAM bashrc machinery makes this straightforward: one
+extra ``etc/bashrc-<name>`` per variant, each setting its own
+``WM_PROJECT_USER_DIR``, plus one shell alias per variant.
+
+#. Create one workspace directory per variant under
+   ``$HOME/OpenFOAM/``:
+
+   .. code-block:: bash
+
+      mkdir -p $HOME/OpenFOAM/{master-v2512,vibronic-v2512,rovibronic-v2512}
+
+#. Create one ``etc/bashrc-<name>`` per variant. Each is a copy
+   of the stock ``etc/bashrc`` in which the single line setting
+   ``WM_PROJECT_USER_DIR`` is replaced by the variant's
+   workspace path. For example,
+   ``etc/bashrc-master``::
+
+      export WM_PROJECT_USER_DIR="$HOME/OpenFOAM/master-v2512"
+
+   ``etc/bashrc-vibronic``::
+
+      export WM_PROJECT_USER_DIR="$HOME/OpenFOAM/vibronic-v2512"
+
+   ``etc/bashrc-rovibronic``::
+
+      export WM_PROJECT_USER_DIR="$HOME/OpenFOAM/rovibronic-v2512"
+
+#. Add one shell alias per variant to ``~/.bashrc`` (or
+   ``~/.zshrc``):
+
+   .. code-block:: bash
+
+      alias of-master='source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-master'
+      alias of-vibronic='source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-vibronic'
+      alias of-rovibronic='source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-rovibronic'
+
+A fresh shell then activates the desired variant with a single
+command — ``of-rovibronic`` to build against the present
+source, ``of-vibronic`` to switch to the sibling branch, and so
+on. The stock ``etc/bashrc`` remains untouched, so that a
+``source .../bashrc`` still gives the unmodified OpenFOAM
+environment for unrelated work.
+
+.. note::
+   The same workflow extends naturally to multiple OpenFOAM
+   versions (v2406, v2512, …): each version has its own
+   ``etc/bashrc-<variant>`` set. Keeping the per-variant
+   workspace path versioned
+   (``$HOME/OpenFOAM/rovibronic-v2512``,
+   ``$HOME/OpenFOAM/rovibronic-v2406``, …) avoids cross-version
+   contamination of the symlinks that ``./Allwmake`` creates in
+   ``$WM_PROJECT_USER_DIR``.
+
 Step 3 — Clone the DSMC Rovibronic repository
 ---------------------------------------------
 

@@ -55,7 +55,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#build-openfoam">Build OpenFOAM</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#running-multiple-dsmcfoam-variants-side-by-side">Running multiple dsmcFoam+ variants side-by-side</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#step-3-clone-the-dsmc-rovibronic-repository">Step 3 — Clone the DSMC Rovibronic repository</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step-4-build-the-solver">Step 4 — Build the solver</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#verification">Verification</a></li>
@@ -436,17 +439,14 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tools</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html">Mean free path calculator</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#calculator">Calculator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#background">Background</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#derivation">Derivation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#caveats">Caveats</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/mean_free_path.html">Mean free path calculator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html#calculator">Calculator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html#background">Background</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#derivation">Derivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#caveats">Caveats</a></li>
 </ul>
 </li>
 </ul>
@@ -456,6 +456,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/relaxation_landau_teller.html">Landau-Teller heat-bath relaxation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#phase-selection">Phase selection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#running-the-case">Running the case</a></li>
@@ -470,53 +472,68 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html">Isothermal reactive heat-bath</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#reactions-included">Reactions included</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#running-the-case">Running the case</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#expected-outcome">Expected outcome</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#use-as-a-validation">Use as a validation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/free_space_periodic.html">Free-space periodic equilibrium</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/free_space_periodic.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/free_space_periodic.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/free_space_periodic.html#case-parameters">Case parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/collision_rate_test.html">Collision-rate test</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/collision_rate_test.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/collision_rate_test.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/collision_rate_test.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/micro_scale_test_case.html">Micro-scale channel flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/micro_scale_test_case.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/micro_scale_test_case.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/micro_scale_test_case.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/micro_scale_test_case.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/hypersonic_flat_plate.html">Hypersonic flat plate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#useful-validations">Useful validations</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/supersonic_corner.html">Supersonic corner</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/supersonic_corner.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/supersonic_corner.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/supersonic_corner.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/supersonic_corner.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html">Axisymmetric blunt cylinder</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html#useful-validations">Useful validations</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/orion_107km.html">Orion capsule at 107 km (non-reacting)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/orion_107km.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/orion_107km.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/orion_107km.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/orion_107km.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/orion_107km.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html">Chemical-reaction demonstration (WIP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#theoretical-basis">Theoretical basis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#species">Species</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#registered-reactions">Registered reactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#running">Running</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#expected-behaviour">Expected behaviour</a></li>
 </ul>
@@ -722,6 +739,68 @@ yields very confusing build errors. The safest remedy, if the
 wrong environment has been sourced in a shell, is to open a
 fresh one.</p>
 </div>
+<section id="running-multiple-dsmcfoam-variants-side-by-side">
+<h3>Running multiple dsmcFoam+ variants side-by-side<a class="headerlink" href="#running-multiple-dsmcfoam-variants-side-by-side" title="Link to this heading"></a></h3>
+<p>In practice a single OpenFOAM installation often hosts several
+co-existing variants of the DSMC code — the stock dsmcFoam+
+<code class="docutils literal notranslate"><span class="pre">master</span></code>, a <code class="docutils literal notranslate"><span class="pre">vibronic</span></code> branch, the present <code class="docutils literal notranslate"><span class="pre">rovibronic</span></code>
+branch, and whatever other forks are under active development.
+Each variant should have its own <code class="docutils literal notranslate"><span class="pre">$WM_PROJECT_USER_DIR</span></code> so
+that their builds, symlinks, and run directories do not clash.
+The OpenFOAM bashrc machinery makes this straightforward: one
+extra <code class="docutils literal notranslate"><span class="pre">etc/bashrc-&lt;name&gt;</span></code> per variant, each setting its own
+<code class="docutils literal notranslate"><span class="pre">WM_PROJECT_USER_DIR</span></code>, plus one shell alias per variant.</p>
+<ol class="arabic">
+<li><p>Create one workspace directory per variant under
+<code class="docutils literal notranslate"><span class="pre">$HOME/OpenFOAM/</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/OpenFOAM/<span class="o">{</span>master-v2512,vibronic-v2512,rovibronic-v2512<span class="o">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>Create one <code class="docutils literal notranslate"><span class="pre">etc/bashrc-&lt;name&gt;</span></code> per variant. Each is a copy
+of the stock <code class="docutils literal notranslate"><span class="pre">etc/bashrc</span></code> in which the single line setting
+<code class="docutils literal notranslate"><span class="pre">WM_PROJECT_USER_DIR</span></code> is replaced by the variant’s
+workspace path. For example,
+<code class="docutils literal notranslate"><span class="pre">etc/bashrc-master</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">WM_PROJECT_USER_DIR</span><span class="o">=</span><span class="s2">&quot;$HOME/OpenFOAM/master-v2512&quot;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">etc/bashrc-vibronic</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">WM_PROJECT_USER_DIR</span><span class="o">=</span><span class="s2">&quot;$HOME/OpenFOAM/vibronic-v2512&quot;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">etc/bashrc-rovibronic</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">WM_PROJECT_USER_DIR</span><span class="o">=</span><span class="s2">&quot;$HOME/OpenFOAM/rovibronic-v2512&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Add one shell alias per variant to <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> (or
+<code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span>of-master<span class="o">=</span><span class="s1">&#39;source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-master&#39;</span>
+<span class="nb">alias</span><span class="w"> </span>of-vibronic<span class="o">=</span><span class="s1">&#39;source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-vibronic&#39;</span>
+<span class="nb">alias</span><span class="w"> </span>of-rovibronic<span class="o">=</span><span class="s1">&#39;source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-rovibronic&#39;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>A fresh shell then activates the desired variant with a single
+command — <code class="docutils literal notranslate"><span class="pre">of-rovibronic</span></code> to build against the present
+source, <code class="docutils literal notranslate"><span class="pre">of-vibronic</span></code> to switch to the sibling branch, and so
+on. The stock <code class="docutils literal notranslate"><span class="pre">etc/bashrc</span></code> remains untouched, so that a
+<code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">.../bashrc</span></code> still gives the unmodified OpenFOAM
+environment for unrelated work.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The same workflow extends naturally to multiple OpenFOAM
+versions (v2406, v2512, …): each version has its own
+<code class="docutils literal notranslate"><span class="pre">etc/bashrc-&lt;variant&gt;</span></code> set. Keeping the per-variant
+workspace path versioned
+(<code class="docutils literal notranslate"><span class="pre">$HOME/OpenFOAM/rovibronic-v2512</span></code>,
+<code class="docutils literal notranslate"><span class="pre">$HOME/OpenFOAM/rovibronic-v2406</span></code>, …) avoids cross-version
+contamination of the symlinks that <code class="docutils literal notranslate"><span class="pre">./Allwmake</span></code> creates in
+<code class="docutils literal notranslate"><span class="pre">$WM_PROJECT_USER_DIR</span></code>.</p>
+</div>
+</section>
 </section>
 <section id="step-3-clone-the-dsmc-rovibronic-repository">
 <h2>Step 3 — Clone the DSMC Rovibronic repository<a class="headerlink" href="#step-3-clone-the-dsmc-rovibronic-repository" title="Link to this heading"></a></h2>

@@ -14,10 +14,81 @@ The diagnostic of interest is the time history of the species
 populations: dissociation progressively depletes the diatomic
 species and enriches the atom pool, until chemical equilibrium is
 reached when the forward dissociation and the detailed-balance
-recombination rates match. The *automatic* computation of heats
-of reaction from the database (:doc:`../theory/chemistry`) means
-that no heat-of-reaction parameter needs to be supplied for any
-of the five reactions.
+recombination rates match.
+
+Theoretical basis
+-----------------
+
+The case exercises four reactive channels in parallel, each
+derived in :doc:`../theory/chemistry`:
+
+* **Dissociation via the Quantum-Kinetic (QK) model.** For a
+  reactant molecule in rovibronic state :math:`(n, v, J)`, the
+  state-dependent dissociation threshold is
+  :math:`E_{\mathrm{diss}}^{(n,v,J)} = D_0 - E(n, v, J)`, so
+  that excited states contribute disproportionately to the
+  dissociation rate. The reaction probability at collision
+  energy :math:`E_c` is
+  :math:`P^{\mathrm{QK}} = (1 - E_{\mathrm{diss}}^{(n,v,J)}
+  / E_c)^{3/2 - \omega}` above threshold; see the full
+  derivation in :doc:`../theory/chemistry`.
+* **Post-reaction Larsen-Borgnakke redistribution** of the
+  available energy :math:`E_{\mathrm{avail}} = E_c -
+  E_{\mathrm{diss}}^{(n,v,J)}` between the products'
+  internal and translational modes, following
+  :doc:`../theory/larsen_borgnakke`. Because the sampler acts on
+  the discrete :math:`(n, v, J)` state space, detailed balance
+  is satisfied by construction.
+* **Zeldovich exchange**
+  :math:`\mathrm{N}_2 + \mathrm{O} \to \mathrm{NO} + \mathrm{N}`
+  with the heat of reaction
+  :math:`\Delta H_{\mathrm{exch}} = D_0(\mathrm{NO}) -
+  D_0(\mathrm{N}_2)` **computed automatically** from the
+  database ground-state dissociation energies (no user input
+  required).
+* **Three-body recombination from detailed balance**
+  :math:`\mathrm{A} + \mathrm{A} + \mathrm{M} \to \mathrm{A}_2
+  + \mathrm{M}`, with rate
+  :math:`k^{\mathrm{rec}}(T) = k^{D}(T) / K_{\mathrm{eq}}(T)`
+  where :math:`K_{\mathrm{eq}}(T)` is built from the pre-tabulated
+  rovibronic partition functions of
+  :doc:`../theory/rovibronic_levels`. Again, no rate parameter
+  is supplied by the user; the recombination rate is entirely
+  database-driven.
+
+The implementation of each reaction class is catalogued in
+:doc:`../classes/reactions`; the species-level data (ground-state
+:math:`D_0`, level tables, partition functions) is read from
+:doc:`../classes/species_database`.
+
+Validation goals
+----------------
+
+The case targets three quantitative checks:
+
+#. **Element conservation.** The total number density of
+   nitrogen atoms (:math:`2\,n_{\mathrm{N}_2} + n_\mathrm{N}
+   + n_\mathrm{NO}`) and of oxygen atoms
+   (:math:`2\,n_{\mathrm{O}_2} + n_\mathrm{O} + n_\mathrm{NO}`)
+   must each be conserved to within statistical noise. A drift
+   in either sum indicates a stoichiometric bug in one of the
+   registered reactions and is the quickest useful test of any
+   change to the chemistry module.
+#. **Database-consistent heats of reaction.** At start-up the
+   solver prints the computed
+   :math:`\Delta H = D_0(\mathrm{products}) - D_0(\mathrm{reactants})`
+   for the exchange and recombination channels. For
+   :math:`\mathrm{N}_2 + \mathrm{O} \to \mathrm{NO} + \mathrm{N}`,
+   the expected value is :math:`\approx -37\,700~\mathrm{K}` and
+   must agree with the literature (cf.
+   :doc:`../reference/validation`, *Heats of reaction*) to
+   within 1 %.
+#. **Equilibrium composition.** Running the case for long enough
+   to reach chemical equilibrium, the product ratio
+   :math:`n_\mathrm{A}^{2} / n_{\mathrm{A}_2}` must match
+   :math:`K_{\mathrm{eq}}(T)/n_\mathrm{M}` evaluated from the
+   same rovibronic database; this is the end-to-end check of
+   the detailed-balance construction of the recombination rate.
 
 Reactions included
 ------------------
@@ -72,15 +143,3 @@ system to an equilibrium set by
 calculator at :doc:`../tools/mean_free_path` uses (implicitly, via
 the equilibrium constant) to estimate the equilibrium composition
 at any :math:`(T, p)`.
-
-Use as a validation
--------------------
-
-The sum of the number densities of N-bearing species
-(:math:`2\,n_{\mathrm{N}_2} + n_{\mathrm{N}} + n_{\mathrm{NO}}`)
-and of O-bearing species (:math:`2\,n_{\mathrm{O}_2} +
-n_{\mathrm{O}} + n_{\mathrm{NO}}`) must be individually conserved
-within statistical noise. A drift in either sum signals a bug
-in the stoichiometric accounting of one of the reactions — this
-is the quickest useful test of any change to the chemistry
-module.

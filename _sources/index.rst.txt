@@ -58,7 +58,7 @@ developer's doctoral thesis [CivraisThesis]_.
    :maxdepth: 2
    :caption: Tools
 
-   tools/index
+   tools/mean_free_path
 
 .. toctree::
    :maxdepth: 2

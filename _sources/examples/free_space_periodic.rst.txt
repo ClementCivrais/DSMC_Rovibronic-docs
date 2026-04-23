@@ -10,17 +10,56 @@ solver is run for long enough to confirm that the sampled
 statistics (temperature, density, stress tensor, mean free path)
 remain within statistical bounds of the initial state.
 
-This is the simplest possible baseline case and is useful as:
+Theoretical basis
+-----------------
 
-* a **smoke test** of the build — the case must run to
-  completion without NaN or unphysical drift;
-* a **convergence test** for the time-averaging machinery — the
-  per-cell error estimate produced by ``measureErrors`` on
-  ``dsmcVolFields`` should follow the :math:`1/\sqrt{N}`
-  statistical convergence expected of a Maxwellian equilibrium;
-* a **reference** for any chemistry-on case run with otherwise
-  identical settings, so that the chemistry's effect on the
-  macroscopic state can be isolated by difference.
+This is the simplest configuration in which the core DSMC
+machinery can be exercised end-to-end:
+
+* :doc:`../theory/foundations` —  the case sits squarely in the
+  regime where the Boltzmann equation applies: dilute gas,
+  molecular chaos, binary collisions. The time-averaged
+  single-particle distribution is expected to be Maxwell-
+  Boltzmann, and the H-theorem guarantees that any departure
+  from equilibrium would decay monotonically if introduced;
+  here nothing perturbs equilibrium so the distribution simply
+  stays Maxwellian.
+* :doc:`../theory/collision_cross_sections` and
+  :doc:`../theory/collision_sampling` —  every collision is
+  sampled through the NTC acceptance rule with the VHS cross
+  section, but because the distribution is already equilibrium,
+  forward and backward rates match exactly (detailed balance).
+* :doc:`../theory/macroscopic_properties` —  the per-cell
+  estimators of :math:`n, T_t, T_{\mathrm{int}}, p,
+  \mathbf{P}, \mathbf{q}` are exercised in the most forgiving
+  regime; any systematic error in their definition shows up as
+  a drift from the initial value rather than being hidden in a
+  non-trivial flow gradient.
+
+Validation goals
+----------------
+
+The case is used as a **smoke test** and as a **statistical
+convergence reference**. Specifically:
+
+#. **Baseline invariance.** Run with no perturbation; the
+   cell-averaged :math:`n, T_t, T_{\mathrm{int}}, p` must
+   remain within statistical bounds of their initial values.
+#. **Statistical convergence.** With
+   ``measureErrors`` enabled on the ``dsmcVolFields`` field
+   model (see :doc:`../classes/measurements`), the per-cell
+   standard deviation should follow the expected
+   :math:`1/\sqrt{N_\mathrm{samples}}` scaling as the
+   averaging window grows.
+#. **Smoke test for the build.** The case must run to
+   completion without NaNs, without unphysical temperature
+   drift, and without any diagnostic warning from the cloud —
+   a failure here is almost always a symptom of a build-time
+   or linkage problem rather than a physics bug.
+#. **Chemistry-on reference.** Turning chemistry on with
+   otherwise identical settings and comparing to this case
+   isolates the chemistry module's effect on the macroscopic
+   state.
 
 Case parameters
 ---------------

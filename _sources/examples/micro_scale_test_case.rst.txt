@@ -17,13 +17,65 @@ where DSMC is the method of choice (see
 :doc:`../theory/foundations`), and neither a pure continuum nor a
 pure free-molecular description would be adequate.
 
+Theoretical basis
+-----------------
+
+The case touches several theory pages at once:
+
+* :doc:`../theory/foundations` — at
+  :math:`\mathrm{Kn} \sim 0.2` the flow is in the
+  **transitional regime**: the mean free path is comparable to
+  the channel height, so continuum slip-flow models break down.
+  DSMC is the natural method of choice.
+* :doc:`../theory/wall_models` — the channel walls are
+  **fully-diffuse thermal walls**
+  (``dsmcDiffuseWallPatch``) at a prescribed :math:`T_w`; the
+  velocity is redrawn from the half-range Maxwellian at
+  :math:`T_w` on every reflection, and the resulting gas-wall
+  temperature jump and velocity slip are captured automatically
+  from the particle dynamics.
+* :doc:`../theory/wall_models` also documents the
+  **pressure-driven inlet** (``dsmcWangPressureInlet`` or the
+  Liou-Fang variant) that sets the upstream reservoir
+  condition, and the deletion-patch outlet that caps the
+  downstream end.
+* :doc:`../theory/macroscopic_properties` — the cell-level
+  pressure and mean-velocity fields that appear in the
+  post-processing are the ingredients of Poiseuille-flow
+  theory, from which the analytical continuum solution can be
+  derived for comparison with the DSMC output.
+
+The underlying physics is the **Knudsen minimum** of the
+normalised mass-flow rate :math:`Q(\delta_m)` discovered by
+Knudsen and widely reproduced since: between the continuum and
+free-molecular limits, :math:`Q` has a pronounced minimum near
+:math:`\mathrm{Kn} \sim 1`, which no continuum theory reproduces
+and which is therefore a strong discriminator of a DSMC
+implementation.
+
+Validation goals
+----------------
+
+#. **Knudsen minimum** — the normalised mass flow
+   :math:`Q(\delta_m)` measured across a Knudsen-number sweep
+   must exhibit the canonical minimum near
+   :math:`\mathrm{Kn} \sim 1`. At the case's nominal
+   :math:`\mathrm{Kn} \sim 0.2` the flow sits on the continuum
+   side of the minimum.
+#. **Quantitative comparison** against the reference
+   measurements of Liou & Fang [LiouFang2006mc]_ and
+   Ewart et al. — the centreline velocity and the mass-flow
+   rate should agree with the published values to within
+   plotting accuracy once the Knudsen number is matched.
+
 Diagnostics
 -----------
 
 * The ``dsmcBinsMethod`` field model in
   ``system/fieldPropertiesDict`` samples a 1-D bin stack along
-  the channel axis; each bin returns translational temperature,
-  density, and mean velocity.
+  the channel axis (see :doc:`../classes/measurements`); each
+  bin returns translational temperature, density, and mean
+  velocity.
 * A ``dsmcMassFluxSurface`` records the mass flow rate through
   the inlet and outlet patches for direct comparison against
   [LiouFang2006mc]_.

@@ -6,7 +6,7 @@ Directory: ``tutorials/supersonicCorner/``.
 A supersonic flow of N\ :sub:`2` over a 2-D compression corner.
 The case exercises the interaction of an oblique shock with a
 boundary layer and a compression fan —  the "shock-boundary-
-layer interaction" problem that is central to inlet and
+layer interaction" (SBLI) problem that is central to inlet and
 control-surface aerodynamics at hypersonic speeds.
 
 .. note::
@@ -18,6 +18,50 @@ control-surface aerodynamics at hypersonic speeds.
    therefore a slightly different physical problem than the
    monatomic baseline, but a better match for the solver's
    intended applications.
+
+Theoretical basis
+-----------------
+
+The case combines three distinct physical ingredients:
+
+* :doc:`../theory/foundations` — the flow is supersonic,
+  compressible, and partly rarefied in the shock structure.
+  DSMC captures the shock as a finite-thickness transition
+  region of a few mean free paths rather than a jump
+  discontinuity.
+* :doc:`../theory/collision_cross_sections` and
+  :doc:`../theory/collision_sampling` — the collision kernel
+  and the NTC sampler determine the shock thickness; any
+  change to the cross section or to the acceptance rule shows
+  up here as a shift in the shock profile.
+* :doc:`../theory/wall_models` — the walls downstream of the
+  corner are fully-diffuse (``dsmcDiffuseWallPatch``) at the
+  specified :math:`T_w`, which drives the growth of the
+  recompression boundary layer after the corner and the
+  associated wall heat-flux peak at the reattachment point.
+* :doc:`../theory/relaxation` — the post-shock state is not
+  in internal equilibrium; the rotational-vibrational cascade
+  drives :math:`T_{\mathrm{int}}` toward :math:`T_t` over a
+  few mean collision times, and the resulting internal
+  temperature gradient feeds into the heat-flux vector
+  measured by :doc:`../classes/measurements`.
+
+Validation goals
+----------------
+
+#. **Oblique-shock angle** — the observed shock angle must
+   follow the oblique-shock relation
+   :math:`\tan\theta_w = 2\cot\beta\,(M^{2}\sin^{2}\beta - 1)/
+   (M^{2}(\gamma + \cos 2\beta) + 2)` at the free-stream Mach
+   number, within the finite-thickness uncertainty of a DSMC
+   shock.
+#. **Separation / reattachment** — if the corner angle is
+   large enough to induce separation, the observed separation
+   and reattachment locations should agree with the published
+   SBLI literature for similar conditions.
+#. **Wall heat-flux peak** — the heat-flux peak at the
+   reattachment point should match the Edney-type scaling laws
+   for SBLI interactions at hypersonic speeds.
 
 Case parameters
 ---------------

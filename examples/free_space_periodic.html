@@ -56,7 +56,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#build-openfoam">Build OpenFOAM</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#running-multiple-dsmcfoam-variants-side-by-side">Running multiple dsmcFoam+ variants side-by-side</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-3-clone-the-dsmc-rovibronic-repository">Step 3 — Clone the DSMC Rovibronic repository</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-4-build-the-solver">Step 4 — Build the solver</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#verification">Verification</a></li>
@@ -437,17 +440,14 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tools</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html">Mean free path calculator</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#calculator">Calculator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#background">Background</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#derivation">Derivation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#caveats">Caveats</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/mean_free_path.html">Mean free path calculator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html#calculator">Calculator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html#background">Background</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#derivation">Derivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#caveats">Caveats</a></li>
 </ul>
 </li>
 </ul>
@@ -457,6 +457,8 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="relaxation_landau_teller.html">Landau-Teller heat-bath relaxation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#phase-selection">Phase selection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#running-the-case">Running the case</a></li>
@@ -471,53 +473,68 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="isothermal_reactive_heatbath.html">Isothermal reactive heat-bath</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#reactions-included">Reactions included</a></li>
 <li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#running-the-case">Running the case</a></li>
 <li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#expected-outcome">Expected outcome</a></li>
-<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#use-as-a-validation">Use as a validation</a></li>
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Free-space periodic equilibrium</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#case-parameters">Case parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="collision_rate_test.html">Collision-rate test</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="micro_scale_test_case.html">Micro-scale channel flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="hypersonic_flat_plate.html">Hypersonic flat plate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#useful-validations">Useful validations</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="supersonic_corner.html">Supersonic corner</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="axisymmetric_blunt_cylinder.html">Axisymmetric blunt cylinder</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#useful-validations">Useful validations</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="orion_107km.html">Orion capsule at 107 km (non-reacting)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orion_107km.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orion_107km.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orion_107km.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="chemical_reaction_demonstration.html">Chemical-reaction demonstration (WIP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#theoretical-basis">Theoretical basis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#species">Species</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#registered-reactions">Registered reactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#running">Running</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#expected-behaviour">Expected behaviour</a></li>
 </ul>
@@ -590,18 +607,57 @@ chemistry; the gas is initialised at the target state and the
 solver is run for long enough to confirm that the sampled
 statistics (temperature, density, stress tensor, mean free path)
 remain within statistical bounds of the initial state.</p>
-<p>This is the simplest possible baseline case and is useful as:</p>
+<section id="theoretical-basis">
+<h2>Theoretical basis<a class="headerlink" href="#theoretical-basis" title="Link to this heading"></a></h2>
+<p>This is the simplest configuration in which the core DSMC
+machinery can be exercised end-to-end:</p>
 <ul class="simple">
-<li><p>a <strong>smoke test</strong> of the build — the case must run to
-completion without NaN or unphysical drift;</p></li>
-<li><p>a <strong>convergence test</strong> for the time-averaging machinery — the
-per-cell error estimate produced by <code class="docutils literal notranslate"><span class="pre">measureErrors</span></code> on
-<code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code> should follow the <span class="math notranslate nohighlight">\(1/\sqrt{N}\)</span>
-statistical convergence expected of a Maxwellian equilibrium;</p></li>
-<li><p>a <strong>reference</strong> for any chemistry-on case run with otherwise
-identical settings, so that the chemistry’s effect on the
-macroscopic state can be isolated by difference.</p></li>
+<li><p><a class="reference internal" href="../theory/foundations.html"><span class="doc">Kinetic foundations and the DSMC algorithm</span></a> —  the case sits squarely in the
+regime where the Boltzmann equation applies: dilute gas,
+molecular chaos, binary collisions. The time-averaged
+single-particle distribution is expected to be Maxwell-
+Boltzmann, and the H-theorem guarantees that any departure
+from equilibrium would decay monotonically if introduced;
+here nothing perturbs equilibrium so the distribution simply
+stays Maxwellian.</p></li>
+<li><p><a class="reference internal" href="../theory/collision_cross_sections.html"><span class="doc">Collision cross sections</span></a> and
+<a class="reference internal" href="../theory/collision_sampling.html"><span class="doc">Collision sampling</span></a> —  every collision is
+sampled through the NTC acceptance rule with the VHS cross
+section, but because the distribution is already equilibrium,
+forward and backward rates match exactly (detailed balance).</p></li>
+<li><p><a class="reference internal" href="../theory/macroscopic_properties.html"><span class="doc">Macroscopic properties</span></a> —  the per-cell
+estimators of <span class="math notranslate nohighlight">\(n, T_t, T_{\mathrm{int}}, p,
+\mathbf{P}, \mathbf{q}\)</span> are exercised in the most forgiving
+regime; any systematic error in their definition shows up as
+a drift from the initial value rather than being hidden in a
+non-trivial flow gradient.</p></li>
 </ul>
+</section>
+<section id="validation-goals">
+<h2>Validation goals<a class="headerlink" href="#validation-goals" title="Link to this heading"></a></h2>
+<p>The case is used as a <strong>smoke test</strong> and as a <strong>statistical
+convergence reference</strong>. Specifically:</p>
+<ol class="arabic simple">
+<li><p><strong>Baseline invariance.</strong> Run with no perturbation; the
+cell-averaged <span class="math notranslate nohighlight">\(n, T_t, T_{\mathrm{int}}, p\)</span> must
+remain within statistical bounds of their initial values.</p></li>
+<li><p><strong>Statistical convergence.</strong> With
+<code class="docutils literal notranslate"><span class="pre">measureErrors</span></code> enabled on the <code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code> field
+model (see <a class="reference internal" href="../classes/measurements.html"><span class="doc">Measurements</span></a>), the per-cell
+standard deviation should follow the expected
+<span class="math notranslate nohighlight">\(1/\sqrt{N_\mathrm{samples}}\)</span> scaling as the
+averaging window grows.</p></li>
+<li><p><strong>Smoke test for the build.</strong> The case must run to
+completion without NaNs, without unphysical temperature
+drift, and without any diagnostic warning from the cloud —
+a failure here is almost always a symptom of a build-time
+or linkage problem rather than a physics bug.</p></li>
+<li><p><strong>Chemistry-on reference.</strong> Turning chemistry on with
+otherwise identical settings and comparing to this case
+isolates the chemistry module’s effect on the macroscopic
+state.</p></li>
+</ol>
+</section>
 <section id="case-parameters">
 <h2>Case parameters<a class="headerlink" href="#case-parameters" title="Link to this heading"></a></h2>
 <ul class="simple">

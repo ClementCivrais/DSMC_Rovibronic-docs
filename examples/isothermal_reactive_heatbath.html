@@ -56,7 +56,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#build-openfoam">Build OpenFOAM</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#running-multiple-dsmcfoam-variants-side-by-side">Running multiple dsmcFoam+ variants side-by-side</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-3-clone-the-dsmc-rovibronic-repository">Step 3 — Clone the DSMC Rovibronic repository</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-4-build-the-solver">Step 4 — Build the solver</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#verification">Verification</a></li>
@@ -437,17 +440,14 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tools</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html">Mean free path calculator</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#calculator">Calculator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#background">Background</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#derivation">Derivation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tools/mean_free_path.html#caveats">Caveats</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/mean_free_path.html">Mean free path calculator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html#calculator">Calculator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/mean_free_path.html#background">Background</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#derivation">Derivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#combining-rules-when-they-apply-when-they-do-not">Combining rules — when they apply, when they do not</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#dsmc-numerical-constraints">DSMC numerical constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#on-the-sub-cell-machinery">On the sub-cell machinery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/mean_free_path.html#caveats">Caveats</a></li>
 </ul>
 </li>
 </ul>
@@ -457,6 +457,8 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="relaxation_landau_teller.html">Landau-Teller heat-bath relaxation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#phase-selection">Phase selection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#running-the-case">Running the case</a></li>
@@ -471,53 +473,68 @@
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Isothermal reactive heat-bath</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reactions-included">Reactions included</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#running-the-case">Running the case</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#expected-outcome">Expected outcome</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#use-as-a-validation">Use as a validation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="free_space_periodic.html">Free-space periodic equilibrium</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="free_space_periodic.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="free_space_periodic.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="free_space_periodic.html#case-parameters">Case parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="collision_rate_test.html">Collision-rate test</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="micro_scale_test_case.html">Micro-scale channel flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="hypersonic_flat_plate.html">Hypersonic flat plate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#useful-validations">Useful validations</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="supersonic_corner.html">Supersonic corner</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="axisymmetric_blunt_cylinder.html">Axisymmetric blunt cylinder</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#useful-validations">Useful validations</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="orion_107km.html">Orion capsule at 107 km (non-reacting)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orion_107km.html#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orion_107km.html#diagnostics">Diagnostics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orion_107km.html#running">Running</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="chemical_reaction_demonstration.html">Chemical-reaction demonstration (WIP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#theoretical-basis">Theoretical basis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#species">Species</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#registered-reactions">Registered reactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#validation-goals">Validation goals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#running">Running</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#expected-behaviour">Expected behaviour</a></li>
 </ul>
@@ -594,10 +611,80 @@ dominated by N<sub>2</sub> / O<sub>2</sub> and a small NO seed.</p>
 populations: dissociation progressively depletes the diatomic
 species and enriches the atom pool, until chemical equilibrium is
 reached when the forward dissociation and the detailed-balance
-recombination rates match. The <em>automatic</em> computation of heats
-of reaction from the database (<a class="reference internal" href="../theory/chemistry.html"><span class="doc">Neutral chemistry</span></a>) means
-that no heat-of-reaction parameter needs to be supplied for any
-of the five reactions.</p>
+recombination rates match.</p>
+<section id="theoretical-basis">
+<h2>Theoretical basis<a class="headerlink" href="#theoretical-basis" title="Link to this heading"></a></h2>
+<p>The case exercises four reactive channels in parallel, each
+derived in <a class="reference internal" href="../theory/chemistry.html"><span class="doc">Neutral chemistry</span></a>:</p>
+<ul class="simple">
+<li><p><strong>Dissociation via the Quantum-Kinetic (QK) model.</strong> For a
+reactant molecule in rovibronic state <span class="math notranslate nohighlight">\((n, v, J)\)</span>, the
+state-dependent dissociation threshold is
+<span class="math notranslate nohighlight">\(E_{\mathrm{diss}}^{(n,v,J)} = D_0 - E(n, v, J)\)</span>, so
+that excited states contribute disproportionately to the
+dissociation rate. The reaction probability at collision
+energy <span class="math notranslate nohighlight">\(E_c\)</span> is
+<span class="math notranslate nohighlight">\(P^{\mathrm{QK}} = (1 - E_{\mathrm{diss}}^{(n,v,J)}
+/ E_c)^{3/2 - \omega}\)</span> above threshold; see the full
+derivation in <a class="reference internal" href="../theory/chemistry.html"><span class="doc">Neutral chemistry</span></a>.</p></li>
+<li><p><strong>Post-reaction Larsen-Borgnakke redistribution</strong> of the
+available energy <span class="math notranslate nohighlight">\(E_{\mathrm{avail}} = E_c -
+E_{\mathrm{diss}}^{(n,v,J)}\)</span> between the products’
+internal and translational modes, following
+<a class="reference internal" href="../theory/larsen_borgnakke.html"><span class="doc">Larsen-Borgnakke energy redistribution</span></a>. Because the sampler acts on
+the discrete <span class="math notranslate nohighlight">\((n, v, J)\)</span> state space, detailed balance
+is satisfied by construction.</p></li>
+<li><p><strong>Zeldovich exchange</strong>
+<span class="math notranslate nohighlight">\(\mathrm{N}_2 + \mathrm{O} \to \mathrm{NO} + \mathrm{N}\)</span>
+with the heat of reaction
+<span class="math notranslate nohighlight">\(\Delta H_{\mathrm{exch}} = D_0(\mathrm{NO}) -
+D_0(\mathrm{N}_2)\)</span> <strong>computed automatically</strong> from the
+database ground-state dissociation energies (no user input
+required).</p></li>
+<li><p><strong>Three-body recombination from detailed balance</strong>
+<span class="math notranslate nohighlight">\(\mathrm{A} + \mathrm{A} + \mathrm{M} \to \mathrm{A}_2
++ \mathrm{M}\)</span>, with rate
+<span class="math notranslate nohighlight">\(k^{\mathrm{rec}}(T) = k^{D}(T) / K_{\mathrm{eq}}(T)\)</span>
+where <span class="math notranslate nohighlight">\(K_{\mathrm{eq}}(T)\)</span> is built from the pre-tabulated
+rovibronic partition functions of
+<a class="reference internal" href="../theory/rovibronic_levels.html"><span class="doc">Rovibronic level structure</span></a>. Again, no rate parameter
+is supplied by the user; the recombination rate is entirely
+database-driven.</p></li>
+</ul>
+<p>The implementation of each reaction class is catalogued in
+<a class="reference internal" href="../classes/reactions.html"><span class="doc">Reaction classes</span></a>; the species-level data (ground-state
+<span class="math notranslate nohighlight">\(D_0\)</span>, level tables, partition functions) is read from
+<a class="reference internal" href="../classes/species_database.html"><span class="doc">dsmcSpeciesDatabase — spectroscopic &amp; VSS data</span></a>.</p>
+</section>
+<section id="validation-goals">
+<h2>Validation goals<a class="headerlink" href="#validation-goals" title="Link to this heading"></a></h2>
+<p>The case targets three quantitative checks:</p>
+<ol class="arabic simple">
+<li><p><strong>Element conservation.</strong> The total number density of
+nitrogen atoms (<span class="math notranslate nohighlight">\(2\,n_{\mathrm{N}_2} + n_\mathrm{N}
++ n_\mathrm{NO}\)</span>) and of oxygen atoms
+(<span class="math notranslate nohighlight">\(2\,n_{\mathrm{O}_2} + n_\mathrm{O} + n_\mathrm{NO}\)</span>)
+must each be conserved to within statistical noise. A drift
+in either sum indicates a stoichiometric bug in one of the
+registered reactions and is the quickest useful test of any
+change to the chemistry module.</p></li>
+<li><p><strong>Database-consistent heats of reaction.</strong> At start-up the
+solver prints the computed
+<span class="math notranslate nohighlight">\(\Delta H = D_0(\mathrm{products}) - D_0(\mathrm{reactants})\)</span>
+for the exchange and recombination channels. For
+<span class="math notranslate nohighlight">\(\mathrm{N}_2 + \mathrm{O} \to \mathrm{NO} + \mathrm{N}\)</span>,
+the expected value is <span class="math notranslate nohighlight">\(\approx -37\,700~\mathrm{K}\)</span> and
+must agree with the literature (cf.
+<a class="reference internal" href="../reference/validation.html"><span class="doc">Validation</span></a>, <em>Heats of reaction</em>) to
+within 1 %.</p></li>
+<li><p><strong>Equilibrium composition.</strong> Running the case for long enough
+to reach chemical equilibrium, the product ratio
+<span class="math notranslate nohighlight">\(n_\mathrm{A}^{2} / n_{\mathrm{A}_2}\)</span> must match
+<span class="math notranslate nohighlight">\(K_{\mathrm{eq}}(T)/n_\mathrm{M}\)</span> evaluated from the
+same rovibronic database; this is the end-to-end check of
+the detailed-balance construction of the recombination rate.</p></li>
+</ol>
+</section>
 <section id="reactions-included">
 <h2>Reactions included<a class="headerlink" href="#reactions-included" title="Link to this heading"></a></h2>
 <p>Five reactions are registered in <code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code>:</p>
@@ -650,17 +737,6 @@ system to an equilibrium set by
 calculator at <a class="reference internal" href="../tools/mean_free_path.html"><span class="doc">Mean free path calculator</span></a> uses (implicitly, via
 the equilibrium constant) to estimate the equilibrium composition
 at any <span class="math notranslate nohighlight">\((T, p)\)</span>.</p>
-</section>
-<section id="use-as-a-validation">
-<h2>Use as a validation<a class="headerlink" href="#use-as-a-validation" title="Link to this heading"></a></h2>
-<p>The sum of the number densities of N-bearing species
-(<span class="math notranslate nohighlight">\(2\,n_{\mathrm{N}_2} + n_{\mathrm{N}} + n_{\mathrm{NO}}\)</span>)
-and of O-bearing species (<span class="math notranslate nohighlight">\(2\,n_{\mathrm{O}_2} +
-n_{\mathrm{O}} + n_{\mathrm{NO}}\)</span>) must be individually conserved
-within statistical noise. A drift in either sum signals a bug
-in the stoichiometric accounting of one of the reactions — this
-is the quickest useful test of any change to the chemistry
-module.</p>
 </section>
 </section>
 

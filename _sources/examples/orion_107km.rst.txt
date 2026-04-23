@@ -10,6 +10,63 @@ trajectory, where the Knudsen number is large enough that DSMC
 is essential (a continuum description fails) and the number
 density is small enough that ionisation is not yet significant.
 
+Theoretical basis
+-----------------
+
+The case is the canonical "DSMC is the right tool" scenario:
+
+* :doc:`../theory/foundations` —  at 107 km the free-stream
+  number density is :math:`\sim 10^{16}\;\mathrm{m}^{-3}` and
+  the mean free path is of order metres; with a capsule
+  characteristic length :math:`\sim\!5~\mathrm{m}`, the
+  free-stream Knudsen number is :math:`\mathrm{Kn} \sim
+  10^{-1}`. This sits in the upper transitional regime where
+  Navier-Stokes with slip conditions is marginal at best, and
+  DSMC is the only method that reliably captures the flow.
+  The :doc:`../tools/mean_free_path` calculator is useful here
+  for sanity-checking the free-stream mean free path and the
+  cell size :math:`\Delta x < \lambda/3` required by the DSMC
+  convergence condition.
+* :doc:`../theory/wall_models` —  the capsule surface is
+  modelled as a **fully-diffuse thermal wall**
+  (``dsmcDiffuseWallPatch``) at :math:`T_w`; the resulting
+  heat flux and drag are the engineering quantities of
+  interest.
+* :doc:`../theory/collision_cross_sections` —  at high altitude
+  the collision frequency is low and the post-shock
+  non-equilibrium region extends far back from the nose; the
+  Landau-Teller cascade of :doc:`../theory/relaxation` governs
+  the translational-rotational-vibrational equilibration in
+  that region.
+
+Chemistry is intentionally disabled to isolate the inviscid /
+rarefied gas-dynamic contribution to drag and heat flux; a
+reactive extension is left as a follow-up (the directory
+contains an alternate ``chemReactDictReacting`` for that
+purpose).
+
+Validation goals
+----------------
+
+Three quantitative targets:
+
+#. **Stagnation-point heat flux.** The integrated wall heat
+   flux at the forebody stagnation point, built from the
+   ``internalEBF_`` and kinetic-energy accumulators of
+   :doc:`../classes/measurements`, is the key engineering
+   output. The Fay-Riddell correlation provides a continuum
+   reference; the DSMC value should be smaller than the
+   Fay-Riddell estimate due to the finite-Knudsen-number
+   attenuation.
+#. **Integrated forebody drag.** The axial component of the
+   integrated wall-momentum accumulator gives the drag
+   coefficient :math:`C_D`, directly comparable to the
+   Apollo Command Module and Orion flight-test databases.
+#. **Shock stand-off distance.** The bow-shock stand-off at
+   the stagnation line should agree with the finite-thickness
+   analogue of the Ambrosio-Wortman correlation once the local
+   density and Mach number are fed in.
+
 Case parameters
 ---------------
 

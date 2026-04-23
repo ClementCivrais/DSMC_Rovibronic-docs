@@ -10,6 +10,54 @@ the case is the natural exercise of the full wall-heat-flux /
 skin-friction pipeline through ``boundaryMeasurements`` (see
 :doc:`../classes/measurements`).
 
+Theoretical basis
+-----------------
+
+The case stacks several physical regimes in a single domain:
+
+* :doc:`../theory/foundations` — near the leading edge the
+  Knudsen number based on the local shock thickness is large
+  enough for the continuum description to fail, and DSMC is
+  required. Far downstream of the plate the boundary layer
+  thickens, the local :math:`\mathrm{Kn}` drops, and DSMC
+  overlaps with the Navier-Stokes solution.
+* :doc:`../theory/wall_models` — the plate surface is a
+  **fully-diffuse wall** at :math:`T_w`, with full thermal
+  accommodation (:math:`\alpha_T = 1`) by default. The
+  reflected velocity is drawn from the half-range Maxwellian
+  described in that page, and the accumulated per-face momentum
+  and kinetic-energy moments feed the surface heat flux and
+  skin-friction diagnostics.
+* :doc:`../theory/collision_cross_sections` and
+  :doc:`../theory/relaxation` — the VHS cross section governs
+  the collision rate in the shock, and the parallel-marginal
+  cascade redistributes energy between translational and
+  internal modes through the post-shock region.
+* :doc:`../theory/macroscopic_properties` — the wall heat flux
+  is constructed from the per-face
+  :math:`\mathbf{q} \cdot \hat{\mathbf{n}}_w` accumulator
+  of :doc:`../classes/measurements`; the skin friction is the
+  in-plane component of the per-face momentum moment.
+
+Validation goals
+----------------
+
+Three quantitative targets:
+
+#. **Shock stand-off and post-shock state** — the shock
+   stand-off distance from the leading edge and the
+   post-shock translational temperature must follow the
+   Rankine-Hugoniot relations at the free-stream Mach number.
+#. **Wall heat-flux profile** — for a laminar boundary layer
+   at moderate Reynolds number, the wall heat flux along the
+   plate should show the expected :math:`x^{-1/2}` decay; its
+   absolute magnitude should match either the Van Driest II
+   correlation or a high-resolution CFD solution at the same
+   conditions to within plotting accuracy.
+#. **Boundary-layer thickness** — the 99 % edge of the
+   translational-temperature profile should thicken as
+   :math:`x^{1/2}` along the plate.
+
 Case parameters
 ---------------
 
@@ -39,13 +87,3 @@ Running
    blockMesh
    dsmcInitialise
    dsmcFoam
-
-Useful validations
-------------------
-
-* The shock stand-off distance and the post-shock conditions
-  should follow the Rankine-Hugoniot relations at this Mach
-  number.
-* The wall heat flux profile should show the expected
-  :math:`x^{-1/2}`-like decay along the plate for a laminar
-  boundary layer at moderate Reynolds number.
