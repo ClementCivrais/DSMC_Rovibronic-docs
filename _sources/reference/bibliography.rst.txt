@@ -78,15 +78,15 @@ derivations and audits specific to this implementation:
   solver implementation walk-through.
 * ``docs/Rovibronic Article/DSMC_Bugs_Report.pdf`` —
   bug-audit report, with fixes and justifications.
-* ``doc/LT_Correction_MultiMode.pdf`` —
+* ``docs/derivations/LT_Correction_MultiMode.pdf`` —
   multi-mode Landau-Teller correction.
-* ``doc/LandauTeller_MultiExponential_Derivation.pdf`` —
+* ``docs/derivations/LandauTeller_MultiExponential_Derivation.pdf`` —
   multi-exponential Landau-Teller relaxation time.
-* ``doc/CoupledRelaxationMatrix_Derivation.pdf`` —
+* ``docs/derivations/CoupledRelaxationMatrix_Derivation.pdf`` —
   coupled vibration-rotation relaxation operator.
-* ``doc/chemistry_comparison_piclas_mnf.pdf`` —
+* ``docs/derivations/chemistry_comparison_piclas_mnf.pdf`` —
   chemistry benchmark against PICLas.
-* ``doc/exponent_calculation.pdf`` —
+* ``docs/derivations/exponent_calculation.pdf`` —
   Larsen-Borgnakke exponent calculation.
-* ``doc/bug_audit.pdf`` —
+* ``docs/derivations/bug_audit.pdf`` —
   internal bug audit, cross-referenced with the bug report above.

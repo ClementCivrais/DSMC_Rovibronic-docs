@@ -91,7 +91,7 @@ timescale as :math:`(v,J)` inside :math:`n=0`.
   species" shortcut.
 
 The derivation of :math:`C_k` per composite mode and the protocol
-itself are documented in ``doc/LT_Correction_MultiMode.pdf`` in
+itself are documented in ``docs/derivations/LT_Correction_MultiMode.pdf`` in
 the source tree.
 
 Two-temperature recombination and three-body channel

@@ -208,7 +208,7 @@ the solver drifts systematically from the analytical
 Landau-Teller solution; with them in place, the ratio
 :math:`Z_{k,\mathrm{fit}}/Z_k` recovers the input to within a few
 percent on the validation cases. A derivation of
-:math:`C_k` is given in ``doc/LT_Correction_MultiMode.pdf``.
+:math:`C_k` is given in ``docs/derivations/LT_Correction_MultiMode.pdf``.
 
 Phase-by-phase validation protocol
 ----------------------------------

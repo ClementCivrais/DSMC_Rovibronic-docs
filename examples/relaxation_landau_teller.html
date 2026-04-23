@@ -461,6 +461,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#case-parameters">Case parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#running-the-case">Running the case</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#post-processing">Post-processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#expected-results">Expected results</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#phase-1-rotational-only">Phase 1 — rotational only</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#phase-2-rovibrational">Phase 2 — rovibrational</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#phase-3-rovibronic-spin-conserving">Phase 3 — rovibronic, spin-conserving</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#phase-4-rovibronic-full-manifold">Phase 4 — rovibronic, full manifold</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="isothermal_reactive_heatbath.html">Isothermal reactive heat-bath</a><ul>
@@ -639,6 +646,109 @@ relaxing mode’s energy against</p>
 <p>and extract the fitted <span class="math notranslate nohighlight">\(Z_k\)</span> from the decay time-constant.
 The Phase 1 run should recover the input <span class="math notranslate nohighlight">\(Z_r\)</span> to within
 5%.</p>
+</section>
+<section id="expected-results">
+<h2>Expected results<a class="headerlink" href="#expected-results" title="Link to this heading"></a></h2>
+<p>The four phases of the validation protocol produce the reference
+curves shown below. Each figure overlays the DSMC relaxation
+(markers) on the analytical Landau-Teller solution (continuous
+line) restricted to the state-space actually reachable by the
+sampler in that phase. A summary figure combining Phases 1–3 is
+shown first.</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../_images/phase123_combined.png"><img alt="DSMC rovibronic relaxation versus Landau-Teller reference, Phases 1, 2, and 3." src="../_images/phase123_combined.png" style="width: 90%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><em>Combined overview</em> —  DSMC relaxation compared to the
+analytical Landau-Teller solution for Phases 1 (rotational
+only), 2 (rovibrational), and 3 (rovibronic, spin-conserving).
+The DSMC points sit on the analytical curves to within
+statistical noise for every phase.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<section id="phase-1-rotational-only">
+<h3>Phase 1 — rotational only<a class="headerlink" href="#phase-1-rotational-only" title="Link to this heading"></a></h3>
+<p>Only the rotational channel is active
+(<span class="math notranslate nohighlight">\(Z_r = 5\)</span>, <span class="math notranslate nohighlight">\(Z_{rv} = Z_{rve} = 10^{6}\)</span>). The mean
+rotational energy per parcel decays exponentially toward
+<span class="math notranslate nohighlight">\(\langle E_R\rangle^{\star}\)</span> at the heat-bath temperature.
+The DSMC markers sit on the analytical single-exponential LT
+curve to within a fraction of a percent.</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="../_images/phase1.png"><img alt="Phase 1 — rotational-only relaxation, DSMC vs LT." src="../_images/phase1.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><em>Phase 1.</em> Rotational relaxation at <span class="math notranslate nohighlight">\(Z_r = 5\)</span>; DSMC on
+the analytical Landau-Teller curve. The reference
+<span class="math notranslate nohighlight">\(E_R^{\star}\)</span> is the J-Boltzmann at the bath
+temperature, evaluated on the rotational ladder of the
+reactant <span class="math notranslate nohighlight">\((n_p, v_p)\)</span>.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="phase-2-rovibrational">
+<h3>Phase 2 — rovibrational<a class="headerlink" href="#phase-2-rovibrational" title="Link to this heading"></a></h3>
+<p>The rovibrational channel is active
+(<span class="math notranslate nohighlight">\(Z_{rv} = 50\)</span>, <span class="math notranslate nohighlight">\(Z_r = Z_{rve} = 10^{6}\)</span>). The
+mean <span class="math notranslate nohighlight">\((v, J)\)</span> energy approaches equilibrium on a slower
+time-scale than Phase 1, and again tracks the analytical LT
+curve.</p>
+<figure class="align-center" id="id3">
+<a class="reference internal image-reference" href="../_images/phase2.png"><img alt="Phase 2 — rovibrational relaxation, DSMC vs LT." src="../_images/phase2.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><em>Phase 2.</em> Rovibrational relaxation at <span class="math notranslate nohighlight">\(Z_{rv} = 50\)</span>.
+The reference <span class="math notranslate nohighlight">\(E_{RV}^{\star}\)</span> is the
+<span class="math notranslate nohighlight">\((v, J)\)</span>-Boltzmann at the bath temperature, evaluated
+on the rovibrational sub-manifold of the parcel’s electronic
+state <span class="math notranslate nohighlight">\(n_p\)</span>.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="phase-3-rovibronic-spin-conserving">
+<h3>Phase 3 — rovibronic, spin-conserving<a class="headerlink" href="#phase-3-rovibronic-spin-conserving" title="Link to this heading"></a></h3>
+<p>The rovibronic channel is active in its spin-conserving
+variant (<span class="math notranslate nohighlight">\(Z_{rve} = 500\)</span>, build flag
+<code class="docutils literal notranslate"><span class="pre">allowSpinForbidden=false</span></code>). Only the triplet manifold is
+sampled; the relaxation is single-exponential to leading order
+but shows a small mid-decay residual relative to the single-
+<span class="math notranslate nohighlight">\(\tau\)</span> LT curve, which is the bi-exponential physics
+signature of fast <span class="math notranslate nohighlight">\((v, J)\)</span> equilibration inside
+<span class="math notranslate nohighlight">\(n = 0\)</span> followed by slow access to the higher triplet
+states.</p>
+<figure class="align-center" id="id4">
+<a class="reference internal image-reference" href="../_images/phase3.png"><img alt="Phase 3 — spin-conserving rovibronic relaxation." src="../_images/phase3.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><em>Phase 3.</em> Rovibronic relaxation at <span class="math notranslate nohighlight">\(Z_{rve} = 500\)</span>,
+spin-conserving. The reference <span class="math notranslate nohighlight">\(E_{RVE}^{\star}\)</span> is
+the triplet-only Boltzmann at the bath temperature.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="phase-4-rovibronic-full-manifold">
+<h3>Phase 4 — rovibronic, full manifold<a class="headerlink" href="#phase-4-rovibronic-full-manifold" title="Link to this heading"></a></h3>
+<p>The rovibronic channel is active with all electronic states
+accessible (<code class="docutils literal notranslate"><span class="pre">allowSpinForbidden=true</span></code>). The low-lying
+singlets of O<sub>2</sub> (a<sup>1</sup>Δ<sub>g</sub> at
+<span class="math notranslate nohighlight">\(\sim\!11\,400~\mathrm{K}\)</span> and b<sup>1</sup>Σ<sub>g</sub><sup>+</sup> at <span class="math notranslate nohighlight">\(\sim\!19\,000~\mathrm{K}\)</span>) equilibrate on
+the same timescale as <span class="math notranslate nohighlight">\((v, J)\)</span> inside <span class="math notranslate nohighlight">\(n = 0\)</span>, so
+the relaxation is a clean single exponential.</p>
+<figure class="align-center" id="id5">
+<a class="reference internal image-reference" href="../_images/phase4.png"><img alt="Phase 4 — full-manifold rovibronic relaxation." src="../_images/phase4.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><em>Phase 4.</em> Rovibronic relaxation at <span class="math notranslate nohighlight">\(Z_{rve} = 500\)</span>,
+full manifold. DSMC tracks the full <span class="math notranslate nohighlight">\((n, v, J)\)</span>
+Boltzmann reference on a single exponential.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>These four figures are the canonical <em>acceptance reference</em> for
+the relaxation module; any change to the Larsen-Borgnakke
+sampler, to the Nizenkov correction tables, or to the
+rovibronic database should be re-checked against them before
+being committed.</p>
+</section>
 </section>
 </section>
 
