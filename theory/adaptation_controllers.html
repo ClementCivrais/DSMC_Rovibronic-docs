@@ -192,7 +192,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="chemistry.html">Neutral chemistry</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#total-collision-energy-tce-model">Total-Collision-Energy (TCE) model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#total-collision-energy-tce-model-not-implemented-yet">Total-Collision-Energy (TCE) model <em>(Not implemented yet)</em></a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemistry.html#quantum-kinetic-qk-model-full-derivation">Quantum-Kinetic (QK) model — full derivation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemistry.html#post-reaction-redistribution-of-internal-energy">Post-reaction redistribution of internal energy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemistry.html#dissociation-with-potential-energy-curve-asymptote-matching">Dissociation with potential-energy-curve asymptote matching</a></li>
@@ -246,6 +246,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#orchestration-and-regression-implications">Orchestration and regression implications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#relationship-with-mesh-level-amr-not-implemented-yet">Relationship with mesh-level AMR <em>(Not implemented yet)</em></a></li>
 </ul>
 </li>
 </ul>
@@ -504,6 +505,16 @@ resolution without touching the mesh, and the controllers, which
 drive a target macroscopic quantity toward a prescribed value.
 Both are orthogonal to the collision, chemistry, and measurement
 layers, and can be combined at will.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The solver implements three adaptation mechanisms (sub-cell
+subdivision, cell weighting, and time-step adaptation)
+described below. <strong>Geometric adaptive mesh refinement</strong>, in
+which the mesh itself is split or merged at run-time, is
+<strong>not implemented yet</strong> —  the sub-cell mechanism is the
+intended substitute (see the <em>Relationship with mesh-level
+AMR</em> note at the end of this page).</p>
+</div>
 <section id="sub-cell-adaptation">
 <h2>Sub-cell adaptation<a class="headerlink" href="#sub-cell-adaptation" title="Link to this heading"></a></h2>
 <p>The DSMC convergence condition <span class="math notranslate nohighlight">\(\Delta x &lt; \lambda/3\)</span>
@@ -637,6 +648,21 @@ level suffices to reproduce the controller actions deterministically
 under a fixed seed. Bit-identical reproduction in parallel is
 frustrated only by the cell-to-rank ownership history, which is
 itself a <a class="reference internal" href="../classes/load_balancing.html"><span class="doc">Dynamic load balancing</span></a> concern.</p>
+</section>
+<section id="relationship-with-mesh-level-amr-not-implemented-yet">
+<h2>Relationship with mesh-level AMR <em>(Not implemented yet)</em><a class="headerlink" href="#relationship-with-mesh-level-amr-not-implemented-yet" title="Link to this heading"></a></h2>
+<p>Geometric adaptive mesh refinement, in which cells are actually
+split or merged at run-time, is <strong>not implemented</strong> in the
+rovibronic solver. The sub-cell mechanism described at the top
+of this page is the intended substitute: it keeps the mesh
+fixed but subdivides each cell at run-time along whichever
+directions need tighter resolution, which is enough to satisfy
+the <span class="math notranslate nohighlight">\(\Delta x &lt; \lambda/3\)</span> criterion without rebuilding
+the parallel topology. A genuine AMR layer would require
+significant additional infrastructure (parallel cell
+connectivity updates, parcel rebalancing, and a refinement
+criterion compatible with the DSMC collision loop) and is out
+of scope for the current development cycle.</p>
 </section>
 </section>
 

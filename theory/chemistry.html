@@ -192,7 +192,7 @@
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Neutral chemistry</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#total-collision-energy-tce-model">Total-Collision-Energy (TCE) model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#total-collision-energy-tce-model-not-implemented-yet">Total-Collision-Energy (TCE) model <em>(Not implemented yet)</em></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#quantum-kinetic-qk-model-full-derivation">Quantum-Kinetic (QK) model — full derivation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#post-reaction-redistribution-of-internal-energy">Post-reaction redistribution of internal energy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#dissociation-with-potential-energy-curve-asymptote-matching">Dissociation with potential-energy-curve asymptote matching</a></li>
@@ -246,6 +246,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="adaptation_controllers.html#orchestration-and-regression-implications">Orchestration and regression implications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adaptation_controllers.html#relationship-with-mesh-level-amr-not-implemented-yet">Relationship with mesh-level AMR <em>(Not implemented yet)</em></a></li>
 </ul>
 </li>
 </ul>
@@ -505,8 +506,18 @@ energy. Charged-species reactions, which inherit the same
 statistical machinery but require additional care around the
 electron population, are treated separately in
 <a class="reference internal" href="chemistry_charged.html"><span class="doc">Charged-species chemistry</span></a>.</p>
-<section id="total-collision-energy-tce-model">
-<h2>Total-Collision-Energy (TCE) model<a class="headerlink" href="#total-collision-energy-tce-model" title="Link to this heading"></a></h2>
+<section id="total-collision-energy-tce-model-not-implemented-yet">
+<h2>Total-Collision-Energy (TCE) model <em>(Not implemented yet)</em><a class="headerlink" href="#total-collision-energy-tce-model-not-implemented-yet" title="Link to this heading"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The TCE model is <strong>not implemented</strong> in the current build.
+It is described here for completeness and as the historical
+baseline against which the rovibronic QK model of the next
+section is compared; the solver reads state-resolved QK
+parameters only, and a case with <code class="docutils literal notranslate"><span class="pre">reactionModel</span></code> set to a
+TCE-style class will not run. The section below may therefore
+be skipped on first reading.</p>
+</div>
 <p>Bird’s TCE model <a class="reference internal" href="#bird1994ch" id="id1"><span>[Bird1994ch]</span></a> computes the reaction probability
 from the collision energy <span class="math notranslate nohighlight">\(E_c\)</span>, the activation energy
 <span class="math notranslate nohighlight">\(E_a\)</span>, and a fit to an experimental Arrhenius rate

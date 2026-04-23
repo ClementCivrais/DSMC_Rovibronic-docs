@@ -9,6 +9,16 @@ drive a target macroscopic quantity toward a prescribed value.
 Both are orthogonal to the collision, chemistry, and measurement
 layers, and can be combined at will.
 
+.. note::
+
+   The solver implements three adaptation mechanisms (sub-cell
+   subdivision, cell weighting, and time-step adaptation)
+   described below. **Geometric adaptive mesh refinement**, in
+   which the mesh itself is split or merged at run-time, is
+   **not implemented yet** —  the sub-cell mechanism is the
+   intended substitute (see the *Relationship with mesh-level
+   AMR* note at the end of this page).
+
 Sub-cell adaptation
 -------------------
 
@@ -173,3 +183,19 @@ level suffices to reproduce the controller actions deterministically
 under a fixed seed. Bit-identical reproduction in parallel is
 frustrated only by the cell-to-rank ownership history, which is
 itself a :doc:`../classes/load_balancing` concern.
+
+Relationship with mesh-level AMR *(Not implemented yet)*
+--------------------------------------------------------
+
+Geometric adaptive mesh refinement, in which cells are actually
+split or merged at run-time, is **not implemented** in the
+rovibronic solver. The sub-cell mechanism described at the top
+of this page is the intended substitute: it keeps the mesh
+fixed but subdivides each cell at run-time along whichever
+directions need tighter resolution, which is enough to satisfy
+the :math:`\Delta x < \lambda/3` criterion without rebuilding
+the parallel topology. A genuine AMR layer would require
+significant additional infrastructure (parallel cell
+connectivity updates, parcel rebalancing, and a refinement
+criterion compatible with the DSMC collision loop) and is out
+of scope for the current development cycle.

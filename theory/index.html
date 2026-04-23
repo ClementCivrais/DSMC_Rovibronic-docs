@@ -191,7 +191,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="chemistry.html">Neutral chemistry</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="chemistry.html#total-collision-energy-tce-model">Total-Collision-Energy (TCE) model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry.html#total-collision-energy-tce-model-not-implemented-yet">Total-Collision-Energy (TCE) model <em>(Not implemented yet)</em></a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemistry.html#quantum-kinetic-qk-model-full-derivation">Quantum-Kinetic (QK) model — full derivation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemistry.html#post-reaction-redistribution-of-internal-energy">Post-reaction redistribution of internal energy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemistry.html#dissociation-with-potential-energy-curve-asymptote-matching">Dissociation with potential-energy-curve asymptote matching</a></li>
@@ -245,6 +245,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="adaptation_controllers.html#orchestration-and-regression-implications">Orchestration and regression implications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adaptation_controllers.html#relationship-with-mesh-level-amr-not-implemented-yet">Relationship with mesh-level AMR <em>(Not implemented yet)</em></a></li>
 </ul>
 </li>
 </ul>
@@ -501,6 +502,17 @@ capability of the code to its mathematical foundation. Each page
 may be read as a stand-alone technical note and includes
 derivations at a level of detail sufficient to verify, modify, or
 extend the corresponding implementation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Convention.</strong> Sections that describe a method documented
+here for completeness but <strong>not available in the current
+build</strong> are flagged with the marker <strong>(Not implemented yet)</strong>
+in their heading. Classes flagged elsewhere as <em>work in
+progress</em> (e.g. the charged-species reactions of
+<a class="reference internal" href="chemistry_charged.html"><span class="doc">Charged-species chemistry</span></a>) are implemented but not yet
+verified and validated; they are distinguished from
+not-implemented methods by their own dedicated warnings.</p>
+</div>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="foundations.html">Kinetic foundations and the DSMC algorithm</a><ul>
@@ -565,7 +577,7 @@ extend the corresponding implementation.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chemistry.html">Neutral chemistry</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="chemistry.html#total-collision-energy-tce-model">Total-Collision-Energy (TCE) model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemistry.html#total-collision-energy-tce-model-not-implemented-yet">Total-Collision-Energy (TCE) model <em>(Not implemented yet)</em></a></li>
 <li class="toctree-l2"><a class="reference internal" href="chemistry.html#quantum-kinetic-qk-model-full-derivation">Quantum-Kinetic (QK) model — full derivation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chemistry.html#post-reaction-redistribution-of-internal-energy">Post-reaction redistribution of internal energy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chemistry.html#dissociation-with-potential-energy-curve-asymptote-matching">Dissociation with potential-energy-curve asymptote matching</a></li>
@@ -613,6 +625,7 @@ extend the corresponding implementation.</p>
 <li class="toctree-l2"><a class="reference internal" href="adaptation_controllers.html#cell-weight-adaptation">Cell-weight adaptation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="adaptation_controllers.html#controllers-active-flow-state-drivers">Controllers — active flow-state drivers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="adaptation_controllers.html#orchestration-and-regression-implications">Orchestration and regression implications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adaptation_controllers.html#relationship-with-mesh-level-amr-not-implemented-yet">Relationship with mesh-level AMR <em>(Not implemented yet)</em></a></li>
 </ul>
 </li>
 </ul>

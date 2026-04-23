@@ -8,6 +8,17 @@ may be read as a stand-alone technical note and includes
 derivations at a level of detail sufficient to verify, modify, or
 extend the corresponding implementation.
 
+.. note::
+
+   **Convention.** Sections that describe a method documented
+   here for completeness but **not available in the current
+   build** are flagged with the marker **(Not implemented yet)**
+   in their heading. Classes flagged elsewhere as *work in
+   progress* (e.g. the charged-species reactions of
+   :doc:`chemistry_charged`) are implemented but not yet
+   verified and validated; they are distinguished from
+   not-implemented methods by their own dedicated warnings.
+
 .. toctree::
    :maxdepth: 2
 

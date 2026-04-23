@@ -192,7 +192,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/chemistry.html">Neutral chemistry</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#total-collision-energy-tce-model">Total-Collision-Energy (TCE) model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#total-collision-energy-tce-model-not-implemented-yet">Total-Collision-Energy (TCE) model <em>(Not implemented yet)</em></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#quantum-kinetic-qk-model-full-derivation">Quantum-Kinetic (QK) model — full derivation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#post-reaction-redistribution-of-internal-energy">Post-reaction redistribution of internal energy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#dissociation-with-potential-energy-curve-asymptote-matching">Dissociation with potential-energy-curve asymptote matching</a></li>
@@ -246,6 +246,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/adaptation_controllers.html#orchestration-and-regression-implications">Orchestration and regression implications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/adaptation_controllers.html#relationship-with-mesh-level-amr-not-implemented-yet">Relationship with mesh-level AMR <em>(Not implemented yet)</em></a></li>
 </ul>
 </li>
 </ul>
@@ -514,6 +515,49 @@ against the analytical Landau-Teller (LT) curve — no fit is used;
 the reference equilibrium <span class="math notranslate nohighlight">\(E_{\mathrm{eq}}\)</span> is taken from the
 rovibronic database restricted to the state space actually reachable
 by the sampler.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 10.0%" />
+<col style="width: 30.0%" />
+<col style="width: 25.0%" />
+<col style="width: 20.0%" />
+<col style="width: 15.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Phase</p></th>
+<th class="head"><p>Active channel</p></th>
+<th class="head"><p>Build flag</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(E_{\mathrm{eq}}\)</span></p></th>
+<th class="head"><p>DSMC vs LT</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Phase 1</p></td>
+<td><p>rotational <span class="math notranslate nohighlight">\((Z_r = 5)\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">allowSpinForbidden=false</span></code></p></td>
+<td><p>J-Boltzmann per <span class="math notranslate nohighlight">\((n_p, v_p)\)</span></p></td>
+<td><p>On curve</p></td>
+</tr>
+<tr class="row-odd"><td><p>Phase 2</p></td>
+<td><p>rovibrational <span class="math notranslate nohighlight">\((Z_{rv} = 50)\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">allowSpinForbidden=false</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\((v, J)\)</span> at <span class="math notranslate nohighlight">\(n_p\)</span></p></td>
+<td><p>On curve</p></td>
+</tr>
+<tr class="row-even"><td><p>Phase 3</p></td>
+<td><p>rovibronic <span class="math notranslate nohighlight">\((Z_{rve} = 500)\)</span> spin-conserving</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">allowSpinForbidden=false</span></code></p></td>
+<td><p>Triplet-only Boltzmann</p></td>
+<td><p>On curve *</p></td>
+</tr>
+<tr class="row-odd"><td><p>Phase 4</p></td>
+<td><p>rovibronic <span class="math notranslate nohighlight">\((Z_{rve} = 500)\)</span> full manifold</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">allowSpinForbidden=true</span></code></p></td>
+<td><p>Full <span class="math notranslate nohighlight">\((n, v, J)\)</span></p></td>
+<td><p>On curve</p></td>
+</tr>
+</tbody>
+</table>
 <p>* Phase 3 shows a small mid-decay residual relative to the single-
 <span class="math notranslate nohighlight">\(\tau\)</span> LT curve; this is the bi-exponential physics signature
 of spin-conserving relaxation — fast <span class="math notranslate nohighlight">\((v,J)\)</span> equilibration

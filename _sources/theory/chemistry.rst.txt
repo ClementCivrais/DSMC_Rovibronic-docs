@@ -10,8 +10,18 @@ statistical machinery but require additional care around the
 electron population, are treated separately in
 :doc:`chemistry_charged`.
 
-Total-Collision-Energy (TCE) model
-----------------------------------
+Total-Collision-Energy (TCE) model *(Not implemented yet)*
+----------------------------------------------------------
+
+.. warning::
+
+   The TCE model is **not implemented** in the current build.
+   It is described here for completeness and as the historical
+   baseline against which the rovibronic QK model of the next
+   section is compared; the solver reads state-resolved QK
+   parameters only, and a case with ``reactionModel`` set to a
+   TCE-style class will not run. The section below may therefore
+   be skipped on first reading.
 
 Bird's TCE model [Bird1994ch]_ computes the reaction probability
 from the collision energy :math:`E_c`, the activation energy

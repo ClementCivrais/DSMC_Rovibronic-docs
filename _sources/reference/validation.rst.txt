@@ -21,20 +21,35 @@ the reference equilibrium :math:`E_{\mathrm{eq}}` is taken from the
 rovibronic database restricted to the state space actually reachable
 by the sampler.
 
-==========  ================================  ==========================  =====================  ===========
-Phase       Active channel                     Build flag                  :math:`E_{\rm eq}`     DSMC vs LT
-==========  ================================  ==========================  =====================  ===========
-Phase 1     rotational :math:`(Z_r=5)`         ``allowSpinForbidden=false``  J-Boltzmann per
-                                                                             (:math:`n_p, v_p`)    On curve
-Phase 2     rovibrational :math:`(Z_{rv}=50)`  ``allowSpinForbidden=false``  :math:`(v,J)`
-                                                                             at :math:`n_p`        On curve
-Phase 3     rovibronic :math:`(Z_{rve}=500)`
-            spin-conserving                    ``allowSpinForbidden=false``  Triplet-only
-                                                                             Boltzmann             On curve *
-Phase 4     rovibronic :math:`(Z_{rve}=500)`
-            full manifold                      ``allowSpinForbidden=true``   Full
-                                                                             :math:`(n,v,J)`       On curve
-==========  ================================  ==========================  =====================  ===========
+.. list-table::
+   :header-rows: 1
+   :widths: 10 30 25 20 15
+
+   * - Phase
+     - Active channel
+     - Build flag
+     - :math:`E_{\mathrm{eq}}`
+     - DSMC vs LT
+   * - Phase 1
+     - rotational :math:`(Z_r = 5)`
+     - ``allowSpinForbidden=false``
+     - J-Boltzmann per :math:`(n_p, v_p)`
+     - On curve
+   * - Phase 2
+     - rovibrational :math:`(Z_{rv} = 50)`
+     - ``allowSpinForbidden=false``
+     - :math:`(v, J)` at :math:`n_p`
+     - On curve
+   * - Phase 3
+     - rovibronic :math:`(Z_{rve} = 500)` spin-conserving
+     - ``allowSpinForbidden=false``
+     - Triplet-only Boltzmann
+     - On curve \*
+   * - Phase 4
+     - rovibronic :math:`(Z_{rve} = 500)` full manifold
+     - ``allowSpinForbidden=true``
+     - Full :math:`(n, v, J)`
+     - On curve
 
 \* Phase 3 shows a small mid-decay residual relative to the single-
 :math:`\tau` LT curve; this is the bi-exponential physics signature
