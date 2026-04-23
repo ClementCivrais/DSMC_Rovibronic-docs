@@ -11,22 +11,73 @@ revisit every published validation case.
 Heat-bath relaxation (Landau-Teller)
 ------------------------------------
 
-The three-phase isothermal heat-bath protocol described in
-:doc:`../examples/n2_heatbath` is the primary validation of the
-parallel-marginal relaxation cascade. The current status is:
+The four-phase isothermal heat-bath protocol is the primary
+validation of the parallel-marginal relaxation cascade with the
+Nizenkov Z-correction. For each phase only one channel is active
+(the other relaxation collision numbers are set to :math:`10^{6}`),
+so the DSMC relaxation of the active mode can be compared directly
+against the analytical Landau-Teller (LT) curve — no fit is used;
+the reference equilibrium :math:`E_{\mathrm{eq}}` is taken from the
+rovibronic database restricted to the state space actually reachable
+by the sampler.
 
-* **Phase 1 (rotational only)** — passes comfortably;
-  :math:`Z_{\mathrm{fit}}/Z_{\mathrm{input}} \approx 1.07`.
-* **Phase 2 (rovibrational)** — overcorrects;
-  :math:`\approx 0.83`. Investigation ongoing; the trail points to
-  the pooled effective DOF used in the Larsen-Borgnakke exponent.
-* **Phase 3 (all modes active)** — pending diagnosis.
+==========  ================================  ==========================  =====================  ===========
+Phase       Active channel                     Build flag                  :math:`E_{\rm eq}`     DSMC vs LT
+==========  ================================  ==========================  =====================  ===========
+Phase 1     rotational :math:`(Z_r=5)`         ``allowSpinForbidden=false``  J-Boltzmann per
+                                                                             (:math:`n_p, v_p`)    On curve
+Phase 2     rovibrational :math:`(Z_{rv}=50)`  ``allowSpinForbidden=false``  :math:`(v,J)`
+                                                                             at :math:`n_p`        On curve
+Phase 3     rovibronic :math:`(Z_{rve}=500)`
+            spin-conserving                    ``allowSpinForbidden=false``  Triplet-only
+                                                                             Boltzmann             On curve *
+Phase 4     rovibronic :math:`(Z_{rve}=500)`
+            full manifold                      ``allowSpinForbidden=true``   Full
+                                                                             :math:`(n,v,J)`       On curve
+==========  ================================  ==========================  =====================  ===========
 
-The ratio :math:`Z_{\mathrm{fit}}/Z_{\mathrm{input}}` of the
-rovibronic Larsen-Borgnakke path sits at :math:`\approx 0.99`
-without any Z-correction factor, confirming that the classic ZCorr
-used in continuous-internal-energy formulations is **not needed**
-on the rovibronic path.
+\* Phase 3 shows a small mid-decay residual relative to the single-
+:math:`\tau` LT curve; this is the bi-exponential physics signature
+of spin-conserving relaxation — fast :math:`(v,J)` equilibration
+inside :math:`n=0` followed by slow access to the A'³Δ\ :sub:`u`
+and A³Σ\ :sub:`u`:sup:`+` triplet states at
+:math:`\sim\!50\,000`\ K. Phase 4 does not show this because the
+low-lying singlets a¹Δ\ :sub:`g` (∼11\,400\ K) and
+b¹Σ\ :sub:`g`:sup:`+` (∼19\,000\ K) equilibrate on the same
+timescale as :math:`(v,J)` inside :math:`n=0`.
+
+**Key ingredients** that make the validation succeed:
+
+* **Window-select dispatch** in
+  ``dsmcCloud::postCollisionInternalEnergy`` replaces the earlier
+  nested conditional cascade. A single uniform :math:`R` selects
+  exactly one of :math:`\{E_0,\,E_1,\,E_2,\,E_3\}` with marginal
+  probabilities :math:`P_k = 1/(Z_k \cdot C_k)`. This is what
+  enables clean phase-by-phase isolation.
+* **State-consistent pre-tabulation** in
+  ``dsmcCloud::buildZCorrTables``:
+
+  - ``meanRotEnergyTable_[tid][n][v][iT]`` — J-Boltzmann per
+    :math:`(n,v)` ladder;
+  - ``meanRovibEnergyTable_[tid][n][iT]`` — :math:`(v,J)`-Boltzmann
+    at each electronic state;
+  - ``meanIntEnergyTable_[tid][\mathrm{spinIdx}][iT]`` —
+    :math:`(n,v,J)`-Boltzmann restricted to each spin class of
+    the species.
+
+  Each parcel looks up its own :math:`(n_p, v_p)` / :math:`n_p` /
+  spin class in the relevant table — the DOF used in the LB
+  exponent is therefore consistent with the sub-manifold being
+  sampled.
+* **Species-general cell reference** in
+  ``dsmcCloud::updateZCorrections``: cell-level
+  :math:`\langle E_k\rangle(T)` is a parcel-count-weighted mixture
+  over every molecular species in the cell; no "first molecular
+  species" shortcut.
+
+The derivation of :math:`C_k` per composite mode and the protocol
+itself are documented in ``doc/LT_Correction_MultiMode.pdf`` in
+the source tree.
 
 Two-temperature recombination and three-body channel
 ----------------------------------------------------

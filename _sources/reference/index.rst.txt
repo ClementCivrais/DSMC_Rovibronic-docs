@@ -7,4 +7,3 @@ Reference
    about
    validation
    bibliography
-   changelog

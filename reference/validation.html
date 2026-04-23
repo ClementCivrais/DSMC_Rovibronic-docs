@@ -466,11 +466,6 @@
 <li class="toctree-l3"><a class="reference internal" href="bibliography.html#in-repository-derivations-and-notes">In-repository derivations and notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#unreleased">Unreleased</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#recent">Recent</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -510,22 +505,57 @@ planned <a class="reference internal" href="../guide/regression_tests.html"><spa
 revisit every published validation case.</p>
 <section id="heat-bath-relaxation-landau-teller">
 <h2>Heat-bath relaxation (Landau-Teller)<a class="headerlink" href="#heat-bath-relaxation-landau-teller" title="Link to this heading"></a></h2>
-<p>The three-phase isothermal heat-bath protocol described in
-<a class="reference internal" href="../examples/n2_heatbath.html"><span class="doc">Landau-Teller heat-bath validation</span></a> is the primary validation of the
-parallel-marginal relaxation cascade. The current status is:</p>
+<p>The four-phase isothermal heat-bath protocol is the primary
+validation of the parallel-marginal relaxation cascade with the
+Nizenkov Z-correction. For each phase only one channel is active
+(the other relaxation collision numbers are set to <span class="math notranslate nohighlight">\(10^{6}\)</span>),
+so the DSMC relaxation of the active mode can be compared directly
+against the analytical Landau-Teller (LT) curve — no fit is used;
+the reference equilibrium <span class="math notranslate nohighlight">\(E_{\mathrm{eq}}\)</span> is taken from the
+rovibronic database restricted to the state space actually reachable
+by the sampler.</p>
+<p>* Phase 3 shows a small mid-decay residual relative to the single-
+<span class="math notranslate nohighlight">\(\tau\)</span> LT curve; this is the bi-exponential physics signature
+of spin-conserving relaxation — fast <span class="math notranslate nohighlight">\((v,J)\)</span> equilibration
+inside <span class="math notranslate nohighlight">\(n=0\)</span> followed by slow access to the A’³Δ<sub>u</sub>
+and A³Σ<sub>u</sub><sup>+</sup> triplet states at
+<span class="math notranslate nohighlight">\(\sim\!50\,000\)</span>K. Phase 4 does not show this because the
+low-lying singlets a¹Δ<sub>g</sub> (∼11,400K) and
+b¹Σ<sub>g</sub><sup>+</sup> (∼19,000K) equilibrate on the same
+timescale as <span class="math notranslate nohighlight">\((v,J)\)</span> inside <span class="math notranslate nohighlight">\(n=0\)</span>.</p>
+<p><strong>Key ingredients</strong> that make the validation succeed:</p>
+<ul>
+<li><p><strong>Window-select dispatch</strong> in
+<code class="docutils literal notranslate"><span class="pre">dsmcCloud::postCollisionInternalEnergy</span></code> replaces the earlier
+nested conditional cascade. A single uniform <span class="math notranslate nohighlight">\(R\)</span> selects
+exactly one of <span class="math notranslate nohighlight">\(\{E_0,\,E_1,\,E_2,\,E_3\}\)</span> with marginal
+probabilities <span class="math notranslate nohighlight">\(P_k = 1/(Z_k \cdot C_k)\)</span>. This is what
+enables clean phase-by-phase isolation.</p></li>
+<li><p><strong>State-consistent pre-tabulation</strong> in
+<code class="docutils literal notranslate"><span class="pre">dsmcCloud::buildZCorrTables</span></code>:</p>
 <ul class="simple">
-<li><p><strong>Phase 1 (rotational only)</strong> — passes comfortably;
-<span class="math notranslate nohighlight">\(Z_{\mathrm{fit}}/Z_{\mathrm{input}} \approx 1.07\)</span>.</p></li>
-<li><p><strong>Phase 2 (rovibrational)</strong> — overcorrects;
-<span class="math notranslate nohighlight">\(\approx 0.83\)</span>. Investigation ongoing; the trail points to
-the pooled effective DOF used in the Larsen-Borgnakke exponent.</p></li>
-<li><p><strong>Phase 3 (all modes active)</strong> — pending diagnosis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">meanRotEnergyTable_[tid][n][v][iT]</span></code> — J-Boltzmann per
+<span class="math notranslate nohighlight">\((n,v)\)</span> ladder;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">meanRovibEnergyTable_[tid][n][iT]</span></code> — <span class="math notranslate nohighlight">\((v,J)\)</span>-Boltzmann
+at each electronic state;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">meanIntEnergyTable_[tid][\mathrm{spinIdx}][iT]</span></code> —
+<span class="math notranslate nohighlight">\((n,v,J)\)</span>-Boltzmann restricted to each spin class of
+the species.</p></li>
 </ul>
-<p>The ratio <span class="math notranslate nohighlight">\(Z_{\mathrm{fit}}/Z_{\mathrm{input}}\)</span> of the
-rovibronic Larsen-Borgnakke path sits at <span class="math notranslate nohighlight">\(\approx 0.99\)</span>
-without any Z-correction factor, confirming that the classic ZCorr
-used in continuous-internal-energy formulations is <strong>not needed</strong>
-on the rovibronic path.</p>
+<p>Each parcel looks up its own <span class="math notranslate nohighlight">\((n_p, v_p)\)</span> / <span class="math notranslate nohighlight">\(n_p\)</span> /
+spin class in the relevant table — the DOF used in the LB
+exponent is therefore consistent with the sub-manifold being
+sampled.</p>
+</li>
+<li><p><strong>Species-general cell reference</strong> in
+<code class="docutils literal notranslate"><span class="pre">dsmcCloud::updateZCorrections</span></code>: cell-level
+<span class="math notranslate nohighlight">\(\langle E_k\rangle(T)\)</span> is a parcel-count-weighted mixture
+over every molecular species in the cell; no “first molecular
+species” shortcut.</p></li>
+</ul>
+<p>The derivation of <span class="math notranslate nohighlight">\(C_k\)</span> per composite mode and the protocol
+itself are documented in <code class="docutils literal notranslate"><span class="pre">doc/LT_Correction_MultiMode.pdf</span></code> in
+the source tree.</p>
 </section>
 <section id="two-temperature-recombination-and-three-body-channel">
 <h2>Two-temperature recombination and three-body channel<a class="headerlink" href="#two-temperature-recombination-and-three-body-channel" title="Link to this heading"></a></h2>
