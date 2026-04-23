@@ -1,0 +1,72 @@
+Chemical-reaction demonstration (WIP)
+=====================================
+
+Directory: ``tutorials/chemicalReactionDemonstration/``.
+
+.. warning::
+
+   This case enables ``chargedParticles = true`` and exercises
+   ionisation, charge-exchange, and electron-associated reaction
+   paths. Every charged-species reaction class in the solver is
+   **work in progress** (see :doc:`../classes/reactions`). The
+   tutorial is useful as a smoke test that the charged-particle
+   code paths build and execute, but the numerical results
+   should not be treated as quantitatively validated.
+
+A closed-box air-plasma reactor covering the full
+N\ :sub:`2` / O\ :sub:`2` / NO / N / O neutral chemistry plus
+the associated singly-ionised species and electrons. The case
+stacks dissociation, exchange, and recombination reactions from
+the neutral block onto the ionisation channels from the charged
+block, and is designed as an end-to-end smoke test of every
+``reactionModel`` in the ``chemReactDict``.
+
+Species
+-------
+
+.. code-block:: text
+
+   typeIdList ( N2 O2 NO N O  N2+ O2+ NO+ N+ O+  E- );
+
+Registered reactions
+--------------------
+
+The neutral block in ``system/chemReactDict``:
+
+* ``O2 + O2 → O + O + O2``
+* ``N2 + N2 → N + N + N2``
+* ``N2 + O → NO + N`` (Zeldovich exchange)
+* ``O + O + M → O2 + M`` (recombination)
+* ``N + N + M → N2 + M`` (recombination)
+
+The charged block (work in progress — see warning above) adds
+the ionisation channels exposed by the
+``dissociationIonisationTypeI*`` classes through their
+``productsOfIonisedMolecule`` entries.
+
+Running
+-------
+
+.. code-block:: bash
+
+   cd tutorials/chemicalReactionDemonstration
+   blockMesh
+   dsmcInitialise
+   dsmcFoam
+
+Expected behaviour
+------------------
+
+During the neutral phase (before ionisation kicks in), the case
+should behave like the :doc:`isothermal_reactive_heatbath` with a
+richer species list; element conservation
+(:math:`\sum n_\mathrm{N}`, :math:`\sum n_\mathrm{O}`) should
+hold within statistical noise. Once ionisation fires, the
+electron population starts building up and the charged-species
+accumulators on the cloud (see :doc:`../classes/cloud`) report
+the evolution of :math:`n_e`, :math:`T_e`, and the electron
+kinetic energy.
+
+A quantitative regression target for the charged phase will be
+added once the charged-species classes have been reworked and
+validated.

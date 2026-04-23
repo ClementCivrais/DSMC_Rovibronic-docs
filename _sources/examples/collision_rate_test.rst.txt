@@ -1,0 +1,36 @@
+Collision-rate test
+===================
+
+Directory: ``tutorials/collisionRateTest/``.
+
+A periodic N\ :sub:`2` / O\ :sub:`2` case specifically designed
+to stress the collision-partner-selection layer. The
+``cellMeasurements`` class accumulates the per-cell collision
+count and the mean collision separation, both of which are
+written alongside the macroscopic fields. The case allows a
+direct comparison between the theoretical collision frequency
+
+.. math::
+
+   \nu_{\mathrm{coll}}
+     = \frac{1}{2}\,n\,\langle\sigma_T\,g\rangle
+
+evaluated from the VSS parameters of the species and the
+collision rate sampled by the solver.
+
+Agreement to within statistical noise is the sanity check that
+the No-Time-Counter estimator
+(:doc:`../theory/collision_sampling`) is correctly implemented
+and that the acceptance probability
+:math:`\sigma_T g / (\sigma_T g)_{\max}` is not systematically
+biased.
+
+Running
+-------
+
+.. code-block:: bash
+
+   cd tutorials/collisionRateTest
+   blockMesh
+   dsmcInitialise
+   dsmcFoam

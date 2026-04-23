@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Landau-Teller heat-bath validation &mdash; DSMC Rovibronic</title>
+  <title>Hypersonic flat plate &mdash; DSMC Rovibronic</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -23,8 +23,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Reference" href="../reference/index.html" />
-    <link rel="prev" title="Examples" href="index.html" /> 
+    <link rel="next" title="Supersonic corner" href="supersonic_corner.html" />
+    <link rel="prev" title="Micro-scale channel flow" href="micro_scale_test_case.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -456,13 +456,63 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Landau-Teller heat-bath validation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#case-layout">Case layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#running-the-case">Running the case</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#three-phase-validation-protocol">Three-phase validation protocol</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#expected-outcome">Expected outcome</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#current-status">Current status</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#adding-a-new-example">Adding a new example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relaxation_landau_teller.html">Landau-Teller heat-bath relaxation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#phase-selection">Phase selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#post-processing">Post-processing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="isothermal_reactive_heatbath.html">Isothermal reactive heat-bath</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#reactions-included">Reactions included</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#expected-outcome">Expected outcome</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#use-as-a-validation">Use as a validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="free_space_periodic.html">Free-space periodic equilibrium</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="free_space_periodic.html#case-parameters">Case parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="collision_rate_test.html">Collision-rate test</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#running">Running</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="micro_scale_test_case.html">Micro-scale channel flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#diagnostics">Diagnostics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#running">Running</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Hypersonic flat plate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#diagnostics">Diagnostics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running">Running</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#useful-validations">Useful validations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="supersonic_corner.html">Supersonic corner</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#running">Running</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="axisymmetric_blunt_cylinder.html">Axisymmetric blunt cylinder</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#running">Running</a></li>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#useful-validations">Useful validations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="orion_107km.html">Orion capsule at 107 km (non-reacting)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#diagnostics">Diagnostics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#running">Running</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chemical_reaction_demonstration.html">Chemical-reaction demonstration (WIP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#species">Species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#registered-reactions">Registered reactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#running">Running</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#expected-behaviour">Expected behaviour</a></li>
 </ul>
 </li>
 </ul>
@@ -514,9 +564,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Examples</a></li>
-      <li class="breadcrumb-item active">Landau-Teller heat-bath validation</li>
+      <li class="breadcrumb-item active">Hypersonic flat plate</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/examples/n2_heatbath.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/examples/hypersonic_flat_plate.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -524,92 +574,56 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="landau-teller-heat-bath-validation">
-<h1>Landau-Teller heat-bath validation<a class="headerlink" href="#landau-teller-heat-bath-validation" title="Link to this heading"></a></h1>
-<p>A zero-dimensional isothermal heat-bath relaxation is the cheapest
-end-to-end check of the rovibronic relaxation machinery, and it is
-the canonical test we use for validation of any change to the
-cascade logic. The gas is initialised at a cold internal temperature
-while the translational temperature is held high; the approach to
-equilibrium is then compared to the multi-exponential Landau-Teller
-(LT) analytical solution developed in <a class="reference internal" href="../theory/relaxation.html"><span class="doc">Internal-energy relaxation</span></a>.</p>
-<p>The reference set-up lives in <code class="docutils literal notranslate"><span class="pre">run/Tutorial/</span></code>; variants that pin
-one or more collision numbers <span class="math notranslate nohighlight">\(Z_k \to \infty\)</span> are prepared by
-copying the tutorial and editing the relaxation-collision-number
-entries in <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code>.</p>
-<section id="case-layout">
-<h2>Case layout<a class="headerlink" href="#case-layout" title="Link to this heading"></a></h2>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>run/Tutorial/
-├── constant/
-│   ├── dsmcProperties      # nEquivalentParticles, Z_k, typeIdList, rovibronicDatabase
-│   ├── speciesCache/       # 259 species database files
-│   └── polyMesh/
-└── system/
-    ├── controlDict         # deltaT, endTime, writeInterval
-    ├── dsmcInitialiseDict  # initial T_T, T_int, numberDensities
-    ├── boundariesDict      # closed box (no inflow/outflow)
-    ├── chemReactDict       # chemistry (off for pure relaxation)
-    └── …
-</pre></div>
-</div>
+  <section id="hypersonic-flat-plate">
+<h1>Hypersonic flat plate<a class="headerlink" href="#hypersonic-flat-plate" title="Link to this heading"></a></h1>
+<p>Directory: <code class="docutils literal notranslate"><span class="pre">tutorials/hypersonicFlatPlate/</span></code>.</p>
+<p>A classic external hypersonic test case: supersonic N<sub>2</sub>
+flow over a sharp-leading-edge flat plate. The leading-edge
+shock and the flat-plate boundary layer are both captured, and
+the case is the natural exercise of the full wall-heat-flux /
+skin-friction pipeline through <code class="docutils literal notranslate"><span class="pre">boundaryMeasurements</span></code> (see
+<a class="reference internal" href="../classes/measurements.html"><span class="doc">Measurements</span></a>).</p>
+<section id="case-parameters">
+<h2>Case parameters<a class="headerlink" href="#case-parameters" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Species: N<sub>2</sub>.</p></li>
+<li><p>Free-stream: hypersonic Mach number, prescribed in
+<code class="docutils literal notranslate"><span class="pre">system/boundariesDict</span></code> through the
+<code class="docutils literal notranslate"><span class="pre">dsmcFreeStreamInflowPatch</span></code> entry.</p></li>
+<li><p>Wall: diffuse at <span class="math notranslate nohighlight">\(T_w\)</span>, specified in the patch
+properties.</p></li>
+<li><p>2-D mesh generated through <code class="docutils literal notranslate"><span class="pre">blockMesh</span></code>.</p></li>
+</ul>
 </section>
-<section id="running-the-case">
-<h2>Running the case<a class="headerlink" href="#running-the-case" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>run/Tutorial
+<section id="diagnostics">
+<h2>Diagnostics<a class="headerlink" href="#diagnostics" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Volume fields via <code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code> —  density, translational
+and internal temperatures, stress tensor, heat flux,
+Mach number.</p></li>
+<li><p>Wall heat flux and friction drag via
+<code class="docutils literal notranslate"><span class="pre">boundaryMeasurements</span></code> on the plate patch.</p></li>
+</ul>
+</section>
+<section id="running">
+<h2>Running<a class="headerlink" href="#running" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>tutorials/hypersonicFlatPlate
 blockMesh
 dsmcInitialise
 dsmcFoam
 </pre></div>
 </div>
 </section>
-<section id="three-phase-validation-protocol">
-<h2>Three-phase validation protocol<a class="headerlink" href="#three-phase-validation-protocol" title="Link to this heading"></a></h2>
-<p>The cascade is stressed phase-by-phase by setting to very large
-values the collision numbers of those modes that we wish to freeze.
-Concretely, in <code class="docutils literal notranslate"><span class="pre">LarsenBorgnakkeVariableHardSphereCoeffs</span></code>:</p>
+<section id="useful-validations">
+<h2>Useful validations<a class="headerlink" href="#useful-validations" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p><strong>Phase 1</strong> — rotational only: set
-<code class="docutils literal notranslate"><span class="pre">rovibrationalRelaxationCollisionNumber</span></code> and
-<code class="docutils literal notranslate"><span class="pre">rovibronicRelaxationCollisionNumber</span></code> to <span class="math notranslate nohighlight">\(10^{9}\)</span>;
-keep <code class="docutils literal notranslate"><span class="pre">rotationalRelaxationCollisionNumber</span></code> at its nominal
-value. Initial state: <span class="math notranslate nohighlight">\(T_T = 10^{4}~\mathrm{K}\)</span>,
-<span class="math notranslate nohighlight">\(T_R(0) = 10^{3}~\mathrm{K}\)</span>.</p></li>
-<li><p><strong>Phase 2</strong> — rovibrational: freeze the rotational sub-ladder
-instead (<code class="docutils literal notranslate"><span class="pre">rotationalRelaxationCollisionNumber</span></code> <span class="math notranslate nohighlight">\(= 10^{9}\)</span>),
-keep <span class="math notranslate nohighlight">\(Z_{rve}\)</span> frozen as well.</p></li>
-<li><p><strong>Phase 3</strong> — all modes active, at their nominal values.</p></li>
+<li><p>The shock stand-off distance and the post-shock conditions
+should follow the Rankine-Hugoniot relations at this Mach
+number.</p></li>
+<li><p>The wall heat flux profile should show the expected
+<span class="math notranslate nohighlight">\(x^{-1/2}\)</span>-like decay along the plate for a laminar
+boundary layer at moderate Reynolds number.</p></li>
 </ul>
-</section>
-<section id="expected-outcome">
-<h2>Expected outcome<a class="headerlink" href="#expected-outcome" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p>The composite-mode energies <span class="math notranslate nohighlight">\(\langle E_R\rangle(t)\)</span>,
-<span class="math notranslate nohighlight">\(\langle E_{RV}\rangle(t)\)</span>, <span class="math notranslate nohighlight">\(\langle E_{RVE}\rangle(t)\)</span>
-should follow the expected single/double/triple-exponential LT
-approach to equilibrium.</p></li>
-<li><p>The fitted collision numbers should agree with the input values
-to within 5%: <span class="math notranslate nohighlight">\(|Z_{k,\mathrm{fit}}/Z_k - 1| &lt; 5\%\)</span>.</p></li>
-<li><p>The ratio <span class="math notranslate nohighlight">\(Z_{\mathrm{fit}}/Z_{\mathrm{input}}\)</span> of the
-rovibronic path sits at <span class="math notranslate nohighlight">\(\approx 0.99\)</span> without any
-ZCorr-style correction (see <a class="reference internal" href="../theory/relaxation.html"><span class="doc">Internal-energy relaxation</span></a>).</p></li>
-</ul>
-</section>
-<section id="current-status">
-<h2>Current status<a class="headerlink" href="#current-status" title="Link to this heading"></a></h2>
-<p>At the time of writing, Phase 1 passes comfortably
-(<span class="math notranslate nohighlight">\(Z_{\mathrm{fit}}/Z \approx 1.07\)</span>), Phase 2 overcorrects
-(<span class="math notranslate nohighlight">\(\approx 0.83\)</span>), and Phase 3 is still being diagnosed. The
-relevant session notes live in the project memory and in the draft
-bug report <code class="docutils literal notranslate"><span class="pre">docs/Rovibronic</span> <span class="pre">Article/DSMC_Bugs_Report.pdf</span></code>.</p>
-</section>
-<section id="adding-a-new-example">
-<h2>Adding a new example<a class="headerlink" href="#adding-a-new-example" title="Link to this heading"></a></h2>
-<p>Each supported test case is documented on its own page under
-<code class="docutils literal notranslate"><span class="pre">docs/online-documentation/examples/</span></code>. When adding a new example,
-describe the set-up, the expected analytical (or published)
-reference, the success criteria, and the command sequence required
-to reproduce the result. Then add the page to the toctree in
-<code class="docutils literal notranslate"><span class="pre">examples/index.rst</span></code>.</p>
 </section>
 </section>
 
@@ -617,8 +631,8 @@ to reproduce the result. Then add the page to the toctree in
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../reference/index.html" class="btn btn-neutral float-right" title="Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="micro_scale_test_case.html" class="btn btn-neutral float-left" title="Micro-scale channel flow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="supersonic_corner.html" class="btn btn-neutral float-right" title="Supersonic corner" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

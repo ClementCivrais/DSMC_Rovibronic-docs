@@ -1,0 +1,46 @@
+Micro-scale channel flow
+========================
+
+Directory: ``tutorials/microScaleTestCase/``.
+
+A pressure-driven micro-channel flow of N\ :sub:`2` in the
+transitional regime. The case exercises the pressure-inlet /
+deletion-outlet combination on a rectangular channel geometry
+and is designed to reproduce the measurements of Liou & Fang
+[LiouFang2006mc]_ on mass-flow rate versus Knudsen number, which
+served as one of the original benchmarks of the dsmcFoam+ solver
+[White2013mc]_.
+
+Because the channel height sits at
+:math:`\mathrm{Kn} \sim 0.2`, the flow is firmly in the regime
+where DSMC is the method of choice (see
+:doc:`../theory/foundations`), and neither a pure continuum nor a
+pure free-molecular description would be adequate.
+
+Diagnostics
+-----------
+
+* The ``dsmcBinsMethod`` field model in
+  ``system/fieldPropertiesDict`` samples a 1-D bin stack along
+  the channel axis; each bin returns translational temperature,
+  density, and mean velocity.
+* A ``dsmcMassFluxSurface`` records the mass flow rate through
+  the inlet and outlet patches for direct comparison against
+  [LiouFang2006mc]_.
+
+Running
+-------
+
+.. code-block:: bash
+
+   cd tutorials/microScaleTestCase
+   blockMesh
+   dsmcInitialise
+   dsmcFoam
+
+.. [LiouFang2006mc] W. W. Liou and Y. Fang,
+   *Microfluid Mechanics: Principles and Modeling*, McGraw-Hill
+   (2006).
+.. [White2013mc] C. White, *Benchmarking, Development and
+   Applications of an Open Source DSMC Solver*, PhD thesis,
+   University of Glasgow (2013).

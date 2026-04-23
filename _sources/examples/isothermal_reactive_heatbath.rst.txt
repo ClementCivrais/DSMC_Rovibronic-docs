@@ -1,0 +1,86 @@
+Isothermal reactive heat-bath
+=============================
+
+Directory: ``tutorials/isothermalReactiveHeatbath/``.
+
+A zero-dimensional isothermal heat-bath with dissociation,
+exchange, and recombination **all active** (neutral chemistry
+only). The conditions are chosen to be representative of a
+post-normal-shock re-entry layer: :math:`T = 10\,000~\mathrm{K}`
+and :math:`p = 100~\mathrm{Pa}`, with an initial air-like mixture
+dominated by N\ :sub:`2` / O\ :sub:`2` and a small NO seed.
+
+The diagnostic of interest is the time history of the species
+populations: dissociation progressively depletes the diatomic
+species and enriches the atom pool, until chemical equilibrium is
+reached when the forward dissociation and the detailed-balance
+recombination rates match. The *automatic* computation of heats
+of reaction from the database (:doc:`../theory/chemistry`) means
+that no heat-of-reaction parameter needs to be supplied for any
+of the five reactions.
+
+Reactions included
+------------------
+
+Five reactions are registered in ``system/chemReactDict``:
+
+* ``O2 + O2 → O + O + O2`` (dissociation, same species);
+* ``N2 + N2 → N + N + N2`` (dissociation, same species);
+* ``N2 + O → NO + N`` (Zeldovich exchange, with
+  :math:`\Delta H` from the database);
+* ``O + O + M → O2 + M`` (three-body recombination from detailed
+  balance, :math:`M \in \{`\ O\ :sub:`2`\ , O, N\ :sub:`2`\ , N,
+  NO\ :math:`\}`);
+* ``N + N + M → N2 + M`` (three-body recombination, same third
+  bodies).
+
+Case parameters
+---------------
+
+* Species: N\ :sub:`2`, O\ :sub:`2`, NO, N, O.
+* Number densities at :math:`t = 0` (air-like):
+  :math:`n_{\mathrm{N}_2} = 5.65 \times 10^{19}\;\mathrm{m}^{-3}`,
+  :math:`n_{\mathrm{O}_2} = 1.52 \times 10^{19}\;\mathrm{m}^{-3}`,
+  :math:`n_{\mathrm{NO}}  = 7.24 \times 10^{17}\;\mathrm{m}^{-3}`.
+* Translational and internal temperatures: both at
+  :math:`10\,000~\mathrm{K}` (internal / translational
+  equilibrium at :math:`t = 0`).
+* Mesh: :math:`1 \times 1 \times 1` cell, fully periodic.
+* Time-step: :math:`5 \times 10^{-11}~\mathrm{s}`, total
+  integration :math:`10^{-4}~\mathrm{s}`.
+
+Running the case
+----------------
+
+.. code-block:: bash
+
+   cd tutorials/isothermalReactiveHeatbath
+   blockMesh
+   dsmcInitialise
+   dsmcFoam
+
+Expected outcome
+----------------
+
+At the specified conditions, the diatomic populations decay by
+roughly an order of magnitude over the simulation time as
+dissociation dominates; the atomic O and N populations climb
+correspondingly, and NO equilibrates through the Zeldovich
+exchange channel. Running the case for long enough brings the
+system to an equilibrium set by
+:math:`k^{\mathrm{diss}}(T) / k^{\mathrm{rec}}(T)`, which the
+calculator at :doc:`../tools/mean_free_path` uses (implicitly, via
+the equilibrium constant) to estimate the equilibrium composition
+at any :math:`(T, p)`.
+
+Use as a validation
+-------------------
+
+The sum of the number densities of N-bearing species
+(:math:`2\,n_{\mathrm{N}_2} + n_{\mathrm{N}} + n_{\mathrm{NO}}`)
+and of O-bearing species (:math:`2\,n_{\mathrm{O}_2} +
+n_{\mathrm{O}} + n_{\mathrm{NO}}`) must be individually conserved
+within statistical noise. A drift in either sum signals a bug
+in the stoichiometric accounting of one of the reactions — this
+is the quickest useful test of any change to the chemistry
+module.

@@ -1,0 +1,39 @@
+Supersonic corner
+=================
+
+Directory: ``tutorials/supersonicCorner/``.
+
+A supersonic flow of N\ :sub:`2` over a 2-D compression corner.
+The case exercises the interaction of an oblique shock with a
+boundary layer and a compression fan —  the "shock-boundary-
+layer interaction" problem that is central to inlet and
+control-surface aerodynamics at hypersonic speeds.
+
+.. note::
+
+   The original tutorial used argon, which is not present in
+   the rovibronic speciesCache. The case has been switched to
+   N\ :sub:`2` while preserving the geometry; this adds
+   internal-degrees-of-freedom relaxation to the flow and is
+   therefore a slightly different physical problem than the
+   monatomic baseline, but a better match for the solver's
+   intended applications.
+
+Case parameters
+---------------
+
+* Species: N\ :sub:`2`.
+* Free-stream Mach number: supersonic (see
+  ``system/boundariesDict``).
+* 2-D corner geometry generated through ``blockMesh``.
+* Diffuse walls at the specified temperature.
+
+Running
+-------
+
+.. code-block:: bash
+
+   cd tutorials/supersonicCorner
+   blockMesh
+   dsmcInitialise
+   dsmcFoam

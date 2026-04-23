@@ -1,7 +1,29 @@
 Examples
 ========
 
+The solver ships with a suite of ten reference tutorials under
+``tutorials/`` in the source tree, covering the principal classes
+of DSMC simulation targeted by the rovibronic extension: from
+zero-dimensional heat-bath validation through micro-channel
+flows, external hypersonic bodies, and a representative re-entry
+capsule.
+
+Every tutorial shares the same three-fold OpenFOAM layout
+(``0/`` field directory, ``constant/`` with ``dsmcProperties``
+and ``speciesCache/``, ``system/`` with the run-time
+dictionaries) and runs to completion through the standard
+``blockMesh`` → ``dsmcInitialise`` → ``dsmcFoam`` pipeline.
+
 .. toctree::
    :maxdepth: 2
 
-   n2_heatbath
+   relaxation_landau_teller
+   isothermal_reactive_heatbath
+   free_space_periodic
+   collision_rate_test
+   micro_scale_test_case
+   hypersonic_flat_plate
+   supersonic_corner
+   axisymmetric_blunt_cylinder
+   orion_107km
+   chemical_reaction_demonstration

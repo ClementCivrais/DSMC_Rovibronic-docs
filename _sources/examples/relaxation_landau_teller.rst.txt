@@ -1,0 +1,74 @@
+Landau-Teller heat-bath relaxation
+==================================
+
+Directory: ``tutorials/relaxationLandauTeller/``.
+
+A zero-dimensional (0-D) isothermal heat-bath case that exercises
+the parallel-marginal relaxation cascade of the rovibronic
+Larsen-Borgnakke sampler (:doc:`../theory/relaxation`). The
+translational temperature is held at :math:`T_t = 10\,000~\mathrm{K}`
+by the large thermal inertia of the heat bath, and the internal
+state is initialised at :math:`T_\mathrm{int}(0) = 1\,000~\mathrm{K}`.
+The mean internal energy is expected to decay exponentially toward
+its equilibrium value at the heat-bath temperature.
+
+Phase selection
+---------------
+
+The tutorial is configured for **Phase 1** of the four-phase
+validation protocol documented in :doc:`../reference/validation`:
+only the rotational channel is active, the rovibrational and
+rovibronic channels are silenced by setting their collision
+numbers to :math:`10^{9}`. To run the remaining phases, copy the
+case and adjust the three collision-number entries in
+``constant/dsmcProperties``:
+
+.. code-block:: text
+
+   Phase 1 (rotational only):     Z_r = 5,    Z_rv = 1e9, Z_rve = 1e9
+   Phase 2 (rovibrational):       Z_r = 1e9,  Z_rv = 50,  Z_rve = 1e9
+   Phase 3 (rovibronic, spin-cons.):      Z_r = 5,  Z_rv = 50,  Z_rve = 500   (allowSpinForbidden=false)
+   Phase 4 (rovibronic, full manifold):   Z_r = 5,  Z_rv = 50,  Z_rve = 500   (allowSpinForbidden=true)
+
+Case parameters
+---------------
+
+* Species: O\ :sub:`2`.
+* Number density: :math:`10^{22}\;\mathrm{m}^{-3}`, so that the
+  heat bath contains enough parcels per cell for statistical
+  convergence on a single-cell mesh.
+* Translational temperature: :math:`10\,000~\mathrm{K}`.
+* Internal temperature at :math:`t = 0`:
+  :math:`1\,000~\mathrm{K}`.
+* Mesh: :math:`1 \times 1 \times 1` cell of side
+  :math:`1\;\mu\mathrm{m}`, fully periodic.
+* Time-step: :math:`10^{-11}~\mathrm{s}`, total integration
+  :math:`5 \times 10^{-7}~\mathrm{s}`.
+
+Running the case
+----------------
+
+.. code-block:: bash
+
+   cd tutorials/relaxationLandauTeller
+   blockMesh
+   dsmcInitialise
+   dsmcFoam
+
+Post-processing
+---------------
+
+The zone diagnostic in ``system/fieldPropertiesDict`` writes a
+time history of the rotational, vibrational, and electronic
+effective temperatures to ``fieldMeasurements/``. Plot the
+relaxing mode's energy against
+
+.. math::
+
+   \frac{\langle E_k\rangle^{\star} - \langle E_k\rangle(t)}
+        {\langle E_k\rangle^{\star} - \langle E_k\rangle(0)}
+   = \exp\!\left(-\frac{t}{Z_k^{\mathrm{cont}}\,\tau_c}\right),
+
+and extract the fitted :math:`Z_k` from the decay time-constant.
+The Phase 1 run should recover the input :math:`Z_r` to within
+5%.

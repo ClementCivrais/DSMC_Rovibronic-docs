@@ -1,0 +1,39 @@
+Free-space periodic equilibrium
+===============================
+
+Directory: ``tutorials/freeSpacePeriodic/``.
+
+A periodic cube of N\ :sub:`2` / O\ :sub:`2` in thermodynamic
+equilibrium. The case has no walls, no body forces, no
+chemistry; the gas is initialised at the target state and the
+solver is run for long enough to confirm that the sampled
+statistics (temperature, density, stress tensor, mean free path)
+remain within statistical bounds of the initial state.
+
+This is the simplest possible baseline case and is useful as:
+
+* a **smoke test** of the build — the case must run to
+  completion without NaN or unphysical drift;
+* a **convergence test** for the time-averaging machinery — the
+  per-cell error estimate produced by ``measureErrors`` on
+  ``dsmcVolFields`` should follow the :math:`1/\sqrt{N}`
+  statistical convergence expected of a Maxwellian equilibrium;
+* a **reference** for any chemistry-on case run with otherwise
+  identical settings, so that the chemistry's effect on the
+  macroscopic state can be isolated by difference.
+
+Case parameters
+---------------
+
+* Species: N\ :sub:`2`, O\ :sub:`2`.
+* Fully periodic cube.
+* Run-time configured in ``system/controlDict``; the default
+  end-time is sufficient to confirm that the sampled macroscopic
+  fields have settled.
+
+.. code-block:: bash
+
+   cd tutorials/freeSpacePeriodic
+   blockMesh
+   dsmcInitialise
+   dsmcFoam

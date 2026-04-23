@@ -1,0 +1,49 @@
+Orion capsule at 107 km (non-reacting)
+======================================
+
+Directory: ``tutorials/orion107kmNonReactingFlow/``.
+
+Flow over the Orion crew capsule forebody at 107 km altitude
+during re-entry, with chemistry disabled. The case is
+representative of the upper-atmosphere portion of a lunar-return
+trajectory, where the Knudsen number is large enough that DSMC
+is essential (a continuum description fails) and the number
+density is small enough that ionisation is not yet significant.
+
+Case parameters
+---------------
+
+* Species: N\ :sub:`2` and O\ :sub:`2`.
+* Altitude: 107 km — representative free-stream density
+  :math:`\sim 10^{16}\;\mathrm{m}^{-3}`; use the
+  :doc:`../tools/mean_free_path` calculator to confirm the mean
+  free path and Knudsen number at the case's reference length.
+* Triangulated capsule geometry: ``constant/triSurface/``.
+* Free-stream velocity and temperature in
+  ``system/boundariesDict``.
+* Walls: diffuse, at the specified :math:`T_w`.
+
+Diagnostics
+-----------
+
+* Volume fields (density, translational and internal
+  temperatures, stress tensor, heat flux, Mach number) via
+  ``dsmcVolFields``.
+* Wall heat flux and friction drag via
+  ``boundaryMeasurements``; the integrated drag over the
+  forebody is directly comparable to the Apollo Command Module
+  and Orion flight data referenced in the literature.
+
+Running
+-------
+
+.. code-block:: bash
+
+   cd tutorials/orion107kmNonReactingFlow
+   # Mesh generation — use the usual OpenFOAM pipeline appropriate
+   # for the triangulated surface:
+   blockMesh
+   surfaceFeatureExtract   # if used
+   snappyHexMesh -overwrite
+   dsmcInitialise
+   dsmcFoam

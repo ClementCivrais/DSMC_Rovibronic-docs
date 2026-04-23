@@ -167,7 +167,7 @@ addressed in the course of the project:
 * **Wrong effective DOF.** An earlier version of the sampler used
   the partner's internal DOF in place of the sampled parcel's
   own. The current implementation uses the parcel's own DOF, and
-  the phase-1 heat-bath validation (:doc:`../examples/n2_heatbath`)
+  the phase-1 heat-bath validation (:doc:`../examples/relaxation_landau_teller`)
   passes comfortably as a consequence.
 
 .. [LarsenBorgnakke1975lb] C. Borgnakke and P. S. Larsen,

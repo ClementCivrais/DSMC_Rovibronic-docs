@@ -1,0 +1,51 @@
+Hypersonic flat plate
+=====================
+
+Directory: ``tutorials/hypersonicFlatPlate/``.
+
+A classic external hypersonic test case: supersonic N\ :sub:`2`
+flow over a sharp-leading-edge flat plate. The leading-edge
+shock and the flat-plate boundary layer are both captured, and
+the case is the natural exercise of the full wall-heat-flux /
+skin-friction pipeline through ``boundaryMeasurements`` (see
+:doc:`../classes/measurements`).
+
+Case parameters
+---------------
+
+* Species: N\ :sub:`2`.
+* Free-stream: hypersonic Mach number, prescribed in
+  ``system/boundariesDict`` through the
+  ``dsmcFreeStreamInflowPatch`` entry.
+* Wall: diffuse at :math:`T_w`, specified in the patch
+  properties.
+* 2-D mesh generated through ``blockMesh``.
+
+Diagnostics
+-----------
+
+* Volume fields via ``dsmcVolFields`` —  density, translational
+  and internal temperatures, stress tensor, heat flux,
+  Mach number.
+* Wall heat flux and friction drag via
+  ``boundaryMeasurements`` on the plate patch.
+
+Running
+-------
+
+.. code-block:: bash
+
+   cd tutorials/hypersonicFlatPlate
+   blockMesh
+   dsmcInitialise
+   dsmcFoam
+
+Useful validations
+------------------
+
+* The shock stand-off distance and the post-shock conditions
+  should follow the Rankine-Hugoniot relations at this Mach
+  number.
+* The wall heat flux profile should show the expected
+  :math:`x^{-1/2}`-like decay along the plate for a laminar
+  boundary layer at moderate Reynolds number.

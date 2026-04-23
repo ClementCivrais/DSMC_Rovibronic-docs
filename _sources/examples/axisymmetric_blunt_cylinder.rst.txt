@@ -1,0 +1,45 @@
+Axisymmetric blunt cylinder
+===========================
+
+Directory: ``tutorials/axisymmetricBluntCylinder/``.
+
+Hypersonic flow over a blunt-ended cylinder, solved in the
+solver's axisymmetric mode (``axisymmetricSimulation true`` in
+``constant/dsmcProperties``). The bow shock, the stagnation
+region, and the cylindrical after-body are all captured in a
+single 2-D slice.
+
+.. note::
+
+   The original tutorial used argon, which is not present in
+   the rovibronic speciesCache. The case has been switched to
+   N\ :sub:`2` while preserving the geometry.
+
+Case parameters
+---------------
+
+* Species: N\ :sub:`2`.
+* Axisymmetric geometry, 2-D wedge mesh.
+* Free-stream hypersonic inflow; diffuse wall on the body.
+* ``axisymmetricSimulation true`` switches the cloud into the
+  axisymmetric particle-tracking mode, which applies the
+  correct radial weighting.
+
+Running
+-------
+
+.. code-block:: bash
+
+   cd tutorials/axisymmetricBluntCylinder
+   blockMesh
+   dsmcInitialise
+   dsmcFoam
+
+Useful validations
+------------------
+
+* The stagnation-point heat flux should follow Fay-Riddell-like
+  scaling with the free-stream conditions.
+* The bow-shock stand-off distance should agree with Ambrosio
+  and Wortman correlations at the relevant Reynolds and Mach
+  numbers.

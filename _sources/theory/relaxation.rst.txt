@@ -48,7 +48,7 @@ solution
          \exp\!\left(-\frac{t}{\tau_k}\right),
 
 which is the reference curve against which the solver is
-validated (:doc:`../examples/n2_heatbath`).
+validated (:doc:`../examples/relaxation_landau_teller`).
 
 Multi-mode decomposition
 ------------------------
