@@ -192,11 +192,13 @@
 <li class="toctree-l3"><a class="reference internal" href="../theory/relaxation.html#nizenkov-correction">Nizenkov correction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/relaxation.html#phase-by-phase-validation-protocol">Phase-by-phase validation protocol</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/relaxation.html#on-the-absence-of-the-classic-zcorr">On the absence of the classic ZCorr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/relaxation.html#forced-harmonic-oscillator-fho-fr-model">Forced Harmonic Oscillator (FHO-FR) model</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/chemistry.html">Neutral chemistry</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#total-collision-energy-tce-model-not-implemented-yet">Total-Collision-Energy (TCE) model <em>(Not implemented yet)</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#total-collision-energy-tce-model">Total-Collision-Energy (TCE) model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#quantum-kinetic-qk-model-full-derivation">Quantum-Kinetic (QK) model — full derivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#vibrationally-favored-bias-model">Vibrationally-favored Bias model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#post-reaction-redistribution-of-internal-energy">Post-reaction redistribution of internal energy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#dissociation-with-potential-energy-curve-asymptote-matching">Dissociation with potential-energy-curve asymptote matching</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry.html#recombination-from-detailed-balance">Recombination from detailed balance</a></li>
@@ -327,6 +329,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#neutral-chemistry-classes-validated">Neutral-chemistry classes (validated)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#dissociationionisationtypeisamespecies"><code class="docutils literal notranslate"><span class="pre">dissociationIonisationTypeISameSpecies</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dissociationionisationtypeidissimilarspecies"><code class="docutils literal notranslate"><span class="pre">dissociationIonisationTypeIDissimilarSpecies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dissociationtce"><code class="docutils literal notranslate"><span class="pre">dissociationTCE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dissociationbias"><code class="docutils literal notranslate"><span class="pre">dissociationBias</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dissociationionisationexchange"><code class="docutils literal notranslate"><span class="pre">dissociationIonisationExchange</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#recombination"><code class="docutils literal notranslate"><span class="pre">recombination</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#moleculeatomdissociationionisation"><code class="docutils literal notranslate"><span class="pre">moleculeAtomDissociationIonisation</span></code></a></li>
@@ -601,7 +605,7 @@
   <section id="reaction-classes">
 <h1>Reaction classes<a class="headerlink" href="#reaction-classes" title="Link to this heading"></a></h1>
 <p>Source: <code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/reactions/derived/</span></code>.</p>
-<p>The reaction module implements fifteen derived classes, each
+<p>The reaction module implements seventeen derived classes, each
 corresponding to a specific reactive channel —  dissociation,
 recombination, exchange, electron-impact ionisation, atom-atom and
 molecule-atom ionisation, charge exchange, and the forward and
@@ -642,6 +646,28 @@ and is unchanged.</p>
 <span class="math notranslate nohighlight">\(\mathrm{N_2} + \mathrm{O} \to \mathrm{N} + \mathrm{N} +
 \mathrm{O}\)</span>). The dissociating reactant is identified by type-ID
 at run-time.</p>
+</section>
+<section id="dissociationtce">
+<h3><code class="docutils literal notranslate"><span class="pre">dissociationTCE</span></code><a class="headerlink" href="#dissociationtce" title="Link to this heading"></a></h3>
+<p>Bird Total-Collision-Energy dissociation,
+<span class="math notranslate nohighlight">\(\mathrm{AB} + \mathrm{M} \to \mathrm{A} + \mathrm{B} +
+\mathrm{M}\)</span>. The per-collision probability is built from a
+user-supplied Arrhenius triple (<code class="docutils literal notranslate"><span class="pre">preExponentialFactor</span></code>,
+<code class="docutils literal notranslate"><span class="pre">temperatureExponent</span></code>, <code class="docutils literal notranslate"><span class="pre">activationTemperature</span></code> in K) so that
+the equilibrium rate reproduces <span class="math notranslate nohighlight">\(k(T)\)</span> exactly; see
+<a class="reference internal" href="../theory/chemistry.html"><span class="doc">Neutral chemistry</span></a>. <code class="docutils literal notranslate"><span class="pre">zetaBar</span></code> optionally overrides the
+computed average internal degrees of freedom.</p>
+</section>
+<section id="dissociationbias">
+<h3><code class="docutils literal notranslate"><span class="pre">dissociationBias</span></code><a class="headerlink" href="#dissociationbias" title="Link to this heading"></a></h3>
+<p>Gimelshein-Wysong vibrationally-favored Bias dissociation,
+<span class="math notranslate nohighlight">\(\mathrm{AB} + \mathrm{M} \to \mathrm{A} + \mathrm{B} +
+\mathrm{M}\)</span>. The probability adds an explicit vibrational-favoring
+factor <span class="math notranslate nohighlight">\(\exp[\lambda(E_v/E_d - 1)]\)</span> to bias dissociation
+toward high vibrational states; the calibration constant
+<code class="docutils literal notranslate"><span class="pre">aCoeff</span></code> and favoring exponent <code class="docutils literal notranslate"><span class="pre">lambda</span></code> are read from the
+dictionary, while <span class="math notranslate nohighlight">\(E_v, E_r, E_d\)</span> come from the rovibronic
+database. See <a class="reference internal" href="../theory/chemistry.html"><span class="doc">Neutral chemistry</span></a>.</p>
 </section>
 <section id="dissociationionisationexchange">
 <h3><code class="docutils literal notranslate"><span class="pre">dissociationIonisationExchange</span></code><a class="headerlink" href="#dissociationionisationexchange" title="Link to this heading"></a></h3>

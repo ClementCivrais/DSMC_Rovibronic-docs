@@ -192,11 +192,13 @@
 <li class="toctree-l3"><a class="reference internal" href="relaxation.html#nizenkov-correction">Nizenkov correction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation.html#phase-by-phase-validation-protocol">Phase-by-phase validation protocol</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation.html#on-the-absence-of-the-classic-zcorr">On the absence of the classic ZCorr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#forced-harmonic-oscillator-fho-fr-model">Forced Harmonic Oscillator (FHO-FR) model</a></li>
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Neutral chemistry</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#total-collision-energy-tce-model-not-implemented-yet">Total-Collision-Energy (TCE) model <em>(Not implemented yet)</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#total-collision-energy-tce-model">Total-Collision-Energy (TCE) model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#quantum-kinetic-qk-model-full-derivation">Quantum-Kinetic (QK) model — full derivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vibrationally-favored-bias-model">Vibrationally-favored Bias model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#post-reaction-redistribution-of-internal-energy">Post-reaction redistribution of internal energy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#dissociation-with-potential-energy-curve-asymptote-matching">Dissociation with potential-energy-curve asymptote matching</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#recombination-from-detailed-balance">Recombination from detailed balance</a></li>
@@ -327,6 +329,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../classes/reactions.html#neutral-chemistry-classes-validated">Neutral-chemistry classes (validated)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../classes/reactions.html#dissociationionisationtypeisamespecies"><code class="docutils literal notranslate"><span class="pre">dissociationIonisationTypeISameSpecies</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/reactions.html#dissociationionisationtypeidissimilarspecies"><code class="docutils literal notranslate"><span class="pre">dissociationIonisationTypeIDissimilarSpecies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/reactions.html#dissociationtce"><code class="docutils literal notranslate"><span class="pre">dissociationTCE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/reactions.html#dissociationbias"><code class="docutils literal notranslate"><span class="pre">dissociationBias</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/reactions.html#dissociationionisationexchange"><code class="docutils literal notranslate"><span class="pre">dissociationIonisationExchange</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/reactions.html#recombination"><code class="docutils literal notranslate"><span class="pre">recombination</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/reactions.html#moleculeatomdissociationionisation"><code class="docutils literal notranslate"><span class="pre">moleculeAtomDissociationIonisation</span></code></a></li>
@@ -608,23 +612,20 @@ energy. Charged-species reactions, which inherit the same
 statistical machinery but require additional care around the
 electron population, are treated separately in
 <a class="reference internal" href="chemistry_charged.html"><span class="doc">Charged-species chemistry</span></a>.</p>
-<section id="total-collision-energy-tce-model-not-implemented-yet">
-<h2>Total-Collision-Energy (TCE) model <em>(Not implemented yet)</em><a class="headerlink" href="#total-collision-energy-tce-model-not-implemented-yet" title="Link to this heading"></a></h2>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The TCE model is <strong>not implemented</strong> in the current build.
-It is described here for completeness and as the historical
-baseline against which the rovibronic QK model of the next
-section is compared; the solver reads state-resolved QK
-parameters only, and a case with <code class="docutils literal notranslate"><span class="pre">reactionModel</span></code> set to a
-TCE-style class will not run. The section below may therefore
-be skipped on first reading.</p>
-</div>
+<section id="total-collision-energy-tce-model">
+<h2>Total-Collision-Energy (TCE) model<a class="headerlink" href="#total-collision-energy-tce-model" title="Link to this heading"></a></h2>
+<p>The TCE model is implemented as the <code class="docutils literal notranslate"><span class="pre">dissociationTCE</span></code> reaction
+class (dissociation channel <span class="math notranslate nohighlight">\(AB + M \rightarrow A + B + M\)</span>),
+selected with <code class="docutils literal notranslate"><span class="pre">reactionModel</span> <span class="pre">dissociationTCE;</span></code>. It is Bird’s
+classic total-collision-energy chemistry model and serves both as
+a production dissociation model and as the historical baseline
+against which the rovibronic QK model of the next section is
+compared.</p>
 <p>Bird’s TCE model <a class="reference internal" href="#bird1994ch" id="id1"><span>[Bird1994ch]</span></a> computes the reaction probability
 from the collision energy <span class="math notranslate nohighlight">\(E_c\)</span>, the activation energy
-<span class="math notranslate nohighlight">\(E_a\)</span>, and a fit to an experimental Arrhenius rate
-<span class="math notranslate nohighlight">\(k(T) = A\, T^{b}\,\exp(-E_a/k_B T)\)</span>. Starting from the
-equilibrium rate constant</p>
+<span class="math notranslate nohighlight">\(E_a\)</span>, and an experimental Arrhenius rate
+<span class="math notranslate nohighlight">\(k(T) = \Lambda\, T^{\eta}\,\exp(-E_a/k_B T)\)</span>. Starting from
+the equilibrium rate constant</p>
 <div class="math notranslate nohighlight">
 \[k^{\mathrm{eq}}(T)
   = \int_{E_a}^{\infty}
@@ -632,27 +633,53 @@ equilibrium rate constant</p>
     \sigma_T(E_c)\, g(E_c)\,
     f^{\mathrm{eq}}(E_c; T)\,
     \mathrm{d}E_c,\]</div>
-<p>and matching to the Arrhenius form for a VHS gas yields the
-closed-form reaction probability</p>
+<p>and matching to the Arrhenius form for a VHS gas (Bird eq. 6.8)
+yields the closed-form per-collision reaction probability
+<span class="math notranslate nohighlight">\(P = \sigma_R/\sigma_T\)</span>, evaluated for every pair already
+accepted by the VHS acceptance-rejection test:</p>
 <div class="math notranslate nohighlight">
 \[P_{\mathrm{reac}}^{\mathrm{TCE}}(E_c)
-  = C_1\,\left(\frac{E_c - E_a}{E_c}\right)^{C_2}
-    \left(\frac{E_c}{k_B T_{\mathrm{ref}}}\right)^{C_3}
-    \Theta(E_c - E_a),\]</div>
-<p>where <span class="math notranslate nohighlight">\(\Theta\)</span> is the Heaviside step and the three
-coefficients <span class="math notranslate nohighlight">\(C_1, C_2, C_3\)</span> are derived analytically from
-<span class="math notranslate nohighlight">\(A, b, \omega\)</span>:</p>
+  = C_1\,(E_c - E_a)^{C_2}
+    \left(1 - \frac{E_a}{E_c}\right)^{\bar\zeta + 3/2 - \omega}
+    \,\Theta(E_c - E_a),\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Theta\)</span> is the Heaviside step, <span class="math notranslate nohighlight">\(\bar\zeta\)</span> is
+the average number of internal degrees of freedom of the colliding
+pair (here the internal shape-parameter sum,
+<span class="math notranslate nohighlight">\(\bar\zeta = \tfrac{1}{2}(\zeta_{AB} + \zeta_M)\)</span>),
+<span class="math notranslate nohighlight">\(\omega\)</span> is the pair-averaged VHS viscosity exponent, and the
+two coefficients are derived analytically:</p>
 <div class="math notranslate nohighlight">
-\[C_1 = \frac{A\,(\omega - 1/2)!\,T_{\mathrm{ref}}^{1 - \omega}}
-           {(b + 3/2 - \omega)!\,(m_{12}/2k_B)^{1/2}},\]</div>
+\[C_2 = \eta - 1 + \omega,\]</div>
 <div class="math notranslate nohighlight">
-\[C_2 = b + \tfrac{1}{2} - \omega, \qquad
-C_3 = 1 - \omega + b.\]</div>
+\[C_1 = \frac{\sqrt{\pi}\,\epsilon\,\Lambda}{2\,\sigma_{\mathrm{ref}}}
+      \,\frac{\Gamma(\bar\zeta + 5/2 - \omega)}
+             {\Gamma(\bar\zeta + \eta + 3/2)}
+      \,\sqrt{\frac{m_r}{2 k_B T_{\mathrm{ref}}}}
+      \,\frac{T_{\mathrm{ref}}^{\,1 - \omega}}
+             {k_B^{\,\eta - 1 + \omega}} .\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\sigma_{\mathrm{ref}} = \pi d_{PQ}^2\)</span> is the pair VHS
+reference cross-section, <span class="math notranslate nohighlight">\(T_{\mathrm{ref}}\)</span> the collision
+reference temperature, <span class="math notranslate nohighlight">\(m_r\)</span> the reduced mass, and
+<span class="math notranslate nohighlight">\(\epsilon = 2\)</span> for like reactants, <span class="math notranslate nohighlight">\(1\)</span> otherwise. The
+collision energy <span class="math notranslate nohighlight">\(E_c\)</span> pools the relative translational
+energy and the internal energy of <em>both</em> collision partners.
+<span class="math notranslate nohighlight">\(C_1\)</span>, <span class="math notranslate nohighlight">\(C_2\)</span>, <span class="math notranslate nohighlight">\(E_a\)</span> and <span class="math notranslate nohighlight">\(\bar\zeta\)</span> are
+constants for a given reaction and are pre-computed once.</p>
 <p>The TCE model is a <strong>global</strong> reaction model: every collision
-above <span class="math notranslate nohighlight">\(E_a\)</span> has the same reaction probability regardless of
-the reactants’ internal states. This is its virtue (no per-state
-data required) and its limitation (it cannot describe the
-influence of excited-state populations on reaction rates).</p>
+above <span class="math notranslate nohighlight">\(E_a\)</span> reacts with the same probability regardless of
+the partition of <span class="math notranslate nohighlight">\(E_c\)</span> between the modes. This is its virtue
+(only the Arrhenius triple is required) and its limitation (it
+cannot, on its own, describe the influence of excited-state
+populations on the reaction rate — the deficiency addressed by the
+Bias model below).</p>
+<p>The dictionary interface reads the Arrhenius coefficients directly
+(<span class="math notranslate nohighlight">\(\Lambda\)</span> as <code class="docutils literal notranslate"><span class="pre">preExponentialFactor</span></code> in m<sup>3</sup>/s,
+<span class="math notranslate nohighlight">\(\eta\)</span> as <code class="docutils literal notranslate"><span class="pre">temperatureExponent</span></code>, and the activation
+<em>temperature</em> <span class="math notranslate nohighlight">\(E_a/k_B\)</span> in Kelvin as
+<code class="docutils literal notranslate"><span class="pre">activationTemperature</span></code>); <code class="docutils literal notranslate"><span class="pre">zetaBar</span></code> may optionally override the
+computed <span class="math notranslate nohighlight">\(\bar\zeta\)</span>. The implementation has been verified to
+reproduce the input <span class="math notranslate nohighlight">\(k(T)\)</span> to better than 0.1 % over
+5000–20000 K by numerical integration of the equation above.</p>
 </section>
 <section id="quantum-kinetic-qk-model-full-derivation">
 <h2>Quantum-Kinetic (QK) model — full derivation<a class="headerlink" href="#quantum-kinetic-qk-model-full-derivation" title="Link to this heading"></a></h2>
@@ -718,6 +745,48 @@ each collision is tested against the QK probability</p>
 parcel <span class="math notranslate nohighlight">\(Q\)</span> merely supplies its share of the collision
 energy. If the probability exceeds the uniform random draw, the
 reaction fires and the post-reaction energy redistribution begins.</p>
+</section>
+<section id="vibrationally-favored-bias-model">
+<h2>Vibrationally-favored Bias model<a class="headerlink" href="#vibrationally-favored-bias-model" title="Link to this heading"></a></h2>
+<p>The plain TCE model weights all internal energy equally and so
+underestimates the role of vibrational excitation in dissociation.
+The <strong>Bias model</strong> of Gimelshein and Wysong <a class="reference internal" href="#gimelsheinbias2017" id="id4"><span>[GimelsheinBias2017]</span></a>,
+which descends from the vibrational-favoring cross-sections of
+Wadsworth and Wysong <a class="reference internal" href="#wadsworthwysong1997" id="id5"><span>[WadsworthWysong1997]</span></a>, restores the
+state-specific behaviour by an explicit favoring factor. It is
+implemented as the <code class="docutils literal notranslate"><span class="pre">dissociationBias</span></code> reaction class, selected
+with <code class="docutils literal notranslate"><span class="pre">reactionModel</span> <span class="pre">dissociationBias;</span></code> for the channel
+<span class="math notranslate nohighlight">\(AB + M \rightarrow A + B + M\)</span>.</p>
+<p>For a collision pair already accepted by the VHS test, the
+dissociation probability of the molecule <span class="math notranslate nohighlight">\(AB\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[P_{\mathrm{reac}}^{\mathrm{Bias}}
+  = a\,\left(1 - \frac{E_d - E_v}{E_t + E_r}\right)
+    \exp\!\left[\lambda\left(\frac{E_v}{E_d} - 1\right)\right],
+    \qquad E_t + E_r + E_v &gt; E_d,\]</div>
+<p>where <span class="math notranslate nohighlight">\(E_t\)</span> is the relative translational energy of the
+pair, and <span class="math notranslate nohighlight">\(E_v\)</span>, <span class="math notranslate nohighlight">\(E_r\)</span> are the vibrational and
+rotational energies of the dissociating molecule, taken directly
+from the rovibronic <span class="math notranslate nohighlight">\((n, v, J)\)</span> energy database so that the
+favoring is fully state-resolved. <span class="math notranslate nohighlight">\(E_d\)</span> is the dissociation
+energy (well depth <span class="math notranslate nohighlight">\(D_0\)</span>) of the molecule’s current
+electronic state. The two parameters are the calibration constant
+<span class="math notranslate nohighlight">\(a\)</span> (of order unity, <code class="docutils literal notranslate"><span class="pre">aCoeff</span></code>) and the vibrational-favoring
+exponent <span class="math notranslate nohighlight">\(\lambda\)</span> (<code class="docutils literal notranslate"><span class="pre">lambda</span></code>). At the threshold
+<span class="math notranslate nohighlight">\(E_t + E_r + E_v = E_d\)</span> the prefactor vanishes; the
+exponential biases the reaction toward molecules in high
+vibrational states, and <span class="math notranslate nohighlight">\(\lambda = 0\)</span> recovers an
+unfavored model.</p>
+<p>Unlike TCE, the Bias model has <strong>no closed-form equilibrium rate</strong>:
+the discrete internal modes preclude analytic integration, so the
+resulting <span class="math notranslate nohighlight">\(k(T)\)</span> is obtained <em>a posteriori</em> by fitting, and
+<span class="math notranslate nohighlight">\((a, \lambda)\)</span> are calibration parameters rather than derived
+constants. Recommended starting values for oxygen are
+<span class="math notranslate nohighlight">\(a \approx 4,\ \lambda = 2\)</span> for <span class="math notranslate nohighlight">\(\mathrm{O_2 + O}\)</span> and
+<span class="math notranslate nohighlight">\(a \approx 2,\ \lambda = 4\)</span> for <span class="math notranslate nohighlight">\(\mathrm{O_2 + O_2}\)</span>
+<a class="reference internal" href="#gimelsheinbias2017" id="id6"><span>[GimelsheinBias2017]</span></a>. The Bias model is intended for the
+dissociation (and, by detailed balance, recombination) channels
+only; exchange reactions should use the TCE or QK probability.</p>
 </section>
 <section id="post-reaction-redistribution-of-internal-energy">
 <h2>Post-reaction redistribution of internal energy<a class="headerlink" href="#post-reaction-redistribution-of-internal-energy" title="Link to this heading"></a></h2>
@@ -865,6 +934,19 @@ reaction rates,” <em>Physics of Fluids</em>, <strong>23</strong>, 106101 (2011
 <p>C. H. B. Civrais, C. White, R. Steijl,
 “Quantum-kinetic chemistry model with an anharmonic oscillator
 model: Model derivation and limitations,” <em>Physics of Fluids</em>.</p>
+</div>
+<div class="citation" id="gimelsheinbias2017" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>GimelsheinBias2017<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id4">1</a>,<a role="doc-backlink" href="#id6">2</a>)</span>
+<p>S. F. Gimelshein and I. J. Wysong, “DSMC
+modeling of flows with recombination reactions,” <em>Physics of
+Fluids</em>, <strong>29</strong>, 067106 (2017).</p>
+</div>
+<div class="citation" id="wadsworthwysong1997" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">WadsworthWysong1997</a><span class="fn-bracket">]</span></span>
+<p>D. C. Wadsworth and I. J. Wysong,
+“Vibrational favoring effect in DSMC dissociation models,”
+<em>Physics of Fluids A</em>, <strong>9</strong>, 3873–3884 (1997).</p>
 </div>
 </div>
 </section>

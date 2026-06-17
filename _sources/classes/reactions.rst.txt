@@ -3,7 +3,7 @@ Reaction classes
 
 Source: ``src/lagrangian/DSMC/reactions/derived/``.
 
-The reaction module implements fifteen derived classes, each
+The reaction module implements seventeen derived classes, each
 corresponding to a specific reactive channel —  dissociation,
 recombination, exchange, electron-impact ionisation, atom-atom and
 molecule-atom ionisation, charge exchange, and the forward and
@@ -49,6 +49,30 @@ Dissimilar-species dissociation (e.g.
 :math:`\mathrm{N_2} + \mathrm{O} \to \mathrm{N} + \mathrm{N} +
 \mathrm{O}`). The dissociating reactant is identified by type-ID
 at run-time.
+
+``dissociationTCE``
+```````````````````
+
+Bird Total-Collision-Energy dissociation,
+:math:`\mathrm{AB} + \mathrm{M} \to \mathrm{A} + \mathrm{B} +
+\mathrm{M}`. The per-collision probability is built from a
+user-supplied Arrhenius triple (``preExponentialFactor``,
+``temperatureExponent``, ``activationTemperature`` in K) so that
+the equilibrium rate reproduces :math:`k(T)` exactly; see
+:doc:`../theory/chemistry`. ``zetaBar`` optionally overrides the
+computed average internal degrees of freedom.
+
+``dissociationBias``
+````````````````````
+
+Gimelshein-Wysong vibrationally-favored Bias dissociation,
+:math:`\mathrm{AB} + \mathrm{M} \to \mathrm{A} + \mathrm{B} +
+\mathrm{M}`. The probability adds an explicit vibrational-favoring
+factor :math:`\exp[\lambda(E_v/E_d - 1)]` to bias dissociation
+toward high vibrational states; the calibration constant
+``aCoeff`` and favoring exponent ``lambda`` are read from the
+dictionary, while :math:`E_v, E_r, E_d` come from the rovibronic
+database. See :doc:`../theory/chemistry`.
 
 ``dissociationIonisationExchange``
 ``````````````````````````````````

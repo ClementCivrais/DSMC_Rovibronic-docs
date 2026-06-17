@@ -32,6 +32,15 @@ Implemented classes
        redistribution; adds the anisotropic scattering exponent
        :math:`\alpha`, which interpolates between isotropic and
        forward-peaked scattering.
+   * - ``FHOVariableHardSphere``
+     - VHS cross section with **Forced Harmonic Oscillator**
+       (FHO-FR) vibration-translation energy transfer. Rotation
+       and electronic modes still relax by Larsen-Borgnakke, but
+       the vibrational transition :math:`v \to w` is drawn from
+       the analytic FHO state-to-state probability of Adamovich
+       et al. A selectable complement to the LB models (it does
+       not replace them); see the FHO section in
+       :doc:`../theory/relaxation`.
    * - ``VariableHardSphere``
      - Plain VHS without LB: purely elastic collisions, no
        internal-energy exchange. Useful for debugging, or for

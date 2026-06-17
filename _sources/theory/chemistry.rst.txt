@@ -10,24 +10,22 @@ statistical machinery but require additional care around the
 electron population, are treated separately in
 :doc:`chemistry_charged`.
 
-Total-Collision-Energy (TCE) model *(Not implemented yet)*
-----------------------------------------------------------
+Total-Collision-Energy (TCE) model
+-----------------------------------
 
-.. warning::
-
-   The TCE model is **not implemented** in the current build.
-   It is described here for completeness and as the historical
-   baseline against which the rovibronic QK model of the next
-   section is compared; the solver reads state-resolved QK
-   parameters only, and a case with ``reactionModel`` set to a
-   TCE-style class will not run. The section below may therefore
-   be skipped on first reading.
+The TCE model is implemented as the ``dissociationTCE`` reaction
+class (dissociation channel :math:`AB + M \rightarrow A + B + M`),
+selected with ``reactionModel dissociationTCE;``. It is Bird's
+classic total-collision-energy chemistry model and serves both as
+a production dissociation model and as the historical baseline
+against which the rovibronic QK model of the next section is
+compared.
 
 Bird's TCE model [Bird1994ch]_ computes the reaction probability
 from the collision energy :math:`E_c`, the activation energy
-:math:`E_a`, and a fit to an experimental Arrhenius rate
-:math:`k(T) = A\, T^{b}\,\exp(-E_a/k_B T)`. Starting from the
-equilibrium rate constant
+:math:`E_a`, and an experimental Arrhenius rate
+:math:`k(T) = \Lambda\, T^{\eta}\,\exp(-E_a/k_B T)`. Starting from
+the equilibrium rate constant
 
 .. math::
 
@@ -38,35 +36,63 @@ equilibrium rate constant
        f^{\mathrm{eq}}(E_c; T)\,
        \mathrm{d}E_c,
 
-and matching to the Arrhenius form for a VHS gas yields the
-closed-form reaction probability
+and matching to the Arrhenius form for a VHS gas (Bird eq. 6.8)
+yields the closed-form per-collision reaction probability
+:math:`P = \sigma_R/\sigma_T`, evaluated for every pair already
+accepted by the VHS acceptance-rejection test:
 
 .. math::
 
    P_{\mathrm{reac}}^{\mathrm{TCE}}(E_c)
-     = C_1\,\left(\frac{E_c - E_a}{E_c}\right)^{C_2}
-       \left(\frac{E_c}{k_B T_{\mathrm{ref}}}\right)^{C_3}
-       \Theta(E_c - E_a),
+     = C_1\,(E_c - E_a)^{C_2}
+       \left(1 - \frac{E_a}{E_c}\right)^{\bar\zeta + 3/2 - \omega}
+       \,\Theta(E_c - E_a),
 
-where :math:`\Theta` is the Heaviside step and the three
-coefficients :math:`C_1, C_2, C_3` are derived analytically from
-:math:`A, b, \omega`:
-
-.. math::
-
-   C_1 = \frac{A\,(\omega - 1/2)!\,T_{\mathrm{ref}}^{1 - \omega}}
-              {(b + 3/2 - \omega)!\,(m_{12}/2k_B)^{1/2}},
+where :math:`\Theta` is the Heaviside step, :math:`\bar\zeta` is
+the average number of internal degrees of freedom of the colliding
+pair (here the internal shape-parameter sum,
+:math:`\bar\zeta = \tfrac{1}{2}(\zeta_{AB} + \zeta_M)`),
+:math:`\omega` is the pair-averaged VHS viscosity exponent, and the
+two coefficients are derived analytically:
 
 .. math::
 
-   C_2 = b + \tfrac{1}{2} - \omega, \qquad
-   C_3 = 1 - \omega + b.
+   C_2 = \eta - 1 + \omega,
+
+.. math::
+
+   C_1 = \frac{\sqrt{\pi}\,\epsilon\,\Lambda}{2\,\sigma_{\mathrm{ref}}}
+         \,\frac{\Gamma(\bar\zeta + 5/2 - \omega)}
+                {\Gamma(\bar\zeta + \eta + 3/2)}
+         \,\sqrt{\frac{m_r}{2 k_B T_{\mathrm{ref}}}}
+         \,\frac{T_{\mathrm{ref}}^{\,1 - \omega}}
+                {k_B^{\,\eta - 1 + \omega}} .
+
+Here :math:`\sigma_{\mathrm{ref}} = \pi d_{PQ}^2` is the pair VHS
+reference cross-section, :math:`T_{\mathrm{ref}}` the collision
+reference temperature, :math:`m_r` the reduced mass, and
+:math:`\epsilon = 2` for like reactants, :math:`1` otherwise. The
+collision energy :math:`E_c` pools the relative translational
+energy and the internal energy of *both* collision partners.
+:math:`C_1`, :math:`C_2`, :math:`E_a` and :math:`\bar\zeta` are
+constants for a given reaction and are pre-computed once.
 
 The TCE model is a **global** reaction model: every collision
-above :math:`E_a` has the same reaction probability regardless of
-the reactants' internal states. This is its virtue (no per-state
-data required) and its limitation (it cannot describe the
-influence of excited-state populations on reaction rates).
+above :math:`E_a` reacts with the same probability regardless of
+the partition of :math:`E_c` between the modes. This is its virtue
+(only the Arrhenius triple is required) and its limitation (it
+cannot, on its own, describe the influence of excited-state
+populations on the reaction rate — the deficiency addressed by the
+Bias model below).
+
+The dictionary interface reads the Arrhenius coefficients directly
+(:math:`\Lambda` as ``preExponentialFactor`` in m\ :sup:`3`/s,
+:math:`\eta` as ``temperatureExponent``, and the activation
+*temperature* :math:`E_a/k_B` in Kelvin as
+``activationTemperature``); ``zetaBar`` may optionally override the
+computed :math:`\bar\zeta`. The implementation has been verified to
+reproduce the input :math:`k(T)` to better than 0.1 % over
+5000–20000 K by numerical integration of the equation above.
 
 Quantum-Kinetic (QK) model — full derivation
 --------------------------------------------
@@ -155,6 +181,54 @@ drawn for the dissociating parcel :math:`P` only; the partner
 parcel :math:`Q` merely supplies its share of the collision
 energy. If the probability exceeds the uniform random draw, the
 reaction fires and the post-reaction energy redistribution begins.
+
+Vibrationally-favored Bias model
+--------------------------------
+
+The plain TCE model weights all internal energy equally and so
+underestimates the role of vibrational excitation in dissociation.
+The **Bias model** of Gimelshein and Wysong [GimelsheinBias2017]_,
+which descends from the vibrational-favoring cross-sections of
+Wadsworth and Wysong [WadsworthWysong1997]_, restores the
+state-specific behaviour by an explicit favoring factor. It is
+implemented as the ``dissociationBias`` reaction class, selected
+with ``reactionModel dissociationBias;`` for the channel
+:math:`AB + M \rightarrow A + B + M`.
+
+For a collision pair already accepted by the VHS test, the
+dissociation probability of the molecule :math:`AB` is
+
+.. math::
+
+   P_{\mathrm{reac}}^{\mathrm{Bias}}
+     = a\,\left(1 - \frac{E_d - E_v}{E_t + E_r}\right)
+       \exp\!\left[\lambda\left(\frac{E_v}{E_d} - 1\right)\right],
+       \qquad E_t + E_r + E_v > E_d,
+
+where :math:`E_t` is the relative translational energy of the
+pair, and :math:`E_v`, :math:`E_r` are the vibrational and
+rotational energies of the dissociating molecule, taken directly
+from the rovibronic :math:`(n, v, J)` energy database so that the
+favoring is fully state-resolved. :math:`E_d` is the dissociation
+energy (well depth :math:`D_0`) of the molecule's current
+electronic state. The two parameters are the calibration constant
+:math:`a` (of order unity, ``aCoeff``) and the vibrational-favoring
+exponent :math:`\lambda` (``lambda``). At the threshold
+:math:`E_t + E_r + E_v = E_d` the prefactor vanishes; the
+exponential biases the reaction toward molecules in high
+vibrational states, and :math:`\lambda = 0` recovers an
+unfavored model.
+
+Unlike TCE, the Bias model has **no closed-form equilibrium rate**:
+the discrete internal modes preclude analytic integration, so the
+resulting :math:`k(T)` is obtained *a posteriori* by fitting, and
+:math:`(a, \lambda)` are calibration parameters rather than derived
+constants. Recommended starting values for oxygen are
+:math:`a \approx 4,\ \lambda = 2` for :math:`\mathrm{O_2 + O}` and
+:math:`a \approx 2,\ \lambda = 4` for :math:`\mathrm{O_2 + O_2}`
+[GimelsheinBias2017]_. The Bias model is intended for the
+dissociation (and, by detailed balance, recombination) channels
+only; exchange reactions should use the TCE or QK probability.
 
 Post-reaction redistribution of internal energy
 -----------------------------------------------
@@ -342,3 +416,9 @@ of the tabulated value.
 .. [Civrais2024ChemI_ch] C. H. B. Civrais, C. White, R. Steijl,
    "Quantum-kinetic chemistry model with an anharmonic oscillator
    model: Model derivation and limitations," *Physics of Fluids*.
+.. [GimelsheinBias2017] S. F. Gimelshein and I. J. Wysong, "DSMC
+   modeling of flows with recombination reactions," *Physics of
+   Fluids*, **29**, 067106 (2017).
+.. [WadsworthWysong1997] D. C. Wadsworth and I. J. Wysong,
+   "Vibrational favoring effect in DSMC dissociation models,"
+   *Physics of Fluids A*, **9**, 3873–3884 (1997).
