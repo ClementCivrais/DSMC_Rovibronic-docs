@@ -605,16 +605,25 @@
   <section id="reaction-classes">
 <h1>Reaction classes<a class="headerlink" href="#reaction-classes" title="Link to this heading"></a></h1>
 <p>Source: <code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/reactions/derived/</span></code>.</p>
-<p>The reaction module implements seventeen derived classes, each
-corresponding to a specific reactive channel —  dissociation,
-recombination, exchange, electron-impact ionisation, atom-atom and
-molecule-atom ionisation, charge exchange, and the forward and
-reverse branches of associative ionisation. Every reaction class
-plugs into the common base that hands it the pooled collision
-energy <span class="math notranslate nohighlight">\(E_c\)</span>, the reactant states, and the RNG; the class
-then computes the reaction probability, decides whether the
-reaction fires, and —  if it does —  samples the product states
-through the Larsen-Borgnakke machinery of <a class="reference internal" href="collision_models.html"><span class="doc">Binary collision models</span></a>.</p>
+<p>The derived reaction classes are organised <strong>by chemistry model</strong>:
+each top-level sub-directory is a model the user can choose from,
+and within it the individual reactive channels are implemented:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">reactions</span><span class="o">/</span><span class="n">derived</span><span class="o">/</span>
+    <span class="n">QK</span><span class="o">/</span>     <span class="n">quantum</span><span class="o">-</span><span class="n">kinetic</span> <span class="n">reactions</span> <span class="p">(</span><span class="n">dissociationIonisation</span><span class="o">*</span><span class="p">,</span>
+            <span class="n">chargeExchange</span><span class="p">,</span> <span class="n">recombination</span><span class="p">,</span> <span class="n">associative</span> <span class="n">ionisation</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+    <span class="n">TCE</span><span class="o">/</span>    <span class="n">total</span><span class="o">-</span><span class="n">collision</span><span class="o">-</span><span class="n">energy</span> <span class="n">reactions</span> <span class="p">(</span><span class="n">dissociationTCE</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+    <span class="n">Bias</span><span class="o">/</span>   <span class="n">Gimelshein</span><span class="o">-</span><span class="n">Wysong</span> <span class="n">bias</span> <span class="n">reactions</span> <span class="p">(</span><span class="n">dissociationBias</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The model is selected per reaction through the <code class="docutils literal notranslate"><span class="pre">reactionModel</span></code>
+key in <code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code> (the run-time type name), so the
+directory grouping is organisational; new channels are added under
+the relevant model directory. Every reaction class plugs into the
+common base that hands it the pooled collision energy
+<span class="math notranslate nohighlight">\(E_c\)</span>, the reactant states, and the RNG; the class then
+computes the reaction probability, decides whether the reaction
+fires, and —  if it does —  samples the product states through the
+Larsen-Borgnakke machinery of <a class="reference internal" href="collision_models.html"><span class="doc">Binary collision models</span></a>.</p>
 <p>A central design choice of the rovibronic extension is that <strong>the
 heats of reaction are read from the spectroscopic database</strong>, not
 from user-supplied dictionary entries. The theoretical basis is

@@ -3,16 +3,25 @@ Reaction classes
 
 Source: ``src/lagrangian/DSMC/reactions/derived/``.
 
-The reaction module implements seventeen derived classes, each
-corresponding to a specific reactive channel —  dissociation,
-recombination, exchange, electron-impact ionisation, atom-atom and
-molecule-atom ionisation, charge exchange, and the forward and
-reverse branches of associative ionisation. Every reaction class
-plugs into the common base that hands it the pooled collision
-energy :math:`E_c`, the reactant states, and the RNG; the class
-then computes the reaction probability, decides whether the
-reaction fires, and —  if it does —  samples the product states
-through the Larsen-Borgnakke machinery of :doc:`collision_models`.
+The derived reaction classes are organised **by chemistry model**:
+each top-level sub-directory is a model the user can choose from,
+and within it the individual reactive channels are implemented::
+
+    reactions/derived/
+        QK/     quantum-kinetic reactions (dissociationIonisation*,
+                chargeExchange, recombination, associative ionisation, ...)
+        TCE/    total-collision-energy reactions (dissociationTCE, ...)
+        Bias/   Gimelshein-Wysong bias reactions (dissociationBias, ...)
+
+The model is selected per reaction through the ``reactionModel``
+key in ``system/chemReactDict`` (the run-time type name), so the
+directory grouping is organisational; new channels are added under
+the relevant model directory. Every reaction class plugs into the
+common base that hands it the pooled collision energy
+:math:`E_c`, the reactant states, and the RNG; the class then
+computes the reaction probability, decides whether the reaction
+fires, and —  if it does —  samples the product states through the
+Larsen-Borgnakke machinery of :doc:`collision_models`.
 
 A central design choice of the rovibronic extension is that **the
 heats of reaction are read from the spectroscopic database**, not
