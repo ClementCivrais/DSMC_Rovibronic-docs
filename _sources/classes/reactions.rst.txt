@@ -10,7 +10,8 @@ and within it the individual reactive channels are implemented::
     reactions/derived/
         QK/     quantum-kinetic reactions (dissociationIonisation*,
                 chargeExchange, recombination, associative ionisation, ...)
-        TCE/    total-collision-energy reactions (dissociationTCE, ...)
+        TCE/    total-collision-energy reactions (dissociationTCE,
+                exchangeTCE, ionisationTCE, recombinationTCE)
         Bias/   Gimelshein-Wysong bias reactions (dissociationBias, ...)
 
 The model is selected per reaction through the ``reactionModel``
@@ -70,6 +71,37 @@ user-supplied Arrhenius triple (``preExponentialFactor``,
 the equilibrium rate reproduces :math:`k(T)` exactly; see
 :doc:`../theory/chemistry`. ``zetaBar`` optionally overrides the
 computed average internal degrees of freedom.
+
+``exchangeTCE``
+```````````````
+
+TCE atom-exchange, :math:`\mathrm{AB} + \mathrm{C} \to
+\mathrm{AC} + \mathrm{B}`. Same Arrhenius-derived per-collision
+probability as ``dissociationTCE`` (shared ``tceCommon.H`` helper);
+products formed via the base ``exchangePQ`` primitive with the heat
+of reaction :math:`D_0(\mathrm{AC}) - D_0(\mathrm{AB})` read from
+the database.
+
+``ionisationTCE``
+`````````````````
+
+TCE impact ionisation, :math:`\mathrm{A} + \mathrm{B} \to
+\mathrm{A}^{+} + e^{-} + \mathrm{B}`. Arrhenius-derived probability;
+the ion and electron are produced by the base ``ionisePQ``
+primitive, which conserves energy using the state-resolved
+ionisation threshold.
+
+``recombinationTCE``
+````````````````````
+
+TCE three-body recombination, :math:`\mathrm{A} + \mathrm{B} +
+\mathrm{M} \to \mathrm{AB} + \mathrm{M}`, following the PICLas
+direct route: the per-collision probability of the A-B pair carries
+the local third-body number density,
+:math:`P = C_1\, n_M\, E_c^{\,\eta-1+\omega}`, with the recoil
+absorbed by a third-body parcel (base ``recombinePQ``). The
+three-body Arrhenius prefactor ``preExponentialFactor`` is in
+:math:`\mathrm{m^6/s}`.
 
 ``dissociationBias``
 ````````````````````

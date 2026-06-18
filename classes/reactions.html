@@ -330,6 +330,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#dissociationionisationtypeisamespecies"><code class="docutils literal notranslate"><span class="pre">dissociationIonisationTypeISameSpecies</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dissociationionisationtypeidissimilarspecies"><code class="docutils literal notranslate"><span class="pre">dissociationIonisationTypeIDissimilarSpecies</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dissociationtce"><code class="docutils literal notranslate"><span class="pre">dissociationTCE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#exchangetce"><code class="docutils literal notranslate"><span class="pre">exchangeTCE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ionisationtce"><code class="docutils literal notranslate"><span class="pre">ionisationTCE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#recombinationtce"><code class="docutils literal notranslate"><span class="pre">recombinationTCE</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dissociationbias"><code class="docutils literal notranslate"><span class="pre">dissociationBias</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dissociationionisationexchange"><code class="docutils literal notranslate"><span class="pre">dissociationIonisationExchange</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#recombination"><code class="docutils literal notranslate"><span class="pre">recombination</span></code></a></li>
@@ -611,7 +614,8 @@ and within it the individual reactive channels are implemented:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">reactions</span><span class="o">/</span><span class="n">derived</span><span class="o">/</span>
     <span class="n">QK</span><span class="o">/</span>     <span class="n">quantum</span><span class="o">-</span><span class="n">kinetic</span> <span class="n">reactions</span> <span class="p">(</span><span class="n">dissociationIonisation</span><span class="o">*</span><span class="p">,</span>
             <span class="n">chargeExchange</span><span class="p">,</span> <span class="n">recombination</span><span class="p">,</span> <span class="n">associative</span> <span class="n">ionisation</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
-    <span class="n">TCE</span><span class="o">/</span>    <span class="n">total</span><span class="o">-</span><span class="n">collision</span><span class="o">-</span><span class="n">energy</span> <span class="n">reactions</span> <span class="p">(</span><span class="n">dissociationTCE</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+    <span class="n">TCE</span><span class="o">/</span>    <span class="n">total</span><span class="o">-</span><span class="n">collision</span><span class="o">-</span><span class="n">energy</span> <span class="n">reactions</span> <span class="p">(</span><span class="n">dissociationTCE</span><span class="p">,</span>
+            <span class="n">exchangeTCE</span><span class="p">,</span> <span class="n">ionisationTCE</span><span class="p">,</span> <span class="n">recombinationTCE</span><span class="p">)</span>
     <span class="n">Bias</span><span class="o">/</span>   <span class="n">Gimelshein</span><span class="o">-</span><span class="n">Wysong</span> <span class="n">bias</span> <span class="n">reactions</span> <span class="p">(</span><span class="n">dissociationBias</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -666,6 +670,34 @@ user-supplied Arrhenius triple (<code class="docutils literal notranslate"><span
 the equilibrium rate reproduces <span class="math notranslate nohighlight">\(k(T)\)</span> exactly; see
 <a class="reference internal" href="../theory/chemistry.html"><span class="doc">Neutral chemistry</span></a>. <code class="docutils literal notranslate"><span class="pre">zetaBar</span></code> optionally overrides the
 computed average internal degrees of freedom.</p>
+</section>
+<section id="exchangetce">
+<h3><code class="docutils literal notranslate"><span class="pre">exchangeTCE</span></code><a class="headerlink" href="#exchangetce" title="Link to this heading"></a></h3>
+<p>TCE atom-exchange, <span class="math notranslate nohighlight">\(\mathrm{AB} + \mathrm{C} \to
+\mathrm{AC} + \mathrm{B}\)</span>. Same Arrhenius-derived per-collision
+probability as <code class="docutils literal notranslate"><span class="pre">dissociationTCE</span></code> (shared <code class="docutils literal notranslate"><span class="pre">tceCommon.H</span></code> helper);
+products formed via the base <code class="docutils literal notranslate"><span class="pre">exchangePQ</span></code> primitive with the heat
+of reaction <span class="math notranslate nohighlight">\(D_0(\mathrm{AC}) - D_0(\mathrm{AB})\)</span> read from
+the database.</p>
+</section>
+<section id="ionisationtce">
+<h3><code class="docutils literal notranslate"><span class="pre">ionisationTCE</span></code><a class="headerlink" href="#ionisationtce" title="Link to this heading"></a></h3>
+<p>TCE impact ionisation, <span class="math notranslate nohighlight">\(\mathrm{A} + \mathrm{B} \to
+\mathrm{A}^{+} + e^{-} + \mathrm{B}\)</span>. Arrhenius-derived probability;
+the ion and electron are produced by the base <code class="docutils literal notranslate"><span class="pre">ionisePQ</span></code>
+primitive, which conserves energy using the state-resolved
+ionisation threshold.</p>
+</section>
+<section id="recombinationtce">
+<h3><code class="docutils literal notranslate"><span class="pre">recombinationTCE</span></code><a class="headerlink" href="#recombinationtce" title="Link to this heading"></a></h3>
+<p>TCE three-body recombination, <span class="math notranslate nohighlight">\(\mathrm{A} + \mathrm{B} +
+\mathrm{M} \to \mathrm{AB} + \mathrm{M}\)</span>, following the PICLas
+direct route: the per-collision probability of the A-B pair carries
+the local third-body number density,
+<span class="math notranslate nohighlight">\(P = C_1\, n_M\, E_c^{\,\eta-1+\omega}\)</span>, with the recoil
+absorbed by a third-body parcel (base <code class="docutils literal notranslate"><span class="pre">recombinePQ</span></code>). The
+three-body Arrhenius prefactor <code class="docutils literal notranslate"><span class="pre">preExponentialFactor</span></code> is in
+<span class="math notranslate nohighlight">\(\mathrm{m^6/s}\)</span>.</p>
 </section>
 <section id="dissociationbias">
 <h3><code class="docutils literal notranslate"><span class="pre">dissociationBias</span></code><a class="headerlink" href="#dissociationbias" title="Link to this heading"></a></h3>
