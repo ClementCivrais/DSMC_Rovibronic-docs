@@ -45,6 +45,37 @@ for dissociation and ionisation (QK recombination is the detailed-balance
 backward of a QK dissociation/ionisation), while TCE (Arrhenius) covers all
 four types.  All classes use the rovibronic (n,v,J) state-resolved energies.
 
+In addition to the four base types, the **charged-species and associative**
+channels are provided for both the TCE and Bias models, reusing the
+base-class ``chargeExchangePQ`` and ``associativeIonisation`` primitives:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 35 35
+
+   * - Channel
+     - TCE
+     - Bias
+   * - Charge exchange (A+ + B -> A + B+)
+     - ``chargeExchangeTCE``
+     - ``chargeExchangeBias``
+   * - Associative ionisation (A + B -> AB+ + e-)
+     - ``associativeIonisationTCE``
+     - ``associativeIonisationBias``
+   * - Reverse assoc. ion. (AB+ + e- -> A + B)
+     - ``reverseAssociativeIonisationTCE``
+     - ``reverseAssociativeIonisationBias``
+   * - Exchange / Impact ionisation
+     - ``exchangeTCE`` / ``ionisationTCE``
+     - ``exchangeBias`` / ``ionisationBias``
+
+Impact ionisation (``ionisationTCE``/``ionisationQK``/``ionisationBias``) is
+generic in the collision partner, so it covers electron-impact, atom-atom,
+and atom-ion ionisation by choosing the partner species.  The Bias
+vibrational-favoring factor is physically active only when a vibrating
+molecular reactant is present; for purely atomic/electron reactants it
+degenerates gracefully (see ``biasCommon.H``).
+
 The model is selected per reaction through the ``reactionModel``
 key in ``system/chemReactDict`` (the run-time type name), so the
 directory grouping is organisational; new channels are added under

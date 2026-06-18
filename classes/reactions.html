@@ -661,6 +661,46 @@ four types – dissociation (D), exchange (E), ionisation (I), recombination
 for dissociation and ionisation (QK recombination is the detailed-balance
 backward of a QK dissociation/ionisation), while TCE (Arrhenius) covers all
 four types.  All classes use the rovibronic (n,v,J) state-resolved energies.</p>
+<p>In addition to the four base types, the <strong>charged-species and associative</strong>
+channels are provided for both the TCE and Bias models, reusing the
+base-class <code class="docutils literal notranslate"><span class="pre">chargeExchangePQ</span></code> and <code class="docutils literal notranslate"><span class="pre">associativeIonisation</span></code> primitives:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 35.0%" />
+<col style="width: 35.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Channel</p></th>
+<th class="head"><p>TCE</p></th>
+<th class="head"><p>Bias</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Charge exchange (A+ + B -&gt; A + B+)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">chargeExchangeTCE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">chargeExchangeBias</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Associative ionisation (A + B -&gt; AB+ + e-)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">associativeIonisationTCE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">associativeIonisationBias</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Reverse assoc. ion. (AB+ + e- -&gt; A + B)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">reverseAssociativeIonisationTCE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">reverseAssociativeIonisationBias</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Exchange / Impact ionisation</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">exchangeTCE</span></code> / <code class="docutils literal notranslate"><span class="pre">ionisationTCE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">exchangeBias</span></code> / <code class="docutils literal notranslate"><span class="pre">ionisationBias</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Impact ionisation (<code class="docutils literal notranslate"><span class="pre">ionisationTCE</span></code>/<code class="docutils literal notranslate"><span class="pre">ionisationQK</span></code>/<code class="docutils literal notranslate"><span class="pre">ionisationBias</span></code>) is
+generic in the collision partner, so it covers electron-impact, atom-atom,
+and atom-ion ionisation by choosing the partner species.  The Bias
+vibrational-favoring factor is physically active only when a vibrating
+molecular reactant is present; for purely atomic/electron reactants it
+degenerates gracefully (see <code class="docutils literal notranslate"><span class="pre">biasCommon.H</span></code>).</p>
 <p>The model is selected per reaction through the <code class="docutils literal notranslate"><span class="pre">reactionModel</span></code>
 key in <code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code> (the run-time type name), so the
 directory grouping is organisational; new channels are added under
