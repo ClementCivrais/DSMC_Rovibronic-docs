@@ -8,11 +8,42 @@ each top-level sub-directory is a model the user can choose from,
 and within it the individual reactive channels are implemented::
 
     reactions/derived/
-        QK/     quantum-kinetic reactions (dissociationIonisation*,
-                chargeExchange, recombination, associative ionisation, ...)
+        QK/     quantum-kinetic reactions: clean per-type dissociationQK,
+                ionisationQK (+ recombination via detailed balance), plus the
+                legacy combined classes (dissociationIonisation*,
+                chargeExchange, associative ionisation, ...)
         TCE/    total-collision-energy reactions (dissociationTCE,
                 exchangeTCE, ionisationTCE, recombinationTCE)
         Bias/   Gimelshein-Wysong bias reactions (dissociationBias, ...)
+
+Following the PICLas reference taxonomy, every reaction reduces to one of
+four types -- dissociation (D), exchange (E), ionisation (I), recombination
+(R) -- handled by a chosen model.  The model x type coverage is:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 20 20 20 20
+
+   * - Model
+     - Dissociation
+     - Exchange
+     - Ionisation
+     - Recombination
+   * - TCE
+     - ``dissociationTCE``
+     - ``exchangeTCE``
+     - ``ionisationTCE``
+     - ``recombinationTCE``
+   * - QK
+     - ``dissociationQK``
+     - (PICLas: n/a)
+     - ``ionisationQK``
+     - ``recombination`` (detailed balance)
+
+This matches PICLas, where QK is a deterministic threshold model defined only
+for dissociation and ionisation (QK recombination is the detailed-balance
+backward of a QK dissociation/ionisation), while TCE (Arrhenius) covers all
+four types.  All classes use the rovibronic (n,v,J) state-resolved energies.
 
 The model is selected per reaction through the ``reactionModel``
 key in ``system/chemReactDict`` (the run-time type name), so the
@@ -42,6 +73,26 @@ the implemented classes one by one.
 
 Neutral-chemistry classes (validated)
 -------------------------------------
+
+``dissociationQK``
+``````````````````
+
+PICLas-style Quantum-Kinetic dissociation,
+:math:`\mathrm{AB} + \mathrm{M} \to \mathrm{A} + \mathrm{B} +
+\mathrm{M}`. Parameter-free deterministic threshold: dissociates
+when :math:`E_c = E_{\mathrm{trans}} + E_{\mathrm{int}}(\mathrm{AB})`
+exceeds the state-resolved dissociation energy
+:math:`D_0 - E(n,v,J)`. No Arrhenius input.
+
+``ionisationQK``
+````````````````
+
+PICLas-style Quantum-Kinetic impact ionisation,
+:math:`\mathrm{A} + \mathrm{B} \to \mathrm{A}^{+} + e^{-} +
+\mathrm{B}`. Deterministic threshold: ionises when
+:math:`E_{\mathrm{trans}} + E_{\mathrm{int}}(\mathrm{A})` exceeds
+the ionisation potential. No Arrhenius input; products via
+``ionisePQ``.
 
 ``dissociationIonisationTypeISameSpecies``
 ``````````````````````````````````````````

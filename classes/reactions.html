@@ -327,6 +327,8 @@
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Reaction classes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#neutral-chemistry-classes-validated">Neutral-chemistry classes (validated)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dissociationqk"><code class="docutils literal notranslate"><span class="pre">dissociationQK</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ionisationqk"><code class="docutils literal notranslate"><span class="pre">ionisationQK</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dissociationionisationtypeisamespecies"><code class="docutils literal notranslate"><span class="pre">dissociationIonisationTypeISameSpecies</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dissociationionisationtypeidissimilarspecies"><code class="docutils literal notranslate"><span class="pre">dissociationIonisationTypeIDissimilarSpecies</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dissociationtce"><code class="docutils literal notranslate"><span class="pre">dissociationTCE</span></code></a></li>
@@ -612,13 +614,53 @@
 each top-level sub-directory is a model the user can choose from,
 and within it the individual reactive channels are implemented:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">reactions</span><span class="o">/</span><span class="n">derived</span><span class="o">/</span>
-    <span class="n">QK</span><span class="o">/</span>     <span class="n">quantum</span><span class="o">-</span><span class="n">kinetic</span> <span class="n">reactions</span> <span class="p">(</span><span class="n">dissociationIonisation</span><span class="o">*</span><span class="p">,</span>
-            <span class="n">chargeExchange</span><span class="p">,</span> <span class="n">recombination</span><span class="p">,</span> <span class="n">associative</span> <span class="n">ionisation</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+    <span class="n">QK</span><span class="o">/</span>     <span class="n">quantum</span><span class="o">-</span><span class="n">kinetic</span> <span class="n">reactions</span><span class="p">:</span> <span class="n">clean</span> <span class="n">per</span><span class="o">-</span><span class="nb">type</span> <span class="n">dissociationQK</span><span class="p">,</span>
+            <span class="n">ionisationQK</span> <span class="p">(</span><span class="o">+</span> <span class="n">recombination</span> <span class="n">via</span> <span class="n">detailed</span> <span class="n">balance</span><span class="p">),</span> <span class="n">plus</span> <span class="n">the</span>
+            <span class="n">legacy</span> <span class="n">combined</span> <span class="n">classes</span> <span class="p">(</span><span class="n">dissociationIonisation</span><span class="o">*</span><span class="p">,</span>
+            <span class="n">chargeExchange</span><span class="p">,</span> <span class="n">associative</span> <span class="n">ionisation</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
     <span class="n">TCE</span><span class="o">/</span>    <span class="n">total</span><span class="o">-</span><span class="n">collision</span><span class="o">-</span><span class="n">energy</span> <span class="n">reactions</span> <span class="p">(</span><span class="n">dissociationTCE</span><span class="p">,</span>
             <span class="n">exchangeTCE</span><span class="p">,</span> <span class="n">ionisationTCE</span><span class="p">,</span> <span class="n">recombinationTCE</span><span class="p">)</span>
     <span class="n">Bias</span><span class="o">/</span>   <span class="n">Gimelshein</span><span class="o">-</span><span class="n">Wysong</span> <span class="n">bias</span> <span class="n">reactions</span> <span class="p">(</span><span class="n">dissociationBias</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Following the PICLas reference taxonomy, every reaction reduces to one of
+four types – dissociation (D), exchange (E), ionisation (I), recombination
+(R) – handled by a chosen model.  The model x type coverage is:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>Dissociation</p></th>
+<th class="head"><p>Exchange</p></th>
+<th class="head"><p>Ionisation</p></th>
+<th class="head"><p>Recombination</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>TCE</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dissociationTCE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">exchangeTCE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ionisationTCE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">recombinationTCE</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>QK</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dissociationQK</span></code></p></td>
+<td><p>(PICLas: n/a)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ionisationQK</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">recombination</span></code> (detailed balance)</p></td>
+</tr>
+</tbody>
+</table>
+<p>This matches PICLas, where QK is a deterministic threshold model defined only
+for dissociation and ionisation (QK recombination is the detailed-balance
+backward of a QK dissociation/ionisation), while TCE (Arrhenius) covers all
+four types.  All classes use the rovibronic (n,v,J) state-resolved energies.</p>
 <p>The model is selected per reaction through the <code class="docutils literal notranslate"><span class="pre">reactionModel</span></code>
 key in <code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code> (the run-time type name), so the
 directory grouping is organisational; new channels are added under
@@ -645,6 +687,24 @@ until the corresponding entries below are updated.</p>
 </div>
 <section id="neutral-chemistry-classes-validated">
 <h2>Neutral-chemistry classes (validated)<a class="headerlink" href="#neutral-chemistry-classes-validated" title="Link to this heading"></a></h2>
+<section id="dissociationqk">
+<h3><code class="docutils literal notranslate"><span class="pre">dissociationQK</span></code><a class="headerlink" href="#dissociationqk" title="Link to this heading"></a></h3>
+<p>PICLas-style Quantum-Kinetic dissociation,
+<span class="math notranslate nohighlight">\(\mathrm{AB} + \mathrm{M} \to \mathrm{A} + \mathrm{B} +
+\mathrm{M}\)</span>. Parameter-free deterministic threshold: dissociates
+when <span class="math notranslate nohighlight">\(E_c = E_{\mathrm{trans}} + E_{\mathrm{int}}(\mathrm{AB})\)</span>
+exceeds the state-resolved dissociation energy
+<span class="math notranslate nohighlight">\(D_0 - E(n,v,J)\)</span>. No Arrhenius input.</p>
+</section>
+<section id="ionisationqk">
+<h3><code class="docutils literal notranslate"><span class="pre">ionisationQK</span></code><a class="headerlink" href="#ionisationqk" title="Link to this heading"></a></h3>
+<p>PICLas-style Quantum-Kinetic impact ionisation,
+<span class="math notranslate nohighlight">\(\mathrm{A} + \mathrm{B} \to \mathrm{A}^{+} + e^{-} +
+\mathrm{B}\)</span>. Deterministic threshold: ionises when
+<span class="math notranslate nohighlight">\(E_{\mathrm{trans}} + E_{\mathrm{int}}(\mathrm{A})\)</span> exceeds
+the ionisation potential. No Arrhenius input; products via
+<code class="docutils literal notranslate"><span class="pre">ionisePQ</span></code>.</p>
+</section>
 <section id="dissociationionisationtypeisamespecies">
 <h3><code class="docutils literal notranslate"><span class="pre">dissociationIonisationTypeISameSpecies</span></code><a class="headerlink" href="#dissociationionisationtypeisamespecies" title="Link to this heading"></a></h3>
 <p>Same-species dissociation (e.g.
