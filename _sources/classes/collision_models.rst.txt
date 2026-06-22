@@ -135,3 +135,71 @@ reference temperature and the three relaxation collision numbers
 
 The plain VHS/VSS variants do not expose the collision-number
 entries, since they do not redistribute internal energy.
+
+Model selection flags
+---------------------
+
+All relaxation and chemistry models are chosen through dictionary
+keys; nothing is hard-coded. The relaxation flags live in
+``constant/dsmcProperties`` and the chemistry model is selected
+per reaction in ``system/chemReactDict``.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 28 30 42
+
+   * - What
+     - Key (location)
+     - Options
+   * - Relaxation / collision model
+     - ``BinaryCollisionModel``
+       (``dsmcProperties``)
+     - ``LarsenBorgnakkeVariableHardSphere`` (LB, default),
+       ``FHOVariableHardSphere`` (FHO V-T, optionally coupled
+       V-R-T), plus the VSS / plain / no-collision variants above.
+   * - Vibrational :math:`Z_v` model
+     - ``vibrationalRelaxationModel``
+       (``collisionProperties``)
+     - ``constant`` (constant :math:`Z_v`), ``Valentini``
+       (temperature-dependent :math:`Z_v(T)`, needs
+       ``vibB1``/``vibB2``), ``default`` (auto: :math:`Z_v(T)`
+       iff ``vibB1 > 0``).
+   * - FHO sub-mode
+     - ``coupledVRT``
+       (``FHOVariableHardSphereCoeffs``)
+     - ``false`` (FHO V-T only, rotation via LB; default),
+       ``true`` (coupled rovibronic: the final ``(v',J')`` is
+       drawn by acceptance-rejection at fixed electronic ``n`` --
+       ``v'`` from the FHO V-T distribution, ``J'`` from the LB
+       sampler, consistent with PICLas).
+   * - Chemistry model
+     - ``reactionModel`` (per reaction,
+       ``chemReactDict``)
+     - ``...TCE`` (Bird Arrhenius/TCE), ``...QK``
+       (quantum-kinetic), ``...Bias`` (Gimelshein-Wysong); see
+       :doc:`reactions` for the full per-channel class list.
+
+The active vibrational model is echoed at start-up
+("``Vibrational relaxation collision-number model: ...``") so the
+selection can be confirmed in the solver log.
+
+Example ``dsmcProperties`` excerpt:
+
+.. code-block:: cpp
+
+   BinaryCollisionModel  FHOVariableHardSphere;
+
+   collisionProperties
+   {
+       Tref                                    273;
+       rotationalRelaxationCollisionNumber     5;
+       rovibrationalRelaxationCollisionNumber  1e6;
+       rovibronicRelaxationCollisionNumber     1e6;
+       vibrationalRelaxationModel              default; // constant|Valentini|default
+   }
+
+   FHOVariableHardSphereCoeffs
+   {
+       alpha       4.0e10;
+       coupledVRT  false;   // true -> coupled rovibronic (v',J') sampling
+   }
