@@ -1,0 +1,75 @@
+Saturn H\ :sub:`2`/He kinetics
+==============================
+
+Directories: ``run/0D/Saturn_H2_relax/`` (V-T relaxation) and
+``run/0D/Saturn_H2_diss_rate/`` (dissociation rate).
+
+Two zero-dimensional cases that exercise the **hydrogen-dominated
+kinetics** of Saturn (and giant-planet) entry: the partner-
+dependent vibration-translation relaxation of H\ :sub:`2`, and the
+Higdon H\ :sub:`2` dissociation rate. They are the worked example
+of the :doc:`../guide/planetary_atmospheres` page.
+
+Theoretical basis
+-----------------
+
+* :doc:`../theory/relaxation` —  the temperature-dependent
+  generalised Millikan-White :math:`Z_v(T)` with the Park high-T
+  limiter, routed to the pure-vibrational (V-T) channel. The
+  H\ :sub:`2` Millikan-White constants are mapped from Higdon
+  Table 2 into ``vibB1`` / ``vibB2`` / ``vibTHT``.
+* :doc:`../theory/chemistry` —  TCE dissociation, here driven
+  directly by the Higdon Arrhenius rate.
+
+Two features distinguish H\ :sub:`2` from air diatomics. First, its
+large rotational quantum spacing means it does not obey Parker's
+temperature-dependent law, so a **constant**
+:math:`Z_{\mathrm{rot}} = 174` (Higdon) is used
+(``rotationalRelaxationCollisionNumber 174``). Second, the
+H\ :sub:`2`, H and He variable-hard-sphere parameters are supplied
+as per-species overrides so the global database is untouched.
+
+Validation goals
+----------------
+
+#. **Dissociation rate.** The measured rate of
+   :math:`\mathrm{H}_2 + \mathrm{H}_2 \to 2\mathrm{H} +
+   \mathrm{H}_2` must reproduce the Higdon Arrhenius form
+   :math:`k(T) = 1.727\times10^{-11}\,T^{-1.0}\exp(-51958/T)`
+   (m\ :sup:`3`/s); this is the ``chem_Saturn_H2`` regression
+   check, with a 0.7–1.3 ratio window.
+#. **V-T relaxation and detailed balance.** The vibrational mode
+   must relax toward the bath on the Millikan-White / Higdon
+   timescale, with no drift when started at equilibrium
+   (``Saturn_H2_detbal``).
+
+Case parameters
+---------------
+
+* Species: ``typeIdList (H2 He H);``.
+* Relaxation case: translational temperature
+  :math:`15\,000~\mathrm{K}`, internal temperature
+  :math:`1000~\mathrm{K}`; integration
+  :math:`1.5\times10^{-4}~\mathrm{s}`.
+* Constant :math:`Z_{\mathrm{rot}} = 174`; H\ :sub:`2`
+  ``vibrationalRelaxationModel valentini``.
+
+Running the cases
+-----------------
+
+.. code-block:: bash
+
+   cd run/0D/Saturn_H2_diss_rate     # or Saturn_H2_relax
+   blockMesh
+   dsmcInitialise
+   dsmcFoam
+
+Expected results
+----------------
+
+The dissociation case prints a reaction rate that matches the
+Higdon Arrhenius value within the regression window; the relaxation
+case shows the H\ :sub:`2` vibrational temperature approaching the
+bath on the Higdon/Millikan-White timescale, with the constant
+:math:`Z_{\mathrm{rot}} = 174` holding rotation slow relative to
+air.

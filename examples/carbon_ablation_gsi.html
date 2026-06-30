@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Post-processing &mdash; DSMC Rovibronic</title>
+  <title>Carbon ablation on a heat shield (Mars) &mdash; DSMC Rovibronic</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -23,8 +23,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Source-tree architecture" href="architecture.html" />
-    <link rel="prev" title="Planetary atmospheres" href="planetary_atmospheres.html" /> 
+    <link rel="next" title="Reference" href="../reference/index.html" />
+    <link rel="prev" title="Saturn H2/He kinetics" href="saturn_h2_relaxation.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,85 +47,85 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">User and Developer Guide</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">User and Developer Guide</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="installation.html#system-prerequisites">System prerequisites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installation.html#layout-on-disk">Layout on disk</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installation.html#step-1-install-openfoam-v2512">Step 1 — Install OpenFOAM v2512</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="installation.html#build-openfoam">Build OpenFOAM</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">User and Developer Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guide/installation.html">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#system-prerequisites">System prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#layout-on-disk">Layout on disk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-1-install-openfoam-v2512">Step 1 — Install OpenFOAM v2512</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#build-openfoam">Build OpenFOAM</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="installation.html#running-multiple-dsmcfoam-variants-side-by-side">Running multiple dsmcFoam+ variants side-by-side</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-2-install-the-rovibronic-environment">Step 2 — Install the rovibronic environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/installation.html#running-multiple-dsmcfoam-variants-side-by-side">Running multiple dsmcFoam+ variants side-by-side</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="installation.html#step-3-clone-the-dsmc-rovibronic-repository">Step 3 — Clone the DSMC Rovibronic repository</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installation.html#step-4-build-the-solver">Step 4 — Build the solver</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installation.html#verification">Verification</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installation.html#troubleshooting-common-issues">Troubleshooting common issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-3-clone-the-dsmc-rovibronic-repository">Step 3 — Clone the DSMC Rovibronic repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#step-4-build-the-solver">Step 4 — Build the solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#verification">Verification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/installation.html#troubleshooting-common-issues">Troubleshooting common issues</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="running.html">Running a Case</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="running.html#serial-execution">Serial execution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="running.html#parallel-execution">Parallel execution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="running.html#startup-diagnostics">Startup diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/running.html">Running a Case</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/running.html#serial-execution">Serial execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/running.html#parallel-execution">Parallel execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/running.html#startup-diagnostics">Startup diagnostics</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="input_reference.html">Input Reference</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="input_reference.html#case-directory-layout">Case directory layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="input_reference.html#relaxation-collision-numbers">Relaxation collision numbers</a></li>
-<li class="toctree-l4"><a class="reference internal" href="input_reference.html#vibrational-relaxation-model">Vibrational-relaxation model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="input_reference.html#rovibronicdatabase-sub-dictionary"><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/input_reference.html">Input Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#case-directory-layout">Case directory layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#relaxation-collision-numbers">Relaxation collision numbers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#vibrational-relaxation-model">Vibrational-relaxation model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#rovibronicdatabase-sub-dictionary"><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="input_reference.html#constant-speciescache"><code class="docutils literal notranslate"><span class="pre">constant/speciesCache/</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-dsmcinitialisedict"><code class="docutils literal notranslate"><span class="pre">system/dsmcInitialiseDict</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-boundariesdict"><code class="docutils literal notranslate"><span class="pre">system/boundariesDict</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="input_reference.html#available-patch-models">Available patch models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#constant-speciescache"><code class="docutils literal notranslate"><span class="pre">constant/speciesCache/</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-dsmcinitialisedict"><code class="docutils literal notranslate"><span class="pre">system/dsmcInitialiseDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-boundariesdict"><code class="docutils literal notranslate"><span class="pre">system/boundariesDict</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#available-patch-models">Available patch models</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="input_reference.html#gas-surface-interaction-dictionaries">Gas-surface interaction dictionaries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#gas-surface-interaction-dictionaries">Gas-surface interaction dictionaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="planetary_atmospheres.html">Planetary atmospheres</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="planetary_atmospheres.html#per-atmosphere-overview">Per-atmosphere overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="planetary_atmospheres.html#saturn-h2-he-kinetics">Saturn H<sub>2</sub>/He kinetics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/planetary_atmospheres.html">Planetary atmospheres</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/planetary_atmospheres.html#per-atmosphere-overview">Per-atmosphere overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/planetary_atmospheres.html#saturn-h2-he-kinetics">Saturn H<sub>2</sub>/He kinetics</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Post-processing</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#macroscopic-fields">Macroscopic fields</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#state-resolved-populations">State-resolved populations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#validation-diagnostics">Validation diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/post_processing.html">Post-processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/post_processing.html#macroscopic-fields">Macroscopic fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/post_processing.html#state-resolved-populations">State-resolved populations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/post_processing.html#validation-diagnostics">Validation diagnostics</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html">Source-tree architecture</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="architecture.html#top-level-layout">Top-level layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="architecture.html#dsmc-library">DSMC library</a></li>
-<li class="toctree-l3"><a class="reference internal" href="architecture.html#applications">Applications</a></li>
-<li class="toctree-l3"><a class="reference internal" href="architecture.html#build-driver">Build driver</a></li>
-<li class="toctree-l3"><a class="reference internal" href="architecture.html#random-number-generator">Random-number generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/architecture.html">Source-tree architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#top-level-layout">Top-level layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#dsmc-library">DSMC library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#applications">Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#build-driver">Build driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/architecture.html#random-number-generator">Random-number generator</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="adding_a_feature.html">Adding a feature</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="adding_a_feature.html#adding-a-new-species">Adding a new species</a></li>
-<li class="toctree-l3"><a class="reference internal" href="adding_a_feature.html#adding-a-new-reaction">Adding a new reaction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="adding_a_feature.html#adding-a-new-relaxation-sub-model">Adding a new relaxation sub-model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/adding_a_feature.html">Adding a feature</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/adding_a_feature.html#adding-a-new-species">Adding a new species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/adding_a_feature.html#adding-a-new-reaction">Adding a new reaction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/adding_a_feature.html#adding-a-new-relaxation-sub-model">Adding a new relaxation sub-model</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="tests.html">Regression testing (current practice)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="tests.html#manual-smoke-tests">Manual smoke tests</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tests.html#continuous-integration">Continuous integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/tests.html">Regression testing (current practice)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/tests.html#manual-smoke-tests">Manual smoke tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/tests.html#continuous-integration">Continuous integration</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="regression_tests.html">Regression tests</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="regression_tests.html#what-it-covers">What it covers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="regression_tests.html#how-it-works">How it works</a></li>
-<li class="toctree-l3"><a class="reference internal" href="regression_tests.html#running-it">Running it</a></li>
-<li class="toctree-l3"><a class="reference internal" href="regression_tests.html#interpreting-a-failure">Interpreting a failure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/regression_tests.html">Regression tests</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#what-it-covers">What it covers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#how-it-works">How it works</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#running-it">Running it</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#interpreting-a-failure">Interpreting a failure</a></li>
 </ul>
 </li>
 </ul>
@@ -511,121 +511,121 @@
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../examples/relaxation_landau_teller.html">Landau-Teller heat-bath relaxation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#theoretical-basis">Theoretical basis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#validation-goals">Validation goals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#phase-selection">Phase selection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#case-parameters">Case parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#running-the-case">Running the case</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#post-processing">Post-processing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/relaxation_landau_teller.html#expected-results">Expected results</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../examples/relaxation_landau_teller.html#phase-1-rotational-only">Phase 1 — rotational only</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../examples/relaxation_landau_teller.html#phase-2-rovibrational">Phase 2 — rovibrational</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../examples/relaxation_landau_teller.html#phase-3-rovibronic-spin-conserving">Phase 3 — rovibronic, spin-conserving</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../examples/relaxation_landau_teller.html#phase-4-rovibronic-full-manifold">Phase 4 — rovibronic, full manifold</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="relaxation_landau_teller.html">Landau-Teller heat-bath relaxation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#phase-selection">Phase selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#post-processing">Post-processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation_landau_teller.html#expected-results">Expected results</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="relaxation_landau_teller.html#phase-1-rotational-only">Phase 1 — rotational only</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relaxation_landau_teller.html#phase-2-rovibrational">Phase 2 — rovibrational</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relaxation_landau_teller.html#phase-3-rovibronic-spin-conserving">Phase 3 — rovibronic, spin-conserving</a></li>
+<li class="toctree-l4"><a class="reference internal" href="relaxation_landau_teller.html#phase-4-rovibronic-full-manifold">Phase 4 — rovibronic, full manifold</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html">Isothermal reactive heat-bath</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#theoretical-basis">Theoretical basis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#validation-goals">Validation goals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#reactions-included">Reactions included</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#case-parameters">Case parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#running-the-case">Running the case</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/isothermal_reactive_heatbath.html#expected-outcome">Expected outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="isothermal_reactive_heatbath.html">Isothermal reactive heat-bath</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#reactions-included">Reactions included</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isothermal_reactive_heatbath.html#expected-outcome">Expected outcome</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/free_space_periodic.html">Free-space periodic equilibrium</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../examples/free_space_periodic.html#theoretical-basis">Theoretical basis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/free_space_periodic.html#validation-goals">Validation goals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/free_space_periodic.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="free_space_periodic.html">Free-space periodic equilibrium</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="free_space_periodic.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="free_space_periodic.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="free_space_periodic.html#case-parameters">Case parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/collision_rate_test.html">Collision-rate test</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../examples/collision_rate_test.html#theoretical-basis">Theoretical basis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/collision_rate_test.html#validation-goals">Validation goals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/collision_rate_test.html#running">Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_rate_test.html">Collision-rate test</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_rate_test.html#running">Running</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/micro_scale_test_case.html">Micro-scale channel flow</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../examples/micro_scale_test_case.html#theoretical-basis">Theoretical basis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/micro_scale_test_case.html#validation-goals">Validation goals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/micro_scale_test_case.html#diagnostics">Diagnostics</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/micro_scale_test_case.html#running">Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="micro_scale_test_case.html">Micro-scale channel flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#diagnostics">Diagnostics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="micro_scale_test_case.html#running">Running</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/hypersonic_flat_plate.html">Hypersonic flat plate</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#theoretical-basis">Theoretical basis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#validation-goals">Validation goals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#case-parameters">Case parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#diagnostics">Diagnostics</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/hypersonic_flat_plate.html#running">Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hypersonic_flat_plate.html">Hypersonic flat plate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#diagnostics">Diagnostics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hypersonic_flat_plate.html#running">Running</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/supersonic_corner.html">Supersonic corner</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../examples/supersonic_corner.html#theoretical-basis">Theoretical basis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/supersonic_corner.html#validation-goals">Validation goals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/supersonic_corner.html#case-parameters">Case parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/supersonic_corner.html#running">Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="supersonic_corner.html">Supersonic corner</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="supersonic_corner.html#running">Running</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html">Axisymmetric blunt cylinder</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html#theoretical-basis">Theoretical basis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html#validation-goals">Validation goals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html#case-parameters">Case parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/axisymmetric_blunt_cylinder.html#running">Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="axisymmetric_blunt_cylinder.html">Axisymmetric blunt cylinder</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="axisymmetric_blunt_cylinder.html#running">Running</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/orion_107km.html">Orion capsule at 107 km (non-reacting)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../examples/orion_107km.html#theoretical-basis">Theoretical basis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/orion_107km.html#validation-goals">Validation goals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/orion_107km.html#case-parameters">Case parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/orion_107km.html#diagnostics">Diagnostics</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/orion_107km.html#running">Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="orion_107km.html">Orion capsule at 107 km (non-reacting)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#diagnostics">Diagnostics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="orion_107km.html#running">Running</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html">Chemical-reaction demonstration (WIP)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#theoretical-basis">Theoretical basis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#species">Species</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#registered-reactions">Registered reactions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#validation-goals">Validation goals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#running">Running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#expected-behaviour">Expected behaviour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemical_reaction_demonstration.html">Chemical-reaction demonstration (WIP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#species">Species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#registered-reactions">Registered reactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#running">Running</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemical_reaction_demonstration.html#expected-behaviour">Expected behaviour</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/polyatomic_relaxation.html">Polyatomic thermal relaxation (CO<sub>2</sub>)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../examples/polyatomic_relaxation.html#theoretical-basis">Theoretical basis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/polyatomic_relaxation.html#validation-goals">Validation goals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/polyatomic_relaxation.html#case-parameters">Case parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/polyatomic_relaxation.html#running-the-case">Running the case</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/polyatomic_relaxation.html#expected-results">Expected results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polyatomic_relaxation.html">Polyatomic thermal relaxation (CO<sub>2</sub>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="polyatomic_relaxation.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polyatomic_relaxation.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polyatomic_relaxation.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polyatomic_relaxation.html#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polyatomic_relaxation.html#expected-results">Expected results</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/methane_chain.html">Methane pyrolysis chain (Titan)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../examples/methane_chain.html#theoretical-basis">Theoretical basis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/methane_chain.html#validation-goals">Validation goals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/methane_chain.html#case-parameters">Case parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/methane_chain.html#running-the-case">Running the case</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/methane_chain.html#expected-results">Expected results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="methane_chain.html">Methane pyrolysis chain (Titan)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="methane_chain.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="methane_chain.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="methane_chain.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="methane_chain.html#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="methane_chain.html#expected-results">Expected results</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/saturn_h2_relaxation.html">Saturn H<sub>2</sub>/He kinetics</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../examples/saturn_h2_relaxation.html#theoretical-basis">Theoretical basis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/saturn_h2_relaxation.html#validation-goals">Validation goals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/saturn_h2_relaxation.html#case-parameters">Case parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/saturn_h2_relaxation.html#running-the-cases">Running the cases</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/saturn_h2_relaxation.html#expected-results">Expected results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="saturn_h2_relaxation.html">Saturn H<sub>2</sub>/He kinetics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="saturn_h2_relaxation.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saturn_h2_relaxation.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saturn_h2_relaxation.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saturn_h2_relaxation.html#running-the-cases">Running the cases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saturn_h2_relaxation.html#expected-results">Expected results</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/carbon_ablation_gsi.html">Carbon ablation on a heat shield (Mars)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#theoretical-basis">Theoretical basis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#validation-goals">Validation goals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#related-gsi-cases">Related GSI cases</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#running-the-case">Running the case</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#expected-results">Expected results</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Carbon ablation on a heat shield (Mars)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#related-gsi-cases">Related GSI cases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#expected-results">Expected results</a></li>
 </ul>
 </li>
 </ul>
@@ -687,10 +687,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">User and Developer Guide</a></li>
-      <li class="breadcrumb-item active">Post-processing</li>
+          <li class="breadcrumb-item"><a href="index.html">Examples</a></li>
+      <li class="breadcrumb-item active">Carbon ablation on a heat shield (Mars)</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/guide/post_processing.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/examples/carbon_ablation_gsi.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -698,46 +698,77 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="post-processing">
-<h1>Post-processing<a class="headerlink" href="#post-processing" title="Link to this heading"></a></h1>
-<p>The solver writes the usual OpenFOAM time directories, augmented by
-per-particle fields that capture the full rovibronic state. We
-distinguish three families of diagnostics: macroscopic fields,
-state-resolved populations, and dedicated validation quantities.</p>
-<section id="macroscopic-fields">
-<h2>Macroscopic fields<a class="headerlink" href="#macroscopic-fields" title="Link to this heading"></a></h2>
-<p>The standard DSMC volume fields —  number density, translational
-and internal temperatures, pressure, species mass fractions, and
-mean velocity —  are written to <code class="docutils literal notranslate"><span class="pre">&lt;case&gt;/&lt;time&gt;/</span></code> and may be
-visualised with <code class="docutils literal notranslate"><span class="pre">paraFoam</span></code>. Under strong non-equilibrium
-conditions, the internal temperatures should be interpreted as
-cell-level effective temperatures extracted from the population
-distributions; the physical solution resides in the populations
-themselves (see <a class="reference internal" href="../theory/macroscopic_properties.html"><span class="doc">Macroscopic properties</span></a>).</p>
-</section>
-<section id="state-resolved-populations">
-<h2>State-resolved populations<a class="headerlink" href="#state-resolved-populations" title="Link to this heading"></a></h2>
-<p>The rovibronic quantum numbers <span class="math notranslate nohighlight">\((n, v, J)\)</span> are stored on
-each Lagrangian parcel and can be extracted via dedicated
-utilities under <code class="docutils literal notranslate"><span class="pre">applications/utilities/</span></code>. Typical use cases
-include:</p>
+  <section id="carbon-ablation-on-a-heat-shield-mars">
+<h1>Carbon ablation on a heat shield (Mars)<a class="headerlink" href="#carbon-ablation-on-a-heat-shield-mars" title="Link to this heading"></a></h1>
+<p>Directory: <code class="docutils literal notranslate"><span class="pre">run/GSI/marsAblation/</span></code>.</p>
+<p>A gas-surface-interaction case that exercises <strong>finite-rate carbon
+ablation</strong> of a graphite heat shield in a Mars (CO<sub>2</sub>)
+environment, using the <code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code> reactive wall and
+the central <code class="docutils literal notranslate"><span class="pre">surfaceChemReactDict</span></code>.</p>
+<section id="theoretical-basis">
+<h2>Theoretical basis<a class="headerlink" href="#theoretical-basis" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p>plotting the vibrational population <span class="math notranslate nohighlight">\(P(v)\)</span> at fixed
-electronic state, and comparing it against the Boltzmann
-distribution at the local translational temperature;</p></li>
-<li><p>monitoring the population of the first few excited electronic
-levels as a function of time in a shock-heated flow;</p></li>
-<li><p>constructing rotational-vibrational distributions to assess the
-assumption of rotational-vibrational equilibrium.</p></li>
+<li><p><a class="reference internal" href="../theory/wall_models.html"><span class="doc">Wall and inflow models</span></a> —  the finite-rate surface-reaction
+probability <span class="math notranslate nohighlight">\(\beta(T_w) = \min(1, A\,T_w^{n}\,e^{-T_a/T_w})\)</span>,
+the carbon-oxidation and Boudouard channels, catalytic
+recombination, and the vapour-pressure sublimation of the
+carbon-vapour species.</p></li>
+<li><p><a class="reference internal" href="../classes/boundaries.html"><span class="doc">Boundary classes</span></a> —  the reactive-wall classes
+(<code class="docutils literal notranslate"><span class="pre">dsmcCatalyticWallPatch</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code>,
+<code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code>) and the surface-reaction dictionary
+format.</p></li>
 </ul>
+<p>The reaction set comprises the Park oxidation
+<span class="math notranslate nohighlight">\(\mathrm{O} + \mathrm{C(s)} \to \mathrm{CO}\)</span>
+(<span class="math notranslate nohighlight">\(\beta = 0.63\,e^{-1160/T_w}\)</span>), the
+<span class="math notranslate nohighlight">\(\mathrm{O}_2 + \mathrm{C(s)} \to \mathrm{CO} + \mathrm{O}\)</span>
+channel, the CO<sub>2</sub> Boudouard channel
+<span class="math notranslate nohighlight">\(\mathrm{CO}_2 + \mathrm{C(s)} \to 2\,\mathrm{CO}\)</span>
+(Zhluktov-Abe), and catalytic O + O → O<sub>2</sub> recombination.</p>
 </section>
-<section id="validation-diagnostics">
-<h2>Validation diagnostics<a class="headerlink" href="#validation-diagnostics" title="Link to this heading"></a></h2>
-<p>The <a class="reference internal" href="../reference/validation.html"><span class="doc">Validation</span></a> page collects the canonical
-checks used to confirm the rovibronic machinery: heat-bath
-relaxation against the multi-exponential Landau-Teller solution,
-isothermal dissociation against the equilibrium constant, and
-one-dimensional shock profiles against published reference data.</p>
+<section id="validation-goals">
+<h2>Validation goals<a class="headerlink" href="#validation-goals" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Surface mass loss.</strong> The carbon mass-loss rate
+<span class="math notranslate nohighlight">\(\dot{m}_{\mathrm{C}}\)</span> must match the analytic surface
+law for the prescribed incident flux and wall temperature; the
+<code class="docutils literal notranslate"><span class="pre">gsi_mars_ablation</span></code> regression check pins
+<span class="math notranslate nohighlight">\(\dot{m}_{\mathrm{C}} \approx 0.10~\mathrm{kg/m^2/s}\)</span>
+(20 % tolerance).</p></li>
+<li><p><strong>Carbon-atom bookkeeping.</strong> Each ablation event must debit the
+correct number of solid carbon atoms from the per-face ledger,
+and the emitted CO / CO products must conserve atoms.</p></li>
+</ol>
+</section>
+<section id="related-gsi-cases">
+<h2>Related GSI cases<a class="headerlink" href="#related-gsi-cases" title="Link to this heading"></a></h2>
+<p>The GSI suite under <code class="docutils literal notranslate"><span class="pre">run/GSI/</span></code> also includes <code class="docutils literal notranslate"><span class="pre">parkOxidation</span></code>
+(oxidation efficiency sweep), <code class="docutils literal notranslate"><span class="pre">catalysisGammaT</span></code> (material
+<span class="math notranslate nohighlight">\(\gamma(T)\)</span> correlations for RCC / SiO<sub>2</sub> / SiC),
+<code class="docutils literal notranslate"><span class="pre">catalysisKisliuk</span></code> (precursor-mediated sticking),
+<code class="docutils literal notranslate"><span class="pre">catalysisEnergy</span></code> (recombination-energy accommodation),
+<code class="docutils literal notranslate"><span class="pre">earthAblation</span></code> and <code class="docutils literal notranslate"><span class="pre">titanAblation</span></code> (nitridation). The
+immersed-level-set surface recession on an STL geometry is
+demonstrated by <code class="docutils literal notranslate"><span class="pre">run/3D/stlCapsule</span></code>.</p>
+</section>
+<section id="running-the-case">
+<h2>Running the case<a class="headerlink" href="#running-the-case" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>run/GSI/marsAblation
+blockMesh
+dsmcInitialise
+dsmcFoam
+</pre></div>
+</div>
+</section>
+<section id="expected-results">
+<h2>Expected results<a class="headerlink" href="#expected-results" title="Link to this heading"></a></h2>
+<p>The ablating wall reports the per-face carbon consumed, the
+recession rate and depth, and the CO production; the carbon
+mass-loss rate matches the analytic surface law within the
+regression tolerance. The <code class="docutils literal notranslate"><span class="pre">D.gsi</span></code> group of the
+<a class="reference internal" href="../guide/regression_tests.html"><span class="doc">Regression tests</span></a> gates the Park oxidation,
+<span class="math notranslate nohighlight">\(\gamma(T)\)</span> catalysis, Kisliuk sticking, Mars ablation, and
+recombination-energy checks.</p>
 </section>
 </section>
 
@@ -745,8 +776,8 @@ one-dimensional shock profiles against published reference data.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="planetary_atmospheres.html" class="btn btn-neutral float-left" title="Planetary atmospheres" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="architecture.html" class="btn btn-neutral float-right" title="Source-tree architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="saturn_h2_relaxation.html" class="btn btn-neutral float-left" title="Saturn H2/He kinetics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../reference/index.html" class="btn btn-neutral float-right" title="Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -64,6 +64,80 @@ errors are typically below :math:`1~\mathrm{cm}^{-1}`; a
 significantly larger value is symptomatic of an inconsistent
 species file and should be investigated before proceeding.
 
+Polyatomic species
+------------------
+
+In addition to the diatomic and atomic species read from
+``.dat`` files, the database ships a set of **polyatomic species**
+whose spectroscopic constants are compiled into the database source
+(``dsmcSpeciesDatabaseData.C``) and traced, value by value, to the
+literature in ``docs/DATA_PROVENANCE.md``. A species is selected
+simply by adding its symbol to ``typeIdList``; the
+:math:`(J, K)` rotational ladder and the multi-mode vibrational
+ladders are then built at start-up by the same
+``computeEnergyLevels`` path. The supported molecules and their
+rotor types are:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 24 22 54
+
+   * - ``rotationType``
+     - Species
+     - Rotational treatment
+   * - ``linear``
+     - CO\ :sub:`2`, N\ :sub:`2`\ O, HCN, C\ :sub:`3`
+     - Rigid rotor, :math:`g = 2J+1`.
+   * - ``sphericalTop``
+     - CH\ :sub:`4`
+     - :math:`g = (2J+1)^2`, :math:`\xi_{\mathrm{rot}} \to 3`.
+   * - ``symmetricOblate``
+     - CH\ :sub:`3`, NH\ :sub:`3`
+     - :math:`(J, K)` ladder, :math:`A = B > C`.
+   * - ``symmetricProlate``
+     - prolate symmetric tops
+     - :math:`(J, K)` ladder, :math:`A > B = C`.
+   * - ``asymmetricProlate``
+     - H\ :sub:`2`\ O, O\ :sub:`3`, NO\ :sub:`2`, CH\ :sub:`2`
+     - near-prolate :math:`(J, K)` approximation.
+
+The governing energy expressions and degeneracies are given in
+:doc:`../theory/rovibronic_levels`. Each species also carries its
+distinct normal modes (harmonic frequency :math:`\omega_m`,
+degeneracy :math:`d_m`, diagonal anharmonicity :math:`x_{mm}`) and,
+where the literature value exists, the cross-mode anharmonicities
+:math:`x_{ij}`. For example CO\ :sub:`2` and CH\ :sub:`4` carry full
+diagonal and cross anharmonicities (with documented caveats for the
+unavailable CH\ :sub:`4` :math:`x_{13}` and the deperturbed
+CO\ :sub:`2` Fermi resonance), while the remaining molecules default
+to harmonic modes.
+
+Per-species overrides
+`````````````````````
+
+A small set of per-species fields may be overridden from the case
+through an optional ``moleculeProperties`` sub-dictionary keyed by
+species name: ``mass``, ``diameter``, ``omega``, ``alpha``,
+``charge``, ``rotationalDegreesOfFreedom``, ``vibrationalModes``,
+``maintainOddEvenParity``, and ``vibrationalCoupling``
+(``separable`` / ``coupled``, see
+:doc:`../theory/rovibronic_levels`). The rotor type, the mode
+frequencies, the degeneracies and the anharmonicity constants are
+intrinsic spectroscopic data and are not user-settable; a fully
+manual species can instead be supplied through the legacy
+``.dat`` path with an explicit ``internalEnergyList`` /
+``degeneracyList`` / ``dissociationEnergy``.
+
+.. note::
+
+   The variable-hard-sphere collision parameters of several of the
+   newer polyatomic species (N\ :sub:`2`\ O, HCN, C\ :sub:`3`,
+   CH\ :sub:`3`, NH\ :sub:`3`, H\ :sub:`2`\ O, O\ :sub:`3`,
+   NO\ :sub:`2`, CH\ :sub:`2`) are placeholders carried over from
+   CO\ :sub:`2`; this is flagged in ``docs/DATA_PROVENANCE.md`` and
+   should be refined before these species are used quantitatively
+   in a collision-rate-sensitive simulation.
+
 Status of charged-species data
 ------------------------------
 

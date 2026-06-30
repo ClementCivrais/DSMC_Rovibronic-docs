@@ -1,0 +1,76 @@
+Carbon ablation on a heat shield (Mars)
+=======================================
+
+Directory: ``run/GSI/marsAblation/``.
+
+A gas-surface-interaction case that exercises **finite-rate carbon
+ablation** of a graphite heat shield in a Mars (CO\ :sub:`2`)
+environment, using the ``dsmcAblatingWallPatch`` reactive wall and
+the central ``surfaceChemReactDict``.
+
+Theoretical basis
+-----------------
+
+* :doc:`../theory/wall_models` —  the finite-rate surface-reaction
+  probability :math:`\beta(T_w) = \min(1, A\,T_w^{n}\,e^{-T_a/T_w})`,
+  the carbon-oxidation and Boudouard channels, catalytic
+  recombination, and the vapour-pressure sublimation of the
+  carbon-vapour species.
+* :doc:`../classes/boundaries` —  the reactive-wall classes
+  (``dsmcCatalyticWallPatch``, ``dsmcAblatingWallPatch``,
+  ``dsmcCoverageWallPatch``) and the surface-reaction dictionary
+  format.
+
+The reaction set comprises the Park oxidation
+:math:`\mathrm{O} + \mathrm{C(s)} \to \mathrm{CO}`
+(:math:`\beta = 0.63\,e^{-1160/T_w}`), the
+:math:`\mathrm{O}_2 + \mathrm{C(s)} \to \mathrm{CO} + \mathrm{O}`
+channel, the CO\ :sub:`2` Boudouard channel
+:math:`\mathrm{CO}_2 + \mathrm{C(s)} \to 2\,\mathrm{CO}`
+(Zhluktov-Abe), and catalytic O + O → O\ :sub:`2` recombination.
+
+Validation goals
+----------------
+
+#. **Surface mass loss.** The carbon mass-loss rate
+   :math:`\dot{m}_{\mathrm{C}}` must match the analytic surface
+   law for the prescribed incident flux and wall temperature; the
+   ``gsi_mars_ablation`` regression check pins
+   :math:`\dot{m}_{\mathrm{C}} \approx 0.10~\mathrm{kg/m^2/s}`
+   (20 % tolerance).
+#. **Carbon-atom bookkeeping.** Each ablation event must debit the
+   correct number of solid carbon atoms from the per-face ledger,
+   and the emitted CO / CO products must conserve atoms.
+
+Related GSI cases
+-----------------
+
+The GSI suite under ``run/GSI/`` also includes ``parkOxidation``
+(oxidation efficiency sweep), ``catalysisGammaT`` (material
+:math:`\gamma(T)` correlations for RCC / SiO\ :sub:`2` / SiC),
+``catalysisKisliuk`` (precursor-mediated sticking),
+``catalysisEnergy`` (recombination-energy accommodation),
+``earthAblation`` and ``titanAblation`` (nitridation). The
+immersed-level-set surface recession on an STL geometry is
+demonstrated by ``run/3D/stlCapsule``.
+
+Running the case
+----------------
+
+.. code-block:: bash
+
+   cd run/GSI/marsAblation
+   blockMesh
+   dsmcInitialise
+   dsmcFoam
+
+Expected results
+----------------
+
+The ablating wall reports the per-face carbon consumed, the
+recession rate and depth, and the CO production; the carbon
+mass-loss rate matches the analytic surface law within the
+regression tolerance. The ``D.gsi`` group of the
+:doc:`../guide/regression_tests` gates the Park oxidation,
+:math:`\gamma(T)` catalysis, Kisliuk sticking, Mars ablation, and
+recombination-energy checks.

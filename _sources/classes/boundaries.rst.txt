@@ -140,6 +140,20 @@ Patch boundaries — catalogue
    * - ``dsmcCLLWallFieldPatch``
      - No
      - Field-varying CLL variant.
+   * - ``dsmcCatalyticWallPatch``
+     - —
+     - **Reactive wall**: per-impact catalytic recombination and
+       finite-rate surface reactions, with recombination-energy
+       accommodation (see below).
+   * - ``dsmcAblatingWallPatch``
+     - —
+     - **Reactive wall**: carbon ablation with a per-face solid-
+       carbon ledger and a reported recession rate (see below).
+   * - ``dsmcCoverageWallPatch``
+     - —
+     - **Reactive wall**: adsorption-site coverage chemistry
+       (Langmuir / Kisliuk sticking, Polanyi-Wigner desorption,
+       Eley-Rideal, Langmuir-Hinshelwood; see below).
    * - ``dsmcDeletionPatch``
      - —
      - Particle sink: parcels that hit the patch are removed.
@@ -309,6 +323,69 @@ internal populations impinging on the wall must be equilibrated
 to the wall itself —  radiation coupling, state-resolved
 catalysis, non-equilibrium boundary layers, or simply more
 faithful drag predictions on hot-wall surfaces.
+
+Reactive walls — gas-surface interaction
+----------------------------------------
+
+Three patch classes implement reactive thermal-protection-system
+surfaces. They share a common surface-reaction infrastructure —
+the base ``surfaceReaction`` class and its two derivatives
+``srRecombination`` (catalytic recombination with a constant,
+Arrhenius, or tabulated :math:`\gamma`) and ``srFiniteRate``
+(generalised-Arrhenius probability
+:math:`\beta = \min(1, A\,T_w^{n}\,e^{-T_a/T_w})`). The governing
+models are documented in :doc:`../theory/wall_models`; the surface
+reactions themselves are listed inline or, more commonly, by name
+against a central ``system/surfaceChemReactDict``.
+
+``dsmcCatalyticWallPatch``
+``````````````````````````
+
+Per-impact catalytic and finite-rate surface chemistry on a fixed
+wall. On each impact the patch sums the reaction probabilities,
+selects at most one by cumulative branching, re-emits the product
+as a half-Maxwellian at :math:`T_w`, and partitions the
+recombination energy :math:`E_{\mathrm{rec}}` between the wall and
+the nascent molecule via the accommodation fraction
+:math:`\beta_{\mathrm{acc}}`. Sub-dictionary keys include
+``temperature``, ``velocity``, ``material`` (or an explicit site
+density), and a ``reactions`` list.
+
+``dsmcAblatingWallPatch``
+`````````````````````````
+
+Adds a per-face solid-carbon ledger to the catalytic machinery:
+ablation reactions debit carbon atoms, and the patch reports a
+recession rate and depth from the consumed mass. The mesh itself
+does not move (geometric recession is handled by the immersed
+level-set, :doc:`../theory/wall_models`); this class is the natural
+boundary diagnostic for surface mass loss.
+
+``dsmcCoverageWallPatch``
+`````````````````````````
+
+Carries a per-species surface coverage :math:`\theta` over a finite
+site inventory and resolves Langmuir / Kisliuk sticking,
+Polanyi-Wigner desorption with lateral interactions, Eley-Rideal
+and Langmuir-Hinshelwood surface reactions. Configured through a
+per-species ``species`` block (sticking and desorption parameters)
+and a ``reactions`` block (``ER`` / ``LH`` entries).
+
+Surface-reaction dictionary
+```````````````````````````
+
+A wall's ``reactions`` entry is either an inline dictionary or a
+list of names resolved against ``system/surfaceChemReactDict``,
+which carries top-level ``surfaceReactions`` and
+``surfaceMaterials`` blocks. A representative entry:
+
+.. code-block:: cpp
+
+   oxidiseO   { type srFiniteRate; reactant O;  product CO;
+                A 0.63; n 0.0; Ta 1160.0;
+                nCConsumed 1; nReactantConsumed 1; }
+   recombineO { type srRecombination; reactant O; product O2;
+                gamma 0.07; }
 
 Inflow models
 -------------

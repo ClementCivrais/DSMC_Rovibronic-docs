@@ -1,0 +1,72 @@
+Methane pyrolysis chain (Titan)
+===============================
+
+Directory: ``run/0D/CH4_dissoc_chain/``.
+
+A zero-dimensional case that exercises the **polyatomic
+dissociation cascade** of Titan entry, in which methane is stripped
+of its hydrogens one at a time,
+:math:`\mathrm{CH}_4 \to \mathrm{CH}_3 \to \mathrm{CH}_2 \to
+\mathrm{CH} \to \mathrm{C}`, through a chain of
+``polyDissociationTCE`` reactions (the final
+:math:`\mathrm{CH} \to \mathrm{C} + \mathrm{H}` step uses the
+diatomic ``dissociationTCE``).
+
+Theoretical basis
+-----------------
+
+* :doc:`../theory/chemistry` —  polyatomic TCE dissociation, with
+  the collision energy summed over all oscillators of the molecule,
+  and the joint Bergemann-Boyd post-reaction redistribution of the
+  product's rotation and every oscillator.
+* :doc:`../theory/rovibronic_levels` —  the multi-mode vibrational
+  ladders of CH\ :sub:`4` (a spherical top, :math:`g_{\mathrm{rot}}
+  = (2J+1)^2`) and its CH\ :sub:`3` / CH\ :sub:`2` / CH fragments.
+
+The forward steps use a collision-theory bond-energy rate
+:math:`k(T) = A\,T^{1/2}\exp(-D_0/k_B T)` with bond energies from
+the Active Thermochemical Tables, rather than the measured
+low-pressure-limit fall-off rate, whose steep negative exponent
+would stall the cascade at high temperature. The measured Baulch
+methane rate is verified separately in ``run/0D/CH4_to_CH3_rate``,
+and the CH\ :sub:`4` ↔ CH\ :sub:`3` + H detailed balance in
+``run/0D/CH4_CH3_detbal``.
+
+Validation goals
+----------------
+
+#. **Atom conservation.** The number of carbon and hydrogen nuclei
+   must be conserved as the cascade proceeds (drift
+   :math:`< 0.1\%`); this is the ``chem_CH4_chain`` regression
+   check.
+#. **Cascade progression.** The species populations must evolve in
+   the expected order, CH\ :sub:`4` depleting first and atomic C
+   accumulating last.
+
+Case parameters
+---------------
+
+* Species: ``typeIdList (CH4 CH3 CH2 CH C H);``.
+* Initial composition: pure CH\ :sub:`4` at
+  :math:`6.0\times10^{22}~\mathrm{m}^{-3}`.
+* Translational and internal temperature:
+  :math:`25\,000~\mathrm{K}` (a hot, fully reactive bath).
+* Total integration: :math:`3\times10^{-7}~\mathrm{s}`.
+
+Running the case
+----------------
+
+.. code-block:: bash
+
+   cd run/0D/CH4_dissoc_chain
+   blockMesh
+   dsmcInitialise
+   dsmcFoam
+
+Expected results
+----------------
+
+The methane population collapses, the intermediate radicals
+CH\ :sub:`3`, CH\ :sub:`2` and CH rise and fall in sequence, and
+atomic carbon and hydrogen accumulate, with the carbon and hydrogen
+nuclei conserved to within statistical noise throughout.

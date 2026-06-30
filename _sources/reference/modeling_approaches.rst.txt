@@ -1,0 +1,119 @@
+Data provenance and modelling approaches
+========================================
+
+Two reference documents in the source tree underpin the
+trustworthiness of the solver: a constant-by-constant data
+provenance record, and a cross-code comparison of the modelling
+choices against two established DSMC codes. This page summarises
+both; the full documents are
+``docs/DATA_PROVENANCE.md`` and ``docs/MODELING_APPROACHES.md``.
+
+Data provenance
+---------------
+
+``docs/DATA_PROVENANCE.md`` is a single look-anytime traceability
+record that maps **every numerical constant in the solver** to its
+source —  author, journal or database, table or CAS number, DOI —
+and to its location in the code. It is descriptive only: where a
+code value disagrees with its nominal source, the discrepancy is
+*recorded*, not silently edited. The record is organised as:
+
+* **§A** —  species spectroscopic constants
+  (:math:`\omega_e`, :math:`\omega_e x_e`, :math:`B_e`, the
+  polyatomic :math:`\omega_i`, :math:`x_{ij}` and rotational
+  constants :math:`A, B, C`, the electronic levels) and the
+  VHS/VSS collision parameters;
+* **§B** —  dissociation energies :math:`D_0` and heats of
+  formation;
+* **§C** —  chemistry reaction rates (Arrhenius :math:`A`,
+  :math:`\eta`, :math:`T_a`) with the per-mole ↔ per-particle unit
+  conversion rule;
+* **§D** —  relaxation and collision-model constants
+  (Millikan-White, Park limiter, Eckert-Gallis, the Z-correction,
+  the per-oscillator effective DOF, Bergemann-Boyd);
+* **§E** —  GSI surface-reaction rates;
+* **§F** —  flagged discrepancies and uncertain values (e.g. the
+  unavailable CH\ :sub:`4` :math:`x_{13}`, the polyatomic VHS
+  placeholders, the H\ :sub:`2`\ O near-prolate approximation, and
+  the order-of-magnitude scatter in measured GSI rates).
+
+Whenever a species or rate is added, the convention is to add both
+an inline ``[source]`` comment at the value and a row in the
+provenance table.
+
+Cross-code modelling comparison
+-------------------------------
+
+``docs/MODELING_APPROACHES.md`` compares the modelling choices of
+the present solver against **SPARTA** and **PICLas**, read from
+each code's own source. The comparison is intended both as a guard
+against subtle modelling drift and as a guide to which code is the
+appropriate reference for a given physics question. The principal
+differences are summarised below.
+
+Chemistry
+`````````
+
+* **Collision energy content.** SPARTA pools translation and
+  rotation (vibration only in its *full* mode) and carries no
+  electronic energy; PICLas pools the per-collision internal
+  energy; the present solver always pools translation, rotation,
+  *all* vibrational modes and electronic energy from a discrete
+  level table.
+* **TCE internal DOF.** SPARTA and PICLas use the instantaneous
+  per-collision DOF; the present solver defaults to the cell-
+  thermal effective DOF (rate-calibrated to better than 0.1 %),
+  with the per-collision and distribution-shape options available
+  opt-in (``xiCMode``).
+* **Backward reactions.** SPARTA has no equilibrium constant
+  (reverse reactions are independent user Arrhenius rates); PICLas
+  uses :math:`k_b = k_f/K_{\mathrm{eq}}` with a closed-form
+  harmonic-oscillator :math:`K_{\mathrm{eq}}`; the present solver
+  builds :math:`K_{\mathrm{eq}}` from the *actual* anharmonic
+  ladders with the exact barrierless backward prefactor.
+* **Polyatomic chemistry.** The present solver provides dedicated
+  ``poly{Diss,Exch,Recomb}{TCE,QK}`` classes and the methane
+  chain; the Gimelshein-Wysong vibrationally-favored Bias model is
+  unique to this solver.
+
+Internal energy and relaxation
+``````````````````````````````
+
+* **Vibration.** SPARTA uses a harmonic discrete ladder; PICLas
+  uses harmonic by default (Morse for diatomics only); the present
+  solver is always anharmonic, with opt-in cross-mode coupling and
+  per-mode degeneracy.
+* **Rotation.** SPARTA is continuous, PICLas quantised; the present
+  solver uses discrete levels with nuclear-spin parity and the
+  :math:`(J, K)` ladder for tops.
+* **Vibrational** :math:`Z_v`. SPARTA offers constant or
+  Millikan-White (no high-T floor), PICLas Millikan-White with a
+  Park limiter; the present solver uses the generalised
+  Millikan-White with the Park limiter, the Eckert-Gallis
+  collision-invariant temperature, and a partner-dependent table.
+* **Electronic.** SPARTA has none; PICLas is quantised; the present
+  solver carries quantised electronic states with a spin-
+  conservation gate.
+
+Other subsystems
+````````````````
+
+* **Ionisation.** PICLas leads on multiple ionisation, photo-
+  ionisation, cross-section data and the full PIC field solve; the
+  present solver carries a rich single-ionisation QK suite with
+  free-electron parcels (multiple ionisation is a roadmap item).
+* **Surface chemistry.** SPARTA is richer on coverage / site-state
+  kinetics; the present solver is richer on finite-rate carbon
+  ablation (explicit solid-carbon consumption, recession mass
+  balance, recombination-energy accommodation), and additionally
+  provides Kisliuk sticking and :math:`\gamma(T)` catalysis.
+* **FHO.** The Adamovich Forced Harmonic Oscillator V-T model is
+  unique to the present solver.
+
+In short, the present solver is the most general of the three in
+full state-resolved rovibronic chemistry and relaxation,
+partition-function detailed-balance backward reactions, anharmonic
+and coupled polyatomic vibration with electronic excitation, the
+methane chain, and the FHO and Bias models; PICLas leads on
+plasma / ionisation physics, and SPARTA's QCT variant leads on
+ab-initio state-to-state rates and surface site-state kinetics.

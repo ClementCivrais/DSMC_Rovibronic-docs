@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Post-processing &mdash; DSMC Rovibronic</title>
+  <title>Planetary atmospheres &mdash; DSMC Rovibronic</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -23,8 +23,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Source-tree architecture" href="architecture.html" />
-    <link rel="prev" title="Planetary atmospheres" href="planetary_atmospheres.html" /> 
+    <link rel="next" title="Post-processing" href="post_processing.html" />
+    <link rel="prev" title="Input Reference" href="input_reference.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -91,15 +91,15 @@
 <li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="planetary_atmospheres.html">Planetary atmospheres</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="planetary_atmospheres.html#per-atmosphere-overview">Per-atmosphere overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="planetary_atmospheres.html#saturn-h2-he-kinetics">Saturn H<sub>2</sub>/He kinetics</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Planetary atmospheres</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#per-atmosphere-overview">Per-atmosphere overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#saturn-h2-he-kinetics">Saturn H<sub>2</sub>/He kinetics</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Post-processing</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#macroscopic-fields">Macroscopic fields</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#state-resolved-populations">State-resolved populations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#validation-diagnostics">Validation diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="post_processing.html">Post-processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="post_processing.html#macroscopic-fields">Macroscopic fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processing.html#state-resolved-populations">State-resolved populations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="post_processing.html#validation-diagnostics">Validation diagnostics</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="architecture.html">Source-tree architecture</a><ul>
@@ -688,9 +688,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">User and Developer Guide</a></li>
-      <li class="breadcrumb-item active">Post-processing</li>
+      <li class="breadcrumb-item active">Planetary atmospheres</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/guide/post_processing.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/guide/planetary_atmospheres.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -698,46 +698,139 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="post-processing">
-<h1>Post-processing<a class="headerlink" href="#post-processing" title="Link to this heading"></a></h1>
-<p>The solver writes the usual OpenFOAM time directories, augmented by
-per-particle fields that capture the full rovibronic state. We
-distinguish three families of diagnostics: macroscopic fields,
-state-resolved populations, and dedicated validation quantities.</p>
-<section id="macroscopic-fields">
-<h2>Macroscopic fields<a class="headerlink" href="#macroscopic-fields" title="Link to this heading"></a></h2>
-<p>The standard DSMC volume fields —  number density, translational
-and internal temperatures, pressure, species mass fractions, and
-mean velocity —  are written to <code class="docutils literal notranslate"><span class="pre">&lt;case&gt;/&lt;time&gt;/</span></code> and may be
-visualised with <code class="docutils literal notranslate"><span class="pre">paraFoam</span></code>. Under strong non-equilibrium
-conditions, the internal temperatures should be interpreted as
-cell-level effective temperatures extracted from the population
-distributions; the physical solution resides in the populations
-themselves (see <a class="reference internal" href="../theory/macroscopic_properties.html"><span class="doc">Macroscopic properties</span></a>).</p>
+  <section id="planetary-atmospheres">
+<h1>Planetary atmospheres<a class="headerlink" href="#planetary-atmospheres" title="Link to this heading"></a></h1>
+<p>The rovibronic extension is built for hypersonic entry into a range
+of planetary atmospheres. Atmosphere support is realised in three
+layers: the spectroscopic and collision <strong>database</strong> (species), the
+zero-dimensional gas-phase <strong>chemistry and relaxation</strong> cases under
+<code class="docutils literal notranslate"><span class="pre">run/0D/</span></code>, and the per-atmosphere reactive <strong>walls</strong> under
+<code class="docutils literal notranslate"><span class="pre">run/GSI/</span></code>. The present page collects, atmosphere by atmosphere,
+the species set and the principal chemistry, and documents the
+H<sub>2</sub>/He kinetics that make Saturn entry a distinct case.</p>
+<section id="per-atmosphere-overview">
+<h2>Per-atmosphere overview<a class="headerlink" href="#per-atmosphere-overview" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 16.0%" />
+<col style="width: 30.0%" />
+<col style="width: 38.0%" />
+<col style="width: 16.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Atmosphere</p></th>
+<th class="head"><p>Principal species</p></th>
+<th class="head"><p>Key gas-phase chemistry</p></th>
+<th class="head"><p>GSI case</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Earth (air)</p></td>
+<td><p>N<sub>2</sub>, O<sub>2</sub>, NO, O, N (+ first ions)</p></td>
+<td><p>N<sub>2</sub>/O<sub>2</sub> dissociation, Zeldovich exchange
+N<sub>2</sub> + O → NO + N, dissociation-ionisation.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">earthAblation</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Mars (CO<sub>2</sub>)</p></td>
+<td><p>CO<sub>2</sub>, CO, O, O<sub>2</sub>, C (+ N<sub>2</sub>, N)</p></td>
+<td><p>CO<sub>2</sub> dissociation (Park), CO<sub>2</sub> + O ↔ CO +
+O<sub>2</sub> exchange; backward via <span class="math notranslate nohighlight">\(K_{\mathrm{eq}}\)</span>.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">marsAblation</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Venus (CO<sub>2</sub>/N<sub>2</sub>)</p></td>
+<td><p>CO<sub>2</sub>, CO, O, N<sub>2</sub>, N</p></td>
+<td><p>reuses the Mars CO<sub>2</sub> set and the Earth N<sub>2</sub>
+set; sulfur chemistry is a roadmap item.</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Titan (N<sub>2</sub>/CH<sub>4</sub>)</p></td>
+<td><p>N<sub>2</sub>, CH<sub>4</sub>, CH<sub>3</sub>, CH<sub>2</sub>,
+CH, C, H, HCN, CN</p></td>
+<td><p>methane pyrolysis chain CH<sub>4</sub> → CH<sub>3</sub> →
+CH<sub>2</sub> → CH → C; nitridation.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">titanAblation</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Saturn (H<sub>2</sub>/He)</p></td>
+<td><p>H<sub>2</sub>, H, He</p></td>
+<td><p>H<sub>2</sub> dissociation (Higdon), constant
+<span class="math notranslate nohighlight">\(Z_{\mathrm{rot}} = 174\)</span>, H<sub>2</sub> V-T relaxation.</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+<p>The Earth, Mars and Titan gas-phase chemistries are exercised by
+the verification cases of <a class="reference internal" href="../examples/index.html"><span class="doc">Examples</span></a> and the
+regression suite (<a class="reference internal" href="regression_tests.html"><span class="doc">Regression tests</span></a>).</p>
 </section>
-<section id="state-resolved-populations">
-<h2>State-resolved populations<a class="headerlink" href="#state-resolved-populations" title="Link to this heading"></a></h2>
-<p>The rovibronic quantum numbers <span class="math notranslate nohighlight">\((n, v, J)\)</span> are stored on
-each Lagrangian parcel and can be extracted via dedicated
-utilities under <code class="docutils literal notranslate"><span class="pre">applications/utilities/</span></code>. Typical use cases
-include:</p>
-<ul class="simple">
-<li><p>plotting the vibrational population <span class="math notranslate nohighlight">\(P(v)\)</span> at fixed
-electronic state, and comparing it against the Boltzmann
-distribution at the local translational temperature;</p></li>
-<li><p>monitoring the population of the first few excited electronic
-levels as a function of time in a shock-heated flow;</p></li>
-<li><p>constructing rotational-vibrational distributions to assess the
-assumption of rotational-vibrational equilibrium.</p></li>
-</ul>
-</section>
-<section id="validation-diagnostics">
-<h2>Validation diagnostics<a class="headerlink" href="#validation-diagnostics" title="Link to this heading"></a></h2>
-<p>The <a class="reference internal" href="../reference/validation.html"><span class="doc">Validation</span></a> page collects the canonical
-checks used to confirm the rovibronic machinery: heat-bath
-relaxation against the multi-exponential Landau-Teller solution,
-isothermal dissociation against the equilibrium constant, and
-one-dimensional shock profiles against published reference data.</p>
+<section id="saturn-h2-he-kinetics">
+<h2>Saturn H<sub>2</sub>/He kinetics<a class="headerlink" href="#saturn-h2-he-kinetics" title="Link to this heading"></a></h2>
+<p>Hydrogen-dominated entry (Saturn, Jupiter, ice-giant probes)
+requires three departures from air chemistry. They are configured
+per-case in <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code> so that the global database
+is unaffected (the <code class="docutils literal notranslate"><span class="pre">run/0D/Saturn_H2_*</span></code> cases).</p>
+<p><strong>Dissociation rate (Higdon 2018).</strong> The neutral H<sub>2</sub>
+dissociation channels are taken from Higdon et al.
+<a class="reference internal" href="#higdon2018" id="id1"><span>[Higdon2018]</span></a> in the Arrhenius form
+<span class="math notranslate nohighlight">\(k(T) = A\,T^{\eta}\exp(-T_a/T)\)</span>, with the bond energy
+<span class="math notranslate nohighlight">\(D_0 = 4.478~\mathrm{eV}\)</span> (<span class="math notranslate nohighlight">\(T_a = 51958~\mathrm{K}\)</span>):</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 47.1%" />
+<col style="width: 35.3%" />
+<col style="width: 17.6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Reaction</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(A\)</span>  [m<sup>3</sup>/s]</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\eta\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>H<sub>2</sub> + H<sub>2</sub> → 2H + H<sub>2</sub></p></td>
+<td><p><span class="math notranslate nohighlight">\(1.727\times10^{-11}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-1.0\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>H<sub>2</sub> + H → 2H + H</p></td>
+<td><p><span class="math notranslate nohighlight">\(1.386\times10^{-10}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-1.0\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>H<sub>2</sub> + He → 2H + He</p></td>
+<td><p><span class="math notranslate nohighlight">\(6.924\times10^{-12}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-1.0\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Constant rotational collision number.</strong> Because H<sub>2</sub> is
+extremely light, its rotational quantum spacing is large
+(<span class="math notranslate nohighlight">\(\theta_{\mathrm{rot}} \approx 87.6~\mathrm{K}\)</span>), and its
+rotational relaxation does <em>not</em> follow Parker’s temperature-
+dependent law. Higdon fits a single constant
+<span class="math notranslate nohighlight">\(Z_{\mathrm{rot}} = 174\)</span>, which is set as
+<code class="docutils literal notranslate"><span class="pre">rotationalRelaxationCollisionNumber</span> <span class="pre">174</span></code> in the Saturn cases.</p>
+<p><strong>H:sub:`2` vibrational relaxation.</strong> The Millikan-White
+constants for the dominant H<sub>2</sub>-H<sub>2</sub> pair (Higdon
+Table 2) are mapped to the generalised <span class="math notranslate nohighlight">\(Z_v(T)\)</span> form of
+<a class="reference internal" href="../theory/relaxation.html"><span class="doc">Internal-energy relaxation</span></a> (<code class="docutils literal notranslate"><span class="pre">vibrationalRelaxationModel</span>
+<span class="pre">valentini</span></code>, with <code class="docutils literal notranslate"><span class="pre">vibB1</span></code> <span class="math notranslate nohighlight">\(\approx 1.52\times10^{4}\)</span>,
+<code class="docutils literal notranslate"><span class="pre">vibB2</span></code> <span class="math notranslate nohighlight">\(\approx 150\)</span>, <code class="docutils literal notranslate"><span class="pre">vibTHT</span></code> 50000), reproducing the
+reference relaxation time to within <span class="math notranslate nohighlight">\(\sim\!12\%\)</span> over
+3000–20000 K.</p>
+<p><strong>Pair-specific VHS.</strong> The variable-hard-sphere diameters and
+viscosity exponents for H<sub>2</sub>, H and He are taken from Higdon
+Table 1 (<span class="math notranslate nohighlight">\(T_{\mathrm{ref}} = 1000~\mathrm{K}\)</span>) and supplied
+through per-species <code class="docutils literal notranslate"><span class="pre">moleculeProperties</span></code> overrides; unlike pairs
+use the standard arithmetic-mean averaging rule.</p>
+<div role="list" class="citation-list">
+<div class="citation" id="higdon2018" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Higdon2018</a><span class="fn-bracket">]</span></span>
+<p>K. J. Higdon, B. A. Cruden, A. M. Brandis,
+D. S. Liechty, D. B. Goldstein, and P. L. Varghese, “Direct
+simulation Monte Carlo shock simulation of Saturn entry probe
+conditions,” <em>Journal of Thermophysics and Heat Transfer</em>,
+<strong>32</strong> (3), 680–690 (2018). Copy:
+<code class="docutils literal notranslate"><span class="pre">docs/References/Higdon</span> <span class="pre">(2018)</span> <span class="pre">-</span> <span class="pre">Saturn.pdf</span></code>.</p>
+</div>
+</div>
 </section>
 </section>
 
@@ -745,8 +838,8 @@ one-dimensional shock profiles against published reference data.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="planetary_atmospheres.html" class="btn btn-neutral float-left" title="Planetary atmospheres" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="architecture.html" class="btn btn-neutral float-right" title="Source-tree architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="input_reference.html" class="btn btn-neutral float-left" title="Input Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="post_processing.html" class="btn btn-neutral float-right" title="Post-processing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

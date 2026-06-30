@@ -6,4 +6,5 @@ Reference
 
    about
    validation
+   modeling_approaches
    bibliography

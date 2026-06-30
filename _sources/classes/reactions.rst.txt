@@ -216,6 +216,56 @@ Three-body recombination,
 corresponding dissociation rate through the equilibrium constant
 :math:`K_{\mathrm{eq}}(T)`; see :doc:`../theory/chemistry`.
 
+Polyatomic-chemistry classes (validated)
+----------------------------------------
+
+These classes extend TCE and QK chemistry to **polyatomic
+reactants and products**, summing the collision energy over all
+oscillators of the molecule. The governing physics is documented in
+:doc:`../theory/chemistry`.
+
+``polyDissociationTCE``
+```````````````````````
+
+TCE dissociation of a polyatomic,
+:math:`\mathrm{AB}_2 + \mathrm{M} \to \mathrm{AB} + \mathrm{B} +
+\mathrm{M}`. Arrhenius-calibrated forward probability
+(``preExponentialFactor``, ``bf``, ``activationTemperature``,
+``formationEnergy``), reducing to the verified diatomic TCE in the
+single-oscillator limit. ``productMolecule`` and ``productAtom``
+name the fragments; ``xiCMode`` selects the internal-DOF accounting
+(``cellThermal`` default, ``perCollision``, ``shape``).
+
+``polyDissociationQK``
+``````````````````````
+
+Parameter-free QK dissociation of a polyatomic: dissociates when
+:math:`E_{\mathrm{rel}} + E_{\mathrm{int}}` exceeds the bond energy
+:math:`D_0`, with :math:`E_{\mathrm{int}}` summed over the full
+internal manifold. Only ``formationEnergy`` (= :math:`-D_0`) is
+required.
+
+``polyExchangeTCE``
+```````````````````
+
+TCE atom exchange with a polyatomic reactant and/or product,
+:math:`\mathrm{A} + \mathrm{BC} \leftrightarrow \mathrm{AB} +
+\mathrm{C}` (e.g. :math:`\mathrm{CO}_2 + \mathrm{O}
+\leftrightarrow \mathrm{CO} + \mathrm{O}_2`). The ``rateMethod``
+key selects ``arrhenius`` (forward) or ``detailedBalance`` (reverse,
+:math:`k_b = k_f/K_{\mathrm{eq}}`); ``productsOfExchangeReaction``
+names the two products.
+
+``polyRecombinationTCE`` / ``polyRecombinationQK``
+``````````````````````````````````````````````````
+
+Detailed-balance partners of the two dissociation classes,
+:math:`\mathrm{AB} + \mathrm{B} + \mathrm{M} \to \mathrm{AB}_2 +
+\mathrm{M}`. The backward rate is built from the partition-function
+equilibrium constant with the exact barrierless prefactor described
+in :doc:`../theory/chemistry`; ``reactantAtomsToRecombine``,
+``productOfRecombination`` and ``thirdBody`` configure the channel.
+
 ``moleculeAtomDissociationIonisation``
 ``````````````````````````````````````
 

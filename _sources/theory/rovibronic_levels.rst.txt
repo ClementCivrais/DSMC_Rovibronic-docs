@@ -261,3 +261,187 @@ range of interest but a denser rotational ladder, and lands at a
 comparable order of magnitude. The tables are built once, at
 solver start-up, and cached on disk so that subsequent runs with
 the same species list incur no rebuild cost.
+
+Polyatomic species
+==================
+
+The level structure above is written for a diatomic molecule, but
+the database and the parcel internal-energy evaluation also support
+**polyatomic species** —  the linear, spherical-top, symmetric-top
+and asymmetric-top molecules that arise in Mars
+(CO\ :sub:`2`), Titan (CH\ :sub:`4`, HCN) and combustion chemistry.
+The methodology follows the full-internal-partition-function
+treatment of Liechty [Liechty2025]_ and the anharmonic-oscillator
+DSMC framework of the lead developer [Civrais2024Vib]_, with the
+per-oscillator effective-DOF accounting of Nizenkov and Pfeiffer
+[Nizenkov2017]_. The rotor type of each species is fixed in the
+database (it is a spectroscopic property, not a user choice) through
+the field ``rotationType``; the supported values and their rotational
+energy and degeneracy are summarised below.
+
+Rotor types
+-----------
+
+* **Linear rotor** (``linear``) —  CO\ :sub:`2`, N\ :sub:`2`\ O,
+  HCN, C\ :sub:`3`. The rigid-rotor energy and degeneracy are
+  identical to the diatomic case,
+
+  .. math::
+
+     E_{\mathrm{rot}}(J) = hc\,B\,J(J+1), \qquad g_{\mathrm{rot}}(J) = 2J + 1,
+
+  with :math:`\xi_{\mathrm{rot}} \to 2`.
+
+* **Spherical top** (``sphericalTop``) —  CH\ :sub:`4`. Three equal
+  principal moments of inertia (:math:`A = B = C`) give the same
+  energy ladder but a quadratic degeneracy,
+
+  .. math::
+
+     E_{\mathrm{rot}}(J) = hc\,B\,J(J+1), \qquad
+     g_{\mathrm{rot}}(J) = (2J + 1)^{2},
+
+  which drives :math:`\xi_{\mathrm{rot}} \to 3` (three active
+  rotational DOF) at high temperature.
+
+* **Symmetric top** (``symmetricOblate``, ``symmetricProlate``) —
+  CH\ :sub:`3` and NH\ :sub:`3` (oblate, :math:`A = B > C`);
+  CH\ :sub:`3`\ F-type molecules (prolate, :math:`A > B = C`). Two
+  good quantum numbers :math:`(J, K)` are needed, with
+  :math:`K = 0, \ldots, J` the projection of the angular momentum
+  on the symmetry axis:
+
+  .. math::
+
+     \frac{E_{\mathrm{rot}}(J, K)}{hc}
+       = B\,J(J+1) + (C - B)\,K^{2} \quad\text{(oblate)}, \qquad
+       B\,J(J+1) + (A - B)\,K^{2} \quad\text{(prolate)},
+
+  with degeneracy :math:`g(J, K) = (2J+1)` for :math:`K = 0` and
+  :math:`2(2J+1)` for :math:`K > 0` (the :math:`\pm K` doublet).
+
+* **Asymmetric near-prolate top** (``asymmetricProlate``) —
+  H\ :sub:`2`\ O, O\ :sub:`3`, NO\ :sub:`2`, CH\ :sub:`2`. All three
+  principal moments differ (:math:`A > B \approx C`). The exact
+  asymmetric-rotor energies require a Wang diagonalisation; the
+  solver uses the **near-prolate approximation** that replaces
+  :math:`B, C` by their mean,
+
+  .. math::
+
+     \frac{E_{\mathrm{rot}}(J, K)}{hc}
+       = \tfrac{1}{2}(B + C)\,J(J+1)
+         + \bigl[A - \tfrac{1}{2}(B + C)\bigr]\,K^{2},
+
+  which is accurate for the strongly prolate molecules
+  (:math:`\kappa \approx -0.96 \ldots -0.99` for O\ :sub:`3`,
+  NO\ :sub:`2`, CH\ :sub:`2`) and a documented approximation for the
+  strongly asymmetric H\ :sub:`2`\ O (:math:`\kappa = +0.44`).
+
+Composite :math:`(J, K)` index
+------------------------------
+
+For the symmetric and asymmetric tops the two-dimensional
+:math:`(J, K)` ladder is enumerated, sorted, and **flattened into a
+single rotational list** that is stored and sampled exactly like the
+diatomic rotational ladder. The existing rotational quantum index
+``jqn`` carried on each parcel therefore indexes the composite
+:math:`(J, K)` level, the symmetry number :math:`\sigma` is applied
+as a uniform divisor of the degeneracy, and every downstream
+Boltzmann sum, Larsen-Borgnakke acceptance step and temperature
+inversion operates unchanged. The enumeration is truncated at a
+fixed rotational-energy cut-off.
+
+Multi-mode vibration
+--------------------
+
+A non-linear molecule of :math:`N` atoms carries :math:`3N - 6`
+normal vibrational modes (:math:`3N - 5` for a linear molecule).
+The database stores, for each species, the distinct normal modes
+(degenerate modes are stored once, not expanded into copies), each
+with its harmonic frequency :math:`\omega_m`, its degeneracy
+:math:`d_m`, and its diagonal anharmonicity :math:`x_{mm}`. Each
+parcel carries a vector of per-mode quantum numbers
+:math:`\mathbf{v} = (v_1, \ldots, v_M)` in place of the single
+diatomic :math:`v`. For example CO\ :sub:`2` has the four
+fundamentals :math:`(\nu_1, \nu_2, \nu_3)` with the doubly
+degenerate bend :math:`\nu_2` (:math:`1 + 2 + 1 = 4 = 3N - 5`), and
+CH\ :sub:`4` has :math:`1 + 2 + 3 + 3 = 9 = 3N - 6`.
+
+A degenerate mode of degeneracy :math:`d` carries an internal
+multiplicity (the number of ways the :math:`v` quanta can be
+distributed over the :math:`d` sub-states),
+
+.. math::
+
+   g_m(v) = \frac{(v + d - 1)!}{v!\,(d - 1)!},
+
+so :math:`g = 1` for a non-degenerate mode, :math:`g = v + 1` for a
+doubly degenerate mode, and :math:`g = (v+1)(v+2)/2` for a triply
+degenerate mode. The total vibrational degeneracy of a state is the
+product :math:`\prod_m g_m(v_m)`, and the effective vibrational
+degrees of freedom recovered at equilibrium reflect the full
+:math:`3N - 6` (or :math:`3N - 5`) count.
+
+Anharmonic and coupled vibration
+================================
+
+Each vibrational mode is built as an **anharmonic ladder**, in the
+Dunham/Morse form already used for the diatomic stretch,
+
+.. math::
+
+   \frac{E_m(v)}{hc}
+     = \omega_m\left(v + \tfrac{d_m}{2}\right)
+       + x_{mm}\left(v + \tfrac{d_m}{2}\right)^{2},
+
+ground-referenced by subtracting :math:`E_m(0)`. When the diagonal
+anharmonicity :math:`x_{mm}` is zero the mode reduces to the
+harmonic ladder :math:`E_m(v) = hc\,\omega_m\,v`; when it is
+non-zero the ladder is truncated at the anharmonic turnover
+:math:`v_{\mathrm{turn}} = -\omega_m/(2 x_{mm})`.
+
+The treatment of the inter-mode coupling is selected by the
+species field ``vibrationalCoupling``, with two values:
+
+* **separable** (default) —  the modes are independent, the
+  vibrational partition function factorises into a product of
+  per-mode sums, and the total vibrational energy is the sum of
+  the per-mode ladders. This is the standard polyatomic DSMC
+  treatment and is sufficient whenever the cross-anharmonicities
+  are small or unknown.
+
+* **coupled** —  the molecule is treated as a single joint state
+  :math:`\{v_1, \ldots, v_M\}` and the cross-mode anharmonicity is
+  added,
+
+  .. math::
+
+     \frac{E_{\mathrm{vib}}}{hc}
+       = \sum_m \left[\omega_m\!\left(v_m + \tfrac{d_m}{2}\right)
+                 + x_{mm}\!\left(v_m + \tfrac{d_m}{2}\right)^{2}\right]
+       + \sum_{i < j} x_{ij}
+                 \left(v_i + \tfrac{d_i}{2}\right)
+                 \left(v_j + \tfrac{d_j}{2}\right),
+
+  with the cross-anharmonicity constants :math:`x_{ij}` stored as a
+  strictly upper-triangular list (entries default to zero where the
+  literature value is unavailable). The cross term is evaluated
+  ground-referenced, so the joint ground state still carries zero
+  vibrational energy.
+
+The diagonal and cross anharmonicity constants of every supported
+polyatomic species are tabulated, with their literature provenance,
+in :doc:`../classes/species_database` and in
+``docs/DATA_PROVENANCE.md``.
+
+.. [Liechty2025] D. S. Liechty, "Direct Simulation Monte Carlo
+   short course," *Thermal & Fluids Analysis Workshop (TFAWS)*
+   (2025). Full internal partition-function treatment of polyatomic
+   rotors. Copy: ``docs/References/Liechty - TFAWS25 DSMC Short
+   Course Final.pptx``.
+.. [Nizenkov2017] P. Nizenkov, M. Pfeiffer, A. Mirza, and
+   S. Fasoulas, "Modeling of chemical reactions between polyatomic
+   molecules for atmospheric entry simulations with direct
+   simulation Monte Carlo," *Physics of Fluids*, **29**, 077104
+   (2017).

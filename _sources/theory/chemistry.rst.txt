@@ -408,6 +408,162 @@ diagnostics print the computed heat against literature values:
 returns :math:`\Delta H \approx -37\,732~\mathrm{K}`, within 1%
 of the tabulated value.
 
+Polyatomic chemistry
+--------------------
+
+The TCE and QK machinery above is extended to **polyatomic
+reactants and products** —  the CO\ :sub:`2`, CH\ :sub:`4` and HCN
+chemistries of Mars and Titan entry —  through a dedicated family
+of reaction classes whose internal-energy accounting sums over
+*all* oscillators of the molecule rather than a single vibrational
+mode. The polyatomic collision energy is
+
+.. math::
+
+   E_c = E_{\mathrm{rel}}
+       + \sum_{\text{reactants}}
+         \Bigl[E_{\mathrm{elec}} + E_{\mathrm{rot}}
+               + \textstyle\sum_m E_{\mathrm{vib},m}\Bigr],
+
+with the multi-mode vibrational sum taken over the direct-product
+ladder of :doc:`rovibronic_levels`. The classes follow the
+polyatomic-reaction model of Nizenkov, Pfeiffer and co-workers
+[Nizenkov2017_ch]_.
+
+* ``polyDissociationTCE`` —  TCE dissociation of a polyatomic,
+  :math:`\mathrm{AB}_2 + \mathrm{M} \to \mathrm{AB} + \mathrm{B} +
+  \mathrm{M}`. The forward probability is the polyatomic TCE form,
+  calibrated to reproduce the Arrhenius rate
+  :math:`k(T) = A_f T^{b_f}\exp(-T_a/T)`; it is algebraically
+  identical to the verified diatomic TCE in the single-oscillator
+  limit. Two thresholds must both be met —  the reactant must carry
+  more than the activation energy, and the product channel must be
+  energetically open.
+
+* ``polyDissociationQK`` —  parameter-free QK dissociation: the
+  bond breaks when :math:`E_{\mathrm{rel}} + E_{\mathrm{int}}` of
+  the polyatomic exceeds the bond energy :math:`D_0`, with
+  :math:`E_{\mathrm{int}}` the full electronic + rotational +
+  all-oscillator internal energy. Only :math:`D_0` is required.
+
+* ``polyExchangeTCE`` —  TCE atom exchange
+  :math:`\mathrm{A} + \mathrm{BC} \leftrightarrow \mathrm{AB} +
+  \mathrm{C}` in which the reactant and/or the product is
+  polyatomic (e.g. :math:`\mathrm{CO}_2 + \mathrm{O}
+  \leftrightarrow \mathrm{CO} + \mathrm{O}_2`). A ``rateMethod``
+  key selects the ``arrhenius`` (forward) probability or the
+  ``detailedBalance`` (reverse) prefactor.
+
+* ``polyRecombinationTCE`` / ``polyRecombinationQK`` —  the
+  detailed-balance partners of the two dissociation classes, with
+  the backward rate obtained from the equilibrium constant (below).
+
+Backward rates from the equilibrium constant
+````````````````````````````````````````````
+
+Every reverse (recombination / reverse-exchange) channel obtains
+its rate from the forward rate through the equilibrium constant,
+:math:`k_b(T) = k_f(T)/K_{\mathrm{eq}}(T)`, recomputed once per
+time-step from the local translational temperature. The
+concentration equilibrium constant is built from the species
+partition functions,
+
+.. math::
+
+   K_{\mathrm{eq}}(T)
+     = \frac{q_{\mathrm{AB}}\,q_{\mathrm{B}}}{q_{\mathrm{AB}_2}}\,
+       \exp\!\left(\frac{\Delta E_{\mathrm{form}}}{k_B T}\right),
+   \qquad
+   q_i = q_i^{\mathrm{tr}}\,q_i^{\mathrm{rot}}\,
+         q_i^{\mathrm{vib}}\,q_i^{\mathrm{elec}},
+
+with the rotational sum taken over the stored ladder, the
+vibrational factor a product over the molecule's oscillators, and
+the electronic sum over the term energies. A subtle but important
+point of the implementation is that the barrierless backward
+prefactor must be built as
+:math:`\beta_b(T) = \beta_{\mathrm{pre}}\,e^{-T_a/T}/K_{\mathrm{eq}}(T)`
+rather than by dividing the forward prefactor by
+:math:`K_{\mathrm{eq}}`: the collision-energy average of the
+forward shape factor is :math:`A_f T^{b_f}` (no exponential), so
+reusing :math:`\beta_f/K_{\mathrm{eq}}` would *not* satisfy
+detailed balance. This exact-:math:`\beta_b` construction is
+verified by the ``CO2_exchange_detbal`` and ``CH4_CH3_detbal``
+cases.
+
+The methane dissociation chain
+``````````````````````````````
+
+A representative application is the **methane pyrolysis cascade**
+of Titan entry,
+:math:`\mathrm{CH}_4 \to \mathrm{CH}_3 \to \mathrm{CH}_2 \to
+\mathrm{CH} \to \mathrm{C}`, in which each step strips one hydrogen
+through a ``polyDissociationTCE`` reaction (the final
+:math:`\mathrm{CH} \to \mathrm{C} + \mathrm{H}` step uses the
+diatomic ``dissociationTCE``). The chain is configured in
+``run/0D/CH4_dissoc_chain``; its bond energies are taken from the
+Active Thermochemical Tables, and the forward steps use a
+collision-theory bond-energy rate
+:math:`k(T) = A\,T^{1/2}\exp(-D_0/k_B T)` rather than the measured
+low-pressure-limit fall-off rate, whose steep negative exponent
+would otherwise stall the cascade above
+:math:`\sim 8000~\mathrm{K}`. The measured Baulch rate
+[Baulch2005]_ is verified separately in
+``run/0D/CH4_to_CH3_rate``.
+
+Joint post-reaction redistribution
+``````````````````````````````````
+
+When a polyatomic reaction fires, the product molecule's rotation
+*and every oscillator* are resampled jointly from the
+Bergemann-Boyd discrete Larsen-Borgnakke kernel
+[BergemannBoyd1994]_, with the relaxation collision numbers forced
+to unity so that the nascent product is fully equilibrated. The
+residual energy becomes the fragments' relative translational
+energy, and total momentum is conserved.
+
+Internal-DOF accounting in the TCE prefactor (``xiCMode``)
+``````````````````````````````````````````````````````````
+
+The TCE reaction probability depends on the average internal
+degrees of freedom :math:`\xi_{\mathrm{int}}` of the colliding pair
+through the exponent and the :math:`\Gamma`-function prefactor. For
+polyatomic dissociation and exchange, the ``xiCMode`` key selects
+how :math:`\xi_{\mathrm{int}}` is evaluated:
+
+* ``cellThermal`` (default) —  the cell-local, temperature-
+  consistent caloric effective DOF. This is the convention under
+  which the TCE prefactor is calibrated, and it reproduces the
+  analytic Arrhenius rate; it is the correct choice for
+  quantitative rates.
+* ``perCollision`` —  the instantaneous per-collision DOF from the
+  occupied :math:`(n, v, J)` state (the literal choice of the
+  underlying paper), useful for cross-comparison but mismatched
+  with the prefactor calibration.
+* ``shape`` —  an opt-in distribution-shape vibrational DOF, the
+  density-of-states log-slope at the activation energy, intended
+  for strong vibrational non-equilibrium
+  (:math:`T_{\mathrm{vib}} \ll T_{\mathrm{trans}}`).
+
+Chemistry models at a glance
+----------------------------
+
+The solver provides four families of gas-phase chemistry models,
+selectable per reaction (or, for FHO, as a binary-collision model):
+
+* **TCE** —  Bird's total-collision-energy model, Arrhenius-
+  calibrated, available for dissociation, exchange, ionisation and
+  recombination, with polyatomic variants above.
+* **QK** —  Bird's parameter-free Quantum-Kinetic model, requiring
+  only the bond / ionisation energy, with polyatomic variants.
+* **Bias** —  the Gimelshein-Wysong vibrationally-favored
+  dissociation model documented above.
+* **FHO** —  the Forced Harmonic Oscillator vibration-translation
+  model of Adamovich, documented as a collision model in
+  :doc:`relaxation`; it predicts state-to-state vibrational
+  transition probabilities, including multi-quantum jumps, rather
+  than a relaxation rate.
+
 .. [Bird1994ch] G. A. Bird, *Molecular Gas Dynamics and the
    Direct Simulation of Gas Flows*, Oxford University Press
    (1994).
@@ -422,3 +578,15 @@ of the tabulated value.
 .. [WadsworthWysong1997] D. C. Wadsworth and I. J. Wysong,
    "Vibrational favoring effect in DSMC dissociation models,"
    *Physics of Fluids A*, **9**, 3873–3884 (1997).
+.. [Nizenkov2017_ch] P. Nizenkov, M. Pfeiffer, A. Mirza, and
+   S. Fasoulas, "Modeling of chemical reactions between polyatomic
+   molecules for atmospheric entry simulations with direct
+   simulation Monte Carlo," *Physics of Fluids*, **29**, 077104
+   (2017).
+.. [Baulch2005] D. L. Baulch et al., "Evaluated kinetic data for
+   combustion modeling: Supplement II," *Journal of Physical and
+   Chemical Reference Data*, **34** (3), 757–1397 (2005).
+.. [BergemannBoyd1994] F. Bergemann and I. D. Boyd, "DSMC
+   simulation of inelastic collisions using the Borgnakke-Larsen
+   method extended to discrete distributions of vibrational
+   energy," in *Rarefied Gas Dynamics 18*, pp. 174–183 (1994).

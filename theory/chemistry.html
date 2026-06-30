@@ -76,6 +76,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#case-directory-layout">Case directory layout</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#relaxation-collision-numbers">Relaxation collision numbers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#vibrational-relaxation-model">Vibrational-relaxation model</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#rovibronicdatabase-sub-dictionary"><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary</a></li>
 </ul>
 </li>
@@ -86,7 +87,13 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#gas-surface-interaction-dictionaries">Gas-surface interaction dictionaries</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/planetary_atmospheres.html">Planetary atmospheres</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/planetary_atmospheres.html#per-atmosphere-overview">Per-atmosphere overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/planetary_atmospheres.html#saturn-h2-he-kinetics">Saturn H<sub>2</sub>/He kinetics</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../guide/post_processing.html">Post-processing</a><ul>
@@ -114,17 +121,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../guide/tests.html#continuous-integration">Continuous integration</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../guide/regression_tests.html">Regression tests (roadmap)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#rationale">Rationale</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#current-rng-state">Current RNG state</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#proposed-design">Proposed design</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../guide/regression_tests.html#dictionary-driven-seed">Dictionary-driven seed</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/regression_tests.html#test-cases">Test cases</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/regression_tests.html#harness">Harness</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#acceptance-criteria">Acceptance criteria</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#status">Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/regression_tests.html">Regression tests</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#what-it-covers">What it covers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#how-it-works">How it works</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#running-it">Running it</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/regression_tests.html#interpreting-a-failure">Interpreting a failure</a></li>
 </ul>
 </li>
 </ul>
@@ -174,6 +175,13 @@
 <li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#typical-state-space-sizes">Typical state-space sizes</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="rovibronic_levels.html#polyatomic-species">Polyatomic species</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#rotor-types">Rotor types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#composite-j-k-index">Composite <span class="math notranslate nohighlight">\((J, K)\)</span> index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rovibronic_levels.html#multi-mode-vibration">Multi-mode vibration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rovibronic_levels.html#anharmonic-and-coupled-vibration">Anharmonic and coupled vibration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="larsen_borgnakke.html">Larsen-Borgnakke energy redistribution</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="larsen_borgnakke.html#collision-energy-pool">Collision energy pool</a></li>
 <li class="toctree-l3"><a class="reference internal" href="larsen_borgnakke.html#acceptance-rejection-rule">Acceptance-rejection rule</a></li>
@@ -187,6 +195,7 @@
 <li class="toctree-l3"><a class="reference internal" href="relaxation.html#landau-teller-rate-equation">Landau-Teller rate equation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation.html#multi-mode-decomposition">Multi-mode decomposition</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation.html#millikan-white-and-parker-correlations">Millikan-White and Parker correlations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relaxation.html#temperature-dependent-partner-dependent-vibrational-z-v-t">Temperature-dependent, partner-dependent vibrational <span class="math notranslate nohighlight">\(Z_v(T)\)</span></a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation.html#composite-modes-in-the-parallel-marginal-cascade">Composite modes in the parallel-marginal cascade</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation.html#event-selection">Event selection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="relaxation.html#nizenkov-correction">Nizenkov correction</a></li>
@@ -203,6 +212,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#dissociation-with-potential-energy-curve-asymptote-matching">Dissociation with potential-energy-curve asymptote matching</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#recombination-from-detailed-balance">Recombination from detailed balance</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#atom-exchange-zeldovich-type-reactions">Atom-exchange (Zeldovich-type) reactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#polyatomic-chemistry">Polyatomic chemistry</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#backward-rates-from-the-equilibrium-constant">Backward rates from the equilibrium constant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-methane-dissociation-chain">The methane dissociation chain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#joint-post-reaction-redistribution">Joint post-reaction redistribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#internal-dof-accounting-in-the-tce-prefactor-xicmode">Internal-DOF accounting in the TCE prefactor (<code class="docutils literal notranslate"><span class="pre">xiCMode</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#chemistry-models-at-a-glance">Chemistry models at a glance</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="chemistry_charged.html">Charged-species chemistry</a><ul>
@@ -225,6 +242,18 @@
 <li class="toctree-l3"><a class="reference internal" href="wall_models.html#pressure-and-mass-flow-inlets">Pressure and mass-flow inlets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="wall_models.html#particle-deletion">Particle deletion</a></li>
 <li class="toctree-l3"><a class="reference internal" href="wall_models.html#cyclic-boundaries">Cyclic boundaries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wall_models.html#gas-surface-interaction-catalysis-and-ablation">Gas-surface interaction (catalysis and ablation)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#finite-rate-surface-reactions">Finite-rate surface reactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#carbon-ablation">Carbon ablation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#finite-rate-catalysis-with-gamma-t">Finite-rate catalysis with <span class="math notranslate nohighlight">\(\gamma(T)\)</span></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#coverage-chemistry">Coverage chemistry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#vapour-pressure-sublimation-and-the-surface-energy-balance">Vapour-pressure sublimation and the surface energy balance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wall_models.html#surface-recession">Surface recession</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wall_models.html#pato-loose-coupling">PATO loose coupling</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="macroscopic_properties.html">Macroscopic properties</a><ul>
@@ -272,6 +301,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#contents-of-a-species-file">Contents of a species file</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#level-table-construction">Level-table construction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#diagnostic-output">Diagnostic output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#polyatomic-species">Polyatomic species</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../classes/species_database.html#per-species-overrides">Per-species overrides</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#status-of-charged-species-data">Status of charged-species data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#extending-the-database">Extending the database</a></li>
 </ul>
@@ -339,6 +372,13 @@
 <li class="toctree-l4"><a class="reference internal" href="../classes/reactions.html#dissociationbias"><code class="docutils literal notranslate"><span class="pre">dissociationBias</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/reactions.html#dissociationionisationexchange"><code class="docutils literal notranslate"><span class="pre">dissociationIonisationExchange</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/reactions.html#recombination"><code class="docutils literal notranslate"><span class="pre">recombination</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/reactions.html#polyatomic-chemistry-classes-validated">Polyatomic-chemistry classes (validated)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../classes/reactions.html#polydissociationtce"><code class="docutils literal notranslate"><span class="pre">polyDissociationTCE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/reactions.html#polydissociationqk"><code class="docutils literal notranslate"><span class="pre">polyDissociationQK</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/reactions.html#polyexchangetce"><code class="docutils literal notranslate"><span class="pre">polyExchangeTCE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/reactions.html#polyrecombinationtce-polyrecombinationqk"><code class="docutils literal notranslate"><span class="pre">polyRecombinationTCE</span></code> / <code class="docutils literal notranslate"><span class="pre">polyRecombinationQK</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/reactions.html#moleculeatomdissociationionisation"><code class="docutils literal notranslate"><span class="pre">moleculeAtomDissociationIonisation</span></code></a></li>
 </ul>
 </li>
@@ -371,6 +411,13 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/boundaries.html#rovibronic-aware-wall-dsmcmixeddiffusespecularwallrotpatch">Rovibronic-aware wall — <code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/boundaries.html#reactive-walls-gas-surface-interaction">Reactive walls — gas-surface interaction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmccatalyticwallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcCatalyticWallPatch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmcablatingwallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmccoveragewallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#surface-reaction-dictionary">Surface-reaction dictionary</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/boundaries.html#inflow-models">Inflow models</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#free-stream-maxwellian-inflow">Free-stream Maxwellian inflow</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#chapman-enskog-first-order-inflow">Chapman-Enskog first-order inflow</a></li>
@@ -549,6 +596,38 @@
 <li class="toctree-l3"><a class="reference internal" href="../examples/chemical_reaction_demonstration.html#expected-behaviour">Expected behaviour</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/polyatomic_relaxation.html">Polyatomic thermal relaxation (CO<sub>2</sub>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/polyatomic_relaxation.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/polyatomic_relaxation.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/polyatomic_relaxation.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/polyatomic_relaxation.html#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/polyatomic_relaxation.html#expected-results">Expected results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/methane_chain.html">Methane pyrolysis chain (Titan)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/methane_chain.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/methane_chain.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/methane_chain.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/methane_chain.html#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/methane_chain.html#expected-results">Expected results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/saturn_h2_relaxation.html">Saturn H<sub>2</sub>/He kinetics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/saturn_h2_relaxation.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/saturn_h2_relaxation.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/saturn_h2_relaxation.html#case-parameters">Case parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/saturn_h2_relaxation.html#running-the-cases">Running the cases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/saturn_h2_relaxation.html#expected-results">Expected results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/carbon_ablation_gsi.html">Carbon ablation on a heat shield (Mars)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#theoretical-basis">Theoretical basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#related-gsi-cases">Related GSI cases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#running-the-case">Running the case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#expected-results">Expected results</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -572,8 +651,19 @@
 <li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#outstanding-items">Outstanding items</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/modeling_approaches.html">Data provenance and modelling approaches</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/modeling_approaches.html#data-provenance">Data provenance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/modeling_approaches.html#cross-code-modelling-comparison">Cross-code modelling comparison</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/modeling_approaches.html#chemistry">Chemistry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/modeling_approaches.html#internal-energy-and-relaxation">Internal energy and relaxation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/modeling_approaches.html#other-subsystems">Other subsystems</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html">Bibliography</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#foundational-dsmc-literature">Foundational DSMC literature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#polyatomic-relaxation-and-gas-surface-modelling">Polyatomic, relaxation and gas-surface modelling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#the-dsmcfoam-lineage">The dsmcFoam+ lineage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#publications-associated-with-the-rovibronic-extension">Publications associated with the rovibronic extension</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#in-repository-derivations-and-notes">In-repository derivations and notes</a></li>
@@ -923,6 +1013,150 @@ diagnostics print the computed heat against literature values:
 <span class="math notranslate nohighlight">\(\mathrm{N}_2 + \mathrm{O} \to \mathrm{NO} + \mathrm{N}\)</span>
 returns <span class="math notranslate nohighlight">\(\Delta H \approx -37\,732~\mathrm{K}\)</span>, within 1%
 of the tabulated value.</p>
+</section>
+<section id="polyatomic-chemistry">
+<h2>Polyatomic chemistry<a class="headerlink" href="#polyatomic-chemistry" title="Link to this heading"></a></h2>
+<p>The TCE and QK machinery above is extended to <strong>polyatomic
+reactants and products</strong> —  the CO<sub>2</sub>, CH<sub>4</sub> and HCN
+chemistries of Mars and Titan entry —  through a dedicated family
+of reaction classes whose internal-energy accounting sums over
+<em>all</em> oscillators of the molecule rather than a single vibrational
+mode. The polyatomic collision energy is</p>
+<div class="math notranslate nohighlight">
+\[E_c = E_{\mathrm{rel}}
+    + \sum_{\text{reactants}}
+      \Bigl[E_{\mathrm{elec}} + E_{\mathrm{rot}}
+            + \textstyle\sum_m E_{\mathrm{vib},m}\Bigr],\]</div>
+<p>with the multi-mode vibrational sum taken over the direct-product
+ladder of <a class="reference internal" href="rovibronic_levels.html"><span class="doc">Rovibronic level structure</span></a>. The classes follow the
+polyatomic-reaction model of Nizenkov, Pfeiffer and co-workers
+<a class="reference internal" href="#nizenkov2017-ch" id="id7"><span>[Nizenkov2017_ch]</span></a>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">polyDissociationTCE</span></code> —  TCE dissociation of a polyatomic,
+<span class="math notranslate nohighlight">\(\mathrm{AB}_2 + \mathrm{M} \to \mathrm{AB} + \mathrm{B} +
+\mathrm{M}\)</span>. The forward probability is the polyatomic TCE form,
+calibrated to reproduce the Arrhenius rate
+<span class="math notranslate nohighlight">\(k(T) = A_f T^{b_f}\exp(-T_a/T)\)</span>; it is algebraically
+identical to the verified diatomic TCE in the single-oscillator
+limit. Two thresholds must both be met —  the reactant must carry
+more than the activation energy, and the product channel must be
+energetically open.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">polyDissociationQK</span></code> —  parameter-free QK dissociation: the
+bond breaks when <span class="math notranslate nohighlight">\(E_{\mathrm{rel}} + E_{\mathrm{int}}\)</span> of
+the polyatomic exceeds the bond energy <span class="math notranslate nohighlight">\(D_0\)</span>, with
+<span class="math notranslate nohighlight">\(E_{\mathrm{int}}\)</span> the full electronic + rotational +
+all-oscillator internal energy. Only <span class="math notranslate nohighlight">\(D_0\)</span> is required.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">polyExchangeTCE</span></code> —  TCE atom exchange
+<span class="math notranslate nohighlight">\(\mathrm{A} + \mathrm{BC} \leftrightarrow \mathrm{AB} +
+\mathrm{C}\)</span> in which the reactant and/or the product is
+polyatomic (e.g. <span class="math notranslate nohighlight">\(\mathrm{CO}_2 + \mathrm{O}
+\leftrightarrow \mathrm{CO} + \mathrm{O}_2\)</span>). A <code class="docutils literal notranslate"><span class="pre">rateMethod</span></code>
+key selects the <code class="docutils literal notranslate"><span class="pre">arrhenius</span></code> (forward) probability or the
+<code class="docutils literal notranslate"><span class="pre">detailedBalance</span></code> (reverse) prefactor.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">polyRecombinationTCE</span></code> / <code class="docutils literal notranslate"><span class="pre">polyRecombinationQK</span></code> —  the
+detailed-balance partners of the two dissociation classes, with
+the backward rate obtained from the equilibrium constant (below).</p></li>
+</ul>
+<section id="backward-rates-from-the-equilibrium-constant">
+<h3>Backward rates from the equilibrium constant<a class="headerlink" href="#backward-rates-from-the-equilibrium-constant" title="Link to this heading"></a></h3>
+<p>Every reverse (recombination / reverse-exchange) channel obtains
+its rate from the forward rate through the equilibrium constant,
+<span class="math notranslate nohighlight">\(k_b(T) = k_f(T)/K_{\mathrm{eq}}(T)\)</span>, recomputed once per
+time-step from the local translational temperature. The
+concentration equilibrium constant is built from the species
+partition functions,</p>
+<div class="math notranslate nohighlight">
+\[K_{\mathrm{eq}}(T)
+  = \frac{q_{\mathrm{AB}}\,q_{\mathrm{B}}}{q_{\mathrm{AB}_2}}\,
+    \exp\!\left(\frac{\Delta E_{\mathrm{form}}}{k_B T}\right),
+\qquad
+q_i = q_i^{\mathrm{tr}}\,q_i^{\mathrm{rot}}\,
+      q_i^{\mathrm{vib}}\,q_i^{\mathrm{elec}},\]</div>
+<p>with the rotational sum taken over the stored ladder, the
+vibrational factor a product over the molecule’s oscillators, and
+the electronic sum over the term energies. A subtle but important
+point of the implementation is that the barrierless backward
+prefactor must be built as
+<span class="math notranslate nohighlight">\(\beta_b(T) = \beta_{\mathrm{pre}}\,e^{-T_a/T}/K_{\mathrm{eq}}(T)\)</span>
+rather than by dividing the forward prefactor by
+<span class="math notranslate nohighlight">\(K_{\mathrm{eq}}\)</span>: the collision-energy average of the
+forward shape factor is <span class="math notranslate nohighlight">\(A_f T^{b_f}\)</span> (no exponential), so
+reusing <span class="math notranslate nohighlight">\(\beta_f/K_{\mathrm{eq}}\)</span> would <em>not</em> satisfy
+detailed balance. This exact-<span class="math notranslate nohighlight">\(\beta_b\)</span> construction is
+verified by the <code class="docutils literal notranslate"><span class="pre">CO2_exchange_detbal</span></code> and <code class="docutils literal notranslate"><span class="pre">CH4_CH3_detbal</span></code>
+cases.</p>
+</section>
+<section id="the-methane-dissociation-chain">
+<h3>The methane dissociation chain<a class="headerlink" href="#the-methane-dissociation-chain" title="Link to this heading"></a></h3>
+<p>A representative application is the <strong>methane pyrolysis cascade</strong>
+of Titan entry,
+<span class="math notranslate nohighlight">\(\mathrm{CH}_4 \to \mathrm{CH}_3 \to \mathrm{CH}_2 \to
+\mathrm{CH} \to \mathrm{C}\)</span>, in which each step strips one hydrogen
+through a <code class="docutils literal notranslate"><span class="pre">polyDissociationTCE</span></code> reaction (the final
+<span class="math notranslate nohighlight">\(\mathrm{CH} \to \mathrm{C} + \mathrm{H}\)</span> step uses the
+diatomic <code class="docutils literal notranslate"><span class="pre">dissociationTCE</span></code>). The chain is configured in
+<code class="docutils literal notranslate"><span class="pre">run/0D/CH4_dissoc_chain</span></code>; its bond energies are taken from the
+Active Thermochemical Tables, and the forward steps use a
+collision-theory bond-energy rate
+<span class="math notranslate nohighlight">\(k(T) = A\,T^{1/2}\exp(-D_0/k_B T)\)</span> rather than the measured
+low-pressure-limit fall-off rate, whose steep negative exponent
+would otherwise stall the cascade above
+<span class="math notranslate nohighlight">\(\sim 8000~\mathrm{K}\)</span>. The measured Baulch rate
+<a class="reference internal" href="#baulch2005" id="id8"><span>[Baulch2005]</span></a> is verified separately in
+<code class="docutils literal notranslate"><span class="pre">run/0D/CH4_to_CH3_rate</span></code>.</p>
+</section>
+<section id="joint-post-reaction-redistribution">
+<h3>Joint post-reaction redistribution<a class="headerlink" href="#joint-post-reaction-redistribution" title="Link to this heading"></a></h3>
+<p>When a polyatomic reaction fires, the product molecule’s rotation
+<em>and every oscillator</em> are resampled jointly from the
+Bergemann-Boyd discrete Larsen-Borgnakke kernel
+<a class="reference internal" href="#bergemannboyd1994" id="id9"><span>[BergemannBoyd1994]</span></a>, with the relaxation collision numbers forced
+to unity so that the nascent product is fully equilibrated. The
+residual energy becomes the fragments’ relative translational
+energy, and total momentum is conserved.</p>
+</section>
+<section id="internal-dof-accounting-in-the-tce-prefactor-xicmode">
+<h3>Internal-DOF accounting in the TCE prefactor (<code class="docutils literal notranslate"><span class="pre">xiCMode</span></code>)<a class="headerlink" href="#internal-dof-accounting-in-the-tce-prefactor-xicmode" title="Link to this heading"></a></h3>
+<p>The TCE reaction probability depends on the average internal
+degrees of freedom <span class="math notranslate nohighlight">\(\xi_{\mathrm{int}}\)</span> of the colliding pair
+through the exponent and the <span class="math notranslate nohighlight">\(\Gamma\)</span>-function prefactor. For
+polyatomic dissociation and exchange, the <code class="docutils literal notranslate"><span class="pre">xiCMode</span></code> key selects
+how <span class="math notranslate nohighlight">\(\xi_{\mathrm{int}}\)</span> is evaluated:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cellThermal</span></code> (default) —  the cell-local, temperature-
+consistent caloric effective DOF. This is the convention under
+which the TCE prefactor is calibrated, and it reproduces the
+analytic Arrhenius rate; it is the correct choice for
+quantitative rates.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">perCollision</span></code> —  the instantaneous per-collision DOF from the
+occupied <span class="math notranslate nohighlight">\((n, v, J)\)</span> state (the literal choice of the
+underlying paper), useful for cross-comparison but mismatched
+with the prefactor calibration.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">shape</span></code> —  an opt-in distribution-shape vibrational DOF, the
+density-of-states log-slope at the activation energy, intended
+for strong vibrational non-equilibrium
+(<span class="math notranslate nohighlight">\(T_{\mathrm{vib}} \ll T_{\mathrm{trans}}\)</span>).</p></li>
+</ul>
+</section>
+</section>
+<section id="chemistry-models-at-a-glance">
+<h2>Chemistry models at a glance<a class="headerlink" href="#chemistry-models-at-a-glance" title="Link to this heading"></a></h2>
+<p>The solver provides four families of gas-phase chemistry models,
+selectable per reaction (or, for FHO, as a binary-collision model):</p>
+<ul class="simple">
+<li><p><strong>TCE</strong> —  Bird’s total-collision-energy model, Arrhenius-
+calibrated, available for dissociation, exchange, ionisation and
+recombination, with polyatomic variants above.</p></li>
+<li><p><strong>QK</strong> —  Bird’s parameter-free Quantum-Kinetic model, requiring
+only the bond / ionisation energy, with polyatomic variants.</p></li>
+<li><p><strong>Bias</strong> —  the Gimelshein-Wysong vibrationally-favored
+dissociation model documented above.</p></li>
+<li><p><strong>FHO</strong> —  the Forced Harmonic Oscillator vibration-translation
+model of Adamovich, documented as a collision model in
+<a class="reference internal" href="relaxation.html"><span class="doc">Internal-energy relaxation</span></a>; it predicts state-to-state vibrational
+transition probabilities, including multi-quantum jumps, rather
+than a relaxation rate.</p></li>
+</ul>
 <div role="list" class="citation-list">
 <div class="citation" id="bird1994ch" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Bird1994ch</a><span class="fn-bracket">]</span></span>
@@ -953,6 +1187,27 @@ Fluids</em>, <strong>29</strong>, 067106 (2017).</p>
 <p>D. C. Wadsworth and I. J. Wysong,
 “Vibrational favoring effect in DSMC dissociation models,”
 <em>Physics of Fluids A</em>, <strong>9</strong>, 3873–3884 (1997).</p>
+</div>
+<div class="citation" id="nizenkov2017-ch" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">Nizenkov2017_ch</a><span class="fn-bracket">]</span></span>
+<p>P. Nizenkov, M. Pfeiffer, A. Mirza, and
+S. Fasoulas, “Modeling of chemical reactions between polyatomic
+molecules for atmospheric entry simulations with direct
+simulation Monte Carlo,” <em>Physics of Fluids</em>, <strong>29</strong>, 077104
+(2017).</p>
+</div>
+<div class="citation" id="baulch2005" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">Baulch2005</a><span class="fn-bracket">]</span></span>
+<p>D. L. Baulch et al., “Evaluated kinetic data for
+combustion modeling: Supplement II,” <em>Journal of Physical and
+Chemical Reference Data</em>, <strong>34</strong> (3), 757–1397 (2005).</p>
+</div>
+<div class="citation" id="bergemannboyd1994" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">BergemannBoyd1994</a><span class="fn-bracket">]</span></span>
+<p>F. Bergemann and I. D. Boyd, “DSMC
+simulation of inelastic collisions using the Borgnakke-Larsen
+method extended to discrete distributions of vibrational
+energy,” in <em>Rarefied Gas Dynamics 18</em>, pp. 174–183 (1994).</p>
 </div>
 </div>
 </section>

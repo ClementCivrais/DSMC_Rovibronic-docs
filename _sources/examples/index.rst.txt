@@ -1,14 +1,17 @@
 Examples
 ========
 
-The solver ships with a suite of ten reference tutorials under
-``tutorials/`` in the source tree, covering the principal classes
-of DSMC simulation targeted by the rovibronic extension: from
-zero-dimensional heat-bath validation through micro-channel
-flows, external hypersonic bodies, and a representative re-entry
-capsule.
+The solver ships with a suite of reference tutorials under
+``tutorials/`` in the source tree, together with focused
+verification cases under ``run/0D/``, ``run/GSI/`` and ``run/3D/``.
+Between them they cover the principal classes of DSMC simulation
+targeted by the rovibronic extension: from zero-dimensional
+heat-bath validation through micro-channel flows, external
+hypersonic bodies, a representative re-entry capsule, and the
+polyatomic, planetary-atmosphere and gas-surface-interaction
+capabilities added in the current development cycle.
 
-Every tutorial shares the same three-fold OpenFOAM layout
+Every case shares the same three-fold OpenFOAM layout
 (``0/`` field directory, ``constant/`` with ``dsmcProperties``
 and ``speciesCache/``, ``system/`` with the run-time
 dictionaries) and runs to completion through the standard
@@ -27,3 +30,7 @@ dictionaries) and runs to completion through the standard
    axisymmetric_blunt_cylinder
    orion_107km
    chemical_reaction_demonstration
+   polyatomic_relaxation
+   methane_chain
+   saturn_h2_relaxation
+   carbon_ablation_gsi

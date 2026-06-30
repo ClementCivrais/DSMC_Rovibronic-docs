@@ -181,6 +181,215 @@ while letting the rest pass through; this is the mechanism used,
 for instance, to model permeable membranes in micro-nano-flow
 applications.
 
+Gas-surface interaction (catalysis and ablation)
+================================================
+
+Beyond the passive scattering kernels above, the solver provides a
+family of **reactive walls** for thermal-protection-system (TPS)
+modelling: finite-rate catalysis, finite-rate carbon ablation,
+adsorption-site coverage chemistry, and vapour-pressure
+sublimation. The reactive walls are run-time-selected patch classes
+—  ``dsmcCatalyticWallPatch``, ``dsmcAblatingWallPatch`` and
+``dsmcCoverageWallPatch`` —  that share a common surface-reaction
+infrastructure (``surfaceReaction`` and its derivatives
+``srRecombination`` and ``srFiniteRate``); their dictionary
+interface is documented in :doc:`../classes/boundaries` and
+:doc:`../guide/input_reference`.
+
+Finite-rate surface reactions
+-----------------------------
+
+Every per-impact surface reaction is characterised by a
+dimensionless reaction probability of generalised Arrhenius form
+
+.. math::
+
+   \beta_i(T_w) = \min\!\bigl(1,\; A\,T_w^{\,n}\,
+                              e^{-T_a/T_w}\bigr),
+
+with :math:`A` dimensionless, :math:`n` a temperature exponent, and
+:math:`T_a = E_a/R` the activation temperature. On each wall impact
+the probabilities of the competing reactions are summed; with
+probability :math:`\min(\sum_i \beta_i, 1)` one reaction is selected
+by cumulative branching, the reactant is consumed, the gas-phase
+product is re-emitted from the wall as a half-Maxwellian at
+:math:`T_w`, and (for ablation) one or more solid carbon atoms are
+debited from a per-face ledger.
+
+Carbon ablation
+---------------
+
+The canonical carbon-ablation set, used for the Mars and Earth
+heat-shield cases, comprises the oxidation, Boudouard and
+nitridation channels:
+
+.. math::
+
+   \begin{aligned}
+   \mathrm{O}  + \mathrm{C(s)} &\to \mathrm{CO},
+     &\beta &= 0.63\,e^{-1160/T_w} && \text{[Park 1976]}, \\
+   \mathrm{O}_2 + \mathrm{C(s)} &\to \mathrm{CO} + \mathrm{O},
+     &\beta &= 0.50, \\
+   \mathrm{CO}_2 + \mathrm{C(s)} &\to 2\,\mathrm{CO},
+     &\beta &= 0.9 && \text{[Zhluktov-Abe 1999]}, \\
+   \mathrm{N}  + \mathrm{C(s)} &\to \mathrm{CN},
+     &\beta &= 0.30 && \text{[Park-Bogdanoff]}.
+   \end{aligned}
+
+The oxidation probability is the classic Park line-of-centres
+form [Park1976gsi]_; the CO\ :sub:`2` Boudouard channel uses the
+Zhluktov-Abe [ZhluktovAbe1999]_ efficiency. **Titan nitridation**
+(N + C(s) → CN) reuses the same machinery, with the temperature-
+independent Park rate :math:`\beta = 0.30` as the default and an
+opt-in low-rate Zhang-type correlation
+:math:`\beta = 0.0791\,e^{-5663/T_w}` reflecting the order-of-
+magnitude scatter in the measured nitridation efficiency.
+
+Finite-rate catalysis with :math:`\gamma(T)`
+--------------------------------------------
+
+Catalytic recombination (e.g. O + O → O\ :sub:`2`,
+N + N → N\ :sub:`2`) is modelled through a recombination
+coefficient :math:`\gamma`, the probability that an impinging atom
+leaves as half of a recombined molecule. Three forms are supported
+through ``srRecombination``: a constant ``gamma``; an Arrhenius
+:math:`\gamma(T_w) = \gamma_A\,T_w^{\,n}\,e^{-T_a/T_w}`; and a
+tabulated piecewise-linear ``gammaTable``. Material correlations
+are provided for reinforced carbon-carbon (RCC), reaction-cured
+glass / SiO\ :sub:`2`, and silicon carbide (SiC), after Stewart
+[Stewart1997]_ and Scott [Scott1983]_.
+
+The **Kisliuk precursor-mediated sticking** model is available on
+the coverage wall,
+
+.. math::
+
+   S(\theta) = \frac{S_0}{1 + K\,\theta/(1 - \theta)},
+
+which reduces to the Langmuir form :math:`S = S_0(1 - \theta)` for
+:math:`K = 1`. Each recombination event releases an energy
+:math:`E_{\mathrm{rec}}`, of which a fraction :math:`\beta_{\mathrm{acc}}`
+is accommodated to the wall and :math:`(1 - \beta_{\mathrm{acc}})`
+is returned to the nascent molecule as extra kinetic energy; this
+**recombination-energy accommodation** lets the catalytic
+heat load be partitioned between the surface and the gas.
+
+Coverage chemistry
+------------------
+
+The ``dsmcCoverageWallPatch`` carries a per-species surface
+coverage :math:`\theta` (occupied fraction of a finite site
+inventory) and resolves four elementary surface processes:
+
+* **Langmuir adsorption** —  :math:`\mathrm{A(g)} + * \to
+  \mathrm{A(s)}` with sticking :math:`S = S_0(1 - \theta)`
+  (dissociative adsorption carries an extra :math:`(1 - \theta)`);
+* **Polanyi-Wigner desorption** with lateral interactions —
+  :math:`k_{\mathrm{des}} = \nu_0\,10^{C_b \theta}\,
+  \exp\!\bigl[-(E_0 + W\theta)/T_w\bigr]`, so that both the
+  pre-exponential and the desorption energy depend on coverage;
+* **Eley-Rideal** —  :math:`\mathrm{A(g)} + \mathrm{B(s)} \to
+  \mathrm{AB(g)} + *`, per impact with probability
+  :math:`\gamma_{\mathrm{ER}}\,\theta_B`;
+* **Langmuir-Hinshelwood** —  :math:`\mathrm{A(s)} + \mathrm{B(s)}
+  \to \mathrm{AB(g)} + 2*`, with rate
+  :math:`k_{\mathrm{LH}}\theta_A\theta_B` and
+  :math:`k_{\mathrm{LH}} = A_{\mathrm{LH}}\exp(-E_{\mathrm{LH}}/T_w)`.
+
+Vapour-pressure sublimation and the surface energy balance
+----------------------------------------------------------
+
+At high wall temperature the solid sublimes into the carbon-vapour
+species C, C\ :sub:`2` and C\ :sub:`3`. The Langmuir-Knudsen
+evaporation flux of species :math:`k` is
+
+.. math::
+
+   \Phi_k = \frac{\alpha\,p_{\mathrm{vap},k}(T_w)}
+                 {\sqrt{2\pi\,m_k\,k_B\,T_w}},
+   \qquad
+   p_{\mathrm{vap},k}(T_w) = a_k\,e^{-b_k/T_w},
+
+with :math:`\alpha` an evaporation coefficient and
+:math:`(a_k, b_k)` the Clausius-Clapeyron constants of the
+three-species carbon-vapour fit. The corresponding number of real
+molecules is injected from the surface each step, debiting the
+solid carbon inventory. When radiative equilibrium is requested,
+the wall temperature is solved from the running-mean convective
+load against the grey-body re-radiation,
+:math:`q_{\mathrm{conv}} = \varepsilon\,\sigma\,T_w^{4}`, and
+relaxed toward
+:math:`T_w^{\mathrm{eq}} = (Q_{\mathrm{conv}}/\varepsilon\sigma)^{1/4}`.
+
+Surface recession
+=================
+
+The reactive walls above report a recession rate as a scalar but
+do not move the mesh. Geometric surface recession is instead
+handled by a **per-cell immersed level-set** method, in which a
+signed-distance field :math:`\phi` (positive in the gas, negative
+in the solid) is carried on the *fixed* mesh, and the
+:math:`\phi = 0` isosurface recedes through the cells as carbon is
+removed. This decouples the recession from the mesh topology and
+works uniformly in 1D, 2D and 3D.
+
+* **Initialisation.** For analytic shapes (plane, sphere,
+  cylinder) :math:`\phi` is the signed distance to the surface;
+  for arbitrary geometry it is initialised from an **STL** triangulated
+  surface (a re-entry capsule or a cone at angle of attack), using
+  inside/outside tests against the triangulation. Empty (1D/2D)
+  patches must carry the ``empty`` boundary condition so that the
+  level-set gradient is well defined.
+
+* **Reflection and reaction.** A parcel that crosses
+  :math:`\phi = 0` onto the solid side is diffuse-reflected at the
+  wall temperature, optionally reacts with surface probability,
+  and is mirrored back into the gas. The per-cell reaction tally
+  drives the recession.
+
+* **Level-set advance.** The receded depth per cell,
+  :math:`\Delta = N_{\mathrm{abl}}\,m_{\mathrm{C}}/
+  (\rho_{\mathrm{solid}}\,A_c)`, is added to :math:`\phi`, and the
+  gradient is recomputed; an optional reinitialisation step
+  restores :math:`|\nabla\phi| = 1`. On an STL-initialised capsule
+  at angle of attack the windward face recedes more than an order
+  of magnitude faster than the leeward face, as expected.
+
+PATO loose coupling
+-------------------
+
+For coupling to a material-response solver, the immersed surface
+exposes a loose, file-based interface to **PATO** (the
+Porous-material Analysis Toolbox). The DSMC side exports the
+boundary-layer edge state in the tabulated :math:`B'` boundary-
+condition form that PATO consumes, and imports the wall
+temperature, recession and species blowing returned by PATO. The
+exchange is conformant in the per-cell level-set sense —  PATO
+returns the surface state, while the level set carries the geometry
+—  and is the intended route to a fully coupled material-response
+simulation.
+
+.. note::
+
+   The PATO coupling is implemented as a file-exchange interface
+   and has been exercised in a mock harness only; a production
+   coupled run requires the :math:`B'` edge-state inversion and the
+   per-species blowing map to be finalised. It should be regarded
+   as a preview capability.
+
 .. [Lord1991wa] R. G. Lord, "Some extensions to the
    Cercignani-Lampis gas-surface scattering kernel," *Physics
    of Fluids A*, **3** (4), 706–710 (1991).
+.. [Park1976gsi] C. Park, "Effects of atomic oxygen on graphite
+   ablation," *AIAA Journal*, **14** (11), 1640–1642 (1976).
+.. [ZhluktovAbe1999] S. V. Zhluktov and T. Abe, "Viscous shock-
+   layer simulation of airflow past ablating blunt body with
+   carbon surface," *Journal of Thermophysics and Heat Transfer*,
+   **13** (1), 50–59 (1999).
+.. [Stewart1997] D. A. Stewart, "Surface catalytic efficiency of
+   advanced carbon-carbon candidate thermal protection materials,"
+   NASA TM-112206 (1997).
+.. [Scott1983] C. D. Scott, "Catalytic recombination of nitrogen
+   and oxygen on high-temperature reusable surface insulation," in
+   *Aerothermodynamics and Planetary Entry*, Progress in
+   Astronautics and Aeronautics **82**, 273–289 (1983).

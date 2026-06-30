@@ -5,11 +5,12 @@ The present guide combines user-facing and developer-facing
 material in a single, continuous reading order. We begin by
 installing the full tool-chain —  from OpenFOAM itself through to
 the rovibronic extension —  run the reference case, and work our
-way down into the dictionaries, the post-processing workflow, the
-source-tree architecture, and the conventions to follow when
-adding a new species, reaction, or relaxation sub-model. The guide
-closes with the planned regression-test framework, which we intend
-to tie into every rebuild of the solver.
+way down into the dictionaries, the supported planetary
+atmospheres, the post-processing workflow, the source-tree
+architecture, and the conventions to follow when adding a new
+species, reaction, or relaxation sub-model. The guide closes with
+the manufactured golden-value regression suite that gates every
+rebuild of the solver.
 
 .. toctree::
    :maxdepth: 2
@@ -17,6 +18,7 @@ to tie into every rebuild of the solver.
    installation
    running
    input_reference
+   planetary_atmospheres
    post_processing
    architecture
    adding_a_feature

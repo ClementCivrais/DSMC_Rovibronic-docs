@@ -165,6 +165,83 @@ corresponding mode and is used as a diagnostic during the
 phase-by-phase validation protocol (see
 :doc:`../reference/validation`).
 
+In addition to the three composite collision numbers, the
+collision-model coefficients sub-dictionary (named
+``<Model>Coeffs`` or, in the relaxation cases, ``collisionProperties``)
+accepts an optional fourth, pure-vibrational collision number and a
+set of keys that switch the constant vibrational collision number
+for a temperature- and partner-dependent :math:`Z_v(T)`.
+
+Vibrational-relaxation model
+````````````````````````````
+
+.. list-table::
+   :header-rows: 1
+   :widths: 32 14 18 36
+
+   * - Key
+     - Type
+     - Example
+     - Role
+   * - ``vibrationalRelaxationCollisionNumber``
+     - scalar
+     - ``5``
+     - Constant collision number for the pure-vibrational (V-T)
+       window channel. Defaults to a very large value (channel
+       off).
+   * - ``vibrationalRelaxationModel``
+     - word
+     - ``valentini``
+     - ``constant`` (legacy constant :math:`Z_v`),
+       ``millikanWhite`` or ``valentini`` (temperature-dependent
+       :math:`Z_v(T)`; ``valentini`` additionally consults the
+       per-pair table). If absent, :math:`Z_v(T)` is auto-enabled
+       when ``vibB1`` > 0.
+   * - ``vibrationalRelaxationChannel``
+     - word
+     - ``pureVib``
+     - ``rovib`` (default) routes :math:`Z_v(T)` to the
+       rovibrational :math:`(v,J)` channel; ``pureVib`` routes it
+       to the pure-vibrational :math:`v`-only channel.
+   * - ``vibB1``, ``vibB2``, ``vibTHT``
+     - scalar
+     - ``30700``, ``0``, ``50000``
+     - Global generalised-Millikan-White constants
+       :math:`(B_1, B_2)` and the Park high-temperature limiter
+       temperature :math:`T_{\mathrm{HT}}` (default 30000 K). See
+       :doc:`../theory/relaxation`.
+   * - ``vibrationalRelaxationData``
+     - dict
+     - see below
+     - Per-pair :math:`(B_1, B_2, T_{\mathrm{HT}})` overrides,
+       nested by vibrating species then collision partner.
+
+The per-pair table is keyed by the vibrating species and then by
+the collision partner (both must be members of ``typeIdList``); a
+per-relaxer ``default`` block sets all partners of a vibrator, and
+explicit partner blocks override individual pairs:
+
+.. code-block:: cpp
+
+   collisionProperties
+   {
+       Tref                                    1000;
+       vibrationalRelaxationModel              valentini;  // partner-dependent
+       vibrationalRelaxationChannel            pureVib;    // Z_v(T) -> v-only
+       vibrationalRelaxationCollisionNumber    1e30;       // overridden by Z_v(T)
+       vibTHT                                  50000;
+
+       vibrationalRelaxationData
+       {
+           N2
+           {
+               N2 { B1 30700; B2 0; THT 50000; }   // N2-N2 slow
+               O  { B1 6140;  B2 0; THT 50000; }   // N2-O  fast
+               Ar { B1 30700; B2 0; THT 50000; }   // N2-Ar slow
+           }
+       }
+   }
+
 ``rovibronicDatabase`` sub-dictionary
 `````````````````````````````````````
 
@@ -275,6 +352,12 @@ The following patch classes are implemented in
        re-sampled on diffuse reflection using the wall temperature.
    * - ``dsmcCLLWallPatch``
      - Cercignani-Lampis-Lord scattering model.
+   * - ``dsmcCatalyticWallPatch``,
+       ``dsmcAblatingWallPatch``,
+       ``dsmcCoverageWallPatch``
+     - Reactive gas-surface-interaction walls (catalysis,
+       ablation, coverage chemistry). See the surface-chemistry
+       section below.
    * - ``dsmcDeletionPatch``
      - Particle sink (outflow or selective deletion).
    * - ``dsmcFreeStreamInflowPatch``
@@ -315,6 +398,76 @@ on an input ionisation potential, remains a user-facing parameter.
 
 A detailed description of each reaction model is given in
 :doc:`../theory/chemistry`.
+
+Gas-surface interaction dictionaries
+------------------------------------
+
+The reactive walls (``dsmcCatalyticWallPatch``,
+``dsmcAblatingWallPatch``, ``dsmcCoverageWallPatch``) read their
+surface reactions either inline or by name against a central
+``system/surfaceChemReactDict``, which carries ``surfaceReactions``
+and ``surfaceMaterials`` blocks. A finite-rate reaction has the
+generalised-Arrhenius probability
+:math:`\beta = \min(1, A\,T_w^{n}\,e^{-T_a/T_w})`; a recombination
+reaction has a constant, Arrhenius or tabulated :math:`\gamma`:
+
+.. code-block:: cpp
+
+   surfaceReactions
+   {
+       oxidiseO   { type srFiniteRate; reactant O;  product CO;
+                    A 0.63; n 0.0; Ta 1160.0;
+                    nCConsumed 1; nReactantConsumed 1; }
+       boudouard  { type srFiniteRate; reactant CO2; product CO;
+                    secondaryProduct CO; A 0.9; n 0.0; Ta 0.0;
+                    nCConsumed 1; nReactantConsumed 1; }
+       recombineO { type srRecombination; reactant O; product O2;
+                    gamma 0.07; }
+   }
+   surfaceMaterials
+   {
+       graphite { solidDensity 1800; carbonMass 1.994e-26;
+                  siteDensity 1e19; }
+   }
+
+The boundary patch then references these reactions by name:
+
+.. code-block:: cpp
+
+   boundaryModel dsmcAblatingWallPatch;
+   dsmcAblatingWallPatchProperties
+   {
+       temperature 2000;
+       velocity    (0 0 0);
+       material    graphite;
+       reactions   ( oxidiseO oxidiseO2 boudouard recombineO );
+   }
+
+Geometric surface recession (the immersed level-set of
+:doc:`../theory/wall_models`) is enabled by an
+``immersedAblationProperties`` sub-dictionary in
+``constant/dsmcProperties``. Its principal keys are the surface
+specification (``shape`` plane/sphere/cylinder with ``point`` /
+``normal`` or ``centre`` / ``radius``, **or** ``stlFile`` for an
+arbitrary triangulated geometry), the reaction (``gamma`` / ``A`` /
+``n`` / ``Ta``, ``reactant``, ``product``), the solid properties
+(``material`` or ``solidDensity`` + ``carbonMass``), and optional
+``radiativeEquilibrium`` + ``emissivity``, ``sublimation`` +
+``sublimationProducts``, and ``patoCoupling`` switches:
+
+.. code-block:: cpp
+
+   immersedAblationProperties
+   {
+       stlFile        "constant/triSurface/capsule.stl";
+       temperature    1000;
+       gamma          1.0;
+       solidDensity   50;
+       reactant       O;
+       product        O2;
+       maxPenetration 7e-4;
+       perCellRecession true;
+   }
 
 ``system/controlDict``
 ----------------------

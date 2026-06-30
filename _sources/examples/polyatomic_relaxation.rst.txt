@@ -1,0 +1,76 @@
+Polyatomic thermal relaxation (CO\ :sub:`2`)
+============================================
+
+Directory: ``run/0D/CO2_relaxation/``.
+
+A zero-dimensional adiabatic heat-bath case that exercises the
+**multi-mode polyatomic relaxation** of a linear triatomic. Pure
+CO\ :sub:`2` is initialised with a hot translational mode and a
+cold internal state; the rotational and three vibrational modes
+relax toward a single energy-conserving equilibrium temperature.
+
+Theoretical basis
+-----------------
+
+The case rests on two theory pages:
+
+* :doc:`../theory/rovibronic_levels` —  the polyatomic level
+  structure: the linear rigid rotor (:math:`g = 2J+1`), the three
+  vibrational modes of CO\ :sub:`2` (the symmetric stretch
+  :math:`\nu_1`, the doubly-degenerate bend :math:`\nu_2`, the
+  antisymmetric stretch :math:`\nu_3`), and the per-mode anharmonic
+  ladders. Both the ``separable`` and the ``coupled`` (cross-mode
+  :math:`x_{ij}`) treatments are available, and companion cases
+  (``CO2sep_*``, ``CO2coupled_*``, ``CO2harm``) isolate each.
+* :doc:`../theory/relaxation` —  the parallel-marginal cascade and
+  the Larsen-Borgnakke kernel that drives the internal modes toward
+  the bath temperature.
+
+Validation goals
+----------------
+
+#. **Energy-conserving equilibrium.** The final state must satisfy
+   :math:`T_{\mathrm{trans}} \approx T_{\mathrm{int}} \approx
+   T_{\mathrm{eq}}`, with :math:`T_{\mathrm{eq}}` the temperature at
+   which translational and full internal energy are partitioned at
+   equilibrium. The regression golden value for this case is
+   :math:`T_{\mathrm{eq}} = 1885~\mathrm{K}`.
+#. **Detailed balance.** Started from
+   :math:`T_{\mathrm{trans}} = T_{\mathrm{int}}` (the companion
+   ``CO2_detbal`` case), the temperatures must not drift.
+#. **Mode accounting.** The recovered effective vibrational DOF
+   must reflect the full :math:`3N - 5 = 4` mode count, including
+   the degeneracy of the bend.
+
+Case parameters
+---------------
+
+* Species: CO\ :sub:`2` (``typeIdList (CO2);``).
+* Number density: :math:`6.0\times10^{22}~\mathrm{m}^{-3}`.
+* Translational temperature: :math:`6000~\mathrm{K}`.
+* Internal temperature at :math:`t = 0`: :math:`300~\mathrm{K}`.
+* Total integration: :math:`4\times10^{-6}~\mathrm{s}`.
+
+Running the case
+----------------
+
+.. code-block:: bash
+
+   cd run/0D/CO2_relaxation
+   blockMesh
+   dsmcInitialise
+   dsmcFoam
+
+Expected results
+----------------
+
+The translational temperature falls and the internal temperature
+rises until both meet at :math:`T_{\mathrm{eq}} \approx
+1885~\mathrm{K}`; total energy is conserved throughout. Switching
+``vibrationalCoupling`` between ``separable`` and ``coupled`` in
+``moleculeProperties`` shifts the equilibrium internal energy by
+the cross-anharmonicity contribution, which the ``CO2coupled_*``
+cases quantify. The relaxation of the eight polyatomic species
+(CO\ :sub:`2`, CH\ :sub:`4`, H\ :sub:`2`\ O, CH\ :sub:`3`,
+NH\ :sub:`3`, O\ :sub:`3`, N\ :sub:`2`\ O, HCN) is gated by the
+``A.relax`` group of the :doc:`../guide/regression_tests`.

@@ -29,6 +29,69 @@ Foundational DSMC literature
   models to polyatomic species," *Physics of Fluids*, **28**,
   027103 (2016).
 
+Polyatomic, relaxation and gas-surface modelling
+------------------------------------------------
+
+References supporting the polyatomic-species, four-channel
+relaxation, planetary-atmosphere and gas-surface-interaction
+extensions added in the current development cycle. Copies of the
+external references are distributed under ``docs/References/``.
+
+* P. Nizenkov, M. Pfeiffer, A. Mirza, and S. Fasoulas, "Modeling
+  of chemical reactions between polyatomic molecules for
+  atmospheric entry simulations with direct simulation Monte
+  Carlo," *Physics of Fluids*, **29**, 077104 (2017).
+* D. S. Liechty, "Direct Simulation Monte Carlo short course,"
+  *Thermal & Fluids Analysis Workshop (TFAWS)* (2025). Copy:
+  ``docs/References/Liechty - TFAWS25 DSMC Short Course
+  Final.pptx``.
+* R. C. Millikan and D. R. White, "Systematics of vibrational
+  relaxation," *Journal of Chemical Physics*, **39** (12),
+  3209–3213 (1963).
+* C. Park, "Assessment of two-temperature kinetic model for
+  ionizing air," *Journal of Thermophysics and Heat Transfer*,
+  **3** (3), 233–244 (1989).
+* R. D. Eckert and M. A. Gallis, "Borgnakke-Larsen relaxation from
+  the collision invariants," *Physics of Fluids*, **34**, 066118
+  (2022).
+* P. Valentini et al., "Partner-dependent vibrational relaxation
+  from direct molecular simulation," *Acta Astronautica*, **248**
+  (2026). Copy: ``docs/References/Valentini (2026).pdf``.
+* D. L. Baulch et al., "Evaluated kinetic data for combustion
+  modeling: Supplement II," *Journal of Physical and Chemical
+  Reference Data*, **34** (3), 757–1397 (2005).
+* F. Bergemann and I. D. Boyd, "DSMC simulation of inelastic
+  collisions using the Borgnakke-Larsen method extended to discrete
+  distributions of vibrational energy," in *Rarefied Gas Dynamics
+  18*, pp. 174–183 (1994).
+* C. Park, "Effects of atomic oxygen on graphite ablation,"
+  *AIAA Journal*, **14** (11), 1640–1642 (1976).
+* S. V. Zhluktov and T. Abe, "Viscous shock-layer simulation of
+  airflow past ablating blunt body with carbon surface," *Journal
+  of Thermophysics and Heat Transfer*, **13** (1), 50–59 (1999).
+* D. A. Stewart, "Surface catalytic efficiency of advanced
+  carbon-carbon candidate thermal protection materials," NASA
+  TM-112206 (1997).
+* C. D. Scott, "Catalytic recombination of nitrogen and oxygen on
+  high-temperature reusable surface insulation," *Progress in
+  Astronautics and Aeronautics*, **82**, 273–289 (1983).
+* K. J. Higdon, B. A. Cruden, A. M. Brandis, D. S. Liechty,
+  D. B. Goldstein, and P. L. Varghese, "Direct simulation Monte
+  Carlo shock simulation of Saturn entry probe conditions,"
+  *Journal of Thermophysics and Heat Transfer*, **32** (3),
+  680–690 (2018). Copy:
+  ``docs/References/Higdon (2018) - Saturn.pdf``.
+* J. Beyer, P. Nizenkov, and M. Pfeiffer, Titan-entry
+  non-equilibrium radiation studies (2017, 2024). Copies:
+  ``docs/References/Beyer and Pfeiffer (2017) - Titan entry.pdf``,
+  ``docs/References/Beyer and Pfeiffer (2024) - Titan entry.pdf``.
+* Narracci et al., Titan-atmosphere entry study (2026). Copy:
+  ``docs/References/Narracci (2026) Titan atmosphere.pdf``.
+* C. Park, "Review of chemical-kinetic problems of future NASA
+  missions, I: Earth entries," and "...II: Mars entries,"
+  *Journal of Thermophysics and Heat Transfer*, **8** (1), 9–23
+  (1994).
+
 The dsmcFoam+ lineage
 ---------------------
 

@@ -135,21 +135,111 @@ typical of atomic emission observations. Setting it to
 useful diagnostically, but physically justified only in short
 transient cases.
 
+Temperature-dependent, partner-dependent vibrational :math:`Z_v(T)`
+-------------------------------------------------------------------
+
+The constant relaxation collision numbers above can be replaced by
+a **temperature-dependent vibrational collision number**
+:math:`Z_v(T)`, evaluated per collision in a generalised
+Millikan-White form with a Park high-temperature limiter. The
+effective temperature entering the correlation is reconstructed,
+per collision, from the collision invariants (the detailed-balance
+choice of Eckert and Gallis [EckertGallis2022]_),
+
+.. math::
+
+   T = \frac{E_{\mathrm{trans}} + E_{\mathrm{mode}}}
+            {k_B\,\xi}, \qquad
+   \xi = \max\!\left(\tfrac{5}{2} - \omega + \zeta_{\mathrm{mode}},\;
+                     \epsilon\right),
+
+and the collision number is
+
+.. math::
+
+   Z_v(T) = \frac{B_1}{T^{\omega}}\,
+            \exp\!\left(\frac{B_2}{T^{1/3}}\right)
+          + \frac{B_1}{T_{\mathrm{HT}}^{\omega}}\,
+            \exp\!\left(\frac{B_2}{T_{\mathrm{HT}}^{1/3}}\right).
+
+The first term is the Millikan-White correlation
+[MillikanWhite1963rel]_ written directly as a collision number with
+calibration constants :math:`(B_1, B_2)`; the second term is the
+Park high-temperature floor [Park1989rel]_ —  the same expression
+frozen at the limiting temperature :math:`T_{\mathrm{HT}}`, which
+prevents the Millikan-White exponential from collapsing
+:math:`Z_v` to unphysically small values above :math:`10^{4}~`K.
+The global defaults :math:`(B_1, B_2, T_{\mathrm{HT}})` are read
+from the keys ``vibB1``, ``vibB2`` and ``vibTHT`` in
+``collisionProperties``; if ``vibB1`` is left at zero the channel
+returns an effectively infinite :math:`Z_v` and remains inert.
+
+**Partner dependence.** Because the Millikan-White constants depend
+on the reduced mass and the interaction of the colliding pair, the
+same vibrator relaxes at very different rates against different
+partners (for instance N\ :sub:`2` relaxes several times faster
+against atomic O than against Ar). Following Valentini
+[Valentini2026]_, the solver therefore allows a per-pair table of
+:math:`(B_1, B_2, T_{\mathrm{HT}})`, supplied as the nested
+sub-dictionary ``vibrationalRelaxationData`` keyed by the vibrating
+species :math:`P` and its collision partner :math:`Q`. Each pair is
+first initialised to the global defaults; a per-relaxer ``default``
+block then overrides all partners of a given vibrator, and explicit
+partner blocks override individual pairs. A single-pair calibration
+with no overrides reproduces the global behaviour exactly.
+
+**Model and channel selectors.** Two keys in
+``collisionProperties`` control the model:
+
+* ``vibrationalRelaxationModel`` —  ``constant`` keeps the legacy
+  constant collision number; ``millikanWhite`` and ``valentini``
+  activate the temperature-dependent :math:`Z_v(T)` above (the
+  ``valentini`` value additionally consults the per-pair table). If
+  the key is absent, :math:`Z_v(T)` is auto-enabled whenever
+  ``vibB1`` is positive.
+* ``vibrationalRelaxationChannel`` —  ``rovib`` (default) routes
+  :math:`Z_v(T)` to the rovibrational :math:`(v, J)` channel and
+  reproduces the prior behaviour byte for byte; ``pureVib`` routes
+  it to the pure-vibrational :math:`v`-only (V-T) channel, leaving
+  the rovibrational channel on its constant collision number.
+  Routing :math:`Z_v(T)` to exactly one of the two mutually
+  exclusive channels avoids double-counting the V-T rate.
+
+The pure-vibrational channel and the partner-dependent
+:math:`Z_v(T)` are exercised by the verification cases under
+``run/0D/`` —  ``N2_pureVT_relax`` (rotation frozen, pure V-T
+relaxation), ``N2_pureVT_detbal`` (V-T detailed balance), and the
+``N2O_pureVT_valentini`` / ``N2Ar_pureVT_valentini`` pair, which
+confirm the partner-dependent rate ratio.
+
 Composite modes in the parallel-marginal cascade
 -------------------------------------------------
 
 Rather than redistributing energy independently between each
 internal mode and the translational pool, the solver groups the
-relaxation events into three composite modes organised by the
+relaxation events into four composite modes organised by the
 sub-space of the rovibronic state that they sample:
 
 * mode :math:`R` (rotational-only) samples :math:`J` at fixed
   :math:`(n, v)`; the mode energy is measured relative to the
   floor :math:`E_R^{\mathrm{floor}} = E(n, v, 0)`;
+* mode :math:`V` (pure-vibrational, V-T) samples :math:`v` at
+  fixed :math:`(n, J)`; this is the genuine vibration-translation
+  channel, isolated from rotation, and is the natural target of
+  the Millikan-White vibrational relaxation time;
 * mode :math:`RV` (rovibrational) samples :math:`(v, J)` at fixed
   :math:`n`; floor :math:`E_{RV}^{\mathrm{floor}} = E(n, 0, 0)`;
 * mode :math:`RVE` (rovibronic) samples :math:`(n, v, J)` on the
   full table; floor :math:`E_{RVE}^{\mathrm{floor}} = 0`.
+
+The pure-vibrational channel is switched off by default (its
+collision number is initialised to a very large value) and becomes
+active only when a ``vibrationalRelaxationCollisionNumber`` is
+supplied, or when a temperature-dependent :math:`Z_v(T)` is routed
+to it (see below). The two routes —  the pure-vibrational
+:math:`v`-only channel and the rovibrational :math:`(v, J)` channel
+—  are mutually exclusive window events, so vibrational energy is
+never double-counted.
 
 Each composite mode carries its own effective degrees of
 freedom, computed from the sub-space partition function,
@@ -166,25 +256,30 @@ Event selection
 ---------------
 
 On each accepted collision the solver draws a single uniform
-:math:`R \sim \mathcal{U}(0, 1)` and selects one of four
-**mutually exclusive** events:
+:math:`R \sim \mathcal{U}(0, 1)` and selects one of five
+**mutually exclusive** events from the cumulative marginals:
 
 .. math::
 
    \begin{aligned}
    P_1 &= \frac{1}{Z_r\,C_r}, \\
+   P_v &= \frac{1}{Z_v\,C_v}, \\
    P_2 &= \frac{1}{Z_{rv}\,C_{rv}}, \\
    P_3 &= \frac{1}{Z_{rve}\,C_{rve}}, \\
-   P_0 &= 1 - P_1 - P_2 - P_3,
+   P_0 &= 1 - P_1 - P_v - P_2 - P_3,
    \end{aligned}
 
-where event :math:`E_k` (for :math:`k = 1, 2, 3`) triggers
-Larsen-Borgnakke sampling in the corresponding composite mode,
-and :math:`E_0` leaves the internal state unchanged (elastic-like
-event). When :math:`P_1 + P_2 + P_3 > 1` the probabilities are
-rescaled to saturate, and a warning is emitted in the solver log:
-the effective collision numbers seen by the simulation then
-differ from the input values.
+where event :math:`E_1` triggers rotational-only sampling,
+:math:`E_v` pure-vibrational (V-T) sampling, :math:`E_2`
+rovibrational sampling, :math:`E_3` rovibronic sampling, and
+:math:`E_0` leaves the internal state unchanged (elastic-like
+event). The window is evaluated as
+:math:`E_1 : R < P_1`,
+:math:`E_v : P_1 \le R < P_1 + P_v`, and so on. When
+:math:`P_1 + P_v + P_2 + P_3 > 1` the four probabilities are
+uniformly rescaled to saturate, and a warning is emitted in the
+solver log: the effective collision numbers seen by the simulation
+then differ from the input values.
 
 Nizenkov correction
 -------------------
@@ -334,6 +429,17 @@ collision energy.
 .. [MillikanWhite1963rel] R. C. Millikan and D. R. White,
    "Systematics of vibrational relaxation," *Journal of Chemical
    Physics*, **39** (12), 3209–3213 (1963).
+.. [Park1989rel] C. Park, "Assessment of two-temperature kinetic
+   model for ionizing air," *Journal of Thermophysics and Heat
+   Transfer*, **3** (3), 233–244 (1989). High-temperature
+   vibrational-relaxation correction.
+.. [EckertGallis2022] R. D. Eckert and M. A. Gallis, "..." (2022);
+   per-collision relaxation temperature from the collision
+   invariants, *Physics of Fluids*, **34**, 066118 (2022).
+.. [Valentini2026] P. Valentini et al., "Partner-dependent
+   vibrational relaxation from molecular dynamics / direct
+   molecular simulation," *Acta Astronautica*, **248** (2026).
+   Copy: ``docs/References/Valentini (2026).pdf``.
 .. [Pfeiffer2016rel] M. Pfeiffer and P. Nizenkov, "Extension of
    particle-based BGK models to polyatomic species in hypersonic
    flow," *Physics of Fluids*, **28**, 027103 (2016).

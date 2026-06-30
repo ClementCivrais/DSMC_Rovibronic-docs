@@ -1,0 +1,114 @@
+Planetary atmospheres
+=====================
+
+The rovibronic extension is built for hypersonic entry into a range
+of planetary atmospheres. Atmosphere support is realised in three
+layers: the spectroscopic and collision **database** (species), the
+zero-dimensional gas-phase **chemistry and relaxation** cases under
+``run/0D/``, and the per-atmosphere reactive **walls** under
+``run/GSI/``. The present page collects, atmosphere by atmosphere,
+the species set and the principal chemistry, and documents the
+H\ :sub:`2`/He kinetics that make Saturn entry a distinct case.
+
+Per-atmosphere overview
+-----------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 16 30 38 16
+
+   * - Atmosphere
+     - Principal species
+     - Key gas-phase chemistry
+     - GSI case
+   * - Earth (air)
+     - N\ :sub:`2`, O\ :sub:`2`, NO, O, N (+ first ions)
+     - N\ :sub:`2`/O\ :sub:`2` dissociation, Zeldovich exchange
+       N\ :sub:`2` + O → NO + N, dissociation-ionisation.
+     - ``earthAblation``
+   * - Mars (CO\ :sub:`2`)
+     - CO\ :sub:`2`, CO, O, O\ :sub:`2`, C (+ N\ :sub:`2`, N)
+     - CO\ :sub:`2` dissociation (Park), CO\ :sub:`2` + O ↔ CO +
+       O\ :sub:`2` exchange; backward via :math:`K_{\mathrm{eq}}`.
+     - ``marsAblation``
+   * - Venus (CO\ :sub:`2`/N\ :sub:`2`)
+     - CO\ :sub:`2`, CO, O, N\ :sub:`2`, N
+     - reuses the Mars CO\ :sub:`2` set and the Earth N\ :sub:`2`
+       set; sulfur chemistry is a roadmap item.
+     - —
+   * - Titan (N\ :sub:`2`/CH\ :sub:`4`)
+     - N\ :sub:`2`, CH\ :sub:`4`, CH\ :sub:`3`, CH\ :sub:`2`,
+       CH, C, H, HCN, CN
+     - methane pyrolysis chain CH\ :sub:`4` → CH\ :sub:`3` →
+       CH\ :sub:`2` → CH → C; nitridation.
+     - ``titanAblation``
+   * - Saturn (H\ :sub:`2`/He)
+     - H\ :sub:`2`, H, He
+     - H\ :sub:`2` dissociation (Higdon), constant
+       :math:`Z_{\mathrm{rot}} = 174`, H\ :sub:`2` V-T relaxation.
+     - —
+
+The Earth, Mars and Titan gas-phase chemistries are exercised by
+the verification cases of :doc:`../examples/index` and the
+regression suite (:doc:`regression_tests`).
+
+Saturn H\ :sub:`2`/He kinetics
+------------------------------
+
+Hydrogen-dominated entry (Saturn, Jupiter, ice-giant probes)
+requires three departures from air chemistry. They are configured
+per-case in ``constant/dsmcProperties`` so that the global database
+is unaffected (the ``run/0D/Saturn_H2_*`` cases).
+
+**Dissociation rate (Higdon 2018).** The neutral H\ :sub:`2`
+dissociation channels are taken from Higdon et al.
+[Higdon2018]_ in the Arrhenius form
+:math:`k(T) = A\,T^{\eta}\exp(-T_a/T)`, with the bond energy
+:math:`D_0 = 4.478~\mathrm{eV}` (:math:`T_a = 51958~\mathrm{K}`):
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 30 15
+
+   * - Reaction
+     - :math:`A`  [m\ :sup:`3`/s]
+     - :math:`\eta`
+   * - H\ :sub:`2` + H\ :sub:`2` → 2H + H\ :sub:`2`
+     - :math:`1.727\times10^{-11}`
+     - :math:`-1.0`
+   * - H\ :sub:`2` + H → 2H + H
+     - :math:`1.386\times10^{-10}`
+     - :math:`-1.0`
+   * - H\ :sub:`2` + He → 2H + He
+     - :math:`6.924\times10^{-12}`
+     - :math:`-1.0`
+
+**Constant rotational collision number.** Because H\ :sub:`2` is
+extremely light, its rotational quantum spacing is large
+(:math:`\theta_{\mathrm{rot}} \approx 87.6~\mathrm{K}`), and its
+rotational relaxation does *not* follow Parker's temperature-
+dependent law. Higdon fits a single constant
+:math:`Z_{\mathrm{rot}} = 174`, which is set as
+``rotationalRelaxationCollisionNumber 174`` in the Saturn cases.
+
+**H\ :sub:`2` vibrational relaxation.** The Millikan-White
+constants for the dominant H\ :sub:`2`-H\ :sub:`2` pair (Higdon
+Table 2) are mapped to the generalised :math:`Z_v(T)` form of
+:doc:`../theory/relaxation` (``vibrationalRelaxationModel
+valentini``, with ``vibB1`` :math:`\approx 1.52\times10^{4}`,
+``vibB2`` :math:`\approx 150`, ``vibTHT`` 50000), reproducing the
+reference relaxation time to within :math:`\sim\!12\%` over
+3000–20000 K.
+
+**Pair-specific VHS.** The variable-hard-sphere diameters and
+viscosity exponents for H\ :sub:`2`, H and He are taken from Higdon
+Table 1 (:math:`T_{\mathrm{ref}} = 1000~\mathrm{K}`) and supplied
+through per-species ``moleculeProperties`` overrides; unlike pairs
+use the standard arithmetic-mean averaging rule.
+
+.. [Higdon2018] K. J. Higdon, B. A. Cruden, A. M. Brandis,
+   D. S. Liechty, D. B. Goldstein, and P. L. Varghese, "Direct
+   simulation Monte Carlo shock simulation of Saturn entry probe
+   conditions," *Journal of Thermophysics and Heat Transfer*,
+   **32** (3), 680–690 (2018). Copy:
+   ``docs/References/Higdon (2018) - Saturn.pdf``.
