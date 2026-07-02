@@ -305,6 +305,20 @@ Landau-Teller solution; with them in place, the ratio
 percent on the validation cases. A derivation of
 :math:`C_k` is given in ``docs/derivations/LT_Correction_MultiMode.pdf``.
 
+Each channel carries its **own** correction, built per cell from
+that channel's conditional manifold: :math:`C_r` from the
+:math:`J`-ladder at fixed :math:`(n, v)`, :math:`C_v` from the
+:math:`v`-ladder at fixed :math:`(n, J)` (the states the
+pure-vibrational event actually samples), :math:`C_{rv}` from the
+:math:`(v, J)` manifold at fixed :math:`n`, and :math:`C_{rve}`
+from the full spin-allowed :math:`(n, v, J)` manifold. The
+channel temperature :math:`T_k` is inverted from the measured
+per-cell energy of that same conditional manifold. (An earlier
+implementation borrowed the rovibrational :math:`C_{rv}` for the
+pure-vibrational channel; this mis-scaled the constant-:math:`Z_v`
+V-T rate — for the N2 pure-V-T verification case by
+:math:`C_{rv}/C_v \approx 0.72` — and has been fixed.)
+
 Phase-by-phase validation protocol
 ----------------------------------
 

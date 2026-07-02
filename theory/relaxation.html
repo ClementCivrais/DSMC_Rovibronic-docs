@@ -954,6 +954,19 @@ Landau-Teller solution; with them in place, the ratio
 <span class="math notranslate nohighlight">\(Z_{k,\mathrm{fit}}/Z_k\)</span> recovers the input to within a few
 percent on the validation cases. A derivation of
 <span class="math notranslate nohighlight">\(C_k\)</span> is given in <code class="docutils literal notranslate"><span class="pre">docs/derivations/LT_Correction_MultiMode.pdf</span></code>.</p>
+<p>Each channel carries its <strong>own</strong> correction, built per cell from
+that channel’s conditional manifold: <span class="math notranslate nohighlight">\(C_r\)</span> from the
+<span class="math notranslate nohighlight">\(J\)</span>-ladder at fixed <span class="math notranslate nohighlight">\((n, v)\)</span>, <span class="math notranslate nohighlight">\(C_v\)</span> from the
+<span class="math notranslate nohighlight">\(v\)</span>-ladder at fixed <span class="math notranslate nohighlight">\((n, J)\)</span> (the states the
+pure-vibrational event actually samples), <span class="math notranslate nohighlight">\(C_{rv}\)</span> from the
+<span class="math notranslate nohighlight">\((v, J)\)</span> manifold at fixed <span class="math notranslate nohighlight">\(n\)</span>, and <span class="math notranslate nohighlight">\(C_{rve}\)</span>
+from the full spin-allowed <span class="math notranslate nohighlight">\((n, v, J)\)</span> manifold. The
+channel temperature <span class="math notranslate nohighlight">\(T_k\)</span> is inverted from the measured
+per-cell energy of that same conditional manifold. (An earlier
+implementation borrowed the rovibrational <span class="math notranslate nohighlight">\(C_{rv}\)</span> for the
+pure-vibrational channel; this mis-scaled the constant-<span class="math notranslate nohighlight">\(Z_v\)</span>
+V-T rate — for the N2 pure-V-T verification case by
+<span class="math notranslate nohighlight">\(C_{rv}/C_v \approx 0.72\)</span> — and has been fixed.)</p>
 </section>
 <section id="phase-by-phase-validation-protocol">
 <h2>Phase-by-phase validation protocol<a class="headerlink" href="#phase-by-phase-validation-protocol" title="Link to this heading"></a></h2>
