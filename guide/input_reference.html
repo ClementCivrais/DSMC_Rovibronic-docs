@@ -923,6 +923,30 @@ when <code class="docutils literal notranslate"><span class="pre">vibB1</span></
 rovibrational <span class="math notranslate nohighlight">\((v,J)\)</span> channel; <code class="docutils literal notranslate"><span class="pre">pureVib</span></code> routes it
 to the pure-vibrational <span class="math notranslate nohighlight">\(v\)</span>-only channel.</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">vibrationalSamplingMethod</span></code></p></td>
+<td><p>word</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">metropolisHastings</span></code></p></td>
+<td><p>Sampler for the joint multi-mode vibrational state of
+POLYATOMIC molecules (Pfeiffer et al., Phys. Fluids 28,
+027103 (2016), Sec. III).  <code class="docutils literal notranslate"><span class="pre">acceptanceRejection</span></code>
+(default) keeps the joint acceptance-rejection kernel;
+<code class="docutils literal notranslate"><span class="pre">metropolisHastings</span></code> switches the nonreactive vib
+channel and the post-reaction product redistribution to
+the random-walk Metropolis chain (paper Eqs. 31-32),
+whose cost grows linearly with the number of modes —
+recommended for many-mode species such as CH<sub>4</sub>.
+Both samplers target the identical distribution (verified
+to detailed balance); diatomics are unaffected. See
+<code class="docutils literal notranslate"><span class="pre">docs/verification/pfeiffer2016_relaxation_conformance.md</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">metropolisWalkLength</span></code></p></td>
+<td><p>label</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">500</span></code></p></td>
+<td><p>Random-walk length <span class="math notranslate nohighlight">\(N_M\)</span> of the Metropolis chain
+(default 500, the paper’s recommendation; CO<sub>2</sub>
+needs <span class="math notranslate nohighlight">\(\geq 500\)</span>, CH<sub>4</sub> is insensitive down
+to 100).</p></td>
+</tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">vibB1</span></code>, <code class="docutils literal notranslate"><span class="pre">vibB2</span></code>, <code class="docutils literal notranslate"><span class="pre">vibTHT</span></code></p></td>
 <td><p>scalar</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">30700</span></code>, <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">50000</span></code></p></td>
@@ -1020,6 +1044,16 @@ whole-domain option);</p></li>
 temperature for the particle velocities;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">internalTemperature</span></code> —  Boltzmann sampling temperature
 used for the rovibronic state indices <span class="math notranslate nohighlight">\((n, v, J)\)</span>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rotationalTemperature</span></code> / <code class="docutils literal notranslate"><span class="pre">vibrationalTemperature</span></code>
+(optional, <code class="docutils literal notranslate"><span class="pre">dsmcMeshFill</span></code> only) —  SPLIT internal
+temperatures for two-temperature reservoir setups
+(<span class="math notranslate nohighlight">\(T_R \neq T_V\)</span>); both default to
+<code class="docutils literal notranslate"><span class="pre">internalTemperature</span></code>.  Currently implemented for
+polyatomic species (rotation + electronic sampled at
+<span class="math notranslate nohighlight">\(T_R\)</span>, the joint vibrational state at <span class="math notranslate nohighlight">\(T_V\)</span>);
+requesting a split for a diatomic is a fatal error.  Used by
+the Pfeiffer et al. 2016 verification reservoirs
+(<code class="docutils literal notranslate"><span class="pre">run/0D/pfeiffer2016_verification</span></code>);</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> —  bulk flow velocity (vector).</p></li>
 </ul>
 </li>
@@ -1129,6 +1163,33 @@ to be supplied by the user. Only the ionisation heat, which depends
 on an input ionisation potential, remains a user-facing parameter.</p>
 <p>A detailed description of each reaction model is given in
 <a class="reference internal" href="../theory/chemistry.html"><span class="doc">Neutral chemistry</span></a>.</p>
+<p>For local-mode (HCAO) polyatomic species — database entries with
+<code class="docutils literal notranslate"><span class="pre">vibModeBasis</span> <span class="pre">localMode</span></code>, e.g. <code class="docutils literal notranslate"><span class="pre">H2O_HCAO</span></code>, <code class="docutils literal notranslate"><span class="pre">HCN_HCAO</span></code>,
+<code class="docutils literal notranslate"><span class="pre">CH4_HCAO</span></code>, <code class="docutils literal notranslate"><span class="pre">CH3_HCAO</span></code> — the channel-specific reaction models of
+Lauterbach, Tuttas &amp; Pfeiffer (2026) are available:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">polyDissociationQKHCAO</span></code> — one dissociation channel per local
+stretching mode (paper Eqs. 19–22).  Keys: <code class="docutils literal notranslate"><span class="pre">reactants</span> <span class="pre">(A</span> <span class="pre">M)</span></code>, a
+<code class="docutils literal notranslate"><span class="pre">channels</span></code> sub-dictionary with one named block per breaking bond
+carrying <code class="docutils literal notranslate"><span class="pre">stretchMode</span></code> (0-based mode index), <code class="docutils literal notranslate"><span class="pre">productMolecule</span></code>,
+<code class="docutils literal notranslate"><span class="pre">productAtom</span></code> and <code class="docutils literal notranslate"><span class="pre">formationEnergy</span></code> (<span class="math notranslate nohighlight">\(-D_{0,j}\)</span> [J]);
+optional <code class="docutils literal notranslate"><span class="pre">rotationCouplingGamma</span></code> (paper Eq. 36, default 0).
+Competing open channels are drawn weighted by their excess energy.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">polyExchangeQK</span></code> — mode-coupled QK exchange (paper Eqs. 23–26).
+Keys: <code class="docutils literal notranslate"><span class="pre">productsOfExchangeReaction</span> <span class="pre">(C</span> <span class="pre">D)</span></code>, <code class="docutils literal notranslate"><span class="pre">activationEnergy</span></code>
+(the <em>energetic</em> barrier <span class="math notranslate nohighlight">\(E_a\)</span> [J], not an Arrhenius fit),
+<code class="docutils literal notranslate"><span class="pre">modeCouplingAlpha</span></code> (per-mode <span class="math notranslate nohighlight">\(\alpha_j\)</span> list, one entry
+broadcasts), optional <code class="docutils literal notranslate"><span class="pre">stericFactor</span></code> (<span class="math notranslate nohighlight">\(\sigma\)</span>, default 1),
+<code class="docutils literal notranslate"><span class="pre">formationEnergy</span></code> (0 K reaction energy for the post-reaction
+ledger), optional <code class="docutils literal notranslate"><span class="pre">rotationCouplingGamma</span></code> (Eq. 37, default 0).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">polyRecombinationQK</span></code> / <code class="docutils literal notranslate"><span class="pre">polyRecombinationTCE</span></code> — optional
+<code class="docutils literal notranslate"><span class="pre">thirdBodies</span> <span class="pre">(M1</span> <span class="pre">M2</span> <span class="pre">...)</span></code> replaces the single <code class="docutils literal notranslate"><span class="pre">thirdBody</span></code> when
+the paper’s “M = any species” equilibrium cases are run; the QK
+class additionally accepts <code class="docutils literal notranslate"><span class="pre">manifoldSum</span> <span class="pre">binned</span></code> (exact
+density-of-states convolution, needed for large-manifold species
+such as CH4; default <code class="docutils literal notranslate"><span class="pre">exact</span></code>).</p></li>
+</ul>
+<p>Example cases: <code class="docutils literal notranslate"><span class="pre">run/0D/HCAO_validation</span></code>.</p>
 </section>
 <section id="gas-surface-interaction-dictionaries">
 <h2>Gas-surface interaction dictionaries<a class="headerlink" href="#gas-surface-interaction-dictionaries" title="Link to this heading"></a></h2>

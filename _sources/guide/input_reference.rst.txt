@@ -203,6 +203,28 @@ Vibrational-relaxation model
      - ``rovib`` (default) routes :math:`Z_v(T)` to the
        rovibrational :math:`(v,J)` channel; ``pureVib`` routes it
        to the pure-vibrational :math:`v`-only channel.
+   * - ``vibrationalSamplingMethod``
+     - word
+     - ``metropolisHastings``
+     - Sampler for the joint multi-mode vibrational state of
+       POLYATOMIC molecules (Pfeiffer et al., Phys. Fluids 28,
+       027103 (2016), Sec. III).  ``acceptanceRejection``
+       (default) keeps the joint acceptance-rejection kernel;
+       ``metropolisHastings`` switches the nonreactive vib
+       channel and the post-reaction product redistribution to
+       the random-walk Metropolis chain (paper Eqs. 31-32),
+       whose cost grows linearly with the number of modes —
+       recommended for many-mode species such as CH\ :sub:`4`.
+       Both samplers target the identical distribution (verified
+       to detailed balance); diatomics are unaffected. See
+       ``docs/verification/pfeiffer2016_relaxation_conformance.md``.
+   * - ``metropolisWalkLength``
+     - label
+     - ``500``
+     - Random-walk length :math:`N_M` of the Metropolis chain
+       (default 500, the paper's recommendation; CO\ :sub:`2`
+       needs :math:`\geq 500`, CH\ :sub:`4` is insensitive down
+       to 100).
    * - ``vibB1``, ``vibB2``, ``vibTHT``
      - scalar
      - ``30700``, ``0``, ``50000``
@@ -299,6 +321,16 @@ Specifies the initial particle distribution. The main entries are:
     temperature for the particle velocities;
   * ``internalTemperature`` —  Boltzmann sampling temperature
     used for the rovibronic state indices :math:`(n, v, J)`;
+  * ``rotationalTemperature`` / ``vibrationalTemperature``
+    (optional, ``dsmcMeshFill`` only) —  SPLIT internal
+    temperatures for two-temperature reservoir setups
+    (:math:`T_R \neq T_V`); both default to
+    ``internalTemperature``.  Currently implemented for
+    polyatomic species (rotation + electronic sampled at
+    :math:`T_R`, the joint vibrational state at :math:`T_V`);
+    requesting a split for a diatomic is a fatal error.  Used by
+    the Pfeiffer et al. 2016 verification reservoirs
+    (``run/0D/pfeiffer2016_verification``);
   * ``velocity`` —  bulk flow velocity (vector).
 
 Example:
@@ -398,6 +430,37 @@ on an input ionisation potential, remains a user-facing parameter.
 
 A detailed description of each reaction model is given in
 :doc:`../theory/chemistry`.
+
+HCAO local-mode reaction models
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For local-mode (HCAO) polyatomic species — database entries with
+``vibModeBasis localMode``, e.g. ``H2O_HCAO``, ``HCN_HCAO``,
+``CH4_HCAO``, ``CH3_HCAO`` — the channel-specific reaction models of
+Lauterbach, Tuttas & Pfeiffer (2026) are available:
+
+* ``polyDissociationQKHCAO`` — one dissociation channel per local
+  stretching mode (paper Eqs. 19–22).  Keys: ``reactants (A M)``, a
+  ``channels`` sub-dictionary with one named block per breaking bond
+  carrying ``stretchMode`` (0-based mode index), ``productMolecule``,
+  ``productAtom`` and ``formationEnergy`` (:math:`-D_{0,j}` [J]);
+  optional ``rotationCouplingGamma`` (paper Eq. 36, default 0).
+  Competing open channels are drawn weighted by their excess energy.
+* ``polyExchangeQK`` — mode-coupled QK exchange (paper Eqs. 23–26).
+  Keys: ``productsOfExchangeReaction (C D)``, ``activationEnergy``
+  (the *energetic* barrier :math:`E_a` [J], not an Arrhenius fit),
+  ``modeCouplingAlpha`` (per-mode :math:`\alpha_j` list, one entry
+  broadcasts), optional ``stericFactor`` (:math:`\sigma`, default 1),
+  ``formationEnergy`` (0 K reaction energy for the post-reaction
+  ledger), optional ``rotationCouplingGamma`` (Eq. 37, default 0).
+* ``polyRecombinationQK`` / ``polyRecombinationTCE`` — optional
+  ``thirdBodies (M1 M2 ...)`` replaces the single ``thirdBody`` when
+  the paper's "M = any species" equilibrium cases are run; the QK
+  class additionally accepts ``manifoldSum binned`` (exact
+  density-of-states convolution, needed for large-manifold species
+  such as CH4; default ``exact``).
+
+Example cases: ``run/0D/HCAO_validation``.
 
 Gas-surface interaction dictionaries
 ------------------------------------
