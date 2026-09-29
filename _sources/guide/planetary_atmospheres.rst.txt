@@ -56,9 +56,11 @@ Saturn H\ :sub:`2`/He kinetics
 ------------------------------
 
 Hydrogen-dominated entry (Saturn, Jupiter, ice-giant probes)
-requires three departures from air chemistry. They are configured
-per-case in ``constant/dsmcProperties`` so that the global database
-is unaffected (the ``run/0D/Saturn_H2_*`` cases).
+requires departures from air chemistry in the reaction and
+relaxation settings. They are configured per-case in
+``system/chemReactDict`` and ``constant/dsmcProperties`` (the
+``run/0D/Saturn_H2_*`` cases); the species data come, as for every
+case, from the frozen database.
 
 **Dissociation rate (Higdon 2018).** The neutral H\ :sub:`2`
 dissociation channels are taken from Higdon et al.
@@ -100,11 +102,16 @@ valentini``, with ``vibB1`` :math:`\approx 1.52\times10^{4}`,
 reference relaxation time to within :math:`\sim\!12\%` over
 3000–20000 K.
 
-**Pair-specific VHS.** The variable-hard-sphere diameters and
-viscosity exponents for H\ :sub:`2`, H and He are taken from Higdon
-Table 1 (:math:`T_{\mathrm{ref}} = 1000~\mathrm{K}`) and supplied
-through per-species ``moleculeProperties`` overrides; unlike pairs
-use the standard arithmetic-mean averaging rule.
+**Collision data.** H\ :sub:`2`, H and He use the frozen database
+values: Gosma et al. (2025) collision-specific rows for every
+neutral pair (for example H\ :sub:`2`-H\ :sub:`2`
+:math:`d_{\mathrm{ref}} = 3.6709\times10^{-10}~\mathrm{m}`,
+:math:`\omega = 0.84503`) at :math:`T_{\mathrm{ref}} = 273~\mathrm{K}`.
+The Higdon Table 1 VHS values (:math:`T_{\mathrm{ref}} =
+1000~\mathrm{K}`) can no longer be set per case; the
+``moleculeProperties`` blocks that the ``Saturn_H2_*`` case
+directories still carry stop the solver and must be removed before
+these cases are run (see :doc:`../classes/species_database_sources`).
 
 .. [Higdon2018] K. J. Higdon, B. A. Cruden, A. M. Brandis,
    D. S. Liechty, D. B. Goldstein, and P. L. Varghese, "Direct

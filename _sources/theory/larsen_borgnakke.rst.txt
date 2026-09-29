@@ -98,7 +98,7 @@ the single most delicate step in the implementation, and was the
 source of several compensating bugs in early versions of the
 solver; the current value has been audited against analytical
 expectations and is documented in
-``docs/Rovibronic Article/DSMC_Bugs_Report.pdf``.
+``docs/Articles/Rovibronic/DSMC_Bugs_Report.pdf``.
 
 Effective degrees of freedom
 ----------------------------

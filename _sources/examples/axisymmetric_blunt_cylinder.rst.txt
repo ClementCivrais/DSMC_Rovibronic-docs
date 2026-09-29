@@ -11,9 +11,11 @@ single 2-D slice.
 
 .. note::
 
-   The original tutorial used argon, which is not present in
-   the rovibronic speciesCache. The case has been switched to
-   N\ :sub:`2` while preserving the geometry.
+   The case follows the cold-surface flat-nosed cylinder of Bird
+   (1994, pp. 374-375): argon at :math:`1000~\mathrm{m\,s^{-1}}`,
+   :math:`100~\mathrm{K}` and :math:`10^{21}\;\mathrm{m}^{-3}`
+   over a cylinder wall at :math:`300~\mathrm{K}`. The argon data
+   come from the species database compiled into the solver.
 
 Theoretical basis
 -----------------
@@ -30,10 +32,24 @@ The case combines three distinct ingredients:
   ``axisymmetricSimulation true`` switch tells the cloud to
   weight each parcel by its radial position :math:`r`, so that
   a 2-D wedge mesh reproduces the 3-D flux correctly. The
-  statistical weight of a parcel at radius :math:`r` scales as
-  :math:`r`, which is enforced in the moment accumulators of
-  :doc:`../classes/measurements` and in the parcel
-  insertion/deletion logic at inflows and deletion patches.
+  radial weighting factor is
+  :math:`\mathrm{RWF} = 1 + (\mathrm{RWF}_{\max} - 1)\,r/R`,
+  with :math:`R` and :math:`\mathrm{RWF}_{\max}` set in the
+  ``axisymmetricProperties`` sub-dictionary; it enters the
+  moment accumulators of :doc:`../classes/measurements` and the
+  parcel insertion/deletion logic at inflows and deletion
+  patches:
+
+  .. code-block:: cpp
+
+     axisymmetricSimulation      true;
+
+     axisymmetricProperties
+     {
+         radialExtentOfDomain        0.03;
+         maxRadialWeightingFactor    1000;
+     }
+
 * :doc:`../theory/wall_models` —  a fully-diffuse wall at
   :math:`T_w` sets the stagnation-point heat flux; the
   Fay-Riddell correlation provides the continuum reference
@@ -43,7 +59,7 @@ The case combines three distinct ingredients:
 Validation goals
 ----------------
 
-Three quantitative targets:
+Two quantitative targets:
 
 #. **Bow-shock stand-off distance** — the computed stand-off
    :math:`\Delta` at the stagnation line should agree with the
@@ -56,18 +72,11 @@ Three quantitative targets:
    accumulators of :doc:`../classes/measurements`, should
    follow the Fay-Riddell scaling with the free-stream
    conditions.
-#. **Internal-temperature overshoot** — in the post-shock
-   region the translational temperature spikes above the
-   internal temperature; the two relax back to equilibrium
-   within a few mean collision times, following the
-   Landau-Teller decay documented in :doc:`../theory/relaxation`.
-   The observed relaxation length should match the Park /
-   Millikan-White estimate at the local density.
 
 Case parameters
 ---------------
 
-* Species: N\ :sub:`2`.
+* Species: Ar.
 * Axisymmetric geometry, 2-D wedge mesh.
 * Free-stream hypersonic inflow; diffuse wall on the body.
 * ``axisymmetricSimulation true`` switches the cloud into the
@@ -80,6 +89,6 @@ Running
 .. code-block:: bash
 
    cd tutorials/axisymmetricBluntCylinder
-   blockMesh
+   blockMesh -merge-points
    dsmcInitialise
    dsmcFoam

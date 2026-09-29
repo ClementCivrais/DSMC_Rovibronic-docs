@@ -16,8 +16,8 @@ Theoretical basis
 The case is the canonical "DSMC is the right tool" scenario:
 
 * :doc:`../theory/foundations` —  at 107 km the free-stream
-  number density is :math:`\sim 10^{16}\;\mathrm{m}^{-3}` and
-  the mean free path is of order metres; with a capsule
+  number density is :math:`\approx 2.9 \times 10^{18}\;\mathrm{m}^{-3}`
+  and the mean free path is of order half a metre; with a capsule
   characteristic length :math:`\sim\!5~\mathrm{m}`, the
   free-stream Knudsen number is :math:`\mathrm{Kn} \sim
   10^{-1}`. This sits in the upper transitional regime where
@@ -43,7 +43,9 @@ Chemistry is intentionally disabled to isolate the inviscid /
 rarefied gas-dynamic contribution to drag and heat flux; a
 reactive extension is left as a follow-up (the directory
 contains an alternate ``chemReactDictReacting`` for that
-purpose).
+purpose; it is kept in the older reaction-dictionary format and
+must be brought to the format of :doc:`../guide/input_reference`
+before it replaces ``chemReactDict``).
 
 Validation goals
 ----------------
@@ -71,8 +73,11 @@ Case parameters
 ---------------
 
 * Species: N\ :sub:`2` and O\ :sub:`2`.
-* Altitude: 107 km — representative free-stream density
-  :math:`\sim 10^{16}\;\mathrm{m}^{-3}`; use the
+* Altitude: 107 km — free-stream number densities
+  :math:`n_{\mathrm{N}_2} = 2.318 \times 10^{18}` and
+  :math:`n_{\mathrm{O}_2} = 6.161 \times 10^{17}\;\mathrm{m}^{-3}`
+  at :math:`217.63~\mathrm{K}` and :math:`6053.4~\mathrm{m\,s^{-1}}`;
+  use the
   :doc:`../tools/mean_free_path` calculator to confirm the mean
   free path and Knudsen number at the case's reference length.
 * Triangulated capsule geometry: ``constant/triSurface/``.
@@ -97,10 +102,7 @@ Running
 .. code-block:: bash
 
    cd tutorials/orion107kmNonReactingFlow
-   # Mesh generation — use the usual OpenFOAM pipeline appropriate
-   # for the triangulated surface:
    blockMesh
-   surfaceFeatureExtract   # if used
    snappyHexMesh -overwrite
    dsmcInitialise
    dsmcFoam

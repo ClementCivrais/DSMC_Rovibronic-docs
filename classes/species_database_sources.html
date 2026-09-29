@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Binary collision models &mdash; DSMC Rovibronic</title>
+  <title>Species database: sources, generation and lock &mdash; DSMC Rovibronic</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -23,8 +23,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Collision partner selection" href="collision_partner_selection.html" />
-    <link rel="prev" title="Particle initialisation" href="initialisation.html" /> 
+    <link rel="next" title="Particle initialisation" href="initialisation.html" />
+    <link rel="prev" title="dsmcSpeciesDatabase — spectroscopic &amp; VSS data" href="species_database.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -318,15 +318,15 @@
 <li class="toctree-l3"><a class="reference internal" href="species_database.html#extending-the-database">Extending the database</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="species_database_sources.html">Species database: sources, generation and lock</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#principle">Principle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#files">Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#masses-and-collision-data">Masses and collision data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#spectroscopy">Spectroscopy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#case-level-lock">Case-level lock</a></li>
-<li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#repository-lock">Repository lock</a></li>
-<li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#changing-or-adding-a-species">Changing or adding a species</a></li>
-<li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#history">History</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Species database: sources, generation and lock</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#principle">Principle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#files">Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#masses-and-collision-data">Masses and collision data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spectroscopy">Spectroscopy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#case-level-lock">Case-level lock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#repository-lock">Repository lock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changing-or-adding-a-species">Changing or adding a species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#history">History</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="initialisation.html">Particle initialisation</a><ul>
@@ -341,14 +341,14 @@
 <li class="toctree-l3"><a class="reference internal" href="initialisation.html#dictionary-interface">Dictionary interface</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Binary collision models</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#role">Role</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#implemented-classes">Implemented classes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#vhs-cross-section">VHS cross section</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#vss-cross-section-and-scattering">VSS cross section and scattering</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#larsen-borgnakke-energy-redistribution">Larsen-Borgnakke energy redistribution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#coefficient-sub-dictionary">Coefficient sub-dictionary</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#model-selection-flags">Model selection flags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html">Binary collision models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collision_models.html#role">Role</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_models.html#implemented-classes">Implemented classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_models.html#vhs-cross-section">VHS cross section</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_models.html#vss-cross-section-and-scattering">VSS cross section and scattering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_models.html#larsen-borgnakke-energy-redistribution">Larsen-Borgnakke energy redistribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_models.html#coefficient-sub-dictionary">Coefficient sub-dictionary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_models.html#model-selection-flags">Model selection flags</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="collision_partner_selection.html">Collision partner selection</a><ul>
@@ -709,9 +709,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Solver Classes</a></li>
-      <li class="breadcrumb-item active">Binary collision models</li>
+      <li class="breadcrumb-item active">Species database: sources, generation and lock</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/classes/collision_models.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/classes/species_database_sources.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -719,217 +719,341 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="binary-collision-models">
-<h1>Binary collision models<a class="headerlink" href="#binary-collision-models" title="Link to this heading"></a></h1>
-<p>Source: <code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/collisions/derived/</span></code>.</p>
-<section id="role">
-<h2>Role<a class="headerlink" href="#role" title="Link to this heading"></a></h2>
-<p>Binary collision models prescribe two things: the
-<strong>cross section</strong> used to weigh accepted collision candidates,
-and the <strong>post-collision scattering and internal-energy
-redistribution</strong> that is applied once a collision has been
-accepted. They are selected through the <code class="docutils literal notranslate"><span class="pre">BinaryCollisionModel</span></code>
-key in <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code> and configured through the
-<code class="docutils literal notranslate"><span class="pre">collisionProperties</span></code> sub-dictionary (plus an optional
-<code class="docutils literal notranslate"><span class="pre">&lt;Model&gt;Coeffs</span></code> block for model-specific extras). The pair
-collision data <span class="math notranslate nohighlight">\(d_{PQ}\)</span>, <span class="math notranslate nohighlight">\(\omega_{PQ}\)</span>,
-<span class="math notranslate nohighlight">\(\alpha_{PQ}\)</span> are read from the cloud’s frozen pair tables
-(<a class="reference internal" href="species_database_sources.html"><span class="doc">Species database: sources, generation and lock</span></a>).</p>
+  <section id="species-database-sources-generation-and-lock">
+<h1>Species database: sources, generation and lock<a class="headerlink" href="#species-database-sources-generation-and-lock" title="Link to this heading"></a></h1>
+<p>Source: <code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/speciesDatabase/</span></code> and its
+<code class="docutils literal notranslate"><span class="pre">sources/</span></code> sub-directory (<code class="docutils literal notranslate"><span class="pre">sources/README.md</span></code>,
+<code class="docutils literal notranslate"><span class="pre">sources/nist/BUILD_REPORT.md</span></code>).</p>
+<section id="principle">
+<h2>Principle<a class="headerlink" href="#principle" title="Link to this heading"></a></h2>
+<p>The species database is <strong>frozen</strong>. Every mass, collision
+parameter and spectroscopic constant is generated by a script from
+source files stored in the repository, compiled into
+<code class="docutils literal notranslate"><span class="pre">libDSMC_MNF</span></code>, and cannot be changed from a case. A change to the
+database requires the explicit approval of the code owner, is made
+in the sources and the generators, and is committed through a
+locked pre-commit hook (see <a class="reference internal" href="#repository-lock">Repository lock</a>). Python oracles and
+analysis scripts read the same generated tables, so that the solver
+and its verification scripts always use identical numbers.</p>
 </section>
-<section id="implemented-classes">
-<h2>Implemented classes<a class="headerlink" href="#implemented-classes" title="Link to this heading"></a></h2>
+<section id="files">
+<h2>Files<a class="headerlink" href="#files" title="Link to this heading"></a></h2>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 40.0%" />
-<col style="width: 60.0%" />
+<col style="width: 38.0%" />
+<col style="width: 62.0%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Class</p></th>
-<th class="head"><p>Purpose</p></th>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Content</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">LarsenBorgnakkeVariableHardSphere</span></code></p></td>
-<td><p>Variable Hard Sphere (VHS) cross section with
-Larsen-Borgnakke (LB) energy redistribution; the
-<strong>default</strong> and most frequently used model.</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcSpeciesDatabaseTransport.C</span></code></p></td>
+<td><p><strong>Generated</strong> by <code class="docutils literal notranslate"><span class="pre">sources/build_transport_data.py</span></code>:
+species name to chemical formula, masses, per-species VSS
+values and the 378 neutral-neutral pair rows
+(<code class="docutils literal notranslate"><span class="pre">populateTransport()</span></code>).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LarsenBorgnakkeVariableSoftSphere</span></code></p></td>
-<td><p>Variable Soft Sphere (VSS) cross section with LB energy
-redistribution; adds the anisotropic scattering exponent
-<span class="math notranslate nohighlight">\(\alpha\)</span>, which interpolates between isotropic and
-forward-peaked scattering.</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcSpeciesDatabaseSpectroscopy.C</span></code></p></td>
+<td><p><strong>Generated</strong> by <code class="docutils literal notranslate"><span class="pre">sources/build_spectroscopy_data.py</span></code>:
+electronic states, Dunham constants, atomic levels,
+dissociation and ionisation energies, nuclear-spin and
+symmetry factors, polyatomic modes and rotational constants
+(<code class="docutils literal notranslate"><span class="pre">populateSpectroscopy()</span></code>).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">FHOVariableHardSphere</span></code></p></td>
-<td><p>VHS cross section with <strong>Forced Harmonic Oscillator</strong>
-(FHO-FR) vibration-translation energy transfer. Rotation
-and electronic modes still relax by Larsen-Borgnakke, but
-the vibrational transition <span class="math notranslate nohighlight">\(v \to w\)</span> is drawn from
-the analytic FHO state-to-state probability of Adamovich
-et al. A selectable complement to the LB models (it does
-not replace them); see the FHO section in
-<a class="reference internal" href="../theory/relaxation.html"><span class="doc">Internal-energy relaxation</span></a>.</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcSpeciesDatabaseFormationEnthalpy.H</span></code></p></td>
+<td><p><strong>Generated</strong> by the same script: 0 K formation enthalpies
+(ATcT 1.130) on the energy zero of the ladders, read by the
+polyatomic QK classes through <code class="docutils literal notranslate"><span class="pre">polyFormationEnergy.H</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">VariableHardSphere</span></code></p></td>
-<td><p>Plain VHS without LB: purely elastic collisions, no
-internal-energy exchange. Useful for debugging, or for
-cases in which internal degrees of freedom are not of
-interest.</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcSpeciesDatabaseData.C</span></code></p></td>
+<td><p>Hand-written, <strong>structural and model fields only</strong>: charge,
+<code class="docutils literal notranslate"><span class="pre">isAtom</span></code>, rotational and vibrational degrees of freedom,
+<code class="docutils literal notranslate"><span class="pre">rotationType</span></code>, <code class="docutils literal notranslate"><span class="pre">vibrationalCoupling</span></code>, mode basis and
+dissociation products, SOMO descriptors, bond-order slopes,
+van der Waals wells, polarisabilities and
+<code class="docutils literal notranslate"><span class="pre">allowSpinForbiddenTransitions</span></code>. It sets no generated field;
+<code class="docutils literal notranslate"><span class="pre">sources/strip_generated_fields.py</span> <span class="pre">--check</span></code> verifies this.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VariableSoftSphere</span></code></p></td>
-<td><p>Plain VSS variant of the above.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NoBinaryCollision</span></code></p></td>
-<td><p>Disables binary collisions entirely. Used for free-
-molecular verification cases and for isolating
-boundary-driven effects.</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcSpeciesDatabaseCompute.C</span></code></p></td>
+<td><p>Builds the <span class="math notranslate nohighlight">\((n, v, J)\)</span> ladders, degeneracies and
+thresholds from the fields above
+(<a class="reference internal" href="../theory/rovibronic_levels.html"><span class="doc">Rovibronic level structure</span></a>).</p></td>
 </tr>
 </tbody>
 </table>
+<p>The constructor runs <code class="docutils literal notranslate"><span class="pre">populateDefaults()</span></code>, then
+<code class="docutils literal notranslate"><span class="pre">populateSpectroscopy()</span></code>, then <code class="docutils literal notranslate"><span class="pre">populateTransport()</span></code>, and finally
+copies the mass, <span class="math notranslate nohighlight">\(d_{\mathrm{ref}}\)</span>, <span class="math notranslate nohighlight">\(\omega\)</span> and
+<span class="math notranslate nohighlight">\(\alpha\)</span> of every species from the frozen tables. A species
+that is missing from the frozen tables stops the solver with a
+<code class="docutils literal notranslate"><span class="pre">FatalError</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">sources/</span></code> directory holds the inputs and the tools:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Gosma2025_FULL_VSS_DATABASE.vss</span></code> —  the collision-specific VSS
+set of Gosma et al. (2025), verbatim from the Figshare record
+(doi:10.60893/figshare.pof.28632665), with its SHA-256 checksum;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pfeiffer2022_TableI.csv</span></code> —  Table I of Pfeiffer (2022);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CIAAW_atomic_weights.csv</span></code> —  conventional atomic weights;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nist/raw/</span></code> —  the NIST WebBook, ASD and CCCBDB pages and the
+ATcT 1.130 table actually used, with <code class="docutils literal notranslate"><span class="pre">SHA256SUMS</span></code>;
+<code class="docutils literal notranslate"><span class="pre">nist/tables/</span></code> holds the hand-maintained assignment tables
+(state selection, asymptote correlations), which carry no
+numbers;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">species_properties_frozen.json</span></code> and
+<code class="docutils literal notranslate"><span class="pre">species_spectroscopy_frozen.json</span></code> —  the generated Python view
+of every value, with its source and flags;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">species_frozen.py</span></code> —  the only interface through which Python
+scripts obtain masses and collision data;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pre-commit-species-lock.sh</span></code> —  the repository lock.</p></li>
+</ul>
 </section>
-<section id="vhs-cross-section">
-<h2>VHS cross section<a class="headerlink" href="#vhs-cross-section" title="Link to this heading"></a></h2>
-<p>The Variable Hard Sphere cross section depends on the relative
-velocity <span class="math notranslate nohighlight">\(g\)</span> through the viscosity exponent <span class="math notranslate nohighlight">\(\omega\)</span>:</p>
-<div class="math notranslate nohighlight">
-\[\sigma_T^{\mathrm{VHS}}(g)
-  = \pi\, d_{\mathrm{ref}}^{2}\,
-    \left(\frac{g_{\mathrm{ref}}^{2}}{g^{2}}\right)^{\omega - 1/2}
-    \frac{1}{\Gamma(5/2 - \omega)},\]</div>
-<p>where <span class="math notranslate nohighlight">\(d_{\mathrm{ref}}\)</span>, <span class="math notranslate nohighlight">\(g_{\mathrm{ref}}\)</span>, and
-<span class="math notranslate nohighlight">\(\omega\)</span> are species-pair parameters tabulated in
-<a class="reference internal" href="species_database.html"><span class="doc">dsmcSpeciesDatabase — spectroscopic &amp; VSS data</span></a>. The VHS law is isotropic in the centre-
-of-mass frame.</p>
-</section>
-<section id="vss-cross-section-and-scattering">
-<h2>VSS cross section and scattering<a class="headerlink" href="#vss-cross-section-and-scattering" title="Link to this heading"></a></h2>
-<p>The Variable Soft Sphere model augments VHS with an anisotropic
-scattering law parameterised by <span class="math notranslate nohighlight">\(\alpha\)</span>. The differential
-cross section is</p>
-<div class="math notranslate nohighlight">
-\[\frac{\mathrm{d}\sigma}{\mathrm{d}\Omega}
-  \propto \cos^{2(\alpha - 1)}\!\left(\tfrac{\chi}{2}\right),\]</div>
-<p>where <span class="math notranslate nohighlight">\(\chi\)</span> is the centre-of-mass scattering angle. The
-limit <span class="math notranslate nohighlight">\(\alpha = 1\)</span> recovers the isotropic VHS scattering;
-values <span class="math notranslate nohighlight">\(\alpha &gt; 1\)</span>, which are commonly fitted to viscosity
-and diffusion data, yield forward-peaked scattering consistent
-with the Lennard-Jones interaction of diatomics.</p>
-</section>
-<section id="larsen-borgnakke-energy-redistribution">
-<h2>Larsen-Borgnakke energy redistribution<a class="headerlink" href="#larsen-borgnakke-energy-redistribution" title="Link to this heading"></a></h2>
-<p>On each accepted collision, the LB variants sample a new internal
-energy for the participating parcels, using the acceptance-
-rejection criterion</p>
-<div class="math notranslate nohighlight">
-\[f(E')
-  = g(E')\,
-    \left(\frac{E_c - E'}{E_c}\right)^{\alpha_{\mathrm{LB}}}, \qquad
-\alpha_{\mathrm{LB}}
-  = \tfrac{1}{2}\bigl(\xi_{\mathrm{rel}}
-                      + \xi_{\mathrm{int}}^{\mathrm{pool}}\bigr) - 1,\]</div>
-<p>where <span class="math notranslate nohighlight">\(E_c\)</span> is the pooled collision energy,
-<span class="math notranslate nohighlight">\(g(E')\)</span> is the degeneracy of the candidate state, and
-<span class="math notranslate nohighlight">\(\xi_{\mathrm{int}}^{\mathrm{pool}}\)</span> is the effective
-number of internal degrees of freedom that enter the current
-event. The rovibronic extension evaluates <span class="math notranslate nohighlight">\(g(E')\)</span> and
-<span class="math notranslate nohighlight">\(E'\)</span> on the quantised state space rather than on a
-continuous internal-energy variable; the three composite-mode
-cascades (rotational, rovibrational, rovibronic) that build on
-top of this acceptance rule are documented in
-<a class="reference internal" href="../theory/relaxation.html"><span class="doc">Internal-energy relaxation</span></a>.</p>
-</section>
-<section id="coefficient-sub-dictionary">
-<h2>Coefficient sub-dictionary<a class="headerlink" href="#coefficient-sub-dictionary" title="Link to this heading"></a></h2>
-<p>For every model, <code class="docutils literal notranslate"><span class="pre">collisionProperties</span></code> holds the reference
-temperature (273 K, fixed by the species database) and the three
-relaxation collision numbers <span class="math notranslate nohighlight">\(Z_r,\,Z_{rv},\,Z_{rve}\)</span>:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">collisionProperties</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="n">Tref</span><span class="w">                                    </span><span class="mi">273</span><span class="p">;</span><span class="w"> </span><span class="c1">// [K]</span>
-<span class="w">    </span><span class="n">rotationalRelaxationCollisionNumber</span><span class="w">     </span><span class="mi">5</span><span class="p">;</span><span class="w">   </span><span class="c1">// [-]</span>
-<span class="w">    </span><span class="n">rovibrationalRelaxationCollisionNumber</span><span class="w">  </span><span class="mi">50</span><span class="p">;</span><span class="w">  </span><span class="c1">// [-]</span>
-<span class="w">    </span><span class="n">rovibronicRelaxationCollisionNumber</span><span class="w">     </span><span class="mi">500</span><span class="p">;</span><span class="w"> </span><span class="c1">// [-]</span>
-<span class="w">    </span><span class="n">initialSubCellLevels</span><span class="w">                    </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>The plain VHS/VSS variants read but do not use the collision
-numbers, since they do not redistribute internal energy.</p>
-</section>
-<section id="model-selection-flags">
-<h2>Model selection flags<a class="headerlink" href="#model-selection-flags" title="Link to this heading"></a></h2>
-<p>All relaxation and chemistry models are chosen through dictionary
-keys; nothing is hard-coded. The relaxation flags live in
-<code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code> and the chemistry model is selected
-per reaction in <code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code>.</p>
+<section id="masses-and-collision-data">
+<h2>Masses and collision data<a class="headerlink" href="#masses-and-collision-data" title="Link to this heading"></a></h2>
+<p>The rules below are applied by <code class="docutils literal notranslate"><span class="pre">build_transport_data.py</span></code>; all
+values are referenced to <span class="math notranslate nohighlight">\(T_{\mathrm{ref}} = 273~\mathrm{K}\)</span>.</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 28.0%" />
 <col style="width: 30.0%" />
-<col style="width: 42.0%" />
+<col style="width: 70.0%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>What</p></th>
-<th class="head"><p>Key (location)</p></th>
-<th class="head"><p>Options</p></th>
+<tr class="row-odd"><th class="head"><p>Data</p></th>
+<th class="head"><p>Source</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Relaxation / collision model</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">BinaryCollisionModel</span></code>
-(<code class="docutils literal notranslate"><span class="pre">dsmcProperties</span></code>)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">LarsenBorgnakkeVariableHardSphere</span></code> (LB, default),
-<code class="docutils literal notranslate"><span class="pre">FHOVariableHardSphere</span></code> (FHO V-T, optionally coupled
-V-R-T), plus the VSS / plain / no-collision variants above.</p></td>
+<tr class="row-even"><td><p>Neutral species, neutral-neutral pairs</p></td>
+<td><p>Gosma, Swaminathan Gopalan, Subramaniam and Stephani (2025),
+<em>Phys. Fluids</em> <strong>37</strong>, 036156, collision-specific set fitted
+over 1000–20000 K. A species’ own values are its like-pair
+row X-X; a neutral pair X-Y uses Gosma’s own X-Y row.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Vibrational <span class="math notranslate nohighlight">\(Z_v\)</span> model</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">vibrationalRelaxationModel</span></code>
-(<code class="docutils literal notranslate"><span class="pre">collisionProperties</span></code>)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">constant</span></code> (constant <span class="math notranslate nohighlight">\(Z_v\)</span>), <code class="docutils literal notranslate"><span class="pre">Valentini</span></code>
-(temperature-dependent <span class="math notranslate nohighlight">\(Z_v(T)\)</span>, needs
-<code class="docutils literal notranslate"><span class="pre">vibB1</span></code>/<code class="docutils literal notranslate"><span class="pre">vibB2</span></code>), <code class="docutils literal notranslate"><span class="pre">default</span></code> (auto: <span class="math notranslate nohighlight">\(Z_v(T)\)</span>
-iff <code class="docutils literal notranslate"><span class="pre">vibB1</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>).</p></td>
+<tr class="row-odd"><td><p>Ions and the electron</p></td>
+<td><p>Pfeiffer (2022), <em>Phys. Fluids</em> <strong>34</strong>, 117110, Table I.</p></td>
 </tr>
-<tr class="row-even"><td><p>FHO sub-mode</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">coupledVRT</span></code>
-(<code class="docutils literal notranslate"><span class="pre">FHOVariableHardSphereCoeffs</span></code>)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code> (FHO V-T only, rotation via LB; default),
-<code class="docutils literal notranslate"><span class="pre">true</span></code> (coupled rovibronic: the final <code class="docutils literal notranslate"><span class="pre">(v',J')</span></code> is
-drawn by acceptance-rejection at fixed electronic <code class="docutils literal notranslate"><span class="pre">n</span></code> –
-<code class="docutils literal notranslate"><span class="pre">v'</span></code> from the FHO V-T distribution, <code class="docutils literal notranslate"><span class="pre">J'</span></code> from the LB
-sampler, consistent with PICLas).</p></td>
+<tr class="row-even"><td><p>H<sup>+</sup>, H<sub>2</sub><sup>+</sup>, He<sup>+</sup></p></td>
+<td><p>Gosma like-pair rows (not in Pfeiffer).</p></td>
 </tr>
-<tr class="row-odd"><td><p>Chemistry model</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">reactionModel</span></code> (per reaction,
-<code class="docutils literal notranslate"><span class="pre">chemReactDict</span></code>)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">...TCE</span></code> (Bird Arrhenius/TCE), <code class="docutils literal notranslate"><span class="pre">...QK</span></code>
-(quantum-kinetic), <code class="docutils literal notranslate"><span class="pre">...Bias</span></code> (Gimelshein-Wysong); see
-<a class="reference internal" href="reactions.html"><span class="doc">Reaction classes</span></a> for the full per-channel class list.</p></td>
+<tr class="row-odd"><td><p>CH<sup>+</sup>, NH<sup>+</sup></p></td>
+<td><p>Neutral parent CH, NH (in no source; proxy).</p></td>
+</tr>
+<tr class="row-even"><td><p>Any pair with a charged partner</p></td>
+<td><p>Arithmetic mean of <span class="math notranslate nohighlight">\(d_{\mathrm{ref}}\)</span>, <span class="math notranslate nohighlight">\(\omega\)</span>,
+<span class="math notranslate nohighlight">\(\alpha\)</span> (Pfeiffer’s collision-averaged convention).</p></td>
+</tr>
+<tr class="row-odd"><td><p>Masses</p></td>
+<td><p>Sum of the CIAAW conventional atomic weights times the
+atomic mass constant (CODATA 2018); an ion carries the mass
+of its neutral.</p></td>
 </tr>
 </tbody>
 </table>
-<p>The active vibrational model is echoed at start-up
-(”<code class="docutils literal notranslate"><span class="pre">Vibrational</span> <span class="pre">relaxation</span> <span class="pre">collision-number</span> <span class="pre">model:</span> <span class="pre">...</span></code>”) so the
-selection can be confirmed in the solver log.</p>
-<p>Example <code class="docutils literal notranslate"><span class="pre">dsmcProperties</span></code> excerpt:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">BinaryCollisionModel</span><span class="w">  </span><span class="n">FHOVariableHardSphere</span><span class="p">;</span>
-
-<span class="n">collisionProperties</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="n">Tref</span><span class="w">                                    </span><span class="mi">273</span><span class="p">;</span>
-<span class="w">    </span><span class="n">rotationalRelaxationCollisionNumber</span><span class="w">     </span><span class="mi">5</span><span class="p">;</span>
-<span class="w">    </span><span class="n">rovibrationalRelaxationCollisionNumber</span><span class="w">  </span><span class="mf">1e6</span><span class="p">;</span>
-<span class="w">    </span><span class="n">rovibronicRelaxationCollisionNumber</span><span class="w">     </span><span class="mf">1e6</span><span class="p">;</span>
-<span class="w">    </span><span class="n">vibrationalRelaxationModel</span><span class="w">              </span><span class="k">default</span><span class="p">;</span><span class="w"> </span><span class="c1">// constant|Valentini|default</span>
-<span class="p">}</span>
-
-<span class="n">FHOVariableHardSphereCoeffs</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="n">alpha</span><span class="w">       </span><span class="mf">4.0e10</span><span class="p">;</span>
-<span class="w">    </span><span class="n">coupledVRT</span><span class="w">  </span><span class="nb">false</span><span class="p">;</span><span class="w">   </span><span class="c1">// true -&gt; coupled rovibronic (v&#39;,J&#39;) sampling</span>
-<span class="p">}</span>
+<p>Bird (1994), Appendix A, is kept as the last resort for a species
+that none of these sources reports; no current species needs it.
+Species variants (<code class="docutils literal notranslate"><span class="pre">O2NIST</span></code>, <code class="docutils literal notranslate"><span class="pre">O2VHS</span></code>, <code class="docutils literal notranslate"><span class="pre">CO2harm</span></code>,
+<code class="docutils literal notranslate"><span class="pre">CH4coupled</span></code>, …) map to the formula of their parent and share its
+mass and collision data. Representative pair values, as printed by
+the solver at start-up:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Pair</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(d_{\mathrm{ref}}\)</span> [m]</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\omega\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\alpha\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>O<sub>2</sub> + O<sub>2</sub></p></td>
+<td><p><span class="math notranslate nohighlight">\(3.8713\times10^{-10}\)</span></p></td>
+<td><p>0.69652</p></td>
+<td><p>1.46082</p></td>
+</tr>
+<tr class="row-odd"><td><p>O<sub>2</sub> + O</p></td>
+<td><p><span class="math notranslate nohighlight">\(3.6736\times10^{-10}\)</span></p></td>
+<td><p>0.75099</p></td>
+<td><p>1.53416</p></td>
+</tr>
+<tr class="row-even"><td><p>O + O</p></td>
+<td><p><span class="math notranslate nohighlight">\(3.6218\times10^{-10}\)</span></p></td>
+<td><p>0.79402</p></td>
+<td><p>1.57366</p></td>
+</tr>
+<tr class="row-odd"><td><p>N<sub>2</sub> + N<sub>2</sub></p></td>
+<td><p><span class="math notranslate nohighlight">\(4.0981\times10^{-10}\)</span></p></td>
+<td><p>0.69364</p></td>
+<td><p>1.42989</p></td>
+</tr>
+<tr class="row-even"><td><p>N<sub>2</sub> + O<sub>2</sub></p></td>
+<td><p><span class="math notranslate nohighlight">\(3.5802\times10^{-10}\)</span></p></td>
+<td><p>0.70026</p></td>
+<td><p>1.42775</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Use in the solver.</strong> At start-up <code class="docutils literal notranslate"><span class="pre">dsmcCloud</span></code> builds three
+<span class="math notranslate nohighlight">\(N_s \times N_s\)</span> tables, <code class="docutils literal notranslate"><span class="pre">dPQ_</span></code>, <code class="docutils literal notranslate"><span class="pre">omegaPQ_</span></code> and
+<code class="docutils literal notranslate"><span class="pre">alphaPQ_</span></code>, once, from <code class="docutils literal notranslate"><span class="pre">dsmcSpeciesDatabase::collisionPair()</span></code>,
+and prints them under
+<code class="docutils literal notranslate"><span class="pre">Collision</span> <span class="pre">pairs</span> <span class="pre">(d_ref</span> <span class="pre">[m],</span> <span class="pre">omega,</span> <span class="pre">alpha;</span> <span class="pre">Tref</span> <span class="pre">=</span> <span class="pre">273</span> <span class="pre">K)</span></code>. Every
+collision model, reaction class, recombination collision rate and
+mean-free-path estimate reads the pair value through
+<code class="docutils literal notranslate"><span class="pre">cloud.dPQ(P,</span> <span class="pre">Q)</span></code>, <code class="docutils literal notranslate"><span class="pre">cloud.omegaPQ(P,</span> <span class="pre">Q)</span></code> and
+<code class="docutils literal notranslate"><span class="pre">cloud.alphaPQ(P,</span> <span class="pre">Q)</span></code>; no class forms
+<span class="math notranslate nohighlight">\(\tfrac{1}{2}(\omega_P + \omega_Q)\)</span> itself. The solver stops
+if <code class="docutils literal notranslate"><span class="pre">collisionProperties/Tref</span></code> differs from the 273 K of the
+tables.</p>
+<p><strong>Use in Python.</strong> Oracles and analysis scripts import
+<code class="docutils literal notranslate"><span class="pre">species_frozen</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;&lt;repo&gt;/src/lagrangian/DSMC/speciesDatabase/sources&quot;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">species_frozen</span> <span class="k">as</span> <span class="nn">sf</span>
+<span class="n">sf</span><span class="o">.</span><span class="n">mass</span><span class="p">(</span><span class="s2">&quot;O2NIST&quot;</span><span class="p">)</span>       <span class="c1"># [kg]</span>
+<span class="n">sf</span><span class="o">.</span><span class="n">vss</span><span class="p">(</span><span class="s2">&quot;O&quot;</span><span class="p">)</span>             <span class="c1"># (d_ref [m], omega, alpha, Tref [K])</span>
+<span class="n">sf</span><span class="o">.</span><span class="n">pair</span><span class="p">(</span><span class="s2">&quot;O2NIST&quot;</span><span class="p">,</span> <span class="s2">&quot;O&quot;</span><span class="p">)</span>  <span class="c1"># the pair values the solver uses</span>
+<span class="n">sf</span><span class="o">.</span><span class="n">TREF</span>                 <span class="c1"># 273.0</span>
 </pre></div>
 </div>
+</section>
+<section id="spectroscopy">
+<h2>Spectroscopy<a class="headerlink" href="#spectroscopy" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">build_spectroscopy_data.py</span></code> parses the stored pages and writes
+one row per state, level or mode, each with its source. The rules
+are:</p>
+<ul class="simple">
+<li><p><strong>Diatomic states.</strong> Only states tabulated in the NIST WebBook
+(Huber and Herzberg constants) are carried. Constants that the
+WebBook does not print are set to zero, except where zero is not
+admissible (an unprinted <span class="math notranslate nohighlight">\(B_e\)</span> or <span class="math notranslate nohighlight">\(r_e\)</span>); those few
+values, and all constants of CO<sup>+</sup>, CH<sup>+</sup> and
+NH<sup>+</sup>, are kept from earlier sources and flagged
+<strong>NON-NIST</strong> in <code class="docutils literal notranslate"><span class="pre">BUILD_REPORT.md</span></code>. States that the WebBook does
+not list were removed.</p></li>
+<li><p><strong>Atomic levels.</strong> Each level is the <span class="math notranslate nohighlight">\(g\)</span>-weighted mean of
+its NIST ASD <span class="math notranslate nohighlight">\(J\)</span> components,
+<span class="math notranslate nohighlight">\(g = \sum_J (2J+1)\)</span>, the ground term included. The O and N
+Rydberg groups use ASD energies with the complete-shell
+degeneracy <span class="math notranslate nohighlight">\(2n^{2} g_{\mathrm{core}}\)</span>, which keeps
+<span class="math notranslate nohighlight">\(Q_{\mathrm{el}}\)</span> within 2 %.</p></li>
+<li><p><strong>Energy zero.</strong> The zero of an atom or atomic ion is its
+<span class="math notranslate nohighlight">\(J\)</span>-weighted ground term; the zero of a molecule is
+<span class="math notranslate nohighlight">\(v = 0\)</span>, <span class="math notranslate nohighlight">\(J = 0\)</span> of its <span class="math notranslate nohighlight">\(T_e = 0\)</span> state. ATcT
+refers to the lowest <span class="math notranslate nohighlight">\(J\)</span> levels, so every dissociation
+limit is shifted to these zeros. For example, <span class="math notranslate nohighlight">\(E_d\)</span> of the
+O<sub>2</sub> ground state rises by <span class="math notranslate nohighlight">\(155.95~\mathrm{cm^{-1}}\)</span>,
+twice the <span class="math notranslate nohighlight">\(J\)</span>-weighted O(<sup>3</sup>P) term, and the
+dissociation products carry exactly the energy removed from the
+molecule.</p></li>
+<li><p><strong>Thermochemistry.</strong> Dissociation energies are
+<span class="math notranslate nohighlight">\(D_0\)</span> from the ATcT 1.130 0 K formation enthalpies.
+Atomic ionisation energies come from the ASD series limits on
+the <span class="math notranslate nohighlight">\(J\)</span>-weighted zeros; molecular ionisation energies come
+from ATcT, so that
+<span class="math notranslate nohighlight">\(D_0(\mathrm{AB}) + \mathrm{IE}(\mathrm{A})
+= \mathrm{IE}(\mathrm{AB}) + D_0(\mathrm{AB}^{+})\)</span> closes within
+one data set.</p></li>
+<li><p><strong>Nuclear spin and symmetry.</strong> The product-rule nuclear-spin
+degeneracy <span class="math notranslate nohighlight">\(g_{\mathrm{nuc}} = \prod (2I+1)\)</span> is stored for
+every species but applied in no ladder, since it cancels in every
+equilibrium constant. The symmetry number enters every rotor
+branch as <span class="math notranslate nohighlight">\(1/\sigma\)</span>; homonuclear diatomics carry even/odd
+<span class="math notranslate nohighlight">\(J\)</span> weights normalised to a <span class="math notranslate nohighlight">\(J\)</span>-average of
+<span class="math notranslate nohighlight">\(1/\sigma\)</span>. Before the rebuild the linear and spherical-top
+branches omitted <span class="math notranslate nohighlight">\(1/\sigma\)</span>, so <span class="math notranslate nohighlight">\(Q_{\mathrm{rot}}\)</span> of
+CO<sub>2</sub> and C<sub>3</sub> was twice too large and that of
+CH<sub>4</sub> twelve times.</p></li>
+<li><p><strong>Polyatomic species.</strong> CCCBDB supplies the fundamentals,
+rotational constants, bond lengths, point groups and symmetry
+numbers. CCCBDB tabulates no anharmonic constants, so
+N<sub>2</sub>O, HCN, C<sub>3</sub>, CH<sub>3</sub>, NH<sub>3</sub>,
+O<sub>3</sub>, NO<sub>2</sub> and CH<sub>2</sub> have harmonic
+ladders; the anharmonic sets of CO<sub>2</sub>, CH<sub>4</sub> and
+H<sub>2</sub>O are kept and flagged NON-NIST.</p></li>
+</ul>
+<p>The resulting ladders, as printed by <code class="docutils literal notranslate"><span class="pre">dsmcInitialise</span></code>, are for
+example: O<sub>2</sub>, 7 electronic states and 17389
+<span class="math notranslate nohighlight">\((n, v, J)\)</span> levels; N<sub>2</sub>, 9 and 45184; NO, 7 and 15971;
+CO, 8 and 45521.</p>
+</section>
+<section id="case-level-lock">
+<h2>Case-level lock<a class="headerlink" href="#case-level-lock" title="Link to this heading"></a></h2>
+<p>Species data cannot be changed from a case:</p>
+<ul class="simple">
+<li><p>a <code class="docutils literal notranslate"><span class="pre">moleculeProperties/&lt;species&gt;</span></code> entry that sets <code class="docutils literal notranslate"><span class="pre">mass</span></code>,
+<code class="docutils literal notranslate"><span class="pre">diameter</span></code>, <code class="docutils literal notranslate"><span class="pre">omega</span></code>, <code class="docutils literal notranslate"><span class="pre">alpha</span></code>, <code class="docutils literal notranslate"><span class="pre">charge</span></code>,
+<code class="docutils literal notranslate"><span class="pre">rotationalDegreesOfFreedom</span></code>, <code class="docutils literal notranslate"><span class="pre">vibrationalModes</span></code>,
+<code class="docutils literal notranslate"><span class="pre">maintainOddEvenParity</span></code>, <code class="docutils literal notranslate"><span class="pre">internalEnergyList</span></code>,
+<code class="docutils literal notranslate"><span class="pre">degeneracyList</span></code> or <code class="docutils literal notranslate"><span class="pre">dissociationEnergy</span></code> stops the solver
+with a <code class="docutils literal notranslate"><span class="pre">FatalError</span></code>;</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">dsmcProperties</span></code> without the <code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code>
+sub-dictionary stops the solver: the former path that read all
+species data from <code class="docutils literal notranslate"><span class="pre">moleculeProperties</span></code> no longer exists;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">collisionProperties/Tref</span></code> must be 273.</p></li>
+</ul>
+<p>Only model switches remain per species:
+<code class="docutils literal notranslate"><span class="pre">allowSpinForbiddenTransitions</span></code> (electronic spin-conservation
+gate) and <code class="docutils literal notranslate"><span class="pre">vibrationalCoupling</span></code> (<code class="docutils literal notranslate"><span class="pre">separable</span></code> or <code class="docutils literal notranslate"><span class="pre">coupled</span></code>
+polyatomic vibration). See <a class="reference internal" href="../guide/input_reference.html"><span class="doc">Input Reference</span></a>.</p>
+</section>
+<section id="repository-lock">
+<h2>Repository lock<a class="headerlink" href="#repository-lock" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">sources/pre-commit-species-lock.sh</span></code> is installed as the
+repository’s pre-commit hook:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ln<span class="w"> </span>-sf<span class="w"> </span>../../src/lagrangian/DSMC/speciesDatabase/sources/pre-commit-species-lock.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">       </span>.git/hooks/pre-commit
+</pre></div>
+</div>
+<p>It refuses any commit that touches <code class="docutils literal notranslate"><span class="pre">speciesDatabase/</span></code> unless
+<code class="docutils literal notranslate"><span class="pre">DSMC_SPECIES_DB_UNLOCK=1</span></code> is set for that one commit, which is
+done only with the code owner’s approval. In every such commit it
+runs <code class="docutils literal notranslate"><span class="pre">build_transport_data.py</span> <span class="pre">--check</span></code>,
+<code class="docutils literal notranslate"><span class="pre">build_spectroscopy_data.py</span> <span class="pre">--check</span></code> and
+<code class="docutils literal notranslate"><span class="pre">strip_generated_fields.py</span> <span class="pre">--check</span></code>: the generated files must
+regenerate identically from the stored sources, and
+<code class="docutils literal notranslate"><span class="pre">dsmcSpeciesDatabaseData.C</span></code> must set no generated field.</p>
+</section>
+<section id="changing-or-adding-a-species">
+<h2>Changing or adding a species<a class="headerlink" href="#changing-or-adding-a-species" title="Link to this heading"></a></h2>
+<p>With the owner’s approval:</p>
+<ol class="arabic simple">
+<li><p>store the new source pages under <code class="docutils literal notranslate"><span class="pre">sources/nist/raw/</span></code> (and add
+their checksums to <code class="docutils literal notranslate"><span class="pre">SHA256SUMS</span></code>), or the new collision data
+next to the Gosma and Pfeiffer files;</p></li>
+<li><p>extend the assignment tables in <code class="docutils literal notranslate"><span class="pre">sources/nist/tables/</span></code> and the
+species-to-formula map of <code class="docutils literal notranslate"><span class="pre">build_transport_data.py</span></code>;</p></li>
+<li><p>add the structural fields to <code class="docutils literal notranslate"><span class="pre">dsmcSpeciesDatabaseData.C</span></code>;</p></li>
+<li><p>run both generators, then their <code class="docutils literal notranslate"><span class="pre">--check</span></code> modes;</p></li>
+<li><p>rebuild <code class="docutils literal notranslate"><span class="pre">libDSMC_MNF</span></code> and the solvers;</p></li>
+<li><p>rename every <code class="docutils literal notranslate"><span class="pre">constant/speciesCache</span></code> that will be reused
+(for example to <code class="docutils literal notranslate"><span class="pre">speciesCache.stale_&lt;date&gt;</span></code>): a cache is not
+validated against the database and would silently keep the old
+ladders if it were read;</p></li>
+<li><p>commit with <code class="docutils literal notranslate"><span class="pre">DSMC_SPECIES_DB_UNLOCK=1</span></code>.</p></li>
+</ol>
+</section>
+<section id="history">
+<h2>History<a class="headerlink" href="#history" title="Link to this heading"></a></h2>
+<p>Until 2026-09-29 the neutral entries were labelled “Gosma et al.
+(2025) Table VI” but held Gosma’s <em>electron-cation</em> rows (for
+instance O<sub>2</sub> = e-O<sub>2</sub><sup>+</sup>,
+<span class="math notranslate nohighlight">\(d_{\mathrm{ref}} = 1.502~\text{Å}\)</span>, <span class="math notranslate nohighlight">\(\omega = 0.501\)</span>).
+The O<sub>2</sub>-O<sub>2</sub> cross section was therefore 6.6 times
+too small at 273 K, and the Larsen-Borgnakke exponent
+<span class="math notranslate nohighlight">\(3/2 - \omega\)</span> was 1.00 instead of 0.80. With the corrected
+collision data the QK dissociation rate coefficients rose by a
+factor of 1.8–3, while the ground-to-ground exchange rate
+<span class="math notranslate nohighlight">\(k_{00}\)</span> of <code class="docutils literal notranslate"><span class="pre">dissociationIonisationExchange</span></code> does not depend
+on the collision data
+(<code class="docutils literal notranslate"><span class="pre">run/0D/rates_frozen_transport_20260929/REPORT.md</span></code>). Collision
+data and rate coefficients quoted in validation records older than
+that date refer to the former entries.</p>
 </section>
 </section>
 
@@ -937,8 +1061,8 @@ selection can be confirmed in the solver log.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="initialisation.html" class="btn btn-neutral float-left" title="Particle initialisation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="collision_partner_selection.html" class="btn btn-neutral float-right" title="Collision partner selection" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="species_database.html" class="btn btn-neutral float-left" title="dsmcSpeciesDatabase — spectroscopic &amp; VSS data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="initialisation.html" class="btn btn-neutral float-right" title="Particle initialisation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

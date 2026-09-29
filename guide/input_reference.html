@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Input Reference &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
@@ -15,11 +15,11 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
-      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -77,6 +77,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#relaxation-collision-numbers">Relaxation collision numbers</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#vibrational-relaxation-model">Vibrational-relaxation model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#diagnostics-per-channel-transition-counters">Diagnostics: per-channel transition counters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#per-species-model-switches-moleculeproperties">Per-species model switches (<code class="docutils literal notranslate"><span class="pre">moleculeProperties</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#rovibronicdatabase-sub-dictionary"><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary</a></li>
 </ul>
 </li>
@@ -86,7 +88,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#available-patch-models">Available patch models</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#hcao-local-mode-reaction-models">HCAO local-mode reaction models</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#gas-surface-interaction-dictionaries">Gas-surface interaction dictionaries</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
 </ul>
@@ -149,6 +154,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#hard-sphere-cross-section">Hard sphere cross section</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#variable-hard-sphere-vhs">Variable Hard Sphere (VHS)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#variable-soft-sphere-vss">Variable Soft Sphere (VSS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#pair-parameters">Pair parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#post-collision-velocities">Post-collision velocities</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#elastic-versus-inelastic-variants">Elastic versus inelastic variants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#coefficient-dictionaries">Coefficient dictionaries</a></li>
@@ -298,15 +304,29 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../classes/species_database.html"><code class="docutils literal notranslate"><span class="pre">dsmcSpeciesDatabase</span></code> — spectroscopic &amp; VSS data</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#role">Role</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#contents-of-a-species-file">Contents of a species file</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#level-table-construction">Level-table construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#contents-of-a-species-entry">Contents of a species entry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#level-table-construction">Level-table construction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../classes/species_database.html#constant-speciescache"><code class="docutils literal notranslate"><span class="pre">constant/speciesCache</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#diagnostic-output">Diagnostic output</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#polyatomic-species">Polyatomic species</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../classes/species_database.html#per-species-overrides">Per-species overrides</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/species_database.html#per-species-model-switches">Per-species model switches</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#status-of-charged-species-data">Status of charged-species data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#extending-the-database">Extending the database</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../classes/species_database_sources.html">Species database: sources, generation and lock</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#principle">Principle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#files">Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#masses-and-collision-data">Masses and collision data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#spectroscopy">Spectroscopy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#case-level-lock">Case-level lock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#repository-lock">Repository lock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#changing-or-adding-a-species">Changing or adding a species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#history">History</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../classes/initialisation.html">Particle initialisation</a><ul>
@@ -415,6 +435,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmccatalyticwallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcCatalyticWallPatch</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmcablatingwallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmccoveragewallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#wall-state-restart">Wall-state restart</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#surface-reaction-dictionary">Surface-reaction dictionary</a></li>
 </ul>
 </li>
@@ -711,12 +732,11 @@ interface.</p>
 <section id="case-directory-layout">
 <h2>Case directory layout<a class="headerlink" href="#case-directory-layout" title="Link to this heading"></a></h2>
 <p>A canonical rovibronic case follows the standard OpenFOAM
-three-fold layout. The reference tutorial <code class="docutils literal notranslate"><span class="pre">run/Tutorial/</span></code> is
-organised as:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Tutorial/
+three-fold layout (the cases under <code class="docutils literal notranslate"><span class="pre">run/0D/</span></code> and <code class="docutils literal notranslate"><span class="pre">tutorials/</span></code>):</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>myCase/
 ├── constant/
 │   ├── dsmcProperties         # primary solver configuration
-│   ├── speciesCache/          # species database (one .dat per species)
+│   ├── speciesCache/          # level-table cache written at start-up
 │   └── polyMesh/              # OpenFOAM mesh
 └── system/
     ├── controlDict            # time stepping, output frequency
@@ -733,9 +753,10 @@ organised as:</p>
 </section>
 <section id="constant-dsmcproperties">
 <h2><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code><a class="headerlink" href="#constant-dsmcproperties" title="Link to this heading"></a></h2>
-<p>The top-level solver configuration. The keys listed below are read
-in <code class="docutils literal notranslate"><span class="pre">dsmcCloud.C</span></code> at lines 49–92 (species database path) and
-1040–1061 (solver-level switches and sub-models).</p>
+<p>The top-level solver configuration, read by the <code class="docutils literal notranslate"><span class="pre">dsmcCloud</span></code>
+constructor (<code class="docutils literal notranslate"><span class="pre">dsmcCloud.C</span></code>), by <code class="docutils literal notranslate"><span class="pre">buildConstProps()</span></code> (species
+database and collision pairs) and by the collision-rate and
+binary-collision selectors.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 30.0%" />
@@ -764,51 +785,75 @@ particle. Lower values increase statistical resolution but
 raise the computational cost. A cell-level target of at
 least 10–20 particles is recommended.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">chemicalReactions</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">chemicalReactions</span></code>, <code class="docutils literal notranslate"><span class="pre">chargedParticles</span></code>, <code class="docutils literal notranslate"><span class="pre">adsorption</span></code></p></td>
 <td><p>Switch</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
-<td><p>Activates the chemistry module; reactions are then read
-from <code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">chargedParticles</span></code></p></td>
-<td><p>Switch</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
-<td><p>Enables the charged-particle (plasma) extensions, including
-ionisation and charge exchange.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">adsorption</span></code></p></td>
-<td><p>Switch</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
-<td><p>Enables the surface-adsorption sub-model.</p></td>
+<td><p>Not read by the current solver; kept in case files for
+compatibility. The chemistry is the <code class="docutils literal notranslate"><span class="pre">reactions</span></code> list of
+<code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code>, and surface processes are set on
+the wall patches.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">axisymmetricSimulation</span></code></p></td>
 <td><p>Switch</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
-<td><p>Enables the axisymmetric geometry treatment.</p></td>
+<td><p>Enables the axisymmetric geometry treatment (radial
+weighting); requires <code class="docutils literal notranslate"><span class="pre">axisymmetricProperties</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">adaptiveSimulation</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">axisymmetricProperties</span></code></p></td>
+<td><p>dict</p></td>
+<td><p>see below</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">radialExtentOfDomain</span></code> <span class="math notranslate nohighlight">\(R\)</span> [m] and
+<code class="docutils literal notranslate"><span class="pre">maxRadialWeightingFactor</span></code> <span class="math notranslate nohighlight">\(W\)</span>; the radial
+weighting factor at radius <span class="math notranslate nohighlight">\(r\)</span> is
+<span class="math notranslate nohighlight">\(1 + (W - 1)\,r/R\)</span>. Read only when
+<code class="docutils literal notranslate"><span class="pre">axisymmetricSimulation</span></code> is on.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">adaptiveSimulation</span></code></p></td>
 <td><p>Switch</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
 <td><p>Enables adaptive time-stepping and cell weighting.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cellWeightedSimulation</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cellWeightedSimulation</span></code></p></td>
 <td><p>Switch</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
 <td><p>Enables cell-weighted parcel statistics.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">BinaryCollisionModel</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">printReactionsToTerminal</span></code></p></td>
+<td><p>Switch</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true</span></code></p></td>
+<td><p>Optional (default <code class="docutils literal notranslate"><span class="pre">false</span></code>); prints per-reaction counts at
+each output.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">randomSeed</span></code></p></td>
+<td><p>label</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">12345</span></code></p></td>
+<td><p>Optional fixed seed of the random-number generator (offset
+per processor). By default the seed is the wall-clock time
+in whole seconds, so replicas launched in the same second
+are identical.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">BinaryCollisionModel</span></code></p></td>
 <td><p>word</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">LarsenBorgnakkeVariableHardSphere</span></code></p></td>
-<td><p>Binary collision model class. Alternative:
-<code class="docutils literal notranslate"><span class="pre">LarsenBorgnakkeVariableSoftSphere</span></code>.</p></td>
+<td><p>Binary collision model class. Alternatives:
+<code class="docutils literal notranslate"><span class="pre">LarsenBorgnakkeVariableSoftSphere</span></code>,
+<code class="docutils literal notranslate"><span class="pre">FHOVariableHardSphere</span></code>, <code class="docutils literal notranslate"><span class="pre">VariableHardSphere</span></code>,
+<code class="docutils literal notranslate"><span class="pre">VariableSoftSphere</span></code>, <code class="docutils literal notranslate"><span class="pre">NoBinaryCollision</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">collisionProperties</span></code></p></td>
+<td><p>dict</p></td>
+<td><p>see below</p></td>
+<td><p>Reference temperature (<code class="docutils literal notranslate"><span class="pre">Tref</span></code>, must be 273), the
+relaxation collision numbers, <code class="docutils literal notranslate"><span class="pre">initialSubCellLevels</span></code> and
+the optional <span class="math notranslate nohighlight">\(Z_v(T)\)</span> keys. Required for every model.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;Model&gt;Coeffs</span></code></p></td>
 <td><p>dict</p></td>
 <td><p>see below</p></td>
-<td><p>Model-specific coefficients (reference temperature and the
-three relaxation collision numbers).</p></td>
+<td><p>Optional model-specific extras (the V-V block of the LB
+models, the FHO settings).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">collisionPartnerSelectionModel</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">collisionRateModel</span></code></p></td>
 <td><p>word</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code></p></td>
 <td><p>Collision-pair selection algorithm (NTC is the standard
@@ -823,30 +868,37 @@ this list defines the integer type-IDs used internally.</p></td>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code></p></td>
 <td><p>dict</p></td>
 <td><p>see below</p></td>
-<td><p>Rovibronic database configuration.</p></td>
+<td><p>Species-database configuration. Required: without it the
+solver stops.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">moleculeProperties</span></code></p></td>
+<td><p>dict</p></td>
+<td><p>see below</p></td>
+<td><p>Optional per-species model switches.</p></td>
 </tr>
 </tbody>
 </table>
-<p>Example excerpt taken verbatim from
-<code class="docutils literal notranslate"><span class="pre">run/Tutorial/constant/dsmcProperties</span></code>:</p>
+<p>Example excerpt, in the form used by the cases under
+<code class="docutils literal notranslate"><span class="pre">run/0D/</span></code>:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">nEquivalentParticles</span><span class="w">                        </span><span class="mi">625000</span><span class="p">;</span>
-<span class="n">chemicalReactions</span><span class="w">                           </span><span class="nb">false</span><span class="p">;</span>
-<span class="n">chargedParticles</span><span class="w">                            </span><span class="nb">false</span><span class="p">;</span>
-<span class="n">adsorption</span><span class="w">                                  </span><span class="nb">false</span><span class="p">;</span>
+<span class="n">adaptiveSimulation</span><span class="w">                          </span><span class="nb">false</span><span class="p">;</span>
+<span class="n">cellWeightedSimulation</span><span class="w">                      </span><span class="nb">false</span><span class="p">;</span>
 <span class="n">axisymmetricSimulation</span><span class="w">                      </span><span class="nb">false</span><span class="p">;</span>
 
 <span class="n">BinaryCollisionModel</span><span class="w">                        </span><span class="n">LarsenBorgnakkeVariableHardSphere</span><span class="p">;</span>
-<span class="n">LarsenBorgnakkeVariableHardSphereCoeffs</span>
+
+<span class="n">collisionProperties</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="n">Tref</span><span class="w">                                    </span><span class="mi">273</span><span class="p">;</span><span class="w"> </span><span class="c1">// [K]</span>
-<span class="w">    </span><span class="n">rotationalRelaxationCollisionNumber</span><span class="w">     </span><span class="mi">2</span><span class="p">;</span><span class="w">   </span><span class="c1">// [-]</span>
-<span class="w">    </span><span class="n">rovibrationalRelaxationCollisionNumber</span><span class="w">  </span><span class="mi">10</span><span class="p">;</span><span class="w">  </span><span class="c1">// [-]</span>
-<span class="w">    </span><span class="n">rovibronicRelaxationCollisionNumber</span><span class="w">     </span><span class="mi">10</span><span class="p">;</span><span class="w">  </span><span class="c1">// [-]</span>
+<span class="w">    </span><span class="n">Tref</span><span class="w">                                    </span><span class="mi">273</span><span class="p">;</span><span class="w"> </span><span class="c1">// [K], fixed by the database</span>
+<span class="w">    </span><span class="n">rotationalRelaxationCollisionNumber</span><span class="w">     </span><span class="mi">5</span><span class="p">;</span><span class="w">   </span><span class="c1">// [-]</span>
+<span class="w">    </span><span class="n">rovibrationalRelaxationCollisionNumber</span><span class="w">  </span><span class="mi">50</span><span class="p">;</span><span class="w">  </span><span class="c1">// [-]</span>
+<span class="w">    </span><span class="n">rovibronicRelaxationCollisionNumber</span><span class="w">     </span><span class="mi">500</span><span class="p">;</span><span class="w"> </span><span class="c1">// [-]</span>
+<span class="w">    </span><span class="n">initialSubCellLevels</span><span class="w">                    </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="n">collisionPartnerSelectionModel</span><span class="w">              </span><span class="n">noTimeCounter</span><span class="p">;</span>
+<span class="n">collisionRateModel</span><span class="w">                          </span><span class="n">noTimeCounter</span><span class="p">;</span>
 
-<span class="n">typeIdList</span><span class="w"> </span><span class="p">(</span><span class="n">O2</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">O2</span><span class="o">+</span><span class="w"> </span><span class="n">O</span><span class="o">+</span><span class="w"> </span><span class="n">E</span><span class="o">-</span><span class="w"> </span><span class="n">N2</span><span class="w"> </span><span class="n">N2</span><span class="o">+</span><span class="w"> </span><span class="n">NO</span><span class="w"> </span><span class="n">NO</span><span class="o">+</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="n">N</span><span class="o">+</span><span class="w"> </span><span class="n">H2</span><span class="w"> </span><span class="n">H</span><span class="w"> </span><span class="n">He</span><span class="w"> </span><span class="n">CN</span><span class="w"> </span><span class="n">CO</span><span class="w"> </span><span class="n">Ar</span><span class="p">);</span>
+<span class="n">typeIdList</span><span class="w"> </span><span class="p">(</span><span class="n">O2</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">O2</span><span class="o">+</span><span class="w"> </span><span class="n">O</span><span class="o">+</span><span class="w"> </span><span class="n">E</span><span class="o">-</span><span class="w"> </span><span class="n">N2</span><span class="w"> </span><span class="n">N2</span><span class="o">+</span><span class="w"> </span><span class="n">NO</span><span class="w"> </span><span class="n">NO</span><span class="o">+</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="n">N</span><span class="o">+</span><span class="p">);</span>
 
 <span class="n">rovibronicDatabase</span>
 <span class="p">{</span>
@@ -855,6 +907,10 @@ this list defines the integer type-IDs used internally.</p></td>
 <span class="p">}</span>
 </pre></div>
 </div>
+<p>All masses and collision parameters come from the frozen species
+database (<a class="reference internal" href="../classes/species_database_sources.html"><span class="doc">Species database: sources, generation and lock</span></a>);
+<code class="docutils literal notranslate"><span class="pre">collisionProperties/Tref</span></code> must equal the 273 K to which they are
+referenced, and any other value stops the solver.</p>
 <section id="relaxation-collision-numbers">
 <h3>Relaxation collision numbers<a class="headerlink" href="#relaxation-collision-numbers" title="Link to this heading"></a></h3>
 <p>The three collision numbers <span class="math notranslate nohighlight">\(Z_r\)</span>, <span class="math notranslate nohighlight">\(Z_{rv}\)</span>, and
@@ -876,10 +932,8 @@ thousands of Kelvin.</p></li>
 corresponding mode and is used as a diagnostic during the
 phase-by-phase validation protocol (see
 <a class="reference internal" href="../reference/validation.html"><span class="doc">Validation</span></a>).</p>
-<p>In addition to the three composite collision numbers, the
-collision-model coefficients sub-dictionary (named
-<code class="docutils literal notranslate"><span class="pre">&lt;Model&gt;Coeffs</span></code> or, in the relaxation cases, <code class="docutils literal notranslate"><span class="pre">collisionProperties</span></code>)
-accepts an optional fourth, pure-vibrational collision number and a
+<p>In addition to the three composite collision numbers,
+<code class="docutils literal notranslate"><span class="pre">collisionProperties</span></code> accepts an optional fourth, pure-vibrational collision number and a
 set of keys that switch the constant vibrational collision number
 for a temperature- and partner-dependent <span class="math notranslate nohighlight">\(Z_v(T)\)</span>.</p>
 </section>
@@ -937,7 +991,7 @@ whose cost grows linearly with the number of modes —
 recommended for many-mode species such as CH<sub>4</sub>.
 Both samplers target the identical distribution (verified
 to detailed balance); diatomics are unaffected. See
-<code class="docutils literal notranslate"><span class="pre">docs/verification/pfeiffer2016_relaxation_conformance.md</span></code>.</p></td>
+<code class="docutils literal notranslate"><span class="pre">docs/Development/Verification/pfeiffer2016_relaxation_conformance.md</span></code>.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">metropolisWalkLength</span></code></p></td>
 <td><p>label</p></td>
@@ -969,7 +1023,7 @@ per-relaxer <code class="docutils literal notranslate"><span class="pre">default
 explicit partner blocks override individual pairs:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">collisionProperties</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="n">Tref</span><span class="w">                                    </span><span class="mi">1000</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Tref</span><span class="w">                                    </span><span class="mi">273</span><span class="p">;</span>
 <span class="w">    </span><span class="n">vibrationalRelaxationModel</span><span class="w">              </span><span class="n">valentini</span><span class="p">;</span><span class="w">  </span><span class="c1">// partner-dependent</span>
 <span class="w">    </span><span class="n">vibrationalRelaxationChannel</span><span class="w">            </span><span class="n">pureVib</span><span class="p">;</span><span class="w">    </span><span class="c1">// Z_v(T) -&gt; v-only</span>
 <span class="w">    </span><span class="n">vibrationalRelaxationCollisionNumber</span><span class="w">    </span><span class="mf">1e30</span><span class="p">;</span><span class="w">       </span><span class="c1">// overridden by Z_v(T)</span>
@@ -988,44 +1042,77 @@ explicit partner blocks override individual pairs:</p>
 </pre></div>
 </div>
 </section>
+<section id="diagnostics-per-channel-transition-counters">
+<h3>Diagnostics: per-channel transition counters<a class="headerlink" href="#diagnostics-per-channel-transition-counters" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">countInternalTransitions</span></code> (Switch, <code class="docutils literal notranslate"><span class="pre">collisionProperties</span></code>,
+default <code class="docutils literal notranslate"><span class="pre">off</span></code>) enables cumulative per-species transition-event
+counters for the four LB window channels — rotational
+<span class="math notranslate nohighlight">\(J \to J'\)</span>, pure-vibrational <span class="math notranslate nohighlight">\(v \to v'\)</span>, rovibrational
+<span class="math notranslate nohighlight">\(v \to v'\)</span> (aggregated over the final <span class="math notranslate nohighlight">\(J'\)</span>), and
+rovibronic <span class="math notranslate nohighlight">\(n \to n'\)</span> — incremented at every non-reaction LB
+draw and printed to the log (tag <code class="docutils literal notranslate"><span class="pre">itc</span></code>) together with per-species
+state-population snapshots at every write time. Combined with the
+reservoir normalisation</p>
+<div class="math notranslate nohighlight">
+\[k_{s \to s'} = \frac{\Delta(\text{counts})}{\Delta t \;
+N_{s} \; n_{\mathrm{tot}}}\]</div>
+<p>this measures state-to-state rate coefficients directly (see
+<code class="docutils literal notranslate"><span class="pre">docs/Development/Verification/lb_state_to_state_rates.md</span></code>). Enable only in
+non-reactive runs: reaction-class trial redistributions pass through
+the same sampler and would pollute the tallies.</p>
+</section>
+<section id="per-species-model-switches-moleculeproperties">
+<h3>Per-species model switches (<code class="docutils literal notranslate"><span class="pre">moleculeProperties</span></code>)<a class="headerlink" href="#per-species-model-switches-moleculeproperties" title="Link to this heading"></a></h3>
+<p>The optional <code class="docutils literal notranslate"><span class="pre">moleculeProperties</span></code> sub-dictionary, keyed by species
+name, accepts only model switches:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">allowSpinForbiddenTransitions</span></code> (bool) —  flips the electronic
+spin-conservation gate per species: <code class="docutils literal notranslate"><span class="pre">true</span></code> connects the full
+electronic manifold, <code class="docutils literal notranslate"><span class="pre">false</span></code> restricts LB electronic relaxation
+(and equilibrium initialisation) to the initial state’s
+spin-multiplicity class;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vibrationalCoupling</span></code> (word) —  <code class="docutils literal notranslate"><span class="pre">separable</span></code> or <code class="docutils literal notranslate"><span class="pre">coupled</span></code>
+polyatomic vibration (<a class="reference internal" href="../theory/rovibronic_levels.html"><span class="doc">Rovibronic level structure</span></a>).</p></li>
+</ul>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">moleculeProperties</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">O2</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">allowSpinForbiddenTransitions</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// spin-blocked</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The species data are frozen. An entry that sets <code class="docutils literal notranslate"><span class="pre">mass</span></code>,
+<code class="docutils literal notranslate"><span class="pre">diameter</span></code>, <code class="docutils literal notranslate"><span class="pre">omega</span></code>, <code class="docutils literal notranslate"><span class="pre">alpha</span></code>, <code class="docutils literal notranslate"><span class="pre">charge</span></code>,
+<code class="docutils literal notranslate"><span class="pre">rotationalDegreesOfFreedom</span></code>, <code class="docutils literal notranslate"><span class="pre">vibrationalModes</span></code>,
+<code class="docutils literal notranslate"><span class="pre">maintainOddEvenParity</span></code>, <code class="docutils literal notranslate"><span class="pre">internalEnergyList</span></code>,
+<code class="docutils literal notranslate"><span class="pre">degeneracyList</span></code> or <code class="docutils literal notranslate"><span class="pre">dissociationEnergy</span></code> stops the solver with
+a <code class="docutils literal notranslate"><span class="pre">FatalError</span></code> (see <a class="reference internal" href="../classes/species_database_sources.html"><span class="doc">Species database: sources, generation and lock</span></a>).</p>
+</section>
 <section id="rovibronicdatabase-sub-dictionary">
 <h3><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary<a class="headerlink" href="#rovibronicdatabase-sub-dictionary" title="Link to this heading"></a></h3>
+<p>Required; a case without it stops at start-up.</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">computeEnergyLevels</span></code> (Switch) —  if <code class="docutils literal notranslate"><span class="pre">true</span></code>, the solver
-builds the <span class="math notranslate nohighlight">\((n, v, J)\)</span> energy and degeneracy tables at
-start-up from the species database.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">databasePath</span></code> (fileName) —  directory containing the
-per-species <code class="docutils literal notranslate"><span class="pre">.dat</span></code> files. In the reference tutorial this
-points to <code class="docutils literal notranslate"><span class="pre">constant/speciesCache</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">computeEnergyLevels</span></code> (Switch, default <code class="docutils literal notranslate"><span class="pre">true</span></code>) —  builds the
+<span class="math notranslate nohighlight">\((n, v, J)\)</span> energy and degeneracy tables at start-up from
+the compiled species database. With <code class="docutils literal notranslate"><span class="pre">false</span></code> the diatomic and
+atomic tables are read back from <code class="docutils literal notranslate"><span class="pre">databasePath</span></code> when a cache
+file exists.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">databasePath</span></code> (fileName, optional) —  directory in which the
+tables are cached, conventionally <code class="docutils literal notranslate"><span class="pre">&quot;constant/speciesCache&quot;</span></code>.</p></li>
 </ul>
 </section>
 </section>
 <section id="constant-speciescache">
 <h2><code class="docutils literal notranslate"><span class="pre">constant/speciesCache/</span></code><a class="headerlink" href="#constant-speciescache" title="Link to this heading"></a></h2>
-<p>The species database is distributed as one ASCII <code class="docutils literal notranslate"><span class="pre">.dat</span></code> file per
-species, named after the species symbol (e.g. <code class="docutils literal notranslate"><span class="pre">O2.dat</span></code>,
-<code class="docutils literal notranslate"><span class="pre">N2.dat</span></code>, <code class="docutils literal notranslate"><span class="pre">NO.dat</span></code>). The reference tutorial ships 259 such
-files, covering the diatomic molecules of air chemistry, their
-atomic fragments, the first few ion species, and the electron.</p>
-<p>Each file contains, in order:</p>
-<ol class="arabic simple">
-<li><p>the Variable Soft Sphere (VSS) collision parameters
-(<span class="math notranslate nohighlight">\(\sigma_{\mathrm{ref}}\)</span>, <span class="math notranslate nohighlight">\(\omega\)</span>, <span class="math notranslate nohighlight">\(\alpha\)</span>,
-<span class="math notranslate nohighlight">\(T_{\mathrm{ref}}\)</span>);</p></li>
-<li><p>the Dunham coefficients fitted to an ab-initio potential energy
-surface, one block per electronic state;</p></li>
-<li><p>the three-dimensional <code class="docutils literal notranslate"><span class="pre">internalEnergyList[n][v][J]</span></code> table,
-in Joules, with the <span class="math notranslate nohighlight">\((0, 0, 0)\)</span> ground-state level
-normalised to zero;</p></li>
-<li><p>the associated degeneracy table
-<code class="docutils literal notranslate"><span class="pre">degeneracyList[n][v][J]</span></code>, which accounts for the rotational
-multiplicity <span class="math notranslate nohighlight">\((2J+1)\)</span> and the electronic degeneracy
-<span class="math notranslate nohighlight">\(g_{\mathrm{elec}}^{(n)}\)</span>;</p></li>
-<li><p>the ionisation potential and, for molecules, the dissociation
-energy.</p></li>
-</ol>
-<p>Provenance and fit quality of the Dunham coefficients are documented
-in <code class="docutils literal notranslate"><span class="pre">docs/Database/dunham_coefficients_from_ab_initio_PES.md</span></code>.</p>
+<p>The species data are compiled into the solver, not read from the
+case. When <code class="docutils literal notranslate"><span class="pre">databasePath</span></code> is set, the solver writes one
+<code class="docutils literal notranslate"><span class="pre">&lt;species&gt;.dat</span></code> file per diatomic or atomic species (level table,
+degeneracies, dissociation and ionisation energies, spin
+multiplicities) as a cache; polyatomic ladders are not cached. The
+cache is not validated against the database: after a database
+change, rename every cache that may be read (the solver with
+<code class="docutils literal notranslate"><span class="pre">computeEnergyLevels</span> <span class="pre">false</span></code>, or a Python oracle) and regenerate
+it with <code class="docutils literal notranslate"><span class="pre">dsmcInitialise</span></code>. The origin of every constant is
+documented in <a class="reference internal" href="../classes/species_database_sources.html"><span class="doc">Species database: sources, generation and lock</span></a>.</p>
 </section>
 <section id="system-dsmcinitialisedict">
 <h2><code class="docutils literal notranslate"><span class="pre">system/dsmcInitialiseDict</span></code><a class="headerlink" href="#system-dsmcinitialisedict" title="Link to this heading"></a></h2>
@@ -1035,25 +1122,15 @@ in <code class="docutils literal notranslate"><span class="pre">docs/Database/du
 Each entry contains:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">type</span></code> —  fill strategy (<code class="docutils literal notranslate"><span class="pre">dsmcMeshFill</span></code> is the standard
-whole-domain option);</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">initialDistributionType</span></code> —  velocity distribution; typically
-<code class="docutils literal notranslate"><span class="pre">maxwellian</span></code>;</p></li>
+whole-domain option; velocities are drawn from a Maxwellian);</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">numberDensities</span></code> —  per-species number density in
 <span class="math notranslate nohighlight">\(\mathrm{m}^{-3}\)</span>;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">translationalTemperature</span></code> —  Maxwell-Boltzmann sampling
 temperature for the particle velocities;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">internalTemperature</span></code> —  Boltzmann sampling temperature
-used for the rovibronic state indices <span class="math notranslate nohighlight">\((n, v, J)\)</span>;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">rotationalTemperature</span></code> / <code class="docutils literal notranslate"><span class="pre">vibrationalTemperature</span></code>
-(optional, <code class="docutils literal notranslate"><span class="pre">dsmcMeshFill</span></code> only) —  SPLIT internal
-temperatures for two-temperature reservoir setups
-(<span class="math notranslate nohighlight">\(T_R \neq T_V\)</span>); both default to
-<code class="docutils literal notranslate"><span class="pre">internalTemperature</span></code>.  Currently implemented for
-polyatomic species (rotation + electronic sampled at
-<span class="math notranslate nohighlight">\(T_R\)</span>, the joint vibrational state at <span class="math notranslate nohighlight">\(T_V\)</span>);
-requesting a split for a diatomic is a fatal error.  Used by
-the Pfeiffer et al. 2016 verification reservoirs
-(<code class="docutils literal notranslate"><span class="pre">run/0D/pfeiffer2016_verification</span></code>);</p></li>
+used for the rovibronic state indices <span class="math notranslate nohighlight">\((n, v, J)\)</span>
+(a single internal temperature; separate rotational,
+vibrational or electronic temperatures are not read);</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code> —  bulk flow velocity (vector).</p></li>
 </ul>
 </li>
@@ -1064,7 +1141,6 @@ the Pfeiffer et al. 2016 verification reservoirs
 <span class="w">    </span><span class="n">configuration</span>
 <span class="w">    </span><span class="p">{</span>
 <span class="w">        </span><span class="n">type</span><span class="w">                        </span><span class="n">dsmcMeshFill</span><span class="p">;</span>
-<span class="w">        </span><span class="n">initialDistributionType</span><span class="w">     </span><span class="n">maxwellian</span><span class="p">;</span>
 <span class="w">        </span><span class="n">numberDensities</span>
 <span class="w">        </span><span class="p">{</span>
 <span class="w">            </span><span class="n">O2</span><span class="w">      </span><span class="mf">1e23</span><span class="p">;</span>
@@ -1143,30 +1219,43 @@ available; see the source tree for the complete list.</p>
 </section>
 <section id="system-chemreactdict">
 <h2><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code><a class="headerlink" href="#system-chemreactdict" title="Link to this heading"></a></h2>
-<p>Enabled when <code class="docutils literal notranslate"><span class="pre">chemicalReactions</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code> in
-<code class="docutils literal notranslate"><span class="pre">dsmcProperties</span></code>. Each reaction is specified as a named block of
-the form:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">reactionName</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="n">reactionModel</span><span class="w">      </span><span class="n">dissociationIonisationTypeISameSpecies</span><span class="p">;</span>
-<span class="w">    </span><span class="n">reactants</span><span class="w">          </span><span class="p">(</span><span class="n">N2</span><span class="w"> </span><span class="n">N2</span><span class="p">);</span>
-<span class="w">    </span><span class="n">productsOfDissociationReaction</span><span class="w"> </span><span class="p">(</span><span class="n">N</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="n">N2</span><span class="p">);</span>
-<span class="w">    </span><span class="n">aCoeff</span><span class="w">             </span><span class="p">...;</span>
-<span class="w">    </span><span class="n">bCoeff</span><span class="w">             </span><span class="p">...;</span>
-<span class="p">}</span>
+<p>Every reaction is an entry of the <code class="docutils literal notranslate"><span class="pre">reactions</span></code> list; an empty
+list runs the case without chemistry. Each entry names a
+<code class="docutils literal notranslate"><span class="pre">reactionModel</span></code> and carries a <code class="docutils literal notranslate"><span class="pre">dsmcReactionProperties</span></code>
+sub-dictionary:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">reactions</span>
+<span class="p">(</span>
+<span class="w">    </span><span class="n">oxygenDissociation</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">reactionModel</span><span class="w">   </span><span class="n">dissociationIonisationTypeISameSpecies</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">dsmcReactionProperties</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">reaction</span><span class="w">                      </span><span class="n">oxygenDissociation</span><span class="p">;</span>
+<span class="w">            </span><span class="n">reactants</span><span class="w">                     </span><span class="p">(</span><span class="n">O2</span><span class="w"> </span><span class="n">O2</span><span class="p">);</span>
+<span class="w">            </span><span class="n">productsOfDissociatedMolecule</span><span class="w"> </span><span class="p">(</span><span class="n">O</span><span class="w"> </span><span class="n">O</span><span class="p">);</span>
+<span class="w">            </span><span class="n">productsOfIonisedMolecule</span><span class="w">     </span><span class="p">(</span><span class="n">O2</span><span class="o">+</span><span class="w"> </span><span class="n">E</span><span class="o">-</span><span class="p">);</span>
+<span class="w">            </span><span class="n">allowSplitting</span><span class="w">                </span><span class="n">yes</span><span class="p">;</span>
+<span class="w">            </span><span class="n">writeRatesToTerminal</span><span class="w">          </span><span class="n">no</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">);</span>
 </pre></div>
 </div>
-<p>The dissociation and atom-exchange heats of reaction are <strong>computed
-automatically</strong> from the database entries
-<span class="math notranslate nohighlight">\(D_0 = E_{\mathrm{diss}}(n{=}0, v{=}0, J{=}0)\)</span> and do not need
-to be supplied by the user. Only the ionisation heat, which depends
-on an input ionisation potential, remains a user-facing parameter.</p>
+<p>The dissociation, exchange and ionisation thresholds of the QK
+classes are <strong>computed automatically</strong> from the database entries
+(<span class="math notranslate nohighlight">\(D_0 = E_{\mathrm{diss}}(n{=}0, v{=}0, J{=}0)\)</span> and the
+ionisation potentials) and are not supplied by the user.</p>
 <p>A detailed description of each reaction model is given in
 <a class="reference internal" href="../theory/chemistry.html"><span class="doc">Neutral chemistry</span></a>.</p>
-<p>For local-mode (HCAO) polyatomic species — database entries with
-<code class="docutils literal notranslate"><span class="pre">vibModeBasis</span> <span class="pre">localMode</span></code>, e.g. <code class="docutils literal notranslate"><span class="pre">H2O_HCAO</span></code>, <code class="docutils literal notranslate"><span class="pre">HCN_HCAO</span></code>,
-<code class="docutils literal notranslate"><span class="pre">CH4_HCAO</span></code>, <code class="docutils literal notranslate"><span class="pre">CH3_HCAO</span></code> — the channel-specific reaction models of
-Lauterbach, Tuttas &amp; Pfeiffer (2026) are available:</p>
+<section id="hcao-local-mode-reaction-models">
+<h3>HCAO local-mode reaction models<a class="headerlink" href="#hcao-local-mode-reaction-models" title="Link to this heading"></a></h3>
+<p>The channel-specific reaction models of Lauterbach, Tuttas &amp;
+Pfeiffer (2026) are compiled, but they act only on local-mode
+polyatomic species (database <code class="docutils literal notranslate"><span class="pre">vibModeBasis</span> <span class="pre">localMode</span></code>), and the
+frozen species database on the main branch carries no such species;
+a reaction that names a normal-mode species stops with a
+<code class="docutils literal notranslate"><span class="pre">FatalError</span></code>. Their keys are:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">polyDissociationQKHCAO</span></code> — one dissociation channel per local
 stretching mode (paper Eqs. 19–22).  Keys: <code class="docutils literal notranslate"><span class="pre">reactants</span> <span class="pre">(A</span> <span class="pre">M)</span></code>, a
@@ -1182,14 +1271,8 @@ Keys: <code class="docutils literal notranslate"><span class="pre">productsOfExc
 broadcasts), optional <code class="docutils literal notranslate"><span class="pre">stericFactor</span></code> (<span class="math notranslate nohighlight">\(\sigma\)</span>, default 1),
 <code class="docutils literal notranslate"><span class="pre">formationEnergy</span></code> (0 K reaction energy for the post-reaction
 ledger), optional <code class="docutils literal notranslate"><span class="pre">rotationCouplingGamma</span></code> (Eq. 37, default 0).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">polyRecombinationQK</span></code> / <code class="docutils literal notranslate"><span class="pre">polyRecombinationTCE</span></code> — optional
-<code class="docutils literal notranslate"><span class="pre">thirdBodies</span> <span class="pre">(M1</span> <span class="pre">M2</span> <span class="pre">...)</span></code> replaces the single <code class="docutils literal notranslate"><span class="pre">thirdBody</span></code> when
-the paper’s “M = any species” equilibrium cases are run; the QK
-class additionally accepts <code class="docutils literal notranslate"><span class="pre">manifoldSum</span> <span class="pre">binned</span></code> (exact
-density-of-states convolution, needed for large-manifold species
-such as CH4; default <code class="docutils literal notranslate"><span class="pre">exact</span></code>).</p></li>
 </ul>
-<p>Example cases: <code class="docutils literal notranslate"><span class="pre">run/0D/HCAO_validation</span></code>.</p>
+</section>
 </section>
 <section id="gas-surface-interaction-dictionaries">
 <h2>Gas-surface interaction dictionaries<a class="headerlink" href="#gas-surface-interaction-dictionaries" title="Link to this heading"></a></h2>
@@ -1264,9 +1347,10 @@ convenience key:</p>
 between terminal progress messages.</p></li>
 </ul>
 <p>The <code class="docutils literal notranslate"><span class="pre">application</span></code> entry is informational only; the executable
-that must actually be invoked is <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>, regardless of the
-string supplied here (the reference tutorial uses <code class="docutils literal notranslate"><span class="pre">dsmcFoamPlus</span></code>
-as the colloquial project name).</p>
+that must actually be invoked is <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> (or
+<code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code> for the moving-mesh and conjugate ablation
+cases), regardless
+of the string supplied here.</p>
 </section>
 </section>
 

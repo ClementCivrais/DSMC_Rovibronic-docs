@@ -11,11 +11,15 @@ hypersonic bodies, a representative re-entry capsule, and the
 polyatomic, planetary-atmosphere and gas-surface-interaction
 capabilities added in the current development cycle.
 
-Every case shares the same three-fold OpenFOAM layout
-(``0/`` field directory, ``constant/`` with ``dsmcProperties``
-and ``speciesCache/``, ``system/`` with the run-time
-dictionaries) and runs to completion through the standard
-``blockMesh`` → ``dsmcInitialise`` → ``dsmcFoam`` pipeline.
+Every case shares the same OpenFOAM layout (``constant/`` with
+``dsmcProperties``, ``system/`` with the run-time dictionaries) and
+runs through the standard ``blockMesh`` → ``dsmcInitialise`` →
+``dsmcFoam`` pipeline, with ``topoSet`` or ``snappyHexMesh`` after
+``blockMesh`` where the case's ``Allrun`` calls them. The
+``tutorials/`` cases use the current input format of
+:doc:`../guide/input_reference`. The species data are compiled into the solver; the
+``constant/speciesCache/`` directory, where present, only receives
+the level tables written at start-up.
 
 .. toctree::
    :maxdepth: 2

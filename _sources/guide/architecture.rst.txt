@@ -14,11 +14,14 @@ Top-level layout
 .. code-block:: text
 
    src/                 C++ libraries (DSMC core + rovibronic extension)
-   applications/        Solver executable and utilities
-   run/                 Reference test cases (Tutorial, verification, …)
-   doc/                 Standalone LaTeX notes (derivations, audits)
-   docs/                Long-form PDFs + Sphinx source for the docs site
+   applications/        Solvers (dsmcFoam, dsmcFoamAblation) and dsmcInitialise
+   tutorials/           Tutorial cases
+   run/                 Verification and research cases (0D, 3D, GSI, …)
+   docs/                User guides (PDF), Sphinx source for the docs site,
+                        development records
+   tools/               Maintenance scripts
    Allwmake             Top-level build driver
+   BUILD.md             Build instructions
 
 DSMC library
 ------------
@@ -38,8 +41,10 @@ class pages as follows:
      - Top-level orchestrator
      - :doc:`../classes/cloud`
    * - ``speciesDatabase/``
-     - Spectroscopic & VSS data
-     - :doc:`../classes/species_database`
+     - Frozen species data (spectroscopy, masses, VSS) and their
+       sources
+     - :doc:`../classes/species_database`,
+       :doc:`../classes/species_database_sources`
    * - ``initaliseDsmcParcels/``
      - Particle initialisation
      - :doc:`../classes/initialisation`
@@ -87,6 +92,10 @@ Applications
   executable. The ``Make/files`` line ``EXE =
   $(FOAM_USER_APPBIN)/dsmcFoam`` fixes the binary name to
   ``dsmcFoam``.
+* ``applications/solvers/discreteMethods/dsmcFoamAblation/`` —
+  the same solver on a dynamic mesh, for receding ablating walls
+  and the optional conjugate solid; it is built separately from
+  ``Allwmake``.
 * ``applications/utilities/preProcessing/DSMC/dsmcInitialise/``
   —  the pre-processing utility that writes the ``0/`` time
   directory from ``system/dsmcInitialiseDict``.
@@ -97,12 +106,16 @@ Build driver
 The top-level ``Allwmake`` script, invoked from the repository
 root, carries out three jobs:
 
-#. creates symbolic links from the repository's ``src/``,
-   ``applications/``, and ``tutorials/`` directories into
+#. creates symbolic links from the repository's
+   ``src/lagrangian``, ``applications/solvers`` and
+   ``applications/utilities`` directories into
    ``$WM_PROJECT_USER_DIR`` on the first compilation;
-#. builds the DSMC library under
-   ``$WM_PROJECT_USER_DIR/src/lagrangian/DSMC/``;
+#. builds ``liblagrangianCloudBase`` and ``libDSMC_MNF`` under
+   ``$WM_PROJECT_USER_DIR/src/lagrangian/``;
 #. builds ``dsmcFoam`` and ``dsmcInitialise``.
+
+``dsmcFoamAblation`` is built afterwards with ``wmake`` in its own
+directory (``BUILD.md``). Build products are not tracked by git.
 
 The use of symbolic links allows the OpenFOAM build machinery to
 pick the sources up as user-side additions and leaves the primary
@@ -112,20 +125,21 @@ Random-number generator
 -----------------------
 
 A single ``Foam::Random`` instance, ``rndGen_``, is held on the
-cloud (``dsmcCloud.H``, member variable). It is constructed at
-``dsmcCloud.C:1122`` with the seed
+cloud (``dsmcCloud.H``, member variable). It is constructed in the
+``dsmcCloud`` constructor with the seed
 
 .. code-block:: cpp
 
    rndGen_(label(clock::getTime()) + 7183*Pstream::myProcNo())
 
-i.e. the wall-clock time offset by a per-rank multiple of 7183.
-All downstream RNG consumers access this single instance through
-``cloud_.rndGen()``.
+i.e. the wall-clock time in whole seconds offset by a per-rank
+multiple of 7183. When ``constant/dsmcProperties`` sets
+``randomSeed N;``, the generator is reset to ``N`` plus the same
+per-rank offset. All downstream RNG consumers access this single
+instance through ``cloud_.rndGen()``.
 
-It is important to emphasise that this **single entry point makes
-deterministic regression testing feasible**: routing a fixed seed
-into the ``Random`` constructor at this one location seeds every
-downstream RNG consumer automatically. The design of the planned
-regression-test infrastructure is documented in
-:doc:`regression_tests`.
+This **single entry point makes deterministic regression testing
+feasible**: a fixed ``randomSeed`` seeds every downstream RNG
+consumer automatically. Without it, replicas launched in the same
+second are bit-identical. The design of the planned regression-test
+infrastructure is documented in :doc:`regression_tests`.

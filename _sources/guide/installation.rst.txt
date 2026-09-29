@@ -240,13 +240,18 @@ been arranged:
 .. code-block:: bash
 
    cd $HOME/OpenFOAM
-   git clone git@github.com:ClementCivrais/DSMC_Rovibronic.git
+   git clone -b main git@github.com:ClementCivrais/DSMC_Rovibronic.git
    cd DSMC_Rovibronic
 
-The repository contains the full dsmcFoam+ source tree under
+The ``main`` branch is the verified build: its committed sources
+are exactly those compiled and verified by the developers. The
+repository contains the full dsmcFoam+ source tree under
 ``src/lagrangian/DSMC/``, modified to include the rovibronic
 extensions; there is no separate "download dsmcFoam+" step, since
-the dsmcFoam+ source is embedded in the present repository.
+the dsmcFoam+ source is embedded in the present repository. Build
+products (``Make/linux64*``, ``lnInclude/``, object and dependency
+files) are not tracked (``.gitignore``). The short form of the
+procedure below is given in ``BUILD.md`` at the repository root.
 
 Step 4 — Build the solver
 -------------------------
@@ -262,18 +267,36 @@ build driver:
 
 The build script carries out three tasks:
 
-#. It creates symbolic links from ``DSMC_Rovibronic/{src,applications,tutorials}``
-   into ``$WM_PROJECT_USER_DIR`` on the first compilation. This
-   allows the OpenFOAM build machinery to pick the sources up as
+#. It creates symbolic links from ``DSMC_Rovibronic/src/lagrangian``
+   and ``DSMC_Rovibronic/applications/{solvers,utilities}`` into
+   ``$WM_PROJECT_USER_DIR`` on the first compilation. This allows
+   the OpenFOAM build machinery to pick the sources up as
    user-side additions.
-#. It builds the DSMC library under
-   ``$WM_PROJECT_USER_DIR/src/lagrangian/DSMC``.
+#. It builds the two libraries, ``liblagrangianCloudBase`` and
+   ``libDSMC_MNF``, into ``$FOAM_USER_LIBBIN``.
 #. It builds the solver executable
    (``applications/solvers/discreteMethods/dsmcFoam``) and the
-   associated pre-processing utility (``dsmcInitialise``).
+   associated pre-processing utility (``dsmcInitialise``) into
+   ``$FOAM_USER_APPBIN``.
 
-Upon completion, ``$FOAM_USER_APPBIN`` contains the
-``dsmcFoam`` executable and the ``dsmcInitialise`` utility.
+The moving-mesh ablation solver ``dsmcFoamAblation`` is not built
+by ``Allwmake``; it is built separately once the libraries exist:
+
+.. code-block:: bash
+
+   (cd applications/solvers/discreteMethods/dsmcFoamAblation && wmake)
+
+.. note::
+   ``Allwmake`` starts with ``wclean all`` in ``src/lagrangian``,
+   i.e. it always performs a full rebuild. After a change to a
+   single file, ``wmake libso`` in ``src/lagrangian/DSMC`` followed
+   by ``wmake`` in the solver and utility directories is
+   sufficient.
+
+The species database is compiled into ``libDSMC_MNF``. It is frozen
+and generated from the source files in
+``src/lagrangian/DSMC/speciesDatabase/sources/``; see
+:doc:`../classes/species_database_sources`.
 
 Verification
 ------------
@@ -286,20 +309,29 @@ message prints:
    which dsmcFoam
    dsmcFoam -help
 
-We then run the reference case in serial, which doubles as an
-end-to-end installation test:
+We then run any case under ``run/0D/`` in serial, which doubles
+as an end-to-end installation test:
 
 .. code-block:: bash
 
-   cd $HOME/OpenFOAM/DSMC_Rovibronic/run/Tutorial
+   cd $HOME/OpenFOAM/DSMC_Rovibronic/run/0D/<case>
    blockMesh
    dsmcInitialise
    dsmcFoam
 
-The solver should start, print the rovibronic database summary and
-the PEC asymptote-matching diagnostic, and advance the simulation.
-Terminating it after a handful of time-steps (``Ctrl-C``) is
-sufficient to confirm the build.
+``dsmcInitialise`` prints the collision pairs taken from the
+species database, for example
+
+.. code-block:: text
+
+   Collision pairs (d_ref [m], omega, alpha; Tref = 273 K)
+       O2 + O2: 3.8713e-10 0.69652 1.46082
+
+and the level count of each species (``Total (n,v,J) levels:
+17389`` for O\ :sub:`2`). The solver should then start, print the
+same summary and the dissociation-channel matching diagnostic, and
+advance the simulation. Terminating it after a handful of
+time-steps (``Ctrl-C``) is sufficient to confirm the build.
 
 Troubleshooting common issues
 -----------------------------

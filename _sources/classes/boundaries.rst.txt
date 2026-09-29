@@ -356,10 +356,11 @@ density), and a ``reactions`` list.
 
 Adds a per-face solid-carbon ledger to the catalytic machinery:
 ablation reactions debit carbon atoms, and the patch reports a
-recession rate and depth from the consumed mass. The mesh itself
-does not move (geometric recession is handled by the immersed
-level-set, :doc:`../theory/wall_models`); this class is the natural
-boundary diagnostic for surface mass loss.
+recession rate and depth from the consumed mass. Under ``dsmcFoam``
+the mesh does not move (geometric recession is handled by the
+immersed level-set, :doc:`../theory/wall_models`); this class is
+the natural boundary diagnostic for surface mass loss, and under
+``dsmcFoamAblation`` it drives the receding wall.
 
 ``dsmcCoverageWallPatch``
 `````````````````````````
@@ -370,6 +371,44 @@ Polanyi-Wigner desorption with lateral interactions, Eley-Rideal
 and Langmuir-Hinshelwood surface reactions. Configured through a
 per-species ``species`` block (sticking and desorption parameters)
 and a ``reactions`` block (``ER`` / ``LH`` entries).
+
+The patch conserves the adsorbed mass exactly. A parcel adsorbs
+only if its face holds the free sites it needs (two per molecule
+for dissociative adsorption), and an Eley-Rideal event occurs only
+if the adsorbed atoms it consumes are present. A draw that fails
+either test reflects the parcel diffusely and is counted in
+``nRejected``, which the patch reports with the other tallies.
+Coverage therefore never exceeds 1 or falls below 0, and no atom is
+created or destroyed at saturation.
+
+Wall-state restart
+``````````````````
+
+At every write time the coverage and ablating walls save their
+state, and read it back on start-up:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 45 55
+
+   * - File
+     - Content
+   * - ``<time>/uniform/dsmcWalls/<patch>Coverage``
+     - coverage :math:`\theta` per species and face, pending
+       desorption, and the tallies (adsorbed, rejected, desorbed,
+       reacted, collision-desorbed).
+   * - ``<time>/uniform/dsmcWalls/<patch>Ablation``
+     - per-face carbon consumed and :math:`T_w`, total carbon
+       consumed, production totals, per-reaction counts and impact
+       counters.
+
+A restarted run therefore resumes :math:`\theta`, the carbon ledger
+(and with it ``recessionVelocity()``) and the wall temperature
+instead of resetting them. In a parallel run the files are written
+per processor; a restart must use the same decomposition and, for
+the ablating wall, the same reaction list, otherwise the solver
+stops with a ``FatalError``. A case without these files starts from
+``initCoverage`` and an empty ledger, as before.
 
 Surface-reaction dictionary
 ```````````````````````````

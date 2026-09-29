@@ -58,6 +58,14 @@ reference Arrhenius rate; atom conservation requires nuclei drift
 :math:`< 0.1\%`; GSI checks compare against the analytic surface
 law.
 
+.. note::
+
+   ``chem_Saturn_H2`` clones ``run/0D/Saturn_H2_diss_rate``. That
+   case now takes its H2/He/H collision data from the frozen species
+   database instead of Higdon's per-species VHS values, so its
+   golden value must be regenerated before the check is used
+   (:doc:`../classes/species_database_sources`).
+
 How it works
 ------------
 

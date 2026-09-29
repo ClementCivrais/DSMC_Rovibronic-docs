@@ -3,11 +3,14 @@ Collision-rate test
 
 Directory: ``tutorials/collisionRateTest/``.
 
-A periodic N\ :sub:`2` / O\ :sub:`2` case specifically designed
-to stress the collision-partner-selection layer. The
-``cellMeasurements`` class accumulates the per-cell collision
-count and the mean collision separation, both of which are
-written alongside the macroscopic fields.
+A single-cell periodic box of O\ :sub:`2` at
+:math:`10^{19}\;\mathrm{m}^{-3}` and :math:`10\,000~\mathrm{K}`
+(``typeIdList (N2 O2)``, only O\ :sub:`2` initialised), designed
+to stress the collision-partner-selection layer. The ``dsmcZone``
+measurement of ``system/fieldPropertiesDict`` runs with
+``measureCollisionRateOnly true`` and writes the measured collision
+rate to
+``fieldMeasurements/zone_dsmcZone_O2_measuredCollisionRate.xyz``.
 
 Theoretical basis
 -----------------
@@ -55,8 +58,8 @@ Validation goals
 
 Two quantitative targets:
 
-#. **Collision rate.** The cell-averaged collision rate
-   accumulated in ``cellMeasurements`` should match
+#. **Collision rate.** The measured collision rate written by
+   the ``dsmcZone`` measurement should match
    :math:`\nu_{\mathrm{coll}}` evaluated from the VSS species
    parameters to within a few percent. A systematic bias is
    usually traceable to either the :math:`(\sigma_T g)_{\max}`

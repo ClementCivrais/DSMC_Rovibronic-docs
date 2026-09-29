@@ -296,6 +296,19 @@ inventory) and resolves four elementary surface processes:
   :math:`k_{\mathrm{LH}}\theta_A\theta_B` and
   :math:`k_{\mathrm{LH}} = A_{\mathrm{LH}}\exp(-E_{\mathrm{LH}}/T_w)`.
 
+The site inventory is enforced exactly rather than by clamping
+:math:`\theta`: adsorption requires the free sites of the face
+(two for dissociative adsorption), Eley-Rideal requires the
+adsorbed atoms it consumes, and a rejected draw is reflected
+diffusely and counted. The adsorbed mass is therefore conserved; in
+a closed box of O with a sticking wall the O balance between gas
+and surface closes to round-off, and the Langmuir-Hinshelwood decay
+:math:`\theta(t) = \theta_0/(1 + 2 k_{\mathrm{LH}} \theta_0 t)` is
+reproduced to the explicit-Euler error of the time step
+(``docs/Development/Verification/gsi/b0_correctness.md``). The
+coverage and the carbon ledger of the reactive walls are written at
+every output time and restored on restart (:doc:`../classes/boundaries`).
+
 Vapour-pressure sublimation and the surface energy balance
 ----------------------------------------------------------
 
@@ -345,7 +358,12 @@ works uniformly in 1D, 2D and 3D.
   :math:`\phi = 0` onto the solid side is diffuse-reflected at the
   wall temperature, optionally reacts with surface probability,
   and is mirrored back into the gas. The per-cell reaction tally
-  drives the recession.
+  drives the recession. The probability
+  :math:`\beta(T_w) = \min\bigl(1, A\,T_w^{\,n}\,e^{-T_a/T_w}\bigr)`
+  is re-evaluated whenever the wall temperature changes (radiative
+  equilibrium, or a :math:`T_w` read from the PATO exchange file),
+  so the reaction rate follows :math:`T_w` as it relaxes; the log
+  line prints :math:`\beta(T_w)`.
 
 * **Level-set advance.** The receded depth per cell,
   :math:`\Delta = N_{\mathrm{abl}}\,m_{\mathrm{C}}/

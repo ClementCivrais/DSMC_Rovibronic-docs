@@ -52,7 +52,8 @@ where :math:`\Theta` is the Heaviside step, :math:`\bar\zeta` is
 the average number of internal degrees of freedom of the colliding
 pair (here the internal shape-parameter sum,
 :math:`\bar\zeta = \tfrac{1}{2}(\zeta_{AB} + \zeta_M)`),
-:math:`\omega` is the pair-averaged VHS viscosity exponent, and the
+:math:`\omega` is the pair viscosity exponent
+:math:`\omega_{PQ}` from the frozen pair table, and the
 two coefficients are derived analytically:
 
 .. math::
@@ -69,8 +70,10 @@ two coefficients are derived analytically:
                 {k_B^{\,\eta - 1 + \omega}} .
 
 Here :math:`\sigma_{\mathrm{ref}} = \pi d_{PQ}^2` is the pair VHS
-reference cross-section, :math:`T_{\mathrm{ref}}` the collision
-reference temperature, :math:`m_r` the reduced mass, and
+reference cross-section (see
+:doc:`../classes/species_database_sources`), :math:`T_{\mathrm{ref}}
+= 273~\mathrm{K}` the collision reference temperature, :math:`m_r`
+the reduced mass, and
 :math:`\epsilon = 2` for like reactants, :math:`1` otherwise. The
 collision energy :math:`E_c` pools the relative translational
 energy and the internal energy of *both* collision partners.
@@ -405,8 +408,9 @@ denominator over the product-molecule level space, and fires
 through the two-stage LB sampling described above. Start-up
 diagnostics print the computed heat against literature values:
 :math:`\mathrm{N}_2 + \mathrm{O} \to \mathrm{NO} + \mathrm{N}`
-returns :math:`\Delta H \approx -37\,732~\mathrm{K}`, within 1%
-of the tabulated value.
+returns :math:`\Delta H = -37\,698~\mathrm{K}`, within 0.3 % of
+the ATcT value; the difference is the :math:`J`-weighted
+fine-structure offset of the atomic energy zero.
 
 Polyatomic chemistry
 --------------------

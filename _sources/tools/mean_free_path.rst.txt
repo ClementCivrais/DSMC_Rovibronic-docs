@@ -15,10 +15,13 @@ rigorous VSS mixture calculation treats the cross terms as
 **distinct fitted parameters**, not as means of the pure-species
 values.
 
-A short derivation, the combining-rule convention used to
-initialise the pair table, and a discussion of the cases in which
-the combining rule is inadequate are given at the end of the
-page. The calculator runs entirely in the browser: no input is
+The tables are preloaded with the solver's frozen species data
+(:doc:`../classes/species_database_sources`): CIAAW masses, and
+the collision-specific VSS rows of Gosma et al. (2025) at
+:math:`T_{\mathrm{ref}} = 273~\mathrm{K}`, both for the pure
+species and for every pair. A short derivation and a discussion of
+combining rules, which the calculator uses only for edited
+species, are given at the end of the page. The calculator runs entirely in the browser: no input is
 sent to any server.
 
 Calculator
@@ -73,10 +76,11 @@ Calculator
        The pure-species table below sets <em>m</em>, <em>d<sub>s</sub></em>,
        <em>ω<sub>s</sub></em> for each species, and the mole fraction
        <em>x<sub>s</sub></em>. All mole fractions must sum to 1. Click
-       <em>Normalise</em> to rescale them automatically. Changing a
-       pure-species value will re-initialise the pair table (section 4)
-       via the combining rule, unless a pair entry has been manually
-       overridden.
+       <em>Normalise</em> to rescale them automatically. The preloaded
+       values are those of the solver's frozen species database.
+       Changing a pure-species value re-initialises the pairs of that
+       species (section 4) via the combining rule, unless a pair entry
+       has been manually overridden.
      </p>
      <table>
        <thead>
@@ -98,14 +102,16 @@ Calculator
        <strong>pair-specific</strong> cross parameters
        <em>d<sub>st</sub></em> and <em>ω<sub>st</sub></em>, which are in
        general <em>not</em> arithmetic means of the pure-species
-       values. The table is initialised from Bird's arithmetic-mean
-       combining rule, but every entry is editable; an overridden entry
-       is highlighted and is preserved even when pure-species values
-       change. Pair entries whose species have mole fraction zero are
-       faded and ignored in the computation.
+       values. The table is initialised from the solver's pair table
+       (the collision-specific rows of Gosma et al. 2025, which the
+       solver uses for every neutral pair), but every entry is
+       editable; an overridden entry is highlighted and is preserved
+       even when pure-species values change. Pair entries whose species
+       have mole fraction zero are faded and ignored in the
+       computation.
      </p>
      <p>
-       <button class="compute secondary" onclick="resetPairTableToRule()">Reset pair table to combining rule</button>
+       <button class="compute secondary" onclick="resetPairTableToRule()">Reset pair table to solver values</button>
      </p>
      <table>
        <thead>
@@ -161,8 +167,9 @@ Calculator
          The cross parameters <em>d<sub>st</sub></em> and
          <em>ω<sub>st</sub></em> are taken from the <strong>pair
          table</strong> (section 4). When the pair entry has not been
-         overridden, they are initialised from the arithmetic-mean
-         combining rule,
+         overridden, they are the solver's collision-specific pair
+         values; for a pair involving an edited species they fall back
+         to the arithmetic-mean combining rule,
          <span class="mono">d<sub>st</sub> = (d<sub>s</sub>+d<sub>t</sub>)/2</span> and
          <span class="mono">ω<sub>st</sub> = (ω<sub>s</sub>+ω<sub>t</sub>)/2</span>,
          which is not rigorous —  the background section at the bottom
@@ -193,21 +200,105 @@ Calculator
      const K_B = 1.380649e-23;
      const T_REF = 273.0;
 
+     // Frozen species database (speciesDatabase/sources/species_properties_frozen.json):
+     // masses from CIAAW atomic weights; d_ref, omega at Tref = 273 K from the
+     // Gosma et al. (2025) like-pair rows.
      const SPECIES_DB = {
-       'N2':  { m: 4.6517e-26, d: 4.17e-10, omega: 0.74, type: 'diatomic'   },
-       'O2':  { m: 5.3134e-26, d: 4.07e-10, omega: 0.77, type: 'diatomic'   },
-       'NO':  { m: 4.9826e-26, d: 4.20e-10, omega: 0.79, type: 'diatomic'   },
-       'N':   { m: 2.3258e-26, d: 3.00e-10, omega: 0.80, type: 'monatomic'  },
-       'O':   { m: 2.6567e-26, d: 3.00e-10, omega: 0.80, type: 'monatomic'  },
-       'Ar':  { m: 6.6335e-26, d: 4.17e-10, omega: 0.81, type: 'monatomic'  },
-       'He':  { m: 6.6460e-27, d: 2.33e-10, omega: 0.66, type: 'monatomic'  },
-       'Ne':  { m: 3.3510e-26, d: 2.77e-10, omega: 0.66, type: 'monatomic'  },
-       'H2':  { m: 3.3472e-27, d: 2.92e-10, omega: 0.67, type: 'diatomic'   },
-       'H':   { m: 1.6736e-27, d: 2.05e-10, omega: 0.80, type: 'monatomic'  },
-       'CO':  { m: 4.6511e-26, d: 4.19e-10, omega: 0.73, type: 'diatomic'   },
-       'CO2': { m: 7.3081e-26, d: 5.62e-10, omega: 0.93, type: 'polyatomic' },
-       'CH4': { m: 2.6640e-26, d: 4.83e-10, omega: 0.84, type: 'polyatomic' },
-       'Xe':  { m: 2.1800e-25, d: 5.74e-10, omega: 0.85, type: 'monatomic'  }
+       'N2':   { m: 4.651834e-26, d: 4.0981e-10, omega: 0.69364, type: 'diatomic' },
+       'O2':   { m: 5.313393e-26, d: 3.8713e-10, omega: 0.69652, type: 'diatomic' },
+       'NO':   { m: 4.982614e-26, d: 4.1698e-10, omega: 0.73138, type: 'diatomic' },
+       'N':    { m: 2.325917e-26, d: 3.6052e-10, omega: 0.77855, type: 'monatomic' },
+       'O':    { m: 2.656696e-26, d: 3.6218e-10, omega: 0.79402, type: 'monatomic' },
+       'Ar':   { m: 6.633854e-26, d: 3.9925e-10, omega: 0.71967, type: 'monatomic' },
+       'He':   { m: 6.646477e-27, d: 2.8808e-10, omega: 0.83190, type: 'monatomic' },
+       'H2':   { m: 3.347647e-27, d: 3.6709e-10, omega: 0.84503, type: 'diatomic' },
+       'H':    { m: 1.673823e-27, d: 4.9286e-10, omega: 0.98605, type: 'monatomic' },
+       'CO':   { m: 4.651170e-26, d: 4.5998e-10, omega: 0.77894, type: 'diatomic' },
+       'CO2':  { m: 7.307866e-26, d: 4.3409e-10, omega: 0.66705, type: 'polyatomic' },
+       'CH4':  { m: 2.664003e-26, d: 4.1768e-10, omega: 0.70083, type: 'polyatomic' }
+     };
+
+     // Collision-specific pair rows used by the solver for every neutral pair
+     // (Gosma et al. 2025, Tref = 273 K). Key: canonical "A|B" (sorted).
+     const PAIR_DB = {
+       'N2|N2': { d: 4.0981e-10, omega: 0.69364 },
+       'N2|O2': { d: 3.5802e-10, omega: 0.70026 },
+       'N2|NO': { d: 4.3228e-10, omega: 0.74825 },
+       'N|N2': { d: 3.9252e-10, omega: 0.74081 },
+       'N2|O': { d: 3.2141e-10, omega: 0.70071 },
+       'Ar|N2': { d: 3.8037e-10, omega: 0.69334 },
+       'He|N2': { d: 3.2413e-10, omega: 0.71106 },
+       'H2|N2': { d: 3.6400e-10, omega: 0.71605 },
+       'H|N2': { d: 3.5568e-10, omega: 0.71892 },
+       'CO|N2': { d: 4.5998e-10, omega: 0.77894 },
+       'CO2|N2': { d: 4.4482e-10, omega: 0.71675 },
+       'CH4|N2': { d: 4.0628e-10, omega: 0.70249 },
+       'O2|O2': { d: 3.8713e-10, omega: 0.69652 },
+       'NO|O2': { d: 4.0168e-10, omega: 0.71389 },
+       'N|O2': { d: 3.6696e-10, omega: 0.75079 },
+       'O|O2': { d: 3.6736e-10, omega: 0.75099 },
+       'Ar|O2': { d: 3.9310e-10, omega: 0.71415 },
+       'He|O2': { d: 3.1752e-10, omega: 0.70922 },
+       'H2|O2': { d: 3.5819e-10, omega: 0.71612 },
+       'H|O2': { d: 3.4959e-10, omega: 0.71833 },
+       'CO|O2': { d: 4.2528e-10, omega: 0.74178 },
+       'CO2|O2': { d: 4.1147e-10, omega: 0.68197 },
+       'CH4|O2': { d: 4.0211e-10, omega: 0.70484 },
+       'NO|NO': { d: 4.1698e-10, omega: 0.73138 },
+       'N|NO': { d: 3.9647e-10, omega: 0.78026 },
+       'NO|O': { d: 3.6436e-10, omega: 0.74583 },
+       'Ar|NO': { d: 3.9978e-10, omega: 0.71259 },
+       'He|NO': { d: 3.1622e-10, omega: 0.70861 },
+       'H2|NO': { d: 3.5955e-10, omega: 0.71784 },
+       'H|NO': { d: 3.5112e-10, omega: 0.71944 },
+       'CO|NO': { d: 4.4185e-10, omega: 0.75987 },
+       'CO2|NO': { d: 4.2748e-10, omega: 0.69915 },
+       'CH4|NO': { d: 4.0381e-10, omega: 0.70717 },
+       'N|N': { d: 3.6052e-10, omega: 0.77855 },
+       'N|O': { d: 3.7110e-10, omega: 0.78224 },
+       'Ar|N': { d: 3.8748e-10, omega: 0.77686 },
+       'He|N': { d: 2.9934e-10, omega: 0.70321 },
+       'H2|N': { d: 3.4256e-10, omega: 0.71595 },
+       'H|N': { d: 3.3332e-10, omega: 0.71620 },
+       'CO|N': { d: 3.7483e-10, omega: 0.69538 },
+       'CO2|N': { d: 4.2957e-10, omega: 0.75331 },
+       'CH4|N': { d: 3.9105e-10, omega: 0.71174 },
+       'O|O': { d: 3.6218e-10, omega: 0.79402 },
+       'Ar|O': { d: 3.9663e-10, omega: 0.75121 },
+       'He|O': { d: 2.8623e-10, omega: 0.69842 },
+       'H2|O': { d: 3.2860e-10, omega: 0.71348 },
+       'H|O': { d: 3.1849e-10, omega: 0.71242 },
+       'CO|O': { d: 3.5960e-10, omega: 0.73778 },
+       'CO2|O': { d: 3.9095e-10, omega: 0.70276 },
+       'CH4|O': { d: 3.8039e-10, omega: 0.71488 },
+       'Ar|Ar': { d: 3.9925e-10, omega: 0.71967 },
+       'Ar|He': { d: 3.2018e-10, omega: 0.70999 },
+       'Ar|H2': { d: 3.6068e-10, omega: 0.71621 },
+       'Ar|H': { d: 3.5221e-10, omega: 0.71866 },
+       'Ar|CO': { d: 3.9475e-10, omega: 0.70456 },
+       'Ar|CO2': { d: 4.0584e-10, omega: 0.69987 },
+       'Ar|CH4': { d: 4.0396e-10, omega: 0.70401 },
+       'He|He': { d: 2.8808e-10, omega: 0.83190 },
+       'H2|He': { d: 2.7705e-10, omega: 0.69273 },
+       'H|He': { d: 3.7592e-10, omega: 0.96094 },
+       'CO|He': { d: 3.2680e-10, omega: 0.71180 },
+       'CO2|He': { d: 3.4318e-10, omega: 0.71586 },
+       'CH4|He': { d: 3.3682e-10, omega: 0.71436 },
+       'H2|H2': { d: 3.6709e-10, omega: 0.84503 },
+       'H|H2': { d: 4.7991e-10, omega: 1.09026 },
+       'CO|H2': { d: 3.6757e-10, omega: 0.71693 },
+       'CO2|H2': { d: 3.8135e-10, omega: 0.71613 },
+       'CH4|H2': { d: 3.7831e-10, omega: 0.71820 },
+       'H|H': { d: 4.9286e-10, omega: 0.98605 },
+       'CO|H': { d: 3.5941e-10, omega: 0.71972 },
+       'CO2|H': { d: 3.7378e-10, omega: 0.72038 },
+       'CH4|H': { d: 3.7060e-10, omega: 0.72141 },
+       'CO|CO': { d: 4.5998e-10, omega: 0.77894 },
+       'CO|CO2': { d: 4.4487e-10, omega: 0.71676 },
+       'CH4|CO': { d: 4.0921e-10, omega: 0.70254 },
+       'CO2|CO2': { d: 4.3409e-10, omega: 0.66705 },
+       'CH4|CO2': { d: 4.1932e-10, omega: 0.69697 },
+       'CH4|CH4': { d: 4.1768e-10, omega: 0.70083 }
      };
 
      const PRESETS = {
@@ -229,6 +320,27 @@ Calculator
 
      function pairKey(s, t) {
        return [s, t].sort().join('|');
+     }
+
+     function speciesEdited(s, all) {
+       // True when the table row of s differs from the database value.
+       const db = SPECIES_DB[s];
+       return Math.abs(all[s].d - db.d) > 5e-15 ||
+              Math.abs(all[s].omega - db.omega) > 5e-6;
+     }
+
+     function defaultPair(s, t, all) {
+       // The solver's pair value, unless a pure-species entry of the pair
+       // has been edited: then the arithmetic-mean combining rule.
+       const db = PAIR_DB[pairKey(s, t)];
+       if (db && !speciesEdited(s, all) && !speciesEdited(t, all)) {
+         return { d: db.d, omega: db.omega, source: 'solver (Gosma et al. 2025)' };
+       }
+       return {
+         d:     0.5 * (all[s].d + all[t].d),
+         omega: 0.5 * (all[s].omega + all[t].omega),
+         source: 'combining rule'
+       };
      }
 
      function fmtSci(x, digits) {
@@ -257,8 +369,8 @@ Calculator
              <td><strong>${s}</strong></td>
              <td>${sp.type}</td>
              <td><input class="param mass"  type="number" step="any" value="${sp.m.toExponential(4)}"></td>
-             <td><input class="param diam"  type="number" step="any" value="${(sp.d*1e10).toFixed(3)}"></td>
-             <td><input class="param omega" type="number" step="0.01" value="${sp.omega.toFixed(2)}"></td>
+             <td><input class="param diam"  type="number" step="any" value="${(sp.d*1e10).toFixed(4)}"></td>
+             <td><input class="param omega" type="number" step="any" value="${sp.omega.toFixed(5)}"></td>
              <td><input class="mole-frac"   type="number" step="any" min="0" value="0"></td>
            </tr>`;
        }
@@ -292,19 +404,18 @@ Calculator
            const active = ps.x > 0 && pt.x > 0;
            const k = pairKey(s, t);
            const ovr = pairOverride[k];
-           const d_rule  = 0.5 * (ps.d + pt.d);
-           const w_rule  = 0.5 * (ps.omega + pt.omega);
-           const d_used  = ovr ? ovr.d     : d_rule;
-           const w_used  = ovr ? ovr.omega : w_rule;
+           const def     = defaultPair(s, t, params);
+           const d_used  = ovr ? ovr.d     : def.d;
+           const w_used  = ovr ? ovr.omega : def.omega;
            const massRatio = ps.m / pt.m;
            html += `
              <tr class="pair-row${active ? '' : ' inactive'}${ovr ? ' overridden' : ''}"
                  data-s="${s}" data-t="${t}">
                <td><strong>${s}</strong> / <strong>${t}</strong></td>
                <td><input class="param pair-d"     type="number" step="any" value="${(d_used*1e10).toFixed(4)}"></td>
-               <td><input class="param pair-omega" type="number" step="0.01" value="${w_used.toFixed(3)}"></td>
+               <td><input class="param pair-omega" type="number" step="any" value="${w_used.toFixed(5)}"></td>
                <td>${massRatio.toExponential(3)}</td>
-               <td>${ovr ? 'overridden' : 'from combining rule'}</td>
+               <td>${ovr ? 'overridden' : def.source}</td>
              </tr>`;
          }
        }
@@ -376,11 +487,8 @@ Calculator
      function pairUsed(s, t, all) {
        const ovr = pairOverride[pairKey(s, t)];
        if (ovr) return { d: ovr.d, omega: ovr.omega, overridden: true };
-       return {
-         d:     0.5 * (all[s].d + all[t].d),
-         omega: 0.5 * (all[s].omega + all[t].omega),
-         overridden: false
-       };
+       const def = defaultPair(s, t, all);
+       return { d: def.d, omega: def.omega, overridden: false };
      }
 
      function computeMFP() {
@@ -686,11 +794,16 @@ particular:
 Combining rules — when they apply, when they do not
 ```````````````````````````````````````````````````
 
-When independent pair fits are not available, a **combining
-rule** is used to generate :math:`d_{st}` and :math:`\omega_{st}`
-from the pure-species values :math:`d_s, d_t, \omega_s,
-\omega_t`. The calculator initialises the pair table through
-Bird's arithmetic-mean rule [Bird1994m]_,
+The solver does not use a combining rule for neutral pairs: each
+neutral pair takes its own collision-specific row of Gosma et al.
+(2025), and the calculator is initialised with the same values.
+When independent pair fits are not available —  in the solver, for
+any pair with a charged partner (Pfeiffer's collision-averaged
+convention); in the calculator, for a pair involving an edited
+species —  a **combining rule** generates :math:`d_{st}` and
+:math:`\omega_{st}` from the pure-species values :math:`d_s, d_t,
+\omega_s, \omega_t`, namely Bird's arithmetic-mean rule
+[Bird1994m]_,
 
 .. math::
 
@@ -731,9 +844,9 @@ be obtained from:
 
 Any of these may be entered directly in the **pair table**
 (section 4 of the calculator). Overridden entries are
-highlighted and take precedence over the combining rule; they
+highlighted and take precedence over the preloaded values; they
 persist when the pure-species values are edited, and are cleared
-only by the *Reset pair table to combining rule* button.
+only by the *Reset pair table to solver values* button.
 
 DSMC numerical constraints
 ``````````````````````````
@@ -774,12 +887,15 @@ adaptive runs).
 Caveats
 ```````
 
-* The preloaded VSS pure-species parameters are Bird's reference
-  values at :math:`T_{\mathrm{ref}} = 273~\mathrm{K}`. More
-  recent fits exist in the literature for individual species and
-  species pairs; users are encouraged to override the
-  pure-species entries and the pair entries directly in the
-  tables if more appropriate values are available.
+* The preloaded masses and VSS parameters are those of the
+  solver's frozen species database at
+  :math:`T_{\mathrm{ref}} = 273~\mathrm{K}`, so that the
+  calculator predicts the mean free path of a DSMC run with the
+  same species. Edited entries serve exploratory estimates only:
+  the solver itself cannot be given other values.
+* The calculator uses the VHS form of the cross section; the VSS
+  scattering exponent :math:`\alpha` changes the momentum-transfer
+  cross section but not the total collision rate evaluated here.
 * The calculator assumes a **single-temperature** gas. Under
   thermal non-equilibrium (:math:`T_t \ne T_\mathrm{int}`) the
   mean free path depends only on the translational temperature

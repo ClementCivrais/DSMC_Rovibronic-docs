@@ -1,50 +1,50 @@
 Data provenance and modelling approaches
 ========================================
 
-Two reference documents in the source tree underpin the
-trustworthiness of the solver: a constant-by-constant data
-provenance record, and a cross-code comparison of the modelling
+Two sets of reference documents in the source tree underpin the
+trustworthiness of the solver: the provenance records of every
+numerical constant, and a cross-code comparison of the modelling
 choices against two established DSMC codes. This page summarises
-both; the full documents are
-``docs/DATA_PROVENANCE.md`` and ``docs/MODELING_APPROACHES.md``.
+both.
 
 Data provenance
 ---------------
 
-``docs/DATA_PROVENANCE.md`` is a single look-anytime traceability
-record that maps **every numerical constant in the solver** to its
-source —  author, journal or database, table or CAS number, DOI —
-and to its location in the code. It is descriptive only: where a
-code value disagrees with its nominal source, the discrepancy is
-*recorded*, not silently edited. The record is organised as:
+**Species data.** Masses, collision parameters and spectroscopic
+constants form the frozen species database. They are generated
+from source files stored in
+``src/lagrangian/DSMC/speciesDatabase/sources/``, and each value is
+written together with its source into
+``species_properties_frozen.json`` and
+``species_spectroscopy_frozen.json``. The rules, the NON-NIST flags
+and the dropped states are recorded in ``sources/README.md`` and
+``sources/nist/BUILD_REPORT.md``; the page
+:doc:`../classes/species_database_sources` summarises them.
 
-* **§A** —  species spectroscopic constants
-  (:math:`\omega_e`, :math:`\omega_e x_e`, :math:`B_e`, the
-  polyatomic :math:`\omega_i`, :math:`x_{ij}` and rotational
-  constants :math:`A, B, C`, the electronic levels) and the
-  VHS/VSS collision parameters;
-* **§B** —  dissociation energies :math:`D_0` and heats of
-  formation;
-* **§C** —  chemistry reaction rates (Arrhenius :math:`A`,
-  :math:`\eta`, :math:`T_a`) with the per-mole ↔ per-particle unit
-  conversion rule;
-* **§D** —  relaxation and collision-model constants
-  (Millikan-White, Park limiter, Eckert-Gallis, the Z-correction,
-  the per-oscillator effective DOF, Bergemann-Boyd);
-* **§E** —  GSI surface-reaction rates;
-* **§F** —  flagged discrepancies and uncertain values (e.g. the
-  unavailable CH\ :sub:`4` :math:`x_{13}`, the polyatomic VHS
-  placeholders, the H\ :sub:`2`\ O near-prolate approximation, and
-  the order-of-magnitude scatter in measured GSI rates).
+**Other constants.** ``docs/Development/DATA_PROVENANCE.md`` maps
+the remaining numerical constants to their sources —  author,
+journal or database, table or CAS number, DOI —  and to their
+location in the code. It is descriptive only: where a code value
+disagrees with its nominal source, the discrepancy is *recorded*,
+not silently edited. Its species sections (spectroscopic constants,
+VHS/VSS parameters, dissociation energies) predate the frozen
+database and are superseded by the generated records above; the
+sections that remain current cover:
 
-Whenever a species or rate is added, the convention is to add both
-an inline ``[source]`` comment at the value and a row in the
-provenance table.
+* chemistry reaction rates (Arrhenius :math:`A`, :math:`\eta`,
+  :math:`T_a`) with the per-mole ↔ per-particle unit conversion
+  rule;
+* relaxation and collision-model constants (Millikan-White, Park
+  limiter, Eckert-Gallis, the Z-correction, the per-oscillator
+  effective DOF, Bergemann-Boyd);
+* GSI surface-reaction rates;
+* flagged discrepancies and uncertain values (e.g. the
+  order-of-magnitude scatter in measured GSI rates).
 
 Cross-code modelling comparison
 -------------------------------
 
-``docs/MODELING_APPROACHES.md`` compares the modelling choices of
+``docs/Development/MODELING_APPROACHES.md`` compares the modelling choices of
 the present solver against **SPARTA** and **PICLas**, read from
 each code's own source. The comparison is intended both as a guard
 against subtle modelling drift and as a guide to which code is the

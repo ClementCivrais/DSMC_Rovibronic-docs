@@ -135,21 +135,21 @@ In-repository derivations and notes
 The following documents, authored by the lead developer, capture
 derivations and audits specific to this implementation:
 
-* ``docs/Rovibronic Article/Article_Draft_Rovibronic_DSMC.pdf`` —
+* ``docs/Articles/Rovibronic/Article_Draft_Rovibronic_DSMC.pdf`` —
   method derivation.
-* ``docs/Source Code Report/rovibronic_dsmc_report.pdf`` —
+* ``docs/UserGuide/SourceCodeReport/rovibronic_dsmc_report.pdf`` —
   solver implementation walk-through.
-* ``docs/Rovibronic Article/DSMC_Bugs_Report.pdf`` —
+* ``docs/Articles/Rovibronic/DSMC_Bugs_Report.pdf`` —
   bug-audit report, with fixes and justifications.
-* ``docs/derivations/LT_Correction_MultiMode.pdf`` —
+* ``docs/Development/Derivations/LT_Correction_MultiMode.pdf`` —
   multi-mode Landau-Teller correction.
-* ``docs/derivations/LandauTeller_MultiExponential_Derivation.pdf`` —
+* ``docs/Development/Derivations/LandauTeller_MultiExponential_Derivation.pdf`` —
   multi-exponential Landau-Teller relaxation time.
-* ``docs/derivations/CoupledRelaxationMatrix_Derivation.pdf`` —
+* ``docs/Development/Derivations/CoupledRelaxationMatrix_Derivation.pdf`` —
   coupled vibration-rotation relaxation operator.
-* ``docs/derivations/chemistry_comparison_piclas_mnf.pdf`` —
+* ``docs/Development/Derivations/chemistry_comparison_piclas_mnf.pdf`` —
   chemistry benchmark against PICLas.
-* ``docs/derivations/exponent_calculation.pdf`` —
+* ``docs/Development/Derivations/exponent_calculation.pdf`` —
   Larsen-Borgnakke exponent calculation.
-* ``docs/derivations/bug_audit.pdf`` —
+* ``docs/Development/Derivations/bug_audit.pdf`` —
   internal bug audit, cross-referenced with the bug report above.

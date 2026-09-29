@@ -12,7 +12,11 @@ and the **post-collision scattering and internal-energy
 redistribution** that is applied once a collision has been
 accepted. They are selected through the ``BinaryCollisionModel``
 key in ``constant/dsmcProperties`` and configured through the
-associated ``<Model>Coeffs`` sub-dictionary.
+``collisionProperties`` sub-dictionary (plus an optional
+``<Model>Coeffs`` block for model-specific extras). The pair
+collision data :math:`d_{PQ}`, :math:`\omega_{PQ}`,
+:math:`\alpha_{PQ}` are read from the cloud's frozen pair tables
+(:doc:`species_database_sources`).
 
 Implemented classes
 -------------------
@@ -119,22 +123,23 @@ top of this acceptance rule are documented in
 Coefficient sub-dictionary
 --------------------------
 
-For the LB variants, the ``<Model>Coeffs`` block holds the
-reference temperature and the three relaxation collision numbers
-:math:`Z_r,\,Z_{rv},\,Z_{rve}`:
+For every model, ``collisionProperties`` holds the reference
+temperature (273 K, fixed by the species database) and the three
+relaxation collision numbers :math:`Z_r,\,Z_{rv},\,Z_{rve}`:
 
 .. code-block:: cpp
 
-   LarsenBorgnakkeVariableHardSphereCoeffs
+   collisionProperties
    {
        Tref                                    273; // [K]
-       rotationalRelaxationCollisionNumber     2;   // [-]
-       rovibrationalRelaxationCollisionNumber  10;  // [-]
-       rovibronicRelaxationCollisionNumber     10;  // [-]
+       rotationalRelaxationCollisionNumber     5;   // [-]
+       rovibrationalRelaxationCollisionNumber  50;  // [-]
+       rovibronicRelaxationCollisionNumber     500; // [-]
+       initialSubCellLevels                    (1 1 1);
    }
 
-The plain VHS/VSS variants do not expose the collision-number
-entries, since they do not redistribute internal energy.
+The plain VHS/VSS variants read but do not use the collision
+numbers, since they do not redistribute internal energy.
 
 Model selection flags
 ---------------------

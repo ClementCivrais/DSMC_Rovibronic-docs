@@ -8,7 +8,7 @@ schemes are implemented in the solver. They are mathematically
 equivalent in the limit of infinite particle count but differ in
 statistical efficiency and in the way they handle collision-rate
 disparities across species pairs. The scheme is selected via the
-``collisionPartnerSelectionModel`` key in
+``collisionRateModel`` key in
 ``constant/dsmcProperties``.
 
 No-Time-Counter (NTC)

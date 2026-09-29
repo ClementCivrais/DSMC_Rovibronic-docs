@@ -53,7 +53,7 @@ Implemented fill strategies
 
 The standard whole-domain fill: every cell in the mesh is
 populated until the target number density is reached. This is the
-strategy used in the reference ``run/Tutorial/`` case.
+strategy used by the cases under ``run/0D/`` and ``tutorials/``.
 
 ``dsmcMeshFieldFill``
 `````````````````````

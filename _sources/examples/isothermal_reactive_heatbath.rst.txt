@@ -7,8 +7,12 @@ A zero-dimensional isothermal heat-bath with dissociation,
 exchange, and recombination **all active** (neutral chemistry
 only). The conditions are chosen to be representative of a
 post-normal-shock re-entry layer: :math:`T = 10\,000~\mathrm{K}`
-and :math:`p = 100~\mathrm{Pa}`, with an initial air-like mixture
-dominated by N\ :sub:`2` / O\ :sub:`2` and a small NO seed.
+and :math:`p = 10~\mathrm{Pa}`, with an initial air-like mixture
+dominated by N\ :sub:`2` / O\ :sub:`2` and a small NO seed. The
+translational temperature is held at :math:`10\,000~\mathrm{K}`
+by a ``maxwellianResamplingController``, which resamples the
+particle velocities from a Maxwellian at every time step and
+leaves the internal :math:`(n, v, J)` states unchanged.
 
 The diagnostic of interest is the time history of the species
 populations: dissociation progressively depletes the diatomic
@@ -45,7 +49,10 @@ derived in :doc:`../theory/chemistry`:
   :math:`\Delta H_{\mathrm{exch}} = D_0(\mathrm{NO}) -
   D_0(\mathrm{N}_2)` **computed automatically** from the
   database ground-state dissociation energies (no user input
-  required).
+  required). The exchange is endothermic in this direction and
+  is declared with ``detailedBalanceExchange``, which also
+  carries the :math:`\mathrm{N}_2 + \mathrm{O}` dissociation
+  channel.
 * **Three-body recombination from detailed balance**
   :math:`\mathrm{A} + \mathrm{A} + \mathrm{M} \to \mathrm{A}_2
   + \mathrm{M}`, with rate
@@ -89,16 +96,24 @@ The case targets three quantitative checks:
    :math:`K_{\mathrm{eq}}(T)/n_\mathrm{M}` evaluated from the
    same rovibronic database; this is the end-to-end check of
    the detailed-balance construction of the recombination rate.
+   Only the O\ :sub:`2` + O\ :sub:`2`, N\ :sub:`2` + N\ :sub:`2`
+   and N\ :sub:`2` + O dissociations are declared, so the
+   recombinations with the other third bodies have no reverse
+   reaction in the simulation (the solver prints a warning for
+   each of them at start-up); the check applies to the
+   channels that have both directions.
 
 Reactions included
 ------------------
 
-Five reactions are registered in ``system/chemReactDict``:
+Five reactions are registered in ``system/chemReactDict``, all
+with ``allowSplitting yes`` so that the composition evolves:
 
 * ``O2 + O2 → O + O + O2`` (dissociation, same species);
 * ``N2 + N2 → N + N + N2`` (dissociation, same species);
 * ``N2 + O → NO + N`` (Zeldovich exchange, with
-  :math:`\Delta H` from the database);
+  :math:`\Delta H` from the database, declared with
+  ``detailedBalanceExchange``);
 * ``O + O + M → O2 + M`` (three-body recombination from detailed
   balance, :math:`M \in \{`\ O\ :sub:`2`\ , O, N\ :sub:`2`\ , N,
   NO\ :math:`\}`);
@@ -116,7 +131,16 @@ Case parameters
 * Translational and internal temperatures: both at
   :math:`10\,000~\mathrm{K}` (internal / translational
   equilibrium at :math:`t = 0`).
-* Mesh: :math:`1 \times 1 \times 1` cell, fully periodic.
+* Mesh: :math:`1 \times 1 \times 1` cell of side
+  :math:`1\;\mu\mathrm{m}`, fully periodic; the block is the
+  cell zone ``allCells`` used by the controller and by the zone
+  measurement.
+* ``nEquivalentParticles 2e-3``: the cell holds about 72 real
+  molecules, i.e. about :math:`3.6 \times 10^{4}` simulator
+  particles.
+* Heat bath: ``maxwellianResamplingController`` at
+  :math:`10\,000~\mathrm{K}` on ``allCells`` for the five
+  species, in ``system/controllersDict``.
 * Time-step: :math:`5 \times 10^{-11}~\mathrm{s}`, total
   integration :math:`10^{-4}~\mathrm{s}`.
 

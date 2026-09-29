@@ -3,7 +3,7 @@ Supersonic corner
 
 Directory: ``tutorials/supersonicCorner/``.
 
-A supersonic flow of N\ :sub:`2` over a 2-D compression corner.
+A supersonic flow of argon over a 2-D compression corner.
 The case exercises the interaction of an oblique shock with a
 boundary layer and a compression fan —  the "shock-boundary-
 layer interaction" (SBLI) problem that is central to inlet and
@@ -11,13 +11,9 @@ control-surface aerodynamics at hypersonic speeds.
 
 .. note::
 
-   The original tutorial used argon, which is not present in
-   the rovibronic speciesCache. The case has been switched to
-   N\ :sub:`2` while preserving the geometry; this adds
-   internal-degrees-of-freedom relaxation to the flow and is
-   therefore a slightly different physical problem than the
-   monatomic baseline, but a better match for the solver's
-   intended applications.
+   The case is the supersonic corner of Bird (1994, p. 394). The
+   argon data come from the species database compiled into the
+   solver.
 
 Theoretical basis
 -----------------
@@ -39,12 +35,6 @@ The case combines three distinct physical ingredients:
   specified :math:`T_w`, which drives the growth of the
   recompression boundary layer after the corner and the
   associated wall heat-flux peak at the reattachment point.
-* :doc:`../theory/relaxation` — the post-shock state is not
-  in internal equilibrium; the rotational-vibrational cascade
-  drives :math:`T_{\mathrm{int}}` toward :math:`T_t` over a
-  few mean collision times, and the resulting internal
-  temperature gradient feeds into the heat-flux vector
-  measured by :doc:`../classes/measurements`.
 
 Validation goals
 ----------------
@@ -66,7 +56,7 @@ Validation goals
 Case parameters
 ---------------
 
-* Species: N\ :sub:`2`.
+* Species: Ar.
 * Free-stream Mach number: supersonic (see
   ``system/boundariesDict``).
 * 2-D corner geometry generated through ``blockMesh``.

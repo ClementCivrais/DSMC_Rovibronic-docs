@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Internal-energy relaxation &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
@@ -15,11 +15,11 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
-      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -77,6 +77,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#relaxation-collision-numbers">Relaxation collision numbers</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#vibrational-relaxation-model">Vibrational-relaxation model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#diagnostics-per-channel-transition-counters">Diagnostics: per-channel transition counters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#per-species-model-switches-moleculeproperties">Per-species model switches (<code class="docutils literal notranslate"><span class="pre">moleculeProperties</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#rovibronicdatabase-sub-dictionary"><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary</a></li>
 </ul>
 </li>
@@ -86,7 +88,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#available-patch-models">Available patch models</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#hcao-local-mode-reaction-models">HCAO local-mode reaction models</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#gas-surface-interaction-dictionaries">Gas-surface interaction dictionaries</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
 </ul>
@@ -149,6 +154,7 @@
 <li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#hard-sphere-cross-section">Hard sphere cross section</a></li>
 <li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#variable-hard-sphere-vhs">Variable Hard Sphere (VHS)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#variable-soft-sphere-vss">Variable Soft Sphere (VSS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#pair-parameters">Pair parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#post-collision-velocities">Post-collision velocities</a></li>
 <li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#elastic-versus-inelastic-variants">Elastic versus inelastic variants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="collision_cross_sections.html#coefficient-dictionaries">Coefficient dictionaries</a></li>
@@ -298,15 +304,29 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../classes/species_database.html"><code class="docutils literal notranslate"><span class="pre">dsmcSpeciesDatabase</span></code> — spectroscopic &amp; VSS data</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#role">Role</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#contents-of-a-species-file">Contents of a species file</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#level-table-construction">Level-table construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#contents-of-a-species-entry">Contents of a species entry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#level-table-construction">Level-table construction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../classes/species_database.html#constant-speciescache"><code class="docutils literal notranslate"><span class="pre">constant/speciesCache</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#diagnostic-output">Diagnostic output</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#polyatomic-species">Polyatomic species</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../classes/species_database.html#per-species-overrides">Per-species overrides</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/species_database.html#per-species-model-switches">Per-species model switches</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#status-of-charged-species-data">Status of charged-species data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#extending-the-database">Extending the database</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../classes/species_database_sources.html">Species database: sources, generation and lock</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#principle">Principle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#files">Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#masses-and-collision-data">Masses and collision data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#spectroscopy">Spectroscopy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#case-level-lock">Case-level lock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#repository-lock">Repository lock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#changing-or-adding-a-species">Changing or adding a species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#history">History</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../classes/initialisation.html">Particle initialisation</a><ul>
@@ -415,6 +435,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmccatalyticwallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcCatalyticWallPatch</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmcablatingwallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmccoveragewallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#wall-state-restart">Wall-state restart</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#surface-reaction-dictionary">Surface-reaction dictionary</a></li>
 </ul>
 </li>
@@ -776,7 +797,7 @@ and <span class="math notranslate nohighlight">\(Z_r^{\infty}\)</span> an asympt
 fitted to 5–10 for air diatomics. In the DSMC implementation the
 low-temperature asymptote is tabulated directly as
 <code class="docutils literal notranslate"><span class="pre">rotationalRelaxationCollisionNumber</span></code> in the
-<code class="docutils literal notranslate"><span class="pre">&lt;Model&gt;Coeffs</span></code> sub-dictionary.</p>
+<code class="docutils literal notranslate"><span class="pre">collisionProperties</span></code> sub-dictionary.</p>
 <p>The vibrational relaxation time follows the Millikan-White
 correlation <a class="reference internal" href="#millikanwhite1963rel" id="id2"><span>[MillikanWhite1963rel]</span></a>:</p>
 <div class="math notranslate nohighlight">
@@ -800,7 +821,7 @@ initialisation.</p>
 <p>Electronic relaxation times are less well characterised
 experimentally than rotational or vibrational ones, and the
 effective <code class="docutils literal notranslate"><span class="pre">rovibronicRelaxationCollisionNumber</span></code> in
-<code class="docutils literal notranslate"><span class="pre">&lt;Model&gt;Coeffs</span></code> is conventionally set to a large value
+<code class="docutils literal notranslate"><span class="pre">collisionProperties</span></code> is conventionally set to a large value
 (<span class="math notranslate nohighlight">\(10^{3}\text{–}10^{4}\)</span>) that reflects the slow equilibration
 typical of atomic emission observations. Setting it to
 <span class="math notranslate nohighlight">\(\infty\)</span> amounts to freezing the electronic populations —
@@ -873,7 +894,11 @@ exclusive channels avoids double-counting the V-T rate.</p></li>
 <code class="docutils literal notranslate"><span class="pre">run/0D/</span></code> —  <code class="docutils literal notranslate"><span class="pre">N2_pureVT_relax</span></code> (rotation frozen, pure V-T
 relaxation), <code class="docutils literal notranslate"><span class="pre">N2_pureVT_detbal</span></code> (V-T detailed balance), and the
 <code class="docutils literal notranslate"><span class="pre">N2O_pureVT_valentini</span></code> / <code class="docutils literal notranslate"><span class="pre">N2Ar_pureVT_valentini</span></code> pair, which
-confirm the partner-dependent rate ratio.</p>
+confirm the partner-dependent rate ratio. Their collision data
+come from the frozen species database, like every other case
+(<a class="reference internal" href="../classes/species_database_sources.html"><span class="doc">Species database: sources, generation and lock</span></a>); the Bird-style
+per-case diameters they once carried were removed, so results
+obtained before 2026-09-29 used different cross sections.</p>
 </section>
 <section id="composite-modes-in-the-parallel-marginal-cascade">
 <h2>Composite modes in the parallel-marginal cascade<a class="headerlink" href="#composite-modes-in-the-parallel-marginal-cascade" title="Link to this heading"></a></h2>
@@ -953,7 +978,7 @@ the solver drifts systematically from the analytical
 Landau-Teller solution; with them in place, the ratio
 <span class="math notranslate nohighlight">\(Z_{k,\mathrm{fit}}/Z_k\)</span> recovers the input to within a few
 percent on the validation cases. A derivation of
-<span class="math notranslate nohighlight">\(C_k\)</span> is given in <code class="docutils literal notranslate"><span class="pre">docs/derivations/LT_Correction_MultiMode.pdf</span></code>.</p>
+<span class="math notranslate nohighlight">\(C_k\)</span> is given in <code class="docutils literal notranslate"><span class="pre">docs/Development/Derivations/LT_Correction_MultiMode.pdf</span></code>.</p>
 <p>Each channel carries its <strong>own</strong> correction, built per cell from
 that channel’s conditional manifold: <span class="math notranslate nohighlight">\(C_r\)</span> from the
 <span class="math notranslate nohighlight">\(J\)</span>-ladder at fixed <span class="math notranslate nohighlight">\((n, v)\)</span>, <span class="math notranslate nohighlight">\(C_v\)</span> from the

@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Installation &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
@@ -15,8 +15,8 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
     <script src="../_static/js/theme.js"></script>
@@ -76,6 +76,8 @@
 <li class="toctree-l3"><a class="reference internal" href="input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="input_reference.html#relaxation-collision-numbers">Relaxation collision numbers</a></li>
 <li class="toctree-l4"><a class="reference internal" href="input_reference.html#vibrational-relaxation-model">Vibrational-relaxation model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="input_reference.html#diagnostics-per-channel-transition-counters">Diagnostics: per-channel transition counters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="input_reference.html#per-species-model-switches-moleculeproperties">Per-species model switches (<code class="docutils literal notranslate"><span class="pre">moleculeProperties</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="input_reference.html#rovibronicdatabase-sub-dictionary"><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary</a></li>
 </ul>
 </li>
@@ -85,7 +87,10 @@
 <li class="toctree-l4"><a class="reference internal" href="input_reference.html#available-patch-models">Available patch models</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="input_reference.html#hcao-local-mode-reaction-models">HCAO local-mode reaction models</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="input_reference.html#gas-surface-interaction-dictionaries">Gas-surface interaction dictionaries</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
 </ul>
@@ -148,6 +153,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#hard-sphere-cross-section">Hard sphere cross section</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#variable-hard-sphere-vhs">Variable Hard Sphere (VHS)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#variable-soft-sphere-vss">Variable Soft Sphere (VSS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#pair-parameters">Pair parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#post-collision-velocities">Post-collision velocities</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#elastic-versus-inelastic-variants">Elastic versus inelastic variants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#coefficient-dictionaries">Coefficient dictionaries</a></li>
@@ -297,15 +303,29 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../classes/species_database.html"><code class="docutils literal notranslate"><span class="pre">dsmcSpeciesDatabase</span></code> — spectroscopic &amp; VSS data</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#role">Role</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#contents-of-a-species-file">Contents of a species file</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#level-table-construction">Level-table construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#contents-of-a-species-entry">Contents of a species entry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#level-table-construction">Level-table construction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../classes/species_database.html#constant-speciescache"><code class="docutils literal notranslate"><span class="pre">constant/speciesCache</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#diagnostic-output">Diagnostic output</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#polyatomic-species">Polyatomic species</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../classes/species_database.html#per-species-overrides">Per-species overrides</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/species_database.html#per-species-model-switches">Per-species model switches</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#status-of-charged-species-data">Status of charged-species data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#extending-the-database">Extending the database</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../classes/species_database_sources.html">Species database: sources, generation and lock</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#principle">Principle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#files">Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#masses-and-collision-data">Masses and collision data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#spectroscopy">Spectroscopy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#case-level-lock">Case-level lock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#repository-lock">Repository lock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#changing-or-adding-a-species">Changing or adding a species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#history">History</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../classes/initialisation.html">Particle initialisation</a><ul>
@@ -414,6 +434,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmccatalyticwallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcCatalyticWallPatch</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmcablatingwallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmccoveragewallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#wall-state-restart">Wall-state restart</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#surface-reaction-dictionary">Surface-reaction dictionary</a></li>
 </ul>
 </li>
@@ -909,14 +930,19 @@ contamination of the symlinks that <code class="docutils literal notranslate"><s
 access is granted on a per-collaboration basis. Once access has
 been arranged:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/OpenFOAM
-git<span class="w"> </span>clone<span class="w"> </span>git@github.com:ClementCivrais/DSMC_Rovibronic.git
+git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>main<span class="w"> </span>git@github.com:ClementCivrais/DSMC_Rovibronic.git
 <span class="nb">cd</span><span class="w"> </span>DSMC_Rovibronic
 </pre></div>
 </div>
-<p>The repository contains the full dsmcFoam+ source tree under
+<p>The <code class="docutils literal notranslate"><span class="pre">main</span></code> branch is the verified build: its committed sources
+are exactly those compiled and verified by the developers. The
+repository contains the full dsmcFoam+ source tree under
 <code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/</span></code>, modified to include the rovibronic
 extensions; there is no separate “download dsmcFoam+” step, since
-the dsmcFoam+ source is embedded in the present repository.</p>
+the dsmcFoam+ source is embedded in the present repository. Build
+products (<code class="docutils literal notranslate"><span class="pre">Make/linux64*</span></code>, <code class="docutils literal notranslate"><span class="pre">lnInclude/</span></code>, object and dependency
+files) are not tracked (<code class="docutils literal notranslate"><span class="pre">.gitignore</span></code>). The short form of the
+procedure below is given in <code class="docutils literal notranslate"><span class="pre">BUILD.md</span></code> at the repository root.</p>
 </section>
 <section id="step-4-build-the-solver">
 <h2>Step 4 — Build the solver<a class="headerlink" href="#step-4-build-the-solver" title="Link to this heading"></a></h2>
@@ -929,18 +955,35 @@ build driver:</p>
 </div>
 <p>The build script carries out three tasks:</p>
 <ol class="arabic simple">
-<li><p>It creates symbolic links from <code class="docutils literal notranslate"><span class="pre">DSMC_Rovibronic/{src,applications,tutorials}</span></code>
-into <code class="docutils literal notranslate"><span class="pre">$WM_PROJECT_USER_DIR</span></code> on the first compilation. This
-allows the OpenFOAM build machinery to pick the sources up as
+<li><p>It creates symbolic links from <code class="docutils literal notranslate"><span class="pre">DSMC_Rovibronic/src/lagrangian</span></code>
+and <code class="docutils literal notranslate"><span class="pre">DSMC_Rovibronic/applications/{solvers,utilities}</span></code> into
+<code class="docutils literal notranslate"><span class="pre">$WM_PROJECT_USER_DIR</span></code> on the first compilation. This allows
+the OpenFOAM build machinery to pick the sources up as
 user-side additions.</p></li>
-<li><p>It builds the DSMC library under
-<code class="docutils literal notranslate"><span class="pre">$WM_PROJECT_USER_DIR/src/lagrangian/DSMC</span></code>.</p></li>
+<li><p>It builds the two libraries, <code class="docutils literal notranslate"><span class="pre">liblagrangianCloudBase</span></code> and
+<code class="docutils literal notranslate"><span class="pre">libDSMC_MNF</span></code>, into <code class="docutils literal notranslate"><span class="pre">$FOAM_USER_LIBBIN</span></code>.</p></li>
 <li><p>It builds the solver executable
 (<code class="docutils literal notranslate"><span class="pre">applications/solvers/discreteMethods/dsmcFoam</span></code>) and the
-associated pre-processing utility (<code class="docutils literal notranslate"><span class="pre">dsmcInitialise</span></code>).</p></li>
+associated pre-processing utility (<code class="docutils literal notranslate"><span class="pre">dsmcInitialise</span></code>) into
+<code class="docutils literal notranslate"><span class="pre">$FOAM_USER_APPBIN</span></code>.</p></li>
 </ol>
-<p>Upon completion, <code class="docutils literal notranslate"><span class="pre">$FOAM_USER_APPBIN</span></code> contains the
-<code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> executable and the <code class="docutils literal notranslate"><span class="pre">dsmcInitialise</span></code> utility.</p>
+<p>The moving-mesh ablation solver <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code> is not built
+by <code class="docutils literal notranslate"><span class="pre">Allwmake</span></code>; it is built separately once the libraries exist:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span><span class="nb">cd</span><span class="w"> </span>applications/solvers/discreteMethods/dsmcFoamAblation<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>wmake<span class="o">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">Allwmake</span></code> starts with <code class="docutils literal notranslate"><span class="pre">wclean</span> <span class="pre">all</span></code> in <code class="docutils literal notranslate"><span class="pre">src/lagrangian</span></code>,
+i.e. it always performs a full rebuild. After a change to a
+single file, <code class="docutils literal notranslate"><span class="pre">wmake</span> <span class="pre">libso</span></code> in <code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC</span></code> followed
+by <code class="docutils literal notranslate"><span class="pre">wmake</span></code> in the solver and utility directories is
+sufficient.</p>
+</div>
+<p>The species database is compiled into <code class="docutils literal notranslate"><span class="pre">libDSMC_MNF</span></code>. It is frozen
+and generated from the source files in
+<code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/speciesDatabase/sources/</span></code>; see
+<a class="reference internal" href="../classes/species_database_sources.html"><span class="doc">Species database: sources, generation and lock</span></a>.</p>
 </section>
 <section id="verification">
 <h2>Verification<a class="headerlink" href="#verification" title="Link to this heading"></a></h2>
@@ -950,18 +993,25 @@ message prints:</p>
 dsmcFoam<span class="w"> </span>-help
 </pre></div>
 </div>
-<p>We then run the reference case in serial, which doubles as an
-end-to-end installation test:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/OpenFOAM/DSMC_Rovibronic/run/Tutorial
+<p>We then run any case under <code class="docutils literal notranslate"><span class="pre">run/0D/</span></code> in serial, which doubles
+as an end-to-end installation test:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/OpenFOAM/DSMC_Rovibronic/run/0D/&lt;<span class="k">case</span>&gt;
 blockMesh
 dsmcInitialise
 dsmcFoam
 </pre></div>
 </div>
-<p>The solver should start, print the rovibronic database summary and
-the PEC asymptote-matching diagnostic, and advance the simulation.
-Terminating it after a handful of time-steps (<code class="docutils literal notranslate"><span class="pre">Ctrl-C</span></code>) is
-sufficient to confirm the build.</p>
+<p><code class="docutils literal notranslate"><span class="pre">dsmcInitialise</span></code> prints the collision pairs taken from the
+species database, for example</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Collision pairs (d_ref [m], omega, alpha; Tref = 273 K)
+    O2 + O2: 3.8713e-10 0.69652 1.46082
+</pre></div>
+</div>
+<p>and the level count of each species (<code class="docutils literal notranslate"><span class="pre">Total</span> <span class="pre">(n,v,J)</span> <span class="pre">levels:</span>
+<span class="pre">17389</span></code> for O<sub>2</sub>). The solver should then start, print the
+same summary and the dissociation-channel matching diagnostic, and
+advance the simulation. Terminating it after a handful of
+time-steps (<code class="docutils literal notranslate"><span class="pre">Ctrl-C</span></code>) is sufficient to confirm the build.</p>
 </section>
 <section id="troubleshooting-common-issues">
 <h2>Troubleshooting common issues<a class="headerlink" href="#troubleshooting-common-issues" title="Link to this heading"></a></h2>

@@ -5,20 +5,20 @@ Directory: ``tutorials/chemicalReactionDemonstration/``.
 
 .. warning::
 
-   This case enables ``chargedParticles = true`` and exercises
-   ionisation, charge-exchange, and electron-associated reaction
-   paths. Every charged-species reaction class in the solver is
-   **work in progress** (see :doc:`../classes/reactions`). The
-   tutorial is useful as a smoke test that the charged-particle
-   code paths build and execute, but the numerical results
-   should not be treated as quantitatively validated.
+   The case carries the singly-ionised species and the electron in
+   ``typeIdList``, but the ionisation branches of the
+   ``dissociationIonisationTypeI*`` classes are not active in the
+   current solver, so no charged species are produced. Every
+   charged-species reaction class is **work in progress** (see
+   :doc:`../classes/reactions`); the tutorial exercises the neutral
+   chemistry with the charged species present in the mixture.
 
 A closed-box air-plasma reactor covering the full
 N\ :sub:`2` / O\ :sub:`2` / NO / N / O neutral chemistry plus
 the associated singly-ionised species and electrons. The case
-stacks dissociation, exchange, and recombination reactions from
-the neutral block onto the ionisation channels from the charged
-block, and is designed as an end-to-end smoke test of every
+registers the dissociation, exchange, and recombination reactions
+of the neutral block with the charged species present in the
+mixture, and is designed as an end-to-end smoke test of every
 ``reactionModel`` in the ``chemReactDict``.
 
 Theoretical basis
@@ -46,67 +46,73 @@ The case exercises two complementary reaction blocks:
   :doc:`../theory/chemistry_charged`. Every class in this block
   is flagged as *work in progress* on
   :doc:`../classes/reactions`; the code paths are in place but
-  have not been end-to-end verified.
+  have not been end-to-end verified, and none of these classes
+  is registered in the tutorial's ``chemReactDict``.
 
-The case therefore serves as (a) a gating test for changes to
-any of the neutral reaction classes, and (b) an integration
-smoke test for the charged-species code paths, without
-implying quantitative correctness of the latter.
+The case therefore serves as a gating test for changes to any of
+the neutral reaction classes in a mixture that also carries the
+charged species.
 
 Species
 -------
 
 .. code-block:: text
 
-   typeIdList ( N2 O2 NO N O  N2+ O2+ NO+ N+ O+  E- );
+   typeIdList                                  (N2 O2 NO N O N2+ O2+ NO+ N+ O+ E-);
 
 Registered reactions
 --------------------
 
-The neutral block in ``system/chemReactDict``:
+The neutral block in ``system/chemReactDict``, with
+``allowSplitting yes`` so that the composition evolves:
 
 * ``O2 + O2 → O + O + O2``
 * ``N2 + N2 → N + N + N2``
-* ``N2 + O → NO + N`` (Zeldovich exchange)
+* ``N2 + O → NO + N`` (Zeldovich exchange, with its
+  ``N2 + O`` dissociation channel)
 * ``O + O + M → O2 + M`` (recombination)
 * ``N + N + M → N2 + M`` (recombination)
 
-The charged block (work in progress — see warning above) adds
-the ionisation channels exposed by the
-``dissociationIonisationTypeI*`` classes through their
-``productsOfIonisedMolecule`` entries.
+Every heat of reaction is computed from the species database. The
+Zeldovich exchange is endothermic in this direction and is
+therefore declared with ``detailedBalanceExchange``:
+
+.. code-block:: cpp
+
+   N2_O_NO_N_exchange
+   {
+       reactionModel         detailedBalanceExchange;
+       dsmcReactionProperties
+       {
+           reaction                        N2_O_NO_N_exchange;
+           reactants                       (N2 O);
+           productsOfExchangeReaction      (NO N);
+           productsOfDissociatedMolecule   (N N);
+           allowSplitting                  yes;
+           writeRatesToTerminal            yes;
+       }
+   }
+
+Only the ``O2 + O2`` and ``N2 + N2`` dissociations are declared, so
+the recombinations with the other third bodies have no reverse
+reaction in the simulation; the solver prints a warning for each
+of them at start-up.
+
+The ``dissociationIonisationTypeI*`` entries keep their
+``productsOfIonisedMolecule`` (a required entry of the class), but
+their ionisation branches do not fire.
 
 Validation goals
 ----------------
 
-Given the WIP status of the charged block, the goals are tiered:
-
-#. **Neutral-phase element conservation.** Before ionisation
-   becomes significant, the case must conserve the total number
-   density of N atoms and O atoms to within statistical noise
-   — the same check as for
+#. **Element conservation.** The case must conserve the total
+   number density of N atoms and O atoms to within statistical
+   noise — the same check as for
    :doc:`isothermal_reactive_heatbath`.
-#. **Terminal consistency of ionisation heats.** The heats of
-   reaction printed at start-up for the ionisation channels
-   must agree with the underlying database ionisation
-   potentials; a discrepancy here is always a bug in the
-   dictionary wiring rather than in the physics.
-#. **Smoke-test execution of every charged reaction class.**
-   Each of the charged-species reaction classes
-   (``atomAtomIonisation*``, ``atomElectronIonisation``,
-   ``atomIonIonisation``, ``chargeExchange``,
-   ``forwardAssociativeIonisation*``,
-   ``reverseAssociativeIonisation``,
-   ``moleculeElectronDissociationIonisation``,
-   ``moleculeIonDissociationIonisation``) should fire a non-zero
-   number of events over the case duration; a class with a
-   persistently zero event count typically indicates a missing
-   reactant / product wiring rather than a physically
-   impossible channel.
-#. **No NaN / no unphysical drift.** The charged-phase
-   macroscopic fields must remain finite throughout the run,
-   even if quantitative agreement with literature rates is
-   not yet expected.
+#. **No charged species.** With the ionisation branches
+   inactive, the ion and electron populations must stay at zero.
+#. **No NaN / no unphysical drift.** The macroscopic fields
+   must remain finite throughout the run.
 
 Running
 -------
@@ -121,15 +127,10 @@ Running
 Expected behaviour
 ------------------
 
-During the neutral phase (before ionisation kicks in), the case
-should behave like the :doc:`isothermal_reactive_heatbath` with a
-richer species list; element conservation
-(:math:`\sum n_\mathrm{N}`, :math:`\sum n_\mathrm{O}`) should
-hold within statistical noise. Once ionisation fires, the
-electron population starts building up and the charged-species
-accumulators on the cloud (see :doc:`../classes/cloud`) report
-the evolution of :math:`n_e`, :math:`T_e`, and the electron
-kinetic energy.
+The case should behave like the :doc:`isothermal_reactive_heatbath`
+with a richer species list and without the temperature controller;
+element conservation (:math:`\sum n_\mathrm{N}`,
+:math:`\sum n_\mathrm{O}`) should hold within statistical noise.
 
 A quantitative regression target for the charged phase will be
 added once the charged-species classes have been reworked and

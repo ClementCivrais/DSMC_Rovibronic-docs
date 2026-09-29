@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Adding a feature &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
@@ -15,11 +15,10 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
-      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -77,6 +76,8 @@
 <li class="toctree-l3"><a class="reference internal" href="input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="input_reference.html#relaxation-collision-numbers">Relaxation collision numbers</a></li>
 <li class="toctree-l4"><a class="reference internal" href="input_reference.html#vibrational-relaxation-model">Vibrational-relaxation model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="input_reference.html#diagnostics-per-channel-transition-counters">Diagnostics: per-channel transition counters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="input_reference.html#per-species-model-switches-moleculeproperties">Per-species model switches (<code class="docutils literal notranslate"><span class="pre">moleculeProperties</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="input_reference.html#rovibronicdatabase-sub-dictionary"><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary</a></li>
 </ul>
 </li>
@@ -86,7 +87,10 @@
 <li class="toctree-l4"><a class="reference internal" href="input_reference.html#available-patch-models">Available patch models</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="input_reference.html#hcao-local-mode-reaction-models">HCAO local-mode reaction models</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="input_reference.html#gas-surface-interaction-dictionaries">Gas-surface interaction dictionaries</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
 </ul>
@@ -149,6 +153,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#hard-sphere-cross-section">Hard sphere cross section</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#variable-hard-sphere-vhs">Variable Hard Sphere (VHS)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#variable-soft-sphere-vss">Variable Soft Sphere (VSS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#pair-parameters">Pair parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#post-collision-velocities">Post-collision velocities</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#elastic-versus-inelastic-variants">Elastic versus inelastic variants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#coefficient-dictionaries">Coefficient dictionaries</a></li>
@@ -298,15 +303,29 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../classes/species_database.html"><code class="docutils literal notranslate"><span class="pre">dsmcSpeciesDatabase</span></code> — spectroscopic &amp; VSS data</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#role">Role</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#contents-of-a-species-file">Contents of a species file</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#level-table-construction">Level-table construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#contents-of-a-species-entry">Contents of a species entry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#level-table-construction">Level-table construction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../classes/species_database.html#constant-speciescache"><code class="docutils literal notranslate"><span class="pre">constant/speciesCache</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#diagnostic-output">Diagnostic output</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#polyatomic-species">Polyatomic species</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../classes/species_database.html#per-species-overrides">Per-species overrides</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/species_database.html#per-species-model-switches">Per-species model switches</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#status-of-charged-species-data">Status of charged-species data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#extending-the-database">Extending the database</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../classes/species_database_sources.html">Species database: sources, generation and lock</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#principle">Principle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#files">Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#masses-and-collision-data">Masses and collision data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#spectroscopy">Spectroscopy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#case-level-lock">Case-level lock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#repository-lock">Repository lock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#changing-or-adding-a-species">Changing or adding a species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#history">History</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../classes/initialisation.html">Particle initialisation</a><ul>
@@ -415,6 +434,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmccatalyticwallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcCatalyticWallPatch</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmcablatingwallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmccoveragewallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#wall-state-restart">Wall-state restart</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#surface-reaction-dictionary">Surface-reaction dictionary</a></li>
 </ul>
 </li>
@@ -706,23 +726,29 @@ them should be accompanied by a short validation case under
 described in <a class="reference internal" href="regression_tests.html"><span class="doc">Regression tests</span></a> is in place.</p>
 <section id="adding-a-new-species">
 <h2>Adding a new species<a class="headerlink" href="#adding-a-new-species" title="Link to this heading"></a></h2>
+<p>The species database is frozen: masses, collision data and
+spectroscopy are generated from stored sources and compiled into
+<code class="docutils literal notranslate"><span class="pre">libDSMC_MNF</span></code>, and a case cannot supply or override them. Adding
+or changing a species therefore needs the code owner’s approval.
+The procedure, detailed in
+<a class="reference internal" href="../classes/species_database_sources.html"><span class="doc">Species database: sources, generation and lock</span></a>, is:</p>
 <ol class="arabic simple">
-<li><p>Generate (or transcribe from the literature) the electronic,
-vibrational, and rotational level tables for the new species.
-The fit procedure from ab-initio potential-energy surfaces is
-documented in
-<code class="docutils literal notranslate"><span class="pre">docs/Database/dunham_coefficients_from_ab_initio_PES.md</span></code>.</p></li>
-<li><p>Serialise the resulting <code class="docutils literal notranslate"><span class="pre">.dat</span></code> file and place it under
-<code class="docutils literal notranslate"><span class="pre">constant/speciesCache/</span></code> in the target case, using the
-species symbol as the file name (e.g. <code class="docutils literal notranslate"><span class="pre">CN.dat</span></code>,
-<code class="docutils literal notranslate"><span class="pre">CO+.dat</span></code>). The file layout is documented in
-<a class="reference internal" href="../classes/species_database.html"><span class="doc">dsmcSpeciesDatabase — spectroscopic &amp; VSS data</span></a>.</p></li>
-<li><p>Add the species symbol to <code class="docutils literal notranslate"><span class="pre">typeIdList</span></code> in
-<code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code>.</p></li>
-<li><p>Rebuild the solver with <code class="docutils literal notranslate"><span class="pre">./Allwmake</span></code>.</p></li>
-<li><p>Add a zero-dimensional heat-bath validation case under
-<code class="docutils literal notranslate"><span class="pre">run/</span></code> to confirm that the equilibrium populations of the
-new species match a Boltzmann distribution at the target
+<li><p>Store the source data in <code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/speciesDatabase/sources/</span></code>:
+NIST WebBook, ASD or CCCBDB pages and ATcT values under
+<code class="docutils literal notranslate"><span class="pre">nist/raw/</span></code> (with their checksums), and the collision data
+next to the Gosma (2025) and Pfeiffer (2022) files.</p></li>
+<li><p>Extend the assignment tables (<code class="docutils literal notranslate"><span class="pre">nist/tables/</span></code>), the
+species-to-formula map of <code class="docutils literal notranslate"><span class="pre">build_transport_data.py</span></code>, and the
+structural fields in <code class="docutils literal notranslate"><span class="pre">dsmcSpeciesDatabaseData.C</span></code>.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">build_transport_data.py</span></code> and
+<code class="docutils literal notranslate"><span class="pre">build_spectroscopy_data.py</span></code>, then their <code class="docutils literal notranslate"><span class="pre">--check</span></code> modes.</p></li>
+<li><p>Rebuild <code class="docutils literal notranslate"><span class="pre">libDSMC_MNF</span></code> and the solvers, and regenerate any
+<code class="docutils literal notranslate"><span class="pre">constant/speciesCache</span></code> that will be read.</p></li>
+<li><p>Commit with <code class="docutils literal notranslate"><span class="pre">DSMC_SPECIES_DB_UNLOCK=1</span></code>; the pre-commit hook
+refuses the commit otherwise.</p></li>
+<li><p>Add the species symbol to <code class="docutils literal notranslate"><span class="pre">typeIdList</span></code> in a zero-dimensional
+heat-bath case under <code class="docutils literal notranslate"><span class="pre">run/</span></code> and confirm that the equilibrium
+populations match a Boltzmann distribution at the target
 translational temperature.</p></li>
 </ol>
 </section>
@@ -736,12 +762,10 @@ are well exercised; for charged-species chemistry the classes
 are present but flagged as work in progress, and adding a new
 reaction there also implies validating the surrounding
 infrastructure.</p></li>
-<li><p>Add the per-<span class="math notranslate nohighlight">\((n, v, J)\)</span> rate table or the QK-type
-activation parameters in the database entries of the
-reactants. Heats of reaction for dissociation, recombination,
-and exchange are derived automatically from the database and
-do not need to be supplied by the user; only ionisation
-potentials remain an input.</p></li>
+<li><p>Heats of reaction and thresholds for dissociation,
+recombination, exchange and ionisation are derived
+automatically from the database and are not supplied by the
+user; a QK reaction entry names species only.</p></li>
 <li><p>Register the reaction in <code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code> with the
 appropriate <code class="docutils literal notranslate"><span class="pre">reactionModel</span></code> block.</p></li>
 <li><p>Rebuild and run the associated validation case.</p></li>
@@ -764,7 +788,10 @@ respected unless a reason to deviate is explicitly documented.</p></li>
 <li><p>Wire the sub-model selector through the
 <code class="docutils literal notranslate"><span class="pre">BinaryCollisionModel</span></code> key in
 <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code> and expose any new coefficients in
-the matching <code class="docutils literal notranslate"><span class="pre">&lt;Model&gt;Coeffs</span></code> sub-dictionary.</p></li>
+<code class="docutils literal notranslate"><span class="pre">collisionProperties</span></code> or in the model’s own <code class="docutils literal notranslate"><span class="pre">&lt;Model&gt;Coeffs</span></code>
+sub-dictionary. Collision data are read through the cloud’s
+pair tables (<code class="docutils literal notranslate"><span class="pre">cloud.dPQ</span></code>, <code class="docutils literal notranslate"><span class="pre">cloud.omegaPQ</span></code>,
+<code class="docutils literal notranslate"><span class="pre">cloud.alphaPQ</span></code>), never recombined from species values.</p></li>
 <li><p>Add a zero-dimensional relaxation validation case that checks
 the fitted collision number against the input at a few
 temperatures.</p></li>

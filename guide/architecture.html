@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Source-tree architecture &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
@@ -15,8 +15,8 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
     <script src="../_static/js/theme.js"></script>
@@ -76,6 +76,8 @@
 <li class="toctree-l3"><a class="reference internal" href="input_reference.html#constant-dsmcproperties"><code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="input_reference.html#relaxation-collision-numbers">Relaxation collision numbers</a></li>
 <li class="toctree-l4"><a class="reference internal" href="input_reference.html#vibrational-relaxation-model">Vibrational-relaxation model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="input_reference.html#diagnostics-per-channel-transition-counters">Diagnostics: per-channel transition counters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="input_reference.html#per-species-model-switches-moleculeproperties">Per-species model switches (<code class="docutils literal notranslate"><span class="pre">moleculeProperties</span></code>)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="input_reference.html#rovibronicdatabase-sub-dictionary"><code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary</a></li>
 </ul>
 </li>
@@ -85,7 +87,10 @@
 <li class="toctree-l4"><a class="reference internal" href="input_reference.html#available-patch-models">Available patch models</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-chemreactdict"><code class="docutils literal notranslate"><span class="pre">system/chemReactDict</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="input_reference.html#hcao-local-mode-reaction-models">HCAO local-mode reaction models</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="input_reference.html#gas-surface-interaction-dictionaries">Gas-surface interaction dictionaries</a></li>
 <li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
 </ul>
@@ -148,6 +153,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#hard-sphere-cross-section">Hard sphere cross section</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#variable-hard-sphere-vhs">Variable Hard Sphere (VHS)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#variable-soft-sphere-vss">Variable Soft Sphere (VSS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#pair-parameters">Pair parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#post-collision-velocities">Post-collision velocities</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#elastic-versus-inelastic-variants">Elastic versus inelastic variants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/collision_cross_sections.html#coefficient-dictionaries">Coefficient dictionaries</a></li>
@@ -297,15 +303,29 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../classes/species_database.html"><code class="docutils literal notranslate"><span class="pre">dsmcSpeciesDatabase</span></code> — spectroscopic &amp; VSS data</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#role">Role</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#contents-of-a-species-file">Contents of a species file</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#level-table-construction">Level-table construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#contents-of-a-species-entry">Contents of a species entry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#level-table-construction">Level-table construction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../classes/species_database.html#constant-speciescache"><code class="docutils literal notranslate"><span class="pre">constant/speciesCache</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#diagnostic-output">Diagnostic output</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#polyatomic-species">Polyatomic species</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../classes/species_database.html#per-species-overrides">Per-species overrides</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/species_database.html#per-species-model-switches">Per-species model switches</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#status-of-charged-species-data">Status of charged-species data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/species_database.html#extending-the-database">Extending the database</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../classes/species_database_sources.html">Species database: sources, generation and lock</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#principle">Principle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#files">Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#masses-and-collision-data">Masses and collision data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#spectroscopy">Spectroscopy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#case-level-lock">Case-level lock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#repository-lock">Repository lock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#changing-or-adding-a-species">Changing or adding a species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/species_database_sources.html#history">History</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../classes/initialisation.html">Particle initialisation</a><ul>
@@ -414,6 +434,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmccatalyticwallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcCatalyticWallPatch</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmcablatingwallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#dsmccoveragewallpatch"><code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#wall-state-restart">Wall-state restart</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/boundaries.html#surface-reaction-dictionary">Surface-reaction dictionary</a></li>
 </ul>
 </li>
@@ -708,11 +729,14 @@ functionality in the tree.</p>
 <section id="top-level-layout">
 <h2>Top-level layout<a class="headerlink" href="#top-level-layout" title="Link to this heading"></a></h2>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>src/                 C++ libraries (DSMC core + rovibronic extension)
-applications/        Solver executable and utilities
-run/                 Reference test cases (Tutorial, verification, …)
-doc/                 Standalone LaTeX notes (derivations, audits)
-docs/                Long-form PDFs + Sphinx source for the docs site
+applications/        Solvers (dsmcFoam, dsmcFoamAblation) and dsmcInitialise
+tutorials/           Tutorial cases
+run/                 Verification and research cases (0D, 3D, GSI, …)
+docs/                User guides (PDF), Sphinx source for the docs site,
+                     development records
+tools/               Maintenance scripts
 Allwmake             Top-level build driver
+BUILD.md             Build instructions
 </pre></div>
 </div>
 </section>
@@ -739,8 +763,10 @@ class pages as follows:</p>
 <td><p><a class="reference internal" href="../classes/cloud.html"><span class="doc">dsmcCloud — the solver orchestrator</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">speciesDatabase/</span></code></p></td>
-<td><p>Spectroscopic &amp; VSS data</p></td>
-<td><p><a class="reference internal" href="../classes/species_database.html"><span class="doc">dsmcSpeciesDatabase — spectroscopic &amp; VSS data</span></a></p></td>
+<td><p>Frozen species data (spectroscopy, masses, VSS) and their
+sources</p></td>
+<td><p><a class="reference internal" href="../classes/species_database.html"><span class="doc">dsmcSpeciesDatabase — spectroscopic &amp; VSS data</span></a>,
+<a class="reference internal" href="../classes/species_database_sources.html"><span class="doc">Species database: sources, generation and lock</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">initaliseDsmcParcels/</span></code></p></td>
 <td><p>Particle initialisation</p></td>
@@ -804,6 +830,10 @@ class pages as follows:</p>
 executable. The <code class="docutils literal notranslate"><span class="pre">Make/files</span></code> line <code class="docutils literal notranslate"><span class="pre">EXE</span> <span class="pre">=</span>
 <span class="pre">$(FOAM_USER_APPBIN)/dsmcFoam</span></code> fixes the binary name to
 <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">applications/solvers/discreteMethods/dsmcFoamAblation/</span></code> —
+the same solver on a dynamic mesh, for receding ablating walls
+and the optional conjugate solid; it is built separately from
+<code class="docutils literal notranslate"><span class="pre">Allwmake</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">applications/utilities/preProcessing/DSMC/dsmcInitialise/</span></code>
 —  the pre-processing utility that writes the <code class="docutils literal notranslate"><span class="pre">0/</span></code> time
 directory from <code class="docutils literal notranslate"><span class="pre">system/dsmcInitialiseDict</span></code>.</p></li>
@@ -814,13 +844,16 @@ directory from <code class="docutils literal notranslate"><span class="pre">syst
 <p>The top-level <code class="docutils literal notranslate"><span class="pre">Allwmake</span></code> script, invoked from the repository
 root, carries out three jobs:</p>
 <ol class="arabic simple">
-<li><p>creates symbolic links from the repository’s <code class="docutils literal notranslate"><span class="pre">src/</span></code>,
-<code class="docutils literal notranslate"><span class="pre">applications/</span></code>, and <code class="docutils literal notranslate"><span class="pre">tutorials/</span></code> directories into
+<li><p>creates symbolic links from the repository’s
+<code class="docutils literal notranslate"><span class="pre">src/lagrangian</span></code>, <code class="docutils literal notranslate"><span class="pre">applications/solvers</span></code> and
+<code class="docutils literal notranslate"><span class="pre">applications/utilities</span></code> directories into
 <code class="docutils literal notranslate"><span class="pre">$WM_PROJECT_USER_DIR</span></code> on the first compilation;</p></li>
-<li><p>builds the DSMC library under
-<code class="docutils literal notranslate"><span class="pre">$WM_PROJECT_USER_DIR/src/lagrangian/DSMC/</span></code>;</p></li>
+<li><p>builds <code class="docutils literal notranslate"><span class="pre">liblagrangianCloudBase</span></code> and <code class="docutils literal notranslate"><span class="pre">libDSMC_MNF</span></code> under
+<code class="docutils literal notranslate"><span class="pre">$WM_PROJECT_USER_DIR/src/lagrangian/</span></code>;</p></li>
 <li><p>builds <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> and <code class="docutils literal notranslate"><span class="pre">dsmcInitialise</span></code>.</p></li>
 </ol>
+<p><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code> is built afterwards with <code class="docutils literal notranslate"><span class="pre">wmake</span></code> in its own
+directory (<code class="docutils literal notranslate"><span class="pre">BUILD.md</span></code>). Build products are not tracked by git.</p>
 <p>The use of symbolic links allows the OpenFOAM build machinery to
 pick the sources up as user-side additions and leaves the primary
 repository tree read-only from the build’s standpoint.</p>
@@ -828,20 +861,21 @@ repository tree read-only from the build’s standpoint.</p>
 <section id="random-number-generator">
 <h2>Random-number generator<a class="headerlink" href="#random-number-generator" title="Link to this heading"></a></h2>
 <p>A single <code class="docutils literal notranslate"><span class="pre">Foam::Random</span></code> instance, <code class="docutils literal notranslate"><span class="pre">rndGen_</span></code>, is held on the
-cloud (<code class="docutils literal notranslate"><span class="pre">dsmcCloud.H</span></code>, member variable). It is constructed at
-<code class="docutils literal notranslate"><span class="pre">dsmcCloud.C:1122</span></code> with the seed</p>
+cloud (<code class="docutils literal notranslate"><span class="pre">dsmcCloud.H</span></code>, member variable). It is constructed in the
+<code class="docutils literal notranslate"><span class="pre">dsmcCloud</span></code> constructor with the seed</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">rndGen_</span><span class="p">(</span><span class="n">label</span><span class="p">(</span><span class="n">clock</span><span class="o">::</span><span class="n">getTime</span><span class="p">())</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">7183</span><span class="o">*</span><span class="n">Pstream</span><span class="o">::</span><span class="n">myProcNo</span><span class="p">())</span>
 </pre></div>
 </div>
-<p>i.e. the wall-clock time offset by a per-rank multiple of 7183.
-All downstream RNG consumers access this single instance through
-<code class="docutils literal notranslate"><span class="pre">cloud_.rndGen()</span></code>.</p>
-<p>It is important to emphasise that this <strong>single entry point makes
-deterministic regression testing feasible</strong>: routing a fixed seed
-into the <code class="docutils literal notranslate"><span class="pre">Random</span></code> constructor at this one location seeds every
-downstream RNG consumer automatically. The design of the planned
-regression-test infrastructure is documented in
-<a class="reference internal" href="regression_tests.html"><span class="doc">Regression tests</span></a>.</p>
+<p>i.e. the wall-clock time in whole seconds offset by a per-rank
+multiple of 7183. When <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code> sets
+<code class="docutils literal notranslate"><span class="pre">randomSeed</span> <span class="pre">N;</span></code>, the generator is reset to <code class="docutils literal notranslate"><span class="pre">N</span></code> plus the same
+per-rank offset. All downstream RNG consumers access this single
+instance through <code class="docutils literal notranslate"><span class="pre">cloud_.rndGen()</span></code>.</p>
+<p>This <strong>single entry point makes deterministic regression testing
+feasible</strong>: a fixed <code class="docutils literal notranslate"><span class="pre">randomSeed</span></code> seeds every downstream RNG
+consumer automatically. Without it, replicas launched in the same
+second are bit-identical. The design of the planned regression-test
+infrastructure is documented in <a class="reference internal" href="regression_tests.html"><span class="doc">Regression tests</span></a>.</p>
 </section>
 </section>
 

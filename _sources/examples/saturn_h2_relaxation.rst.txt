@@ -26,8 +26,17 @@ large rotational quantum spacing means it does not obey Parker's
 temperature-dependent law, so a **constant**
 :math:`Z_{\mathrm{rot}} = 174` (Higdon) is used
 (``rotationalRelaxationCollisionNumber 174``). Second, the
-H\ :sub:`2`, H and He variable-hard-sphere parameters are supplied
-as per-species overrides so the global database is untouched.
+H\ :sub:`2`, H and He collision data are those of the frozen species
+database (Gosma et al. 2025 collision-specific rows,
+:math:`T_{\mathrm{ref}} = 273~\mathrm{K}`), not Higdon's VHS table.
+
+.. note::
+
+   The cases take their collision data from the frozen species
+   database (Gosma et al. 2025 collision-specific pairs), not from
+   Higdon's Table 1 VHS values, which they used before 2026-09-29;
+   ``collisionProperties/Tref`` is 273 K. Results obtained before
+   that date used the Higdon cross sections.
 
 Validation goals
 ----------------

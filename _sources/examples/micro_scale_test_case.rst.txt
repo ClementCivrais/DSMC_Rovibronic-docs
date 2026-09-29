@@ -87,6 +87,7 @@ Running
 
    cd tutorials/microScaleTestCase
    blockMesh
+   topoSet
    dsmcInitialise
    dsmcFoam
 

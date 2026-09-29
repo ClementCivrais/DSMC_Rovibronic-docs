@@ -6,8 +6,11 @@ Directory: ``tutorials/relaxationLandauTeller/``.
 A zero-dimensional (0-D) isothermal heat-bath case that exercises
 the parallel-marginal relaxation cascade of the rovibronic
 Larsen-Borgnakke sampler. The translational temperature is held
-at :math:`T_t = 10\,000~\mathrm{K}` by the large thermal inertia
-of the heat bath, and the internal state is initialised at
+at :math:`T_t = 10\,000~\mathrm{K}` by a
+``maxwellianResamplingController``, which resamples the particle
+velocities from a Maxwellian at every time step and leaves the
+internal :math:`(n, v, J)` states unchanged, and the internal
+state is initialised at
 :math:`T_\mathrm{int}(0) = 1\,000~\mathrm{K}`. The mean internal
 energy is expected to decay exponentially toward its equilibrium
 value at the heat-bath temperature.
@@ -106,7 +109,46 @@ Case parameters
 * Internal temperature at :math:`t = 0`:
   :math:`1\,000~\mathrm{K}`.
 * Mesh: :math:`1 \times 1 \times 1` cell of side
-  :math:`1\;\mu\mathrm{m}`, fully periodic.
+  :math:`1\;\mu\mathrm{m}`, fully periodic; the block is the
+  cell zone ``allCells`` used by the controller and by the zone
+  measurement.
+* ``nEquivalentParticles 0.2``: the cell holds :math:`10^{4}`
+  real molecules, i.e. :math:`5 \times 10^{4}` simulator
+  particles.
+* Heat bath (``system/controllersDict``):
+
+  .. code-block:: cpp
+
+     dsmcStateControllers
+     (
+         controller
+         {
+             controllerProperties
+             {
+                 zone                        allCells;
+                 controlSwitch               true;
+                 readStateFromFile           false;
+                 timeProperties
+                 {
+                     nSamples                    1;
+                     nAverages                   1;
+                     nControls                   1;
+                     initialTimePeriod           0;
+                     decoupledFromWriteInterval  true;
+                 }
+             }
+             stateControllerModel    maxwellianResamplingController;
+             maxwellianResamplingControllerProperties
+             {
+                 temperature                 10000;
+                 typeIds                     (O2);
+             }
+         }
+     );
+
+     dsmcFluxControllers
+     (
+     );
 * Time-step: :math:`10^{-11}~\mathrm{s}`, total integration
   :math:`5 \times 10^{-7}~\mathrm{s}`.
 

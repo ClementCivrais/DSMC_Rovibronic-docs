@@ -99,7 +99,7 @@ and :math:`Z_r^{\infty}` an asymptotic value that is typically
 fitted to 5–10 for air diatomics. In the DSMC implementation the
 low-temperature asymptote is tabulated directly as
 ``rotationalRelaxationCollisionNumber`` in the
-``<Model>Coeffs`` sub-dictionary.
+``collisionProperties`` sub-dictionary.
 
 The vibrational relaxation time follows the Millikan-White
 correlation [MillikanWhite1963rel]_:
@@ -128,7 +128,7 @@ initialisation.
 Electronic relaxation times are less well characterised
 experimentally than rotational or vibrational ones, and the
 effective ``rovibronicRelaxationCollisionNumber`` in
-``<Model>Coeffs`` is conventionally set to a large value
+``collisionProperties`` is conventionally set to a large value
 (:math:`10^{3}\text{–}10^{4}`) that reflects the slow equilibration
 typical of atomic emission observations. Setting it to
 :math:`\infty` amounts to freezing the electronic populations —
@@ -210,7 +210,11 @@ The pure-vibrational channel and the partner-dependent
 ``run/0D/`` —  ``N2_pureVT_relax`` (rotation frozen, pure V-T
 relaxation), ``N2_pureVT_detbal`` (V-T detailed balance), and the
 ``N2O_pureVT_valentini`` / ``N2Ar_pureVT_valentini`` pair, which
-confirm the partner-dependent rate ratio.
+confirm the partner-dependent rate ratio. Their collision data
+come from the frozen species database, like every other case
+(:doc:`../classes/species_database_sources`); the Bird-style
+per-case diameters they once carried were removed, so results
+obtained before 2026-09-29 used different cross sections.
 
 Composite modes in the parallel-marginal cascade
 -------------------------------------------------
@@ -303,7 +307,7 @@ the solver drifts systematically from the analytical
 Landau-Teller solution; with them in place, the ratio
 :math:`Z_{k,\mathrm{fit}}/Z_k` recovers the input to within a few
 percent on the validation cases. A derivation of
-:math:`C_k` is given in ``docs/derivations/LT_Correction_MultiMode.pdf``.
+:math:`C_k` is given in ``docs/Development/Derivations/LT_Correction_MultiMode.pdf``.
 
 Each channel carries its **own** correction, built per cell from
 that channel's conditional manifold: :math:`C_r` from the

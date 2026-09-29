@@ -154,12 +154,18 @@ The general expansion carried by the database is
        \left(v + \tfrac{1}{2}\right)^{k} [J(J+1)]^{\ell},
 
 which subsumes the Morse-plus-distortion form as the leading
-terms. The coefficients :math:`Y_{k,\ell}^{(n)}` are fitted,
-electronic state by electronic state, against ab-initio PECs or
-against the term values of Huber-Herzberg-style compilations. Fit
-quality and provenance are documented, species by species, in
-``docs/Database/dunham_coefficients_from_ab_initio_PES.md`` in
-the repository.
+terms. The database carries the leading coefficients —
+:math:`\omega_e`, :math:`\omega_e x_e`, :math:`\omega_e y_e`,
+:math:`B_e`, :math:`\alpha_e`, :math:`D_e`, :math:`\beta_e` —
+taken, electronic state by electronic state, from the NIST
+Chemistry WebBook (Huber and Herzberg constants); constants the
+WebBook does not print are zero. Only the states the WebBook
+tabulates are carried, and the few values from other sources
+(CO\ :sup:`+`, CH\ :sup:`+`, NH\ :sup:`+` and some unprinted
+:math:`B_e`, :math:`r_e`) are flagged NON-NIST. The constants are
+generated from stored source pages, value by value with their
+provenance, as described in
+:doc:`../classes/species_database_sources`.
 
 Degeneracies
 ------------
@@ -177,9 +183,13 @@ where the :math:`(2J+1)` factor counts the :math:`m_J = -J,
 multiplicity —  for instance :math:`g = 3` for a
 :math:`{}^{3}\Sigma` state, :math:`g = 2` for :math:`{}^{2}\Sigma`,
 and :math:`g = 4` for :math:`{}^{2}\Pi` (spin-orbit doubling
-included). Nuclear spin contributions to the multiplicity cancel
-out across reactant and product in the types of balance we are
-concerned with, and are omitted from the database entries.
+included). The product-rule nuclear-spin degeneracy
+:math:`g_{\mathrm{nuc}} = \prod (2I+1)` is stored for every species
+but applied in no ladder: it cancels in every equilibrium constant.
+The symmetry number :math:`\sigma` enters every rotor branch as a
+factor :math:`1/\sigma` (explicitly for heteronuclear and
+polyatomic rotors, through the even/odd weights below for
+homonuclear diatomics).
 
 Nuclear-spin statistics and ortho/para sub-ladders
 --------------------------------------------------
@@ -197,17 +207,22 @@ exchange of the two identical nuclei constrains the allowed
   (:math:`\Sigma^{-}_{u}`, …): the parity is reversed.
 
 The practical consequence is that, for a homonuclear species,
-only alternate :math:`J` values are physically populated within
-each electronic state. The sampling routines in the solver
-respect this parity constraint by enforcing the allowed parity
-at the Larsen-Borgnakke acceptance step, which amounts to halving
-the effective rotational partition function.
+alternate :math:`J` values carry different weights within each
+electronic state. The database applies one (even, odd) weight pair
+per species, normalised to a :math:`J`-average of
+:math:`1/\sigma = 1/2`: resolved alternations for H\ :sub:`2`,
+H\ :sub:`2`\ :sup:`+` (1, 3) and N\ :sub:`2`\ :sup:`+` (6, 3), whose
+:math:`J` parity is kept at the Larsen-Borgnakke acceptance step,
+and equal weights for O\ :sub:`2`, N\ :sub:`2`, C\ :sub:`2` and
+O\ :sub:`2`\ :sup:`+`. Either way the effective rotational partition
+function is halved.
 
 Ground-state normalisation and provenance
 -----------------------------------------
 
-Every energy in the database is stored **relative to the
-molecular ground state** :math:`(n, v, J) = (0, 0, 0)`:
+Every molecular energy in the database is stored **relative to the
+molecular ground level**, :math:`v = 0`, :math:`J = 0` of the
+:math:`T_e = 0` electronic state:
 
 .. math::
 
@@ -215,13 +230,19 @@ molecular ground state** :math:`(n, v, J) = (0, 0, 0)`:
      E_{\mathrm{int}}(n, v, J) - E_{\mathrm{int}}(0, 0, 0),
 
 so that the ground state carries zero internal energy by
-convention. This choice has no physical content, but ensures that
-the dissociation energy :math:`D_0` that the chemistry module
-reads from the database is the physical bond energy, rather than
-the potential minimum :math:`D_e = D_0 + E_v(0, 0, 0)`. It also
-means that the partition functions defined below are explicitly
-computed relative to the ground state, which removes the
-additive constant :math:`T_e^{(0)}` from every rate integral.
+convention. The zero of an atom or atomic ion is its
+:math:`J`-weighted ground term (the :math:`g`-weighted mean of the
+fine-structure components, :math:`g = \sum_J (2J+1)`). The
+dissociation limits are placed on these zeros: the dissociation
+energy :math:`D_0` that the chemistry module reads is the ATcT
+bond energy plus the :math:`J`-weighted offsets of the fragments'
+ground terms, so that the products carry exactly the energy
+removed from the molecule. For O\ :sub:`2` this raises
+:math:`E_d` of the ground state by :math:`155.95~\mathrm{cm^{-1}}`,
+twice the :math:`J`-weighted O(:sup:`3`\ P) term. The
+partition functions defined below are computed relative to these
+zeros, which removes the additive constant :math:`T_e^{(0)}` from
+every rate integral.
 
 Partition functions
 -------------------
@@ -251,16 +272,14 @@ Typical state-space sizes
 -------------------------
 
 For a diatomic species in air chemistry, the level space is
-dense. O\ :sub:`2`, for example, carries of order six electronic
-states populated at re-entry temperatures, of the order of 60
-vibrational levels per electronic state, and on average some 15
-rotational levels per vibrational level, for a total of
-:math:`\sim 3 \times 10^{5}` rovibronic levels.
-N\ :sub:`2` has fewer bound electronic states within the energy
-range of interest but a denser rotational ladder, and lands at a
-comparable order of magnitude. The tables are built once, at
-solver start-up, and cached on disk so that subsequent runs with
-the same species list incur no rebuild cost.
+dense. With the generated spectroscopy, ``dsmcInitialise`` reports
+for O\ :sub:`2` 7 electronic states and 17389 :math:`(n, v, J)`
+levels, for N\ :sub:`2` 9 states and 45184 levels, for NO 7 states
+and 15971 levels, and for CO 8 states and 45521 levels. The tables
+are rebuilt at every start-up from the compiled database (a few
+seconds per species); the optional ``constant/speciesCache`` copy
+is written for post-processing and is read back only when
+``computeEnergyLevels`` is ``false``.
 
 Polyatomic species
 ==================
@@ -431,9 +450,10 @@ species field ``vibrationalCoupling``, with two values:
   vibrational energy.
 
 The diagonal and cross anharmonicity constants of every supported
-polyatomic species are tabulated, with their literature provenance,
-in :doc:`../classes/species_database` and in
-``docs/DATA_PROVENANCE.md``.
+polyatomic species are listed, with their provenance, in the
+generated ``speciesDatabase/sources/species_spectroscopy_frozen.json``
+(see :doc:`../classes/species_database` and
+:doc:`../classes/species_database_sources`).
 
 .. [Liechty2025] D. S. Liechty, "Direct Simulation Monte Carlo
    short course," *Thermal & Fluids Analysis Workshop (TFAWS)*

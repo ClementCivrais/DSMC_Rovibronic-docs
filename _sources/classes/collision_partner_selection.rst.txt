@@ -11,7 +11,7 @@ each time-step, *how many* candidate pairs to draw and *which*
 pairs to consider. It is orthogonal to the binary collision model
 (:doc:`collision_models`), which determines what happens once a
 pair has been accepted. The selection scheme is chosen through the
-``collisionPartnerSelectionModel`` key in
+``collisionRateModel`` key in
 ``constant/dsmcProperties``.
 
 The default is ``noTimeCounter``, which is the standard DSMC

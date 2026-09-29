@@ -91,7 +91,7 @@ timescale as :math:`(v,J)` inside :math:`n=0`.
   species" shortcut.
 
 The derivation of :math:`C_k` per composite mode and the protocol
-itself are documented in ``docs/derivations/LT_Correction_MultiMode.pdf`` in
+itself are documented in ``docs/Development/Derivations/LT_Correction_MultiMode.pdf`` in
 the source tree.
 
 Two-temperature recombination and three-body channel
@@ -110,7 +110,7 @@ have been isolated and fixed in the course of validation:
 
 The full list of bug-audit findings, together with the
 corresponding fixes and short justifications, is collected in
-``docs/Rovibronic Article/DSMC_Bugs_Report.pdf`` in the source
+``docs/Articles/Rovibronic/DSMC_Bugs_Report.pdf`` in the source
 tree.
 
 Heats of reaction
@@ -119,15 +119,22 @@ Heats of reaction
 Startup diagnostics print the automatically-computed heats of
 reaction :math:`\Delta H = D_0(\mathrm{products}) -
 D_0(\mathrm{reactants})` for each registered exchange and
-recombination channel. Representative values for air chemistry
-agree with the literature to within 1%:
+recombination channel. With the frozen database the values for air
+chemistry are:
 
 * :math:`\mathrm{N}_2 + \mathrm{O} \to \mathrm{NO} + \mathrm{N}`:
-  :math:`\Delta H \approx -37\,700~\mathrm{K}` (lit.) vs.
-  :math:`-37\,732~\mathrm{K}` (database).
+  :math:`\Delta H = -37\,698~\mathrm{K}` (database) vs.
+  :math:`-37\,810~\mathrm{K}` (ATcT :math:`D_0`).
 * :math:`\mathrm{O}_2 + \mathrm{N} \to \mathrm{NO} + \mathrm{O}`:
-  :math:`\Delta H \approx +16\,000~\mathrm{K}` (lit.) vs.
-  :math:`+16\,150~\mathrm{K}` (database).
+  :math:`\Delta H = +15\,895~\mathrm{K}` (database) vs.
+  :math:`+16\,008~\mathrm{K}` (ATcT :math:`D_0`).
+
+The difference, 112 K, is the :math:`J`-weighted fine-structure
+offset of the O(:sup:`3`\ P) ground term
+(:math:`77.975~\mathrm{cm^{-1}}`), which is the energy zero of the
+atomic ladders; with this convention the dissociation products
+carry exactly the energy removed from the molecule
+(:doc:`../classes/species_database_sources`).
 
 Shock profiles
 --------------

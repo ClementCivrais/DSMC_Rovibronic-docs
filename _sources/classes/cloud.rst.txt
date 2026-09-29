@@ -49,21 +49,30 @@ Key member variables
 --------------------
 
 * ``rndGen_`` —  the single ``Foam::Random`` instance through
-  which every RNG consumer in the solver samples, seeded at
-  construction as
-  ``rndGen_(label(clock::getTime()) + 7183*Pstream::myProcNo())``
-  (``dsmcCloud.C:1122``). Exposing a dictionary-driven
-  ``randomSeed`` would make the full simulation deterministic;
-  the associated design is documented on the
-  :doc:`../guide/regression_tests` page.
+  which every RNG consumer in the solver samples. It is seeded at
+  construction with the wall-clock time in whole seconds plus
+  ``7183*Pstream::myProcNo()``, or, when ``randomSeed`` is set in
+  ``constant/dsmcProperties``, with that value plus the same
+  per-processor offset; a fixed seed makes the run reproducible
+  and gives independent replicas that are launched together.
 * ``typeIdList_`` —  the ordered list of species symbols; the
   integer type-IDs used throughout the solver are indices into
   this list.
-* ``nEquivalentParticles_`` —  the weight :math:`F_N` of each
-  simulator particle.
+* ``nParticle_`` —  the weight :math:`F_N` of each simulator
+  particle (``nEquivalentParticles``).
+* ``collTref_`` —  the collision reference temperature
+  (``collisionProperties/Tref``), which must equal the 273 K of the
+  species database.
 * ``constProps_`` —  the per-species constant properties
-  (masses, VSS parameters, ionisation potentials, partition-
-  function tables); see :doc:`species_database`.
+  (masses, VSS parameters, ionisation potentials, level and
+  degeneracy tables); see :doc:`species_database`.
+* ``dPQ_``, ``omegaPQ_``, ``alphaPQ_`` —  the
+  :math:`N_s \times N_s` collision-pair tables, built once in
+  ``buildConstProps()`` from the frozen species database (Gosma
+  rows for neutral pairs, mean rule for a charged partner) and read
+  through ``dPQ(P, Q)``, ``omegaPQ(P, Q)`` and ``alphaPQ(P, Q)`` by
+  every collision and reaction class; see
+  :doc:`species_database_sources`.
 
 Cloud function objects
 ----------------------

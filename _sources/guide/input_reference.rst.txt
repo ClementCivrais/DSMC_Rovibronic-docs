@@ -14,15 +14,14 @@ Case directory layout
 ---------------------
 
 A canonical rovibronic case follows the standard OpenFOAM
-three-fold layout. The reference tutorial ``run/Tutorial/`` is
-organised as:
+three-fold layout (the cases under ``run/0D/`` and ``tutorials/``):
 
 .. code-block:: text
 
-   Tutorial/
+   myCase/
    ├── constant/
    │   ├── dsmcProperties         # primary solver configuration
-   │   ├── speciesCache/          # species database (one .dat per species)
+   │   ├── speciesCache/          # level-table cache written at start-up
    │   └── polyMesh/              # OpenFOAM mesh
    └── system/
        ├── controlDict            # time stepping, output frequency
@@ -38,9 +37,10 @@ organised as:
 ``constant/dsmcProperties``
 ---------------------------
 
-The top-level solver configuration. The keys listed below are read
-in ``dsmcCloud.C`` at lines 49–92 (species database path) and
-1040–1061 (solver-level switches and sub-models).
+The top-level solver configuration, read by the ``dsmcCloud``
+constructor (``dsmcCloud.C``), by ``buildConstProps()`` (species
+database and collision pairs) and by the collision-rate and
+binary-collision selectors.
 
 .. list-table::
    :header-rows: 1
@@ -61,24 +61,26 @@ in ``dsmcCloud.C`` at lines 49–92 (species database path) and
        particle. Lower values increase statistical resolution but
        raise the computational cost. A cell-level target of at
        least 10–20 particles is recommended.
-   * - ``chemicalReactions``
+   * - ``chemicalReactions``, ``chargedParticles``, ``adsorption``
      - Switch
      - ``false``
-     - Activates the chemistry module; reactions are then read
-       from ``system/chemReactDict``.
-   * - ``chargedParticles``
-     - Switch
-     - ``false``
-     - Enables the charged-particle (plasma) extensions, including
-       ionisation and charge exchange.
-   * - ``adsorption``
-     - Switch
-     - ``false``
-     - Enables the surface-adsorption sub-model.
+     - Not read by the current solver; kept in case files for
+       compatibility. The chemistry is the ``reactions`` list of
+       ``system/chemReactDict``, and surface processes are set on
+       the wall patches.
    * - ``axisymmetricSimulation``
      - Switch
      - ``false``
-     - Enables the axisymmetric geometry treatment.
+     - Enables the axisymmetric geometry treatment (radial
+       weighting); requires ``axisymmetricProperties``.
+   * - ``axisymmetricProperties``
+     - dict
+     - see below
+     - ``radialExtentOfDomain`` :math:`R` [m] and
+       ``maxRadialWeightingFactor`` :math:`W`; the radial
+       weighting factor at radius :math:`r` is
+       :math:`1 + (W - 1)\,r/R`. Read only when
+       ``axisymmetricSimulation`` is on.
    * - ``adaptiveSimulation``
      - Switch
      - ``false``
@@ -87,17 +89,37 @@ in ``dsmcCloud.C`` at lines 49–92 (species database path) and
      - Switch
      - ``false``
      - Enables cell-weighted parcel statistics.
+   * - ``printReactionsToTerminal``
+     - Switch
+     - ``true``
+     - Optional (default ``false``); prints per-reaction counts at
+       each output.
+   * - ``randomSeed``
+     - label
+     - ``12345``
+     - Optional fixed seed of the random-number generator (offset
+       per processor). By default the seed is the wall-clock time
+       in whole seconds, so replicas launched in the same second
+       are identical.
    * - ``BinaryCollisionModel``
      - word
      - ``LarsenBorgnakkeVariableHardSphere``
-     - Binary collision model class. Alternative:
-       ``LarsenBorgnakkeVariableSoftSphere``.
+     - Binary collision model class. Alternatives:
+       ``LarsenBorgnakkeVariableSoftSphere``,
+       ``FHOVariableHardSphere``, ``VariableHardSphere``,
+       ``VariableSoftSphere``, ``NoBinaryCollision``.
+   * - ``collisionProperties``
+     - dict
+     - see below
+     - Reference temperature (``Tref``, must be 273), the
+       relaxation collision numbers, ``initialSubCellLevels`` and
+       the optional :math:`Z_v(T)` keys. Required for every model.
    * - ``<Model>Coeffs``
      - dict
      - see below
-     - Model-specific coefficients (reference temperature and the
-       three relaxation collision numbers).
-   * - ``collisionPartnerSelectionModel``
+     - Optional model-specific extras (the V-V block of the LB
+       models, the FHO settings).
+   * - ``collisionRateModel``
      - word
      - ``noTimeCounter``
      - Collision-pair selection algorithm (NTC is the standard
@@ -110,37 +132,48 @@ in ``dsmcCloud.C`` at lines 49–92 (species database path) and
    * - ``rovibronicDatabase``
      - dict
      - see below
-     - Rovibronic database configuration.
+     - Species-database configuration. Required: without it the
+       solver stops.
+   * - ``moleculeProperties``
+     - dict
+     - see below
+     - Optional per-species model switches.
 
-Example excerpt taken verbatim from
-``run/Tutorial/constant/dsmcProperties``:
+Example excerpt, in the form used by the cases under
+``run/0D/``:
 
 .. code-block:: cpp
 
    nEquivalentParticles                        625000;
-   chemicalReactions                           false;
-   chargedParticles                            false;
-   adsorption                                  false;
+   adaptiveSimulation                          false;
+   cellWeightedSimulation                      false;
    axisymmetricSimulation                      false;
 
    BinaryCollisionModel                        LarsenBorgnakkeVariableHardSphere;
-   LarsenBorgnakkeVariableHardSphereCoeffs
+
+   collisionProperties
    {
-       Tref                                    273; // [K]
-       rotationalRelaxationCollisionNumber     2;   // [-]
-       rovibrationalRelaxationCollisionNumber  10;  // [-]
-       rovibronicRelaxationCollisionNumber     10;  // [-]
+       Tref                                    273; // [K], fixed by the database
+       rotationalRelaxationCollisionNumber     5;   // [-]
+       rovibrationalRelaxationCollisionNumber  50;  // [-]
+       rovibronicRelaxationCollisionNumber     500; // [-]
+       initialSubCellLevels                    (1 1 1);
    }
 
-   collisionPartnerSelectionModel              noTimeCounter;
+   collisionRateModel                          noTimeCounter;
 
-   typeIdList (O2 O O2+ O+ E- N2 N2+ NO NO+ N N+ H2 H He CN CO Ar);
+   typeIdList (O2 O O2+ O+ E- N2 N2+ NO NO+ N N+);
 
    rovibronicDatabase
    {
        computeEnergyLevels  true;
        databasePath         "constant/speciesCache";
    }
+
+All masses and collision parameters come from the frozen species
+database (:doc:`../classes/species_database_sources`);
+``collisionProperties/Tref`` must equal the 273 K to which they are
+referenced, and any other value stops the solver.
 
 Relaxation collision numbers
 ````````````````````````````
@@ -165,10 +198,8 @@ corresponding mode and is used as a diagnostic during the
 phase-by-phase validation protocol (see
 :doc:`../reference/validation`).
 
-In addition to the three composite collision numbers, the
-collision-model coefficients sub-dictionary (named
-``<Model>Coeffs`` or, in the relaxation cases, ``collisionProperties``)
-accepts an optional fourth, pure-vibrational collision number and a
+In addition to the three composite collision numbers,
+``collisionProperties`` accepts an optional fourth, pure-vibrational collision number and a
 set of keys that switch the constant vibrational collision number
 for a temperature- and partner-dependent :math:`Z_v(T)`.
 
@@ -217,7 +248,7 @@ Vibrational-relaxation model
        recommended for many-mode species such as CH\ :sub:`4`.
        Both samplers target the identical distribution (verified
        to detailed balance); diatomics are unaffected. See
-       ``docs/verification/pfeiffer2016_relaxation_conformance.md``.
+       ``docs/Development/Verification/pfeiffer2016_relaxation_conformance.md``.
    * - ``metropolisWalkLength``
      - label
      - ``500``
@@ -247,7 +278,7 @@ explicit partner blocks override individual pairs:
 
    collisionProperties
    {
-       Tref                                    1000;
+       Tref                                    273;
        vibrationalRelaxationModel              valentini;  // partner-dependent
        vibrationalRelaxationChannel            pureVib;    // Z_v(T) -> v-only
        vibrationalRelaxationCollisionNumber    1e30;       // overridden by Z_v(T)
@@ -264,44 +295,83 @@ explicit partner blocks override individual pairs:
        }
    }
 
+Diagnostics: per-channel transition counters
+````````````````````````````````````````````
+
+``countInternalTransitions`` (Switch, ``collisionProperties``,
+default ``off``) enables cumulative per-species transition-event
+counters for the four LB window channels — rotational
+:math:`J \to J'`, pure-vibrational :math:`v \to v'`, rovibrational
+:math:`v \to v'` (aggregated over the final :math:`J'`), and
+rovibronic :math:`n \to n'` — incremented at every non-reaction LB
+draw and printed to the log (tag ``itc``) together with per-species
+state-population snapshots at every write time. Combined with the
+reservoir normalisation
+
+.. math::
+
+   k_{s \to s'} = \frac{\Delta(\text{counts})}{\Delta t \;
+   N_{s} \; n_{\mathrm{tot}}}
+
+this measures state-to-state rate coefficients directly (see
+``docs/Development/Verification/lb_state_to_state_rates.md``). Enable only in
+non-reactive runs: reaction-class trial redistributions pass through
+the same sampler and would pollute the tallies.
+
+Per-species model switches (``moleculeProperties``)
+````````````````````````````````````````````````````
+
+The optional ``moleculeProperties`` sub-dictionary, keyed by species
+name, accepts only model switches:
+
+* ``allowSpinForbiddenTransitions`` (bool) —  flips the electronic
+  spin-conservation gate per species: ``true`` connects the full
+  electronic manifold, ``false`` restricts LB electronic relaxation
+  (and equilibrium initialisation) to the initial state's
+  spin-multiplicity class;
+* ``vibrationalCoupling`` (word) —  ``separable`` or ``coupled``
+  polyatomic vibration (:doc:`../theory/rovibronic_levels`).
+
+.. code-block:: cpp
+
+   moleculeProperties
+   {
+       O2 { allowSpinForbiddenTransitions false; }   // spin-blocked
+   }
+
+The species data are frozen. An entry that sets ``mass``,
+``diameter``, ``omega``, ``alpha``, ``charge``,
+``rotationalDegreesOfFreedom``, ``vibrationalModes``,
+``maintainOddEvenParity``, ``internalEnergyList``,
+``degeneracyList`` or ``dissociationEnergy`` stops the solver with
+a ``FatalError`` (see :doc:`../classes/species_database_sources`).
+
 ``rovibronicDatabase`` sub-dictionary
 `````````````````````````````````````
 
-* ``computeEnergyLevels`` (Switch) —  if ``true``, the solver
-  builds the :math:`(n, v, J)` energy and degeneracy tables at
-  start-up from the species database.
-* ``databasePath`` (fileName) —  directory containing the
-  per-species ``.dat`` files. In the reference tutorial this
-  points to ``constant/speciesCache``.
+Required; a case without it stops at start-up.
+
+* ``computeEnergyLevels`` (Switch, default ``true``) —  builds the
+  :math:`(n, v, J)` energy and degeneracy tables at start-up from
+  the compiled species database. With ``false`` the diatomic and
+  atomic tables are read back from ``databasePath`` when a cache
+  file exists.
+* ``databasePath`` (fileName, optional) —  directory in which the
+  tables are cached, conventionally ``"constant/speciesCache"``.
 
 ``constant/speciesCache/``
 --------------------------
 
-The species database is distributed as one ASCII ``.dat`` file per
-species, named after the species symbol (e.g. ``O2.dat``,
-``N2.dat``, ``NO.dat``). The reference tutorial ships 259 such
-files, covering the diatomic molecules of air chemistry, their
-atomic fragments, the first few ion species, and the electron.
-
-Each file contains, in order:
-
-#. the Variable Soft Sphere (VSS) collision parameters
-   (:math:`\sigma_{\mathrm{ref}}`, :math:`\omega`, :math:`\alpha`,
-   :math:`T_{\mathrm{ref}}`);
-#. the Dunham coefficients fitted to an ab-initio potential energy
-   surface, one block per electronic state;
-#. the three-dimensional ``internalEnergyList[n][v][J]`` table,
-   in Joules, with the :math:`(0, 0, 0)` ground-state level
-   normalised to zero;
-#. the associated degeneracy table
-   ``degeneracyList[n][v][J]``, which accounts for the rotational
-   multiplicity :math:`(2J+1)` and the electronic degeneracy
-   :math:`g_{\mathrm{elec}}^{(n)}`;
-#. the ionisation potential and, for molecules, the dissociation
-   energy.
-
-Provenance and fit quality of the Dunham coefficients are documented
-in ``docs/Database/dunham_coefficients_from_ab_initio_PES.md``.
+The species data are compiled into the solver, not read from the
+case. When ``databasePath`` is set, the solver writes one
+``<species>.dat`` file per diatomic or atomic species (level table,
+degeneracies, dissociation and ionisation energies, spin
+multiplicities) as a cache; polyatomic ladders are not cached. The
+cache is not validated against the database: after a database
+change, rename every cache that may be read (the solver with
+``computeEnergyLevels false``, or a Python oracle) and regenerate
+it with ``dsmcInitialise``. The origin of every constant is
+documented in :doc:`../classes/species_database_sources`.
 
 ``system/dsmcInitialiseDict``
 -----------------------------
@@ -312,25 +382,15 @@ Specifies the initial particle distribution. The main entries are:
   Each entry contains:
 
   * ``type`` —  fill strategy (``dsmcMeshFill`` is the standard
-    whole-domain option);
-  * ``initialDistributionType`` —  velocity distribution; typically
-    ``maxwellian``;
+    whole-domain option; velocities are drawn from a Maxwellian);
   * ``numberDensities`` —  per-species number density in
     :math:`\mathrm{m}^{-3}`;
   * ``translationalTemperature`` —  Maxwell-Boltzmann sampling
     temperature for the particle velocities;
   * ``internalTemperature`` —  Boltzmann sampling temperature
-    used for the rovibronic state indices :math:`(n, v, J)`;
-  * ``rotationalTemperature`` / ``vibrationalTemperature``
-    (optional, ``dsmcMeshFill`` only) —  SPLIT internal
-    temperatures for two-temperature reservoir setups
-    (:math:`T_R \neq T_V`); both default to
-    ``internalTemperature``.  Currently implemented for
-    polyatomic species (rotation + electronic sampled at
-    :math:`T_R`, the joint vibrational state at :math:`T_V`);
-    requesting a split for a diatomic is a fatal error.  Used by
-    the Pfeiffer et al. 2016 verification reservoirs
-    (``run/0D/pfeiffer2016_verification``);
+    used for the rovibronic state indices :math:`(n, v, J)`
+    (a single internal temperature; separate rotational,
+    vibrational or electronic temperatures are not read);
   * ``velocity`` —  bulk flow velocity (vector).
 
 Example:
@@ -342,7 +402,6 @@ Example:
        configuration
        {
            type                        dsmcMeshFill;
-           initialDistributionType     maxwellian;
            numberDensities
            {
                O2      1e23;
@@ -407,37 +466,48 @@ available; see the source tree for the complete list.
 ``system/chemReactDict``
 ------------------------
 
-Enabled when ``chemicalReactions`` is set to ``true`` in
-``dsmcProperties``. Each reaction is specified as a named block of
-the form:
+Every reaction is an entry of the ``reactions`` list; an empty
+list runs the case without chemistry. Each entry names a
+``reactionModel`` and carries a ``dsmcReactionProperties``
+sub-dictionary:
 
 .. code-block:: cpp
 
-   reactionName
-   {
-       reactionModel      dissociationIonisationTypeISameSpecies;
-       reactants          (N2 N2);
-       productsOfDissociationReaction (N N N2);
-       aCoeff             ...;
-       bCoeff             ...;
-   }
+   reactions
+   (
+       oxygenDissociation
+       {
+           reactionModel   dissociationIonisationTypeISameSpecies;
 
-The dissociation and atom-exchange heats of reaction are **computed
-automatically** from the database entries
-:math:`D_0 = E_{\mathrm{diss}}(n{=}0, v{=}0, J{=}0)` and do not need
-to be supplied by the user. Only the ionisation heat, which depends
-on an input ionisation potential, remains a user-facing parameter.
+           dsmcReactionProperties
+           {
+               reaction                      oxygenDissociation;
+               reactants                     (O2 O2);
+               productsOfDissociatedMolecule (O O);
+               productsOfIonisedMolecule     (O2+ E-);
+               allowSplitting                yes;
+               writeRatesToTerminal          no;
+           }
+       }
+   );
+
+The dissociation, exchange and ionisation thresholds of the QK
+classes are **computed automatically** from the database entries
+(:math:`D_0 = E_{\mathrm{diss}}(n{=}0, v{=}0, J{=}0)` and the
+ionisation potentials) and are not supplied by the user.
 
 A detailed description of each reaction model is given in
 :doc:`../theory/chemistry`.
 
 HCAO local-mode reaction models
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```````````````````````````````
 
-For local-mode (HCAO) polyatomic species — database entries with
-``vibModeBasis localMode``, e.g. ``H2O_HCAO``, ``HCN_HCAO``,
-``CH4_HCAO``, ``CH3_HCAO`` — the channel-specific reaction models of
-Lauterbach, Tuttas & Pfeiffer (2026) are available:
+The channel-specific reaction models of Lauterbach, Tuttas &
+Pfeiffer (2026) are compiled, but they act only on local-mode
+polyatomic species (database ``vibModeBasis localMode``), and the
+frozen species database on the main branch carries no such species;
+a reaction that names a normal-mode species stops with a
+``FatalError``. Their keys are:
 
 * ``polyDissociationQKHCAO`` — one dissociation channel per local
   stretching mode (paper Eqs. 19–22).  Keys: ``reactants (A M)``, a
@@ -453,14 +523,6 @@ Lauterbach, Tuttas & Pfeiffer (2026) are available:
   broadcasts), optional ``stericFactor`` (:math:`\sigma`, default 1),
   ``formationEnergy`` (0 K reaction energy for the post-reaction
   ledger), optional ``rotationCouplingGamma`` (Eq. 37, default 0).
-* ``polyRecombinationQK`` / ``polyRecombinationTCE`` — optional
-  ``thirdBodies (M1 M2 ...)`` replaces the single ``thirdBody`` when
-  the paper's "M = any species" equilibrium cases are run; the QK
-  class additionally accepts ``manifoldSum binned`` (exact
-  density-of-states convolution, needed for large-manifold species
-  such as CH4; default ``exact``).
-
-Example cases: ``run/0D/HCAO_validation``.
 
 Gas-surface interaction dictionaries
 ------------------------------------
@@ -542,6 +604,7 @@ convenience key:
   between terminal progress messages.
 
 The ``application`` entry is informational only; the executable
-that must actually be invoked is ``dsmcFoam``, regardless of the
-string supplied here (the reference tutorial uses ``dsmcFoamPlus``
-as the colloquial project name).
+that must actually be invoked is ``dsmcFoam`` (or
+``dsmcFoamAblation`` for the moving-mesh and conjugate ablation
+cases), regardless
+of the string supplied here.

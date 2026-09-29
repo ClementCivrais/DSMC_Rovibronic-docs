@@ -7,37 +7,45 @@ Role
 ----
 
 ``dsmcSpeciesDatabase`` is the single source of truth for
-per-species data used throughout the solver. It is instantiated by
-the cloud when the ``rovibronicDatabase`` block is present in
-``constant/dsmcProperties``, and it loads one ASCII ``.dat`` file
-per species from ``constant/speciesCache/``. Every downstream
-consumer —  collision models, reaction classes, diffuse-wall
-re-sampling, and the macroscopic-temperature inversion —  reads
-through this single object.
+per-species data used throughout the solver. The data are compiled
+into ``libDSMC_MNF`` and frozen: they are generated from stored
+source files and cannot be overridden from a case (see
+:doc:`species_database_sources`). The cloud instantiates the
+database when the ``rovibronicDatabase`` sub-dictionary is present
+in ``constant/dsmcProperties``; without it the solver stops. Every
+downstream consumer —  collision models, reaction classes,
+diffuse-wall re-sampling, and the macroscopic-temperature
+inversion —  reads through the cloud's per-species constant
+properties and its per-pair collision tables, both built from this
+object at start-up.
 
-Contents of a species file
---------------------------
+Contents of a species entry
+---------------------------
 
-Each ``<species>.dat`` entry contains, in order:
+For each species listed in ``typeIdList`` the database supplies:
 
-#. **VSS collision parameters** —  the reference diameter
-   :math:`\sigma_{\mathrm{ref}}`, the viscosity exponent
-   :math:`\omega`, the scattering exponent :math:`\alpha`, and the
-   reference temperature :math:`T_{\mathrm{ref}}`.
-#. **Dunham coefficients** —  one block per electronic state
+#. **Mass and VSS collision parameters** —  the mass, the reference
+   diameter :math:`d_{\mathrm{ref}}`, the viscosity exponent
+   :math:`\omega` and the scattering exponent :math:`\alpha`, all
+   referenced to :math:`T_{\mathrm{ref}} = 273~\mathrm{K}`. The
+   cloud turns them into the pair tables ``dPQ_``, ``omegaPQ_``
+   and ``alphaPQ_`` (Gosma rows for neutral pairs, mean rule for a
+   charged partner).
+#. **Spectroscopic constants** —  one block per electronic state
    :math:`n`, containing the term energy :math:`T_e^{(n)}`, the
-   harmonic frequency :math:`\omega_e^{(n)}`, the anharmonicity
-   :math:`\omega_e x_e^{(n)}`, the equilibrium rotational constant
-   :math:`B_e^{(n)}`, the rotation-vibration coupling
-   :math:`\alpha_e^{(n)}`, the centrifugal distortion
-   :math:`D_e^{(n)}`, and the electronic degeneracy
-   :math:`g_{\mathrm{elec}}^{(n)}`.
+   harmonic frequency :math:`\omega_e^{(n)}`, the anharmonicities,
+   the equilibrium rotational constant :math:`B_e^{(n)}`, the
+   rotation-vibration coupling :math:`\alpha_e^{(n)}`, the
+   centrifugal distortion :math:`D_e^{(n)}`, the dissociation
+   energy from the potential minimum and the electronic degeneracy
+   :math:`g_{\mathrm{elec}}^{(n)}`; :math:`J`-weighted levels for
+   atoms; normal modes and rotational constants for polyatomics.
 #. **Rovibronic level table** —  the three-dimensional
-   ``internalEnergyList[n][v][J]`` in Joules, with the
-   :math:`(0, 0, 0)` ground-state level normalised to zero.
+   ``internalEnergyList[n][v][J]`` in Joules, built at start-up,
+   with the ground level normalised to zero.
 #. **Degeneracy table** —  ``degeneracyList[n][v][J]``, which
-   factors the rotational multiplicity :math:`(2J+1)` and the
-   electronic degeneracy.
+   carries the rotational multiplicity :math:`(2J+1)`, the
+   electronic degeneracy and the :math:`1/\sigma` symmetry factor.
 #. **Ionisation potential** (for all species), and the
    **dissociation energy** :math:`D_0` (for molecules). These
    enter the chemistry module as the *only* heats of reaction
@@ -46,33 +54,53 @@ Each ``<species>.dat`` entry contains, in order:
 Level-table construction
 ------------------------
 
-When ``computeEnergyLevels`` is set to ``true``, the database
-builds the level table at start-up from the Dunham coefficients
-through the Morse + rigid-rotor + centrifugal-distortion
-expansion documented in :doc:`../theory/rovibronic_levels`. The
-resulting table is cached in memory; subsequent runs with the same
-species list and the same database contents reuse the cached
-representation.
+With ``computeEnergyLevels true`` (the default) the database
+builds the level table at every start-up from the spectroscopic
+constants through the expansion documented in
+:doc:`../theory/rovibronic_levels`. The ladders are exact functions
+of the frozen data, so two runs with the same species list always
+build identical tables.
+
+``constant/speciesCache``
+`````````````````````````
+
+When ``databasePath`` is set (conventionally
+``"constant/speciesCache"``), the database writes one
+``<species>.dat`` file per diatomic or atomic species (levels,
+degeneracies, dissociation and ionisation energies, spin
+multiplicities). The file is a **cache**, not an input: the solver
+reads it back only when ``computeEnergyLevels`` is ``false``, and
+it never validates it against the compiled database. After a
+database change every cache that may be read, by the solver or by
+a Python oracle, must be regenerated with ``dsmcInitialise``; an
+old cache is renamed aside (``speciesCache.stale_<date>``), not
+deleted. Polyatomic ladders are always recomputed.
 
 Diagnostic output
 -----------------
 
-At solver start-up the database prints, for each molecular species
-that participates in a dissociation channel, the asymptote-
-matching error described in :doc:`../theory/chemistry`. These
-errors are typically below :math:`1~\mathrm{cm}^{-1}`; a
-significantly larger value is symptomatic of an inconsistent
-species file and should be investigated before proceeding.
+At start-up the cloud prints the collision-pair table,
+``Collision pairs (d_ref [m], omega, alpha; Tref = 273 K)``, and
+the level count of every species (for example
+``Total (n,v,J) levels: 17389`` for O\ :sub:`2`). For each molecular
+species that participates in a dissociation channel, the reaction
+classes print the asymptote-matching table described in
+:doc:`../theory/chemistry`. With the generated spectroscopy these
+matching errors are at round-off (of order
+:math:`10^{-34}~\mathrm{J}`); a larger value is symptomatic of an
+inconsistent species entry and should be investigated before
+proceeding.
 
 Polyatomic species
 ------------------
 
-In addition to the diatomic and atomic species read from
-``.dat`` files, the database ships a set of **polyatomic species**
-whose spectroscopic constants are compiled into the database source
-(``dsmcSpeciesDatabaseData.C``) and traced, value by value, to the
-literature in ``docs/DATA_PROVENANCE.md``. A species is selected
-simply by adding its symbol to ``typeIdList``; the
+In addition to the diatomic and atomic species, the database
+ships a set of **polyatomic species** whose spectroscopic constants
+are generated, like all others, into
+``dsmcSpeciesDatabaseSpectroscopy.C`` from the stored CCCBDB and
+ATcT sources, value by value with their provenance (see
+:doc:`species_database_sources`). A species is selected simply by
+adding its symbol to ``typeIdList``; the
 :math:`(J, K)` rotational ladder and the multi-mode vibrational
 ladders are then built at start-up by the same
 ``computeEnergyLevels`` path. The supported molecules and their
@@ -106,37 +134,37 @@ The governing energy expressions and degeneracies are given in
 distinct normal modes (harmonic frequency :math:`\omega_m`,
 degeneracy :math:`d_m`, diagonal anharmonicity :math:`x_{mm}`) and,
 where the literature value exists, the cross-mode anharmonicities
-:math:`x_{ij}`. For example CO\ :sub:`2` and CH\ :sub:`4` carry full
-diagonal and cross anharmonicities (with documented caveats for the
-unavailable CH\ :sub:`4` :math:`x_{13}` and the deperturbed
-CO\ :sub:`2` Fermi resonance), while the remaining molecules default
-to harmonic modes.
+:math:`x_{ij}`. CO\ :sub:`2`, CH\ :sub:`4` and H\ :sub:`2`\ O carry
+anharmonic sets (flagged NON-NIST, since CCCBDB tabulates no
+anharmonic constants; the CH\ :sub:`4` :math:`x_{13}` is unavailable
+and the CO\ :sub:`2` Fermi resonance is deperturbed), while the
+remaining molecules have harmonic modes built on the CCCBDB
+fundamentals. Every rotor branch applies the :math:`1/\sigma`
+symmetry factor. The collision data of every polyatomic species are
+Gosma's collision-specific rows, like those of the other neutrals.
 
-Per-species overrides
-`````````````````````
+Per-species model switches
+``````````````````````````
 
-A small set of per-species fields may be overridden from the case
-through an optional ``moleculeProperties`` sub-dictionary keyed by
-species name: ``mass``, ``diameter``, ``omega``, ``alpha``,
-``charge``, ``rotationalDegreesOfFreedom``, ``vibrationalModes``,
-``maintainOddEvenParity``, and ``vibrationalCoupling``
-(``separable`` / ``coupled``, see
-:doc:`../theory/rovibronic_levels`). The rotor type, the mode
-frequencies, the degeneracies and the anharmonicity constants are
-intrinsic spectroscopic data and are not user-settable; a fully
-manual species can instead be supplied through the legacy
-``.dat`` path with an explicit ``internalEnergyList`` /
-``degeneracyList`` / ``dissociationEnergy``.
+The species data themselves cannot be changed from a case. The
+optional ``moleculeProperties`` sub-dictionary of
+``constant/dsmcProperties``, keyed by species name, accepts only two
+model switches:
 
-.. note::
+* ``allowSpinForbiddenTransitions`` (``true`` / ``false``) —  the
+  electronic spin-conservation gate of the LB relaxation and of the
+  equilibrium initialisation;
+* ``vibrationalCoupling`` (``separable`` / ``coupled``) —  the
+  polyatomic vibrational coupling, see
+  :doc:`../theory/rovibronic_levels`.
 
-   The variable-hard-sphere collision parameters of several of the
-   newer polyatomic species (N\ :sub:`2`\ O, HCN, C\ :sub:`3`,
-   CH\ :sub:`3`, NH\ :sub:`3`, H\ :sub:`2`\ O, O\ :sub:`3`,
-   NO\ :sub:`2`, CH\ :sub:`2`) are placeholders carried over from
-   CO\ :sub:`2`; this is flagged in ``docs/DATA_PROVENANCE.md`` and
-   should be refined before these species are used quantitatively
-   in a collision-rate-sensitive simulation.
+Any of ``mass``, ``diameter``, ``omega``, ``alpha``, ``charge``,
+``rotationalDegreesOfFreedom``, ``vibrationalModes``,
+``maintainOddEvenParity``, ``internalEnergyList``,
+``degeneracyList`` or ``dissociationEnergy`` stops the solver with
+a ``FatalError``; so does a case without ``rovibronicDatabase``,
+since the former path that took all species data from
+``moleculeProperties`` has been removed.
 
 Status of charged-species data
 ------------------------------
@@ -153,8 +181,9 @@ Status of charged-species data
 Extending the database
 ----------------------
 
-Adding a new species amounts to dropping a new
-``constant/speciesCache/<new_species>.dat`` file in the expected
-format, and appending its symbol to ``typeIdList`` in
-``constant/dsmcProperties``. The procedure is documented in
-:doc:`../guide/adding_a_feature`.
+A new species, or a change to an existing one, goes through the
+source files and generators of ``speciesDatabase/sources/`` and
+needs the code owner's approval; the procedure and the repository
+lock are described in :doc:`species_database_sources`. Once the
+species is in the database, a case selects it by appending its
+symbol to ``typeIdList`` in ``constant/dsmcProperties``.
