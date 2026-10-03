@@ -146,6 +146,18 @@ Park and Macheret reference data, as published in
 collision or chemistry modules is the recommended next-level
 validation beyond the heat-bath test.
 
+Gas-surface interaction
+-----------------------
+
+The wall models and the gas-surface interaction framework (per-face
+wall temperature, probability-based and finite-rate surface
+chemistry, pure-surface integration, scattering kernels and the
+exact internal-state sampler, reaction heats, receding body-fitted
+and immersed surfaces, and the conjugate solid of
+``dsmcFoamAblation``) are verified against analytic oracles, SPARTA,
+PICLas and published cases in
+:doc:`gsi_verification/index`.
+
 Outstanding items
 -----------------
 

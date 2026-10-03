@@ -1,0 +1,269 @@
+B8: multi-region conjugate solid
+================================
+
+**Verified:** the conjugate solid of ``dsmcFoamAblation`` as one or
+more solid regions of the gas case, on the gas ``runTime`` with their
+own physical clock, coupled through a face-area-weighted AMI
+(non-conformal walls allowed), in parallel, with :math:`k(T)` and
+:math:`c_p(T)`, several couplings per case, and the melt film and
+droplets; the coupling stays inside OpenFOAM. **Against:** the former
+single-region layout (round-off), exact solutions, serial runs (for
+the parallel runs), and the two verification cases of Cao and Ma
+[CaoMa2025_gsi]_.
+
+Framework (B8a)
+---------------
+
+.. list-table:: 1-D melting ablation (aluminium, :math:`q` =
+   10\ :sup:`7` W/m², exact onset 1.815 s and speed 3.8296 mm/s)
+   :header-rows: 1
+   :widths: 46 27 27
+
+   * - Check
+     - Solid region
+     - Former layout
+   * - Melt onset
+     - in (1.8, 1.9] s
+     - in (1.8, 1.9] s
+   * - Surface temperature before melting
+     - within 1.598 K
+     - within 1.598 K
+   * - Melting speed / exact at 40 s
+     - 0.99661
+     - 0.99661
+   * - Melting speed / exact at 120 s (1 m slab)
+     - 0.99996
+     - -
+   * - Profile within 120 mm of the front at 120 s
+     - 0.025 K
+     - -
+   * - Energy closure (largest over the run)
+     - 5e-14 (3e-13 long run)
+     - 1.3e-13
+
+The two layouts agree every window to 5e-13 (wall temperature) and
+2e-12 (melting speed). Two processors (gas wall and solid wall on
+different processors, so the AMI is distributed) agree with serial to
+10\ :sup:`-15` to 5e-11, and a restart at a third of the run is
+**bitwise identical** to the uninterrupted run (400 ledger lines,
+final temperatures and points).
+
+On a melting cylinder under a prescribed flux (both meshes moving,
+AMI remade every window) the solid region agrees with the former
+layout to 5e-13 (:math:`T_w`) and 2e-12 (recession); in parallel
+with the solid solvers converged to 10\ :sup:`-18` it agrees with
+serial to round-off. In the DSMC O stream the lumped heating rate is
+4388.6 K/s against :math:`2\langle q\rangle/(\rho c_p R)` = 4387.5 K/s
+(ratio 1.0003, closure 2e-12) in both layouts, and the heat load of
+every window is the same on the gas and the solid side of the AMI.
+The base-class coupling window reproduces the B1 window to the 12
+printed digits, so the chemical energy is counted exactly once.
+
+.. figure:: ../../_static/figures/gsi/b8_melt1d.png
+   :width: 100%
+   :align: center
+
+   1-D melting slab in the region layout: (a) surface temperature
+   before melting against :math:`T_0 + 2q(t/\pi k\rho c)^{1/2}`;
+   (b) melting speed against the exact steady speed, constant
+   :math:`c_p` and :math:`c_p = 600 + 0.5T`; (c) profile below the
+   front at 120 s.
+
+Melt film and droplets in the region layout (B8b)
+-------------------------------------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 25 25 20
+
+   * - Test
+     - Former layout
+     - Solid region, serial
+     - 2 processors
+   * - Shear-driven film, :math:`h`/exact at the downstream edge
+     - 0.99998-1.0001 (50), 0.9999-1.0004 (100)
+     - 0.99998-1.00019 (50), 0.99991-1.00077 (100)
+     - 0.99998-1.00019; within 3e-12 of serial
+   * - Capillary levelling rate / exact
+     - 0.993, 0.994
+     - 0.9932, 0.9942
+     - 0.9932
+   * - Freezing, :math:`s`/Neumann
+     - 0.995-0.9995
+     - 0.9954-0.9995
+     - the same; within 4e-13
+   * - 10 µm droplet / ODE at 100 µs
+     - 0.998-1.004
+     - U 0.9977 :math:`\pm` 0.0027, T rise 0.9985 :math:`\pm` 0.0031
+       (5 seeds)
+     - U 0.9958, T rise 0.9948
+   * - Film mass closure
+     - :math:`\le` 4e-10
+     - :math:`\le` 4e-10
+     - :math:`\le` 10\ :sup:`-11`
+
+The restart of the shear film is bitwise identical. On a curved wall
+in parallel the film agrees with serial to round-off until dripping
+starts, then within 2e-3: a serial run with the heat flux perturbed
+by 10\ :sup:`-14` departs by the same amount, so this is the
+threshold scatter of the dripping process, not a parallel defect.
+
+.. figure:: ../../_static/figures/gsi/b8_film.png
+   :width: 100%
+   :align: center
+
+   Film verification in the region layout, serial and 2 processors:
+   (a) shear-driven film, (b) capillary levelling, (c) film freezing
+   on the solid against Neumann, (d) 10 µm droplet in the O stream
+   against the free-molecular sphere.
+
+.. figure:: ../../_static/figures/gsi/b8_fix_droplet.png
+   :width: 70%
+   :align: center
+
+   Droplet in the DSMC O stream against the free-molecular ODE, five
+   seeds.
+
+.. figure:: ../../_static/figures/gsi/b8_fix_film_round_off.png
+   :width: 70%
+   :align: center
+
+   Dripping film on the curved wall: relative difference of the film
+   mass, 2 processors against serial and a serial run with the heat
+   flux multiplied by :math:`1 + 10^{-14}`; both depart together once
+   dripping starts.
+
+:math:`k(T)`, :math:`c_p(T)`, several couplings, non-conformal walls
+--------------------------------------------------------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 30 30
+
+   * - Test
+     - Reference
+     - Result
+   * - 1 mm slab of one cell, :math:`c_p = 600 + 0.5T`,
+       :math:`q` = 10\ :sup:`6` W/m²
+     - :math:`\rho L(h(T) - h(T_0)) = qt`
+     - within 5e-15 every window
+   * - 1 cm slab, :math:`k = 100 + 0.2T`, steady
+     - Kirchhoff transform, :math:`T_w` = 780.6248 K
+     - -2.9e-6 (100 cells), -7.4e-7 (200): second order
+   * - 1 m melting slab with :math:`c_p = 600 + 0.5T`
+     - :math:`v = q/(\rho(L + h(T_m) - h(T_0)))` = 3.8087 mm/s
+     - 0.99992; closure 5e-12
+   * - Slab melting on both faces, two couplings
+     - half slab with an insulated bottom
+     - within 2e-14 (:math:`T_w`), 4e-12 (melting speed)
+
+Non-conformal walls (cylinder under a prescribed flux, gas wall of 80
+faces): :math:`\langle T_w\rangle` at 31 ms is 815.908 K (80 solid
+faces), 815.690 K (120), 815.615 K (160) and 815.544 K (320), second
+order in the solid resolution; the non-conformal pair 80/160 is
+identical to the conformal 160/160. The gas wall points stay within
+10\ :sup:`-18` m of the solid wall where they coincide with solid
+points, and the heat load is mapped conservatively (gas side against
+solid side within 6e-16).
+
+.. figure:: ../../_static/figures/gsi/b8_nonconformal.png
+   :width: 90%
+   :align: center
+
+   Cylinder under 10\ :sup:`7` W/m², 80 gas faces on 80, 160
+   (conformal and not) and 320 solid faces: (a) wall temperature and
+   ratio to 80/80; (b) mean recession, and the heat-load mapping
+   error of the DSMC runs.
+
+.. figure:: ../../_static/figures/gsi/b8_ledger.png
+   :width: 60%
+   :align: center
+
+   Energy closure of every B8b run (largest over the windows).
+
+Cao and Ma case 1: copper plate
+-------------------------------
+
+Copper plate (:math:`k` 400 W/m/K, :math:`\rho` 8960 kg/m³,
+:math:`c_p` 385 J/kg/K), 0.1 m, 290 K, :math:`q` = 10\ :sup:`5` W/m²
+for 2 ms, against the semi-infinite solution:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 35 25
+
+   * - Mesh, solid step
+     - :math:`(T_w - T_0)`/exact at 0.1, 1, 2 ms
+     - profile at 2 ms, max error
+   * - 500 cells (their mesh), 10 µs
+     - 1.24, 1.021, 1.0102
+     - 0.38 mK
+   * - 5000 cells, 1 µs
+     - 1.0009, 1.0001, 1.00005
+     - 8.5 µK
+
+On the published mesh the diffusion length spans 2.4 cells at 2 ms;
+refined, the solution converges to the exact one.
+
+.. figure:: ../../_static/figures/gsi/b8_cao1.png
+   :width: 80%
+   :align: center
+
+   Cao and Ma case 1: surface temperature rise and profile against
+   the semi-infinite solution, on their mesh and refined.
+
+Cao and Ma case 3: Mach-10 argon over a copper cylinder
+-------------------------------------------------------
+
+Lofthouse's Kn 0.01 case as in Cao and Ma section 3.3: Ar,
+:math:`n` = 4.237e20 m\ :sup:`-3`, 200 K, 2634 m/s, cylinder
+D = 0.3048 m, diffuse wall, copper at 500 K, no radiation; 24 windows
+of 400 DSMC steps each driving 31 solid steps of 1 ms (solid time
+0.744 s); one replica on 2 processors.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 34 30 36
+
+   * - Quantity
+     - This run
+     - Reference
+   * - Stagnation :math:`q` (:math:`\theta < 3.6°`)
+     - 40 980 :math:`\pm` 310 W/m²
+     - SPARTA (Cao and Ma) 40 810; Goshayeshi et al. 39 590;
+       Scanlon et al. (dsmcFoam) 43 360 W/m²
+   * - Heat load 0-180° / reference
+     - -
+     - SPARTA 1.018, Goshayeshi 1.040, Scanlon 0.924
+   * - :math:`\Delta T_{max}` at 0.744 s
+     - 1.093 :math:`\pm` 0.011 K
+     - Cao and Ma 1.12 K (ratio 0.976 :math:`\pm` 0.010)
+   * - Energy closure of the solid
+     - 1.8e-11
+     - -
+
+The heat flux lies between the references, which differ by 9 %
+among themselves. The temperature rise is 2.4 % below Cao and Ma's,
+inside the 1.037-1.136 K spread that the reference stagnation fluxes
+give. Deviations from their set-up: VSS from the frozen database
+instead of their VHS parameters, and a coarser wall mesh (1.25 mm).
+
+.. figure:: ../../_static/figures/gsi/b8_cao3.png
+   :width: 90%
+   :align: center
+
+   Cao and Ma case 3: (a) wall heat flux of the steady flow against
+   Goshayeshi et al., Cao and Ma (SPARTA) and Scanlon et al.
+   (dsmcFoam); (b) temperature rise of the copper against the
+   semi-infinite estimates and Cao and Ma's value at 0.744 s.
+
+Reproduce
+---------
+
+``run/GSI/conjugateMelt/``: ``make_melt1d_mr.py``,
+``make_meltcyl_mr.py``, ``make_film2d.py``, ``run_b8a.sh``,
+``analyse_b8a.py`` (``b8a_results.txt``), ``run_b8b.sh``,
+``analyse_b8b.py`` (``b8b_results.txt``), ``run_b8fix.sh``,
+``analyse_b8fix.py``, ``make_cao3.py``, ``run_cao3.sh``,
+``analyse_cao3.py`` (``cao3_results.txt``, ``cao3_reference/``). Note:
+``docs/Development/Verification/gsi/b8_conjugate_multiregion.md``.

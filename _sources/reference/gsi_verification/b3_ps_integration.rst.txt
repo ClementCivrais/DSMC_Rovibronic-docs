@@ -1,0 +1,324 @@
+B3: pure-surface integration
+============================
+
+**Verified:** the time integration of the pure-surface (PS)
+reactions (desorption DS, Langmuir-Hinshelwood LH2 and LH4,
+sublimation SB) with the three integrators of ``psIntegrator``
+(``exponential``, ``timeCounter``, ``stochastic``), and the
+translation of the legacy coverage-wall keywords into a built-in
+mechanism, after which the legacy code path was deleted.
+**Against:** SPARTA PS examples one-to-one, closed-form solutions,
+an independent Monte Carlo of each discrete algorithm, the published
+checks of SG25 [SG25_gsi]_, and the former coverage-wall
+verification.
+
+.. list-table:: Summary (values after the review fixes)
+   :header-rows: 1
+   :widths: 45 55
+
+   * - Check
+     - Result
+   * - SPARTA one-to-one, ``timeCounter`` (beam, gs/ps and ps, 12
+       seeds against 20)
+     - every channel above 10\ :sup:`-3` per impact within 1-2
+       errors; 4 processors and a 4-processor restart agree
+       (:math:`z \le 2.5`)
+   * - Exponential integrator, first-order desorption,
+       :math:`k\,\Delta t` = 0.1, 1, 10
+     - :math:`\theta` and emitted molecules exact to round-off
+   * - Linear network with full Jacobian (Padé path)
+     - 4.9e-15; atom balance 2.2e-16; restart bitwise identical
+   * - Stiff second-order LH, adaptive sub-steps (default tolerance
+       0.1)
+     - error 5.0e-3 to 5.8e-3 at :math:`2k\theta_0\Delta t` = 1 to
+       100, independent of the stiffness
+   * - SG25 Figs 4-7 totals
+     - time counters within 0.1 %; exponential within 0.6 %
+   * - SG25 section 6.1 Langmuir points
+     - six points within 0.0004 of the Langmuir solution
+   * - Legacy coverage wall through the translation
+     - LH exact (0.190476); ``coverage_lh2`` 0.1904761917 (exact
+       0.1904761905)
+   * - Atom balance with carries, GS + PS + restart
+     - 3.9e-16 (exponential), 1.6e-15 (timeCounter)
+   * - Cost per active element and step (4 reactions, full Jacobian)
+     - exponential 0.55 µs, timeCounter 0.05 µs, stochastic 0.455 µs
+
+Integrators
+-----------
+
+* ``exponential`` (default): the extents :math:`X_r` (real events on
+  the element) over :math:`h = n_{sync}\Delta t` are
+  :math:`X = h\,\varphi_1(hM)\,R(\theta_0)`, with the Jacobian
+  :math:`M` written analytically in every PS class and the matrix
+  function from a Padé(6,6) exponential of the augmented matrix.
+  Exact for linear networks at any :math:`k\,\Delta t`; non-linear
+  reactions take adaptive sub-steps. Per-element carries of every gas
+  product emit whole parcels (no rounding draw).
+* ``timeCounter``: SPARTA's ``PS_react`` (multiple time counters,
+  SG25 Algorithm 2 with SPARTA's floor).
+* ``stochastic``: the exact stochastic simulation algorithm (SG25
+  Algorithm 3 with the waiting time drawn before the event).
+
+SPARTA beam twin with PS reactions
+----------------------------------
+
+``in.beam.surf.ps`` and ``in.beam.surf.gs_ps`` with the mechanism
+files verbatim (sample-GS_1 + PS_1, sample-GS_2 + PS_2), as the B2
+beam twin.
+
+.. list-table:: Events per impact, ours/SPARTA
+   :header-rows: 1
+   :widths: 16 13 12 12 12 12 12 11
+
+   * - Case
+     - Integrator
+     - AA O
+     - LH3
+     - DS O
+     - DS CO
+     - LH4
+     - SB
+   * - gsps2
+     - timeCounter
+     - 1.000 :math:`\pm` 0.001
+     - 1.001 :math:`\pm` 0.003
+     - 1.000 :math:`\pm` 0.001
+     - 1.001 :math:`\pm` 0.003
+     - 1.001 :math:`\pm` 0.008
+     - 1.058 :math:`\pm` 0.093
+   * - gsps2, 4 proc., restart
+     - timeCounter
+     - 1.000 :math:`\pm` 0.001
+     - 1.002 :math:`\pm` 0.004
+     - 0.999 :math:`\pm` 0.002
+     - 1.003 :math:`\pm` 0.004
+     - 1.012 :math:`\pm` 0.010
+     - 1.02 :math:`\pm` 0.15
+   * - gsps2
+     - exponential
+     - 1.001 :math:`\pm` 0.001
+     - 0.999 :math:`\pm` 0.003
+     - 1.000 :math:`\pm` 0.001
+     - 0.999 :math:`\pm` 0.003
+     - 1.000 :math:`\pm` 0.004
+     - 1.008 :math:`\pm` 0.047
+
+The time counter is SPARTA one-to-one, serial, decomposed and
+restarted. The exponential integrator agrees on every channel fixed
+by the mass balance, but its steady inventory is higher (N\ :sub:`O(s)`
+134.1 against SPARTA's 117.3 for gsps1): SPARTA's counter uses rates
+frozen at the window start, i.e. explicit Euler for desorption
+(:math:`k_{DS}\Delta t` = 0.210), whose post-step inventory is
+:math:`a(1 - x)/x` against the exact :math:`a\,e^{-x}/(1 - e^{-x})`;
+the ratio 1.137 is measured as 1.144. LH2 (0.14 % of the impacts)
+follows this inventory and differs by 13 % (0.874 :math:`\pm` 0.026).
+With ``nsync 10`` SPARTA executes, from frozen counts, 1.57 DS events
+per impact against 0.75 adsorptions and so creates 0.91 O atom per
+impact; ours skips the infeasible events (no atom creation).
+
+.. figure:: ../../_static/figures/gsi/b3_beam_ps.png
+   :width: 100%
+   :align: center
+
+   Events per impact, ours/SPARTA: ``timeCounter`` serial (filled),
+   exponential (open squares), ``timeCounter`` on 4 processors
+   (triangles); channels above 10\ :sup:`-3` per impact.
+
+Analytic solutions
+------------------
+
+.. list-table:: First-order desorption O(s) → O(g),
+   :math:`\theta_0` = 0.5, exponential integrator
+   :header-rows: 1
+   :widths: 20 40 40
+
+   * - :math:`k\,\Delta t`
+     - max rel. error of :math:`\theta`
+     - max rel. error of the emitted molecules
+   * - 0.1
+     - 6.7e-16
+     - 4.4e-16
+   * - 1
+     - 2.7e-15
+     - 3.3e-16
+   * - 10
+     - 2.2e-11 (cancellation at :math:`\theta` = 10\ :sup:`-87`)
+     - 2.2e-16
+
+A linear network with a full Jacobian (desorption, oxidation of O(s)
+into CO(s), CO desorption) follows the closed form to 4.9e-15,
+conserves the O atoms to 2.2e-16 and the C atoms to the bulk
+consumed to 6e-17, and a restart at step 5 writes a state bitwise
+identical to the uninterrupted run at step 10.
+
+.. list-table:: Second-order LH, 2O(s) → O\ :sub:`2`\ (g), error at
+   20 :math:`\Delta t` against :math:`\theta_0/(1 + 2k\theta_0 t)`
+   :header-rows: 1
+   :widths: 16 22 14 14 14 20
+
+   * - :math:`2k\theta_0\Delta t`
+     - no sub-steps (max / at 20 :math:`\Delta t`)
+     - tolerance 1
+     - 0.1 (default)
+     - 0.01
+     - sub-steps per window at 0.1
+   * - 1
+     - 1.35e-1 / 2.3e-2
+     - 2.3e-2
+     - 5.0e-3
+     - 1.0e-3
+     - 1.35
+   * - 10
+     - 4.5 / 1.7e-1
+     - 2.9e-2
+     - 5.6e-3
+     - 1.1e-3
+     - 2.05
+   * - 100
+     - 49.5 / 4.4e-1
+     - 3.0e-2
+     - 5.8e-3
+     - 1.1e-3
+     - 2.70
+
+The error converges linearly in ``psSubStepTolerance`` and does not
+depend on the stiffness; the sub-steps grow as
+:math:`\log(2k\theta_0\Delta t)`.
+
+The discrete integrators were checked against the exact mean field
+and an independent Monte Carlo of the same algorithms (4000
+replicas): ``timeCounter`` max :math:`z` 1.90 (DS) and 1.18 (LH2) against the
+algorithm Monte Carlo;
+``stochastic`` (exact SSA) max :math:`z` 2.47 and 1.07 against the
+exact solution. SG25's Algorithm 3 as printed performs every event
+one waiting time early (max :math:`z` 13.05 before the fix); the
+waiting time is now drawn before the event.
+
+.. figure:: ../../_static/figures/gsi/b3_analytic.png
+   :width: 90%
+   :align: center
+
+   Panels: (a) First-order desorption against :math:`\theta_0 e^{-kt}`;
+   (b) linear network with full Jacobian; (c) LH2 error against
+   :math:`k\theta_0\Delta t`; (d) discrete integrators, exact
+   (black) and the algorithm Monte Carlo (grey).
+
+.. figure:: ../../_static/figures/gsi/b3_stiff_lh.png
+   :width: 70%
+   :align: center
+
+   Stiff second-order LH with the adaptive sub-steps of the
+   exponential integrator: (a) error history at
+   :math:`2k\theta_0\Delta t` = 100 without sub-steps and at three
+   tolerances; (b) error at 20 :math:`\Delta t` against
+   ``psSubStepTolerance`` (grey: no sub-steps); (c) accepted
+   sub-steps per window.
+
+SG25 published checks
+---------------------
+
+SG25 Figs 4-7 (one element of 10\ :sup:`5` simulated O(s),
+:math:`\Delta t` = 10\ :sup:`-7` s, :math:`t` = 10\ :sup:`-6` s,
+mean of six elements):
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 15 15 15 15
+
+   * - Four-reaction case
+     - O\ :sub:`2`
+     - CO\ :sub:`2`
+     - O
+     - CO
+   * - reference (RK4)
+     - 7507
+     - 15014
+     - 17748
+     - 35495
+   * - ``timeCounter`` (MTC)
+     - 7498
+     - 15003
+     - 17770
+     - 35494
+   * - ``stochastic`` (exact SSA)
+     - 7445
+     - 15048
+     - 17712
+     - 35567
+   * - ``exponential`` (sub-steps)
+     - 7464
+     - 14928
+     - 17825
+     - 35650
+
+SG25 section 6.1 (Langmuir adsorption-desorption of O on carbon in a
+2 m column with a Maxwellian reservoir): the half-coverage points
+:math:`\Gamma_{1/2}(1200\,\mathrm{K})` = 8.152e18 m\ :sup:`-2`
+s\ :sup:`-1` and :math:`T_{1/2}(10^{20})` = 1281.2 K give
+:math:`\theta` = 0.4958 and 0.4972, and all six points lie within
+0.0004 of the Langmuir solution at the same times (rms of
+:math:`\theta(t)` 0.0002-0.0028).
+
+.. figure:: ../../_static/figures/gsi/b3_sg25.png
+   :width: 100%
+   :align: center
+
+   Panels: (a) SG25 Figs 6-7: product events per element against time, RK4
+   (lines) and the three integrators; (b) steady :math:`\theta`
+   against the flux at 1200 K and (c) against :math:`T` at
+   10\ :sup:`20` m\ :sup:`-2` s\ :sup:`-1`: analytic Langmuir (line),
+   DSMC (markers).
+
+Legacy coverage wall through the translation
+--------------------------------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 30 30
+
+   * - Case
+     - Former code (B0/V10)
+     - Translated
+   * - Langmuir + Polanyi-Wigner
+     - rms 0.009
+     - rms 0.0136 (four more seeds 0.0077-0.0149)
+   * - Activated :math:`S_0 e^{-600/T}`, 300/600/1200 K
+     - fit 0.971, 0.993, 1.036
+     - 1.003, 1.013, 1.079
+   * - Collision-induced desorption
+     - rms 0.005
+     - rms 0.0054
+   * - Second-order LH
+     - exact (deterministic)
+     - exact: 0.190476
+   * - Eley-Rideal CO + O(s) → CO\ :sub:`2`
+     - rms 0.007
+     - rms 0.0092
+   * - Desorption, :math:`k_{des}`
+     - 0.2 %
+     - fit/input 0.99999
+   * - ``coverage_lh2`` :math:`\theta(10^{-4}\,\mathrm{s})`
+     - 0.190455 (Euler)
+     - 0.1904761917 (exact 0.1904761905)
+   * - Kisliuk (seed 5): Langmuir / :math:`K` = 1 / 0.2 / 5
+     - 0.706 / 0.706 / 0.888 / 0.458 (other seeds)
+     - 0.7222 / 0.7222 / 0.8946 / 0.4568
+
+.. figure:: ../../_static/figures/gsi/b3_legacy.png
+   :width: 90%
+   :align: center
+
+   Former V10 cases: :math:`\theta(t)` of the translated legacy wall
+   (red) against the mean-field ODEs with gas depletion (black).
+
+Reproduce
+---------
+
+``run/GSI/B3_psIntegration/``: ``beamPS/`` (``compare_ps.py``),
+``analytic/`` (``run_analytic.py``, ``oracle_algorithms.py``),
+``sg25/``, ``legacyV10/`` (``run_coverage.py``), ``smokePS/``
+(``atom_balance.py``), ``normSumDiag/`` (``mc_box.py``), ``perf/``,
+``reviewFixes/``; figures by ``plot_b3.py``. Developer note:
+``run/GSI/B3_psIntegration/IMPLEMENTATION.md``. Verification note:
+``docs/Development/Verification/gsi/b3_ps_integration.md``.

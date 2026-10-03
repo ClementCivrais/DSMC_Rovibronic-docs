@@ -1,0 +1,136 @@
+Conjugate solid: conduction, melting, film and droplets
+=======================================================
+
+**Verified:** the conducting solid of ``dsmcFoamAblation`` coupled to
+the DSMC wall (transient conduction on a moving mesh, re-radiation,
+Stefan melting with the melt removed as it forms), and the melt
+film and droplets (lubrication film driven by the gas shear and
+pressure, capillarity and a body force; refreezing; shedding;
+free-molecular droplets). **Against:** exact solutions of 1-D
+melting ablation, the shear-driven film, capillary levelling and
+Neumann freezing, and the free-molecular ODE of a droplet. The
+numbers below are those of the original single-region runs; the
+multi-region layout reproduces them to round-off
+(:doc:`b8_conjugate_multiregion`).
+
+1-D melting ablation
+--------------------
+
+Aluminium slab (:math:`\rho` 2700, :math:`c_p` 900, :math:`k` 237,
+:math:`T_m` 933.47 K, :math:`L` = 3.97e5 J/kg, :math:`T_0` 300 K)
+under :math:`q` = 10\ :sup:`7` W/m² (``prescribedHeatFlux``,
+:math:`\varepsilon = 0`), the coupled path running as in a real case.
+Exact references for a semi-infinite slab: melt onset
+:math:`t_m = \pi k\rho c (T_m - T_0)^2/(4q^2)` = 1.815 s, steady speed
+:math:`v = q/(\rho(L + c(T_m - T_0)))` = 3.8296 mm/s.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Check
+     - Result
+   * - Surface temperature before melting against
+       :math:`2q\sqrt{t/(\pi k\rho c)}`
+     - within 1.6 K (of a 633 K rise)
+   * - Melt onset
+     - in the window (1.8, 1.9] s, exact 1.815 s
+   * - Melting speed / exact steady speed
+     - 0.9966 at 40 s, 0.99996 at 120 s
+   * - Profile below the front at 120 s
+     - within 0.03 K over 120 mm
+   * - Energy closure
+     - 10\ :sup:`-13`
+
+Aluminium cylinder melting in a rarefied O stream
+-------------------------------------------------
+
+The body-fitted cylinder (R = 0.5 mm, atomic O at 4 km/s, 1000 K,
+2e22 m\ :sup:`-3`) coupled to a matching aluminium disk,
+:math:`\varepsilon` = 0.1. The cylinder heats as a lumped body: its
+mean temperature rises at 6431 K/s against 6434 K/s predicted by the
+window-averaged DSMC heat flux (ratio 0.9996). Melting starts at the
+stagnation point at 96 ms; on the front faces
+:math:`q` = 11.05 MW/m² gives a melting speed of 10.31 mm/s
+:math:`= (q - \varepsilon\sigma T_m^4)/(\rho L)`. The energy ledger
+of the solid closes to 4e-12.
+
+.. figure:: ../../_static/figures/gsi/meltcyl.png
+   :width: 100%
+   :align: center
+
+   Panels: (a) Receding surface, 96-117 ms, over the O number density;
+   (b) wall heat flux from the gas before melting and at the end;
+   (c) heating of the hottest face and of the area mean to the
+   melting point; (d) recession at the stagnation point and mean
+   over the surface.
+
+Melt film and droplets
+----------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 28 32 40
+
+   * - Test
+     - Reference
+     - Result
+   * - Shear-driven film on a melting strip (:math:`\tau` = 10\ :sup:`3`
+       Pa), 4 s
+     - :math:`h = (2\mu S x/\tau)^{1/2}`
+     - :math:`h`/exact at the downstream face edges 0.99998-1.0001
+       (50 faces), 0.9999-1.0004 (100)
+   * - Capillary levelling of :math:`h_0 + a\cos kx`
+     - :math:`a_0\exp(-\sigma h_0^3 k^4 t/3\mu)`
+     - rate 0.993 (:math:`a_0/h_0` = 0.1) and 0.994 (0.001)
+   * - 20 µm film freezing onto aluminium at 900 K
+     - Neumann, :math:`s = 2\lambda(\alpha t)^{1/2}`
+     - 0.995-0.9995; all frozen by 0.50 ms (exact 0.475 ms)
+   * - 10 µm droplet released in the DSMC O stream
+     - free-molecular sphere ODE
+     - 0.998-1.004 at 100 µs; position within 0.5 %
+   * - Separation at a convex 90° corner, Friedrich ratio 0.58 and
+       1.85
+     - wraps at 0.58, separates at 1.85
+     - right-face film 0.98-0.985 of both faces' melt
+       (:math:`\tau` = 5e4 Pa); separation, droplets carried away
+       (76 %) or thrown back (24 %) at 5e5 Pa
+   * - Film mass closure (all cases)
+     - melted - frozen - shed = film
+     - :math:`\le` 4e-10
+
+.. figure:: ../../_static/figures/gsi/film_corner.png
+   :width: 80%
+   :align: center
+
+   Film thickness on the right face below a convex 90° corner in the
+   DSMC O stream (red) against the film that wraps round the corner
+   (solid) and the film that separates there (dashed), at a
+   Friedrich ratio of 0.6 (left) and 1.8 (right).
+
+Coupled demonstration with a film (body held and in free flight,
+stopped at 0.2 mm of front recession, per metre of cylinder at
+116 ms): melted 536 and 616 mg/m; on the wall as liquid 42 % and
+97 %; refrozen 4 % and 3 %; energy closure 2e-12 and 3e-12. The shed
+fraction of the held body (57 %) is not a result: the rear
+accumulation reaches film Reynolds numbers of 600-700, outside the
+lubrication model.
+
+.. figure:: ../../_static/figures/gsi/meltfilm_cylinder.png
+   :width: 100%
+   :align: center
+
+   Aluminium cylinder with a melt film, body held and in free
+   flight, against melt removal: (a) solid and liquid at the end;
+   (b) film thickness around the wall; (c) where the melt goes;
+   (d) solid wall displacement.
+
+Reproduce
+---------
+
+``run/GSI/conjugateMelt/``: ``make_melt1d.py``, ``run_melt1d.sh``,
+``analyse_melt1d.py``; ``make_meltcyl.py``, ``run_meltcyl.sh``,
+``analyse_meltcyl.py``; ``make_film2d.py``, ``run_b8b.sh``,
+``analyse_b8b.py``, ``analyse_corner.py`` (``MODE=corner``),
+``analyse_meltfilm.py`` (``FILM=1``, ``FREEFLIGHT=1``). Note:
+``docs/Development/Verification/gsi/conjugate_solid.md``.

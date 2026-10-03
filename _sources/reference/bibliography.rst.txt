@@ -92,6 +92,58 @@ external references are distributed under ``docs/References/``.
   *Journal of Thermophysics and Heat Transfer*, **8** (1), 9–23
   (1994).
 
+Gas-surface interaction
+-----------------------
+
+References of the gas-surface interaction framework and its
+verification (:doc:`gsi_verification/index`). The full literature
+review is ``docs/References/GSI_LITERATURE_REVIEW.md``.
+
+* S. J. Plimpton and M. A. Gallis, *SPARTA direct simulation Monte
+  Carlo (DSMC) simulator*, Sandia National Laboratories (2015),
+  http://sparta.sandia.gov.
+* K. Swaminathan Gopalan, A. Borner, and K. A. Stephani,
+  "Development of a detailed surface chemistry framework in DSMC,"
+  *Computers & Fluids*, **292**, 106525 (2025),
+  DOI 10.1016/j.compfluid.2024.106525.
+* K. Swaminathan-Gopalan, A. Borner, V. J. Murray, S. Poovathingal,
+  T. K. Minton, N. N. Mansour, and K. A. Stephani, "Development and
+  validation of a finite-rate model for carbon oxidation by atomic
+  oxygen," *Carbon*, **137**, 313–332 (2018),
+  DOI 10.1016/j.carbon.2018.04.088.
+* K. S. Prata, T. E. Schwartzentruber, and T. K. Minton, "Air-carbon
+  ablation model for hypersonic flight from molecular-beam data,"
+  *AIAA Journal*, **60** (2), 627–640 (2022),
+  DOI 10.2514/1.J060516.
+* S. Lauterbach, S. Fasoulas, and M. Pfeiffer, "Modeling of
+  heterogeneous catalytic reactions with the simulation tool
+  PICLas," *Computer Physics Communications*, **311**, 109560
+  (2025), DOI 10.1016/j.cpc.2025.109560.
+* A. Y. K. Hong and M. A. Gallis, "A general ablation model for
+  composites based on a coupled direct simulation Monte Carlo and
+  mass-consistent marching cubes approach," *Physics of Fluids*,
+  **37** (9), 096106 (2025), DOI 10.1063/5.0284168.
+* A. Y. K. Hong, M. A. Gallis, S. G. Moore, and S. J. Plimpton,
+  "Toward physically realistic ablation modeling in direct
+  simulation Monte Carlo," *Physics of Fluids*, **36**, 126132
+  (2024), DOI 10.1063/5.0245713.
+* Z. Cao and Ma, "A non-intrusive DSMC-FEM coupling method for
+  two-dimensional conjugate heat transfer in rarefied hypersonic
+  conditions," *Aerospace*, **12** (11), 1021 (2025),
+  DOI 10.3390/aerospace12111021.
+* Park and Bogdanoff, nitridation of carbon, *Journal of
+  Thermophysics and Heat Transfer*, **20** (3), 487–492 (2006),
+  DOI 10.2514/1.15743.
+* Zhang, Goldstein et al., atomic-nitrogen nitridation of graphite,
+  *Journal of Thermophysics and Heat Transfer* (2012),
+  DOI 10.2514/1.T3612.
+* Helber, Turchi, and Magin, Plasmatron nitridation of graphite,
+  *Carbon*, **125**, 582–594 (2017),
+  DOI 10.1016/j.carbon.2017.09.081.
+* R. G. Lord, "Some extensions to the Cercignani-Lampis gas-surface
+  scattering kernel," *Physics of Fluids A*, **3** (4), 706–710
+  (1991).
+
 The dsmcFoam+ lineage
 ---------------------
 

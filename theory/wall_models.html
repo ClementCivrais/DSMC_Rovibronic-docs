@@ -92,7 +92,16 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#hcao-local-mode-reaction-models">HCAO local-mode reaction models</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#gas-surface-interaction-dictionaries">Gas-surface interaction dictionaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#gas-surface-interaction-dictionaries">Gas-surface interaction dictionaries</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#wall-temperature-every-re-emitting-wall">Wall temperature (every re-emitting wall)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#scattering-and-sink-walls">Scattering and sink walls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#probability-mode-reactive-walls">Probability-mode reactive walls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#scattering-kernels">Scattering kernels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#immersed-surface">Immersed surface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
 </ul>
 </li>
@@ -242,24 +251,28 @@
 <li class="toctree-l3"><a class="reference internal" href="#fully-diffuse-reflection">Fully diffuse reflection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mixed-diffuse-specular">Mixed diffuse / specular</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cercignani-lampis-lord-cll-scattering">Cercignani-Lampis-Lord (CLL) scattering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#per-mode-accommodation-radiative-equilibrium-outgassing-and-pumps">Per-mode accommodation, radiative equilibrium, outgassing and pumps</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#rovibronic-aware-wall-dsmcmixeddiffusespecularwallrotpatch">Rovibronic-aware wall: <code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#free-stream-inflow">Free-stream inflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#chapman-enskog-inflow">Chapman-Enskog inflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pressure-and-mass-flow-inlets">Pressure and mass-flow inlets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#particle-deletion">Particle deletion</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cyclic-boundaries">Cyclic boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gas-surface-interaction-framework">Gas-surface interaction framework</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#per-face-wall-temperature">Per-face wall temperature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probability-mode-surface-reactions">Probability-mode surface reactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#finite-rate-gas-surface-engine">Finite-rate gas-surface engine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pure-surface-integration">Pure-surface integration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wall-kernels-and-the-exact-internal-state-sampler">Wall kernels and the exact internal-state sampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reaction-heat-and-chemistry-driven-recession">Reaction heat and chemistry-driven recession</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#immersed-ablating-surfaces">Immersed ablating surfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#multi-region-conjugate-solid">Multi-region conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#production-mechanisms">Production mechanisms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pato-loose-coupling">PATO loose coupling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#planned">Planned</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#gas-surface-interaction-catalysis-and-ablation">Gas-surface interaction (catalysis and ablation)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#finite-rate-surface-reactions">Finite-rate surface reactions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#carbon-ablation">Carbon ablation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#finite-rate-catalysis-with-gamma-t">Finite-rate catalysis with <span class="math notranslate nohighlight">\(\gamma(T)\)</span></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#coverage-chemistry">Coverage chemistry</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#vapour-pressure-sublimation-and-the-surface-energy-balance">Vapour-pressure sublimation and the surface energy balance</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#surface-recession">Surface recession</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pato-loose-coupling">PATO loose coupling</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="macroscopic_properties.html">Macroscopic properties</a><ul>
@@ -644,6 +657,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/carbon_ablation_gsi.html">Carbon ablation on a heat shield (Mars)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#theoretical-basis">Theoretical basis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#verification">Verification</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#related-gsi-cases">Related GSI cases</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#running-the-case">Running the case</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#expected-results">Expected results</a></li>
@@ -669,7 +683,29 @@
 <li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#two-temperature-recombination-and-three-body-channel">Two-temperature recombination and three-body channel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#heats-of-reaction">Heats of reaction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#shock-profiles">Shock profiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#gas-surface-interaction">Gas-surface interaction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#outstanding-items">Outstanding items</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/gsi_verification/index.html">Gas-surface interaction verification</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/gsi_verification/index.html#conventions">Conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/gsi_verification/index.html#cost">Cost</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/boundary_conditions.html">Wall models and surface processes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/probability_chemistry.html">Probability-based catalysis and carbon ablation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b0_correctness.html">B0: correctness of the surface state</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b1_wall_temperature.html">B1: per-face wall temperature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b2_finite_rate_gs.html">B2: finite-rate gas-surface engine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b3_ps_integration.html">B3: pure-surface integration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b4_kernels_sampler.html">B4: scattering kernels and the exact internal-state sampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b5_recession.html">B5a: reaction heats and chemistry-driven recession</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b5b_immersed_chemistry.html">B5b: surface chemistry on the immersed surface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b6_mechanisms.html">B6: production surface mechanisms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/immersed_surface.html">Immersed ablating surface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/conjugate_solid.html">Conjugate solid: conduction, melting, film and droplets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b8_conjugate_multiregion.html">B8: multi-region conjugate solid</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/gsi_verification/index.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/modeling_approaches.html">Data provenance and modelling approaches</a><ul>
@@ -685,6 +721,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html">Bibliography</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#foundational-dsmc-literature">Foundational DSMC literature</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#polyatomic-relaxation-and-gas-surface-modelling">Polyatomic, relaxation and gas-surface modelling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#gas-surface-interaction">Gas-surface interaction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#the-dsmcfoam-lineage">The dsmcFoam+ lineage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#publications-associated-with-the-rovibronic-extension">Publications associated with the rovibronic extension</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#in-repository-derivations-and-notes">In-repository derivations and notes</a></li>
@@ -725,7 +762,13 @@
 domain boundaries. Four families are distinguished —  specular,
 diffuse, Cercignani-Lampis-Lord, and rovibronic-aware —
 together with the accommodation coefficients and the treatment of
-the internal degrees of freedom at reflection.</p>
+the internal degrees of freedom at reflection. The second part
+describes the gas-surface interaction framework: per-face wall
+temperature, probability-based and finite-rate surface chemistry,
+the scattering kernels of reaction products, reaction heats,
+receding body-fitted and immersed surfaces, and the conjugate solid
+of <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>. Its verification is collected in
+<a class="reference internal" href="../reference/gsi_verification/index.html"><span class="doc">Gas-surface interaction verification</span></a>.</p>
 <section id="specular-reflection">
 <h2>Specular reflection<a class="headerlink" href="#specular-reflection" title="Link to this heading"></a></h2>
 <p>A specular wall reverses the velocity component normal to the
@@ -787,6 +830,33 @@ speeds and <span class="math notranslate nohighlight">\(\theta\)</span> uniform 
 limits <span class="math notranslate nohighlight">\(\alpha_n = \alpha_t = 0\)</span> (specular) and
 <span class="math notranslate nohighlight">\(\alpha_n = \alpha_t = 1\)</span> (fully diffuse) are recovered
 from the same kernel.</p>
+<p>The kernel acts on the velocity relative to the wall and the wall
+velocity is added back, so that a moving CLL wall accommodates the
+tangential momentum by <span class="math notranslate nohighlight">\(\sigma_t\)</span> (the former code, and the
+<code class="docutils literal notranslate"><span class="pre">translate</span></code> option of SPARTA, accommodated a moving wall too
+strongly; <a class="reference internal" href="../reference/gsi_verification/boundary_conditions.html"><span class="doc">Wall models and surface processes</span></a>).
+The CLL wall also accepts per-mode internal coefficients.</p>
+</section>
+<section id="per-mode-accommodation-radiative-equilibrium-outgassing-and-pumps">
+<h2>Per-mode accommodation, radiative equilibrium, outgassing and pumps<a class="headerlink" href="#per-mode-accommodation-radiative-equilibrium-outgassing-and-pumps" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">dsmcAccommodationWallPatch</span></code> is a Maxwell wall with a separate
+coefficient for every energy mode: <span class="math notranslate nohighlight">\(\sigma\)</span> is the diffuse
+fraction, <span class="math notranslate nohighlight">\(\alpha_T\)</span> gives thermal re-emission within a
+diffuse event (otherwise a cosine-law direction at the same speed
+relative to the wall), and <span class="math notranslate nohighlight">\(\alpha_R\)</span>, <span class="math notranslate nohighlight">\(\alpha_V\)</span>,
+<span class="math notranslate nohighlight">\(\alpha_E\)</span> act per internal mode (<span class="math notranslate nohighlight">\(\alpha_E\)</span> is the
+surface-quenching probability of excited states), optionally per
+species. Modes redrawn together are drawn jointly given the kept
+ones, so every draw leaves the equilibrium at <span class="math notranslate nohighlight">\(T_w\)</span> invariant.
+<code class="docutils literal notranslate"><span class="pre">dsmcRadiativeEquilibriumWallPatch</span></code> solves
+<span class="math notranslate nohighlight">\(\varepsilon\sigma(T_w^4 - T_{bg}^4) = q\)</span> per face from the
+relaxed sampled heat flux (relaxing <span class="math notranslate nohighlight">\(q\)</span> rather than
+<span class="math notranslate nohighlight">\(T_w\)</span> avoids a Jensen bias); <code class="docutils literal notranslate"><span class="pre">dsmcOutgassingWallPatch</span></code>
+emits prescribed species fluxes (optionally with a blowing velocity);
+<code class="docutils literal notranslate"><span class="pre">dsmcPumpWallPatch</span></code> captures impinging parcels with a constant
+probability, a pumping speed or a PI-controlled probability that
+holds a target wall pressure. Verification:
+<a class="reference internal" href="../reference/gsi_verification/boundary_conditions.html"><span class="doc">Wall models and surface processes</span></a>.</p>
 </section>
 <section id="rovibronic-aware-wall-dsmcmixeddiffusespecularwallrotpatch">
 <h2>Rovibronic-aware wall: <code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code><a class="headerlink" href="#rovibronic-aware-wall-dsmcmixeddiffusespecularwallrotpatch" title="Link to this heading"></a></h2>
@@ -870,200 +940,369 @@ while letting the rest pass through; this is the mechanism used,
 for instance, to model permeable membranes in micro-nano-flow
 applications.</p>
 </section>
-</section>
-<section id="gas-surface-interaction-catalysis-and-ablation">
-<h1>Gas-surface interaction (catalysis and ablation)<a class="headerlink" href="#gas-surface-interaction-catalysis-and-ablation" title="Link to this heading"></a></h1>
+<section id="gas-surface-interaction-framework">
+<h2>Gas-surface interaction framework<a class="headerlink" href="#gas-surface-interaction-framework" title="Link to this heading"></a></h2>
 <p>Beyond the passive scattering kernels above, the solver provides a
-family of <strong>reactive walls</strong> for thermal-protection-system (TPS)
-modelling: finite-rate catalysis, finite-rate carbon ablation,
-adsorption-site coverage chemistry, and vapour-pressure
-sublimation. The reactive walls are run-time-selected patch classes
-—  <code class="docutils literal notranslate"><span class="pre">dsmcCatalyticWallPatch</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code> and
-<code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code> —  that share a common surface-reaction
-infrastructure (<code class="docutils literal notranslate"><span class="pre">surfaceReaction</span></code> and its derivatives
-<code class="docutils literal notranslate"><span class="pre">srRecombination</span></code> and <code class="docutils literal notranslate"><span class="pre">srFiniteRate</span></code>); their dictionary
-interface is documented in <a class="reference internal" href="../classes/boundaries.html"><span class="doc">Boundary classes</span></a> and
-<a class="reference internal" href="../guide/input_reference.html"><span class="doc">Input Reference</span></a>.</p>
-<section id="finite-rate-surface-reactions">
-<h2>Finite-rate surface reactions<a class="headerlink" href="#finite-rate-surface-reactions" title="Link to this heading"></a></h2>
-<p>Every per-impact surface reaction is characterised by a
-dimensionless reaction probability of generalised Arrhenius form</p>
-<div class="math notranslate nohighlight">
-\[\beta_i(T_w) = \min\!\bigl(1,\; A\,T_w^{\,n}\,
-                           e^{-T_a/T_w}\bigr),\]</div>
-<p>with <span class="math notranslate nohighlight">\(A\)</span> dimensionless, <span class="math notranslate nohighlight">\(n\)</span> a temperature exponent, and
-<span class="math notranslate nohighlight">\(T_a = E_a/R\)</span> the activation temperature. On each wall impact
-the probabilities of the competing reactions are summed; with
-probability <span class="math notranslate nohighlight">\(\min(\sum_i \beta_i, 1)\)</span> one reaction is selected
-by cumulative branching, the reactant is consumed, the gas-phase
-product is re-emitted from the wall as a half-Maxwellian at
-<span class="math notranslate nohighlight">\(T_w\)</span>, and (for ablation) one or more solid carbon atoms are
-debited from a per-face ledger.</p>
-</section>
-<section id="carbon-ablation">
-<h2>Carbon ablation<a class="headerlink" href="#carbon-ablation" title="Link to this heading"></a></h2>
-<p>The canonical carbon-ablation set, used for the Mars and Earth
-heat-shield cases, comprises the oxidation, Boudouard and
-nitridation channels:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-\mathrm{O}  + \mathrm{C(s)} &amp;\to \mathrm{CO},
-  &amp;\beta &amp;= 0.63\,e^{-1160/T_w} &amp;&amp; \text{[Park 1976]}, \\
-\mathrm{O}_2 + \mathrm{C(s)} &amp;\to \mathrm{CO} + \mathrm{O},
-  &amp;\beta &amp;= 0.50, \\
-\mathrm{CO}_2 + \mathrm{C(s)} &amp;\to 2\,\mathrm{CO},
-  &amp;\beta &amp;= 0.9 &amp;&amp; \text{[Zhluktov-Abe 1999]}, \\
-\mathrm{N}  + \mathrm{C(s)} &amp;\to \mathrm{CN},
-  &amp;\beta &amp;= 0.30 &amp;&amp; \text{[Park-Bogdanoff]}.
-\end{aligned}\end{split}\]</div>
-<p>The oxidation probability is the classic Park line-of-centres
-form <a class="reference internal" href="#park1976gsi" id="id2"><span>[Park1976gsi]</span></a>; the CO<sub>2</sub> Boudouard channel uses the
-Zhluktov-Abe <a class="reference internal" href="#zhluktovabe1999" id="id3"><span>[ZhluktovAbe1999]</span></a> efficiency. <strong>Titan nitridation</strong>
-(N + C(s) → CN) reuses the same machinery, with the temperature-
-independent Park rate <span class="math notranslate nohighlight">\(\beta = 0.30\)</span> as the default and an
-opt-in low-rate Zhang-type correlation
-<span class="math notranslate nohighlight">\(\beta = 0.0791\,e^{-5663/T_w}\)</span> reflecting the order-of-
-magnitude scatter in the measured nitridation efficiency.</p>
-</section>
-<section id="finite-rate-catalysis-with-gamma-t">
-<h2>Finite-rate catalysis with <span class="math notranslate nohighlight">\(\gamma(T)\)</span><a class="headerlink" href="#finite-rate-catalysis-with-gamma-t" title="Link to this heading"></a></h2>
-<p>Catalytic recombination (e.g. O + O → O<sub>2</sub>,
-N + N → N<sub>2</sub>) is modelled through a recombination
-coefficient <span class="math notranslate nohighlight">\(\gamma\)</span>, the probability that an impinging atom
-leaves as half of a recombined molecule. Three forms are supported
-through <code class="docutils literal notranslate"><span class="pre">srRecombination</span></code>: a constant <code class="docutils literal notranslate"><span class="pre">gamma</span></code>; an Arrhenius
-<span class="math notranslate nohighlight">\(\gamma(T_w) = \gamma_A\,T_w^{\,n}\,e^{-T_a/T_w}\)</span>; and a
-tabulated piecewise-linear <code class="docutils literal notranslate"><span class="pre">gammaTable</span></code>. Material correlations
-are provided for reinforced carbon-carbon (RCC), reaction-cured
-glass / SiO<sub>2</sub>, and silicon carbide (SiC), after Stewart
-<a class="reference internal" href="#stewart1997" id="id4"><span>[Stewart1997]</span></a> and Scott <a class="reference internal" href="#scott1983" id="id5"><span>[Scott1983]</span></a>.</p>
-<p>The <strong>Kisliuk precursor-mediated sticking</strong> model is available on
-the coverage wall,</p>
-<div class="math notranslate nohighlight">
-\[S(\theta) = \frac{S_0}{1 + K\,\theta/(1 - \theta)},\]</div>
-<p>which reduces to the Langmuir form <span class="math notranslate nohighlight">\(S = S_0(1 - \theta)\)</span> for
-<span class="math notranslate nohighlight">\(K = 1\)</span>. Each recombination event releases an energy
-<span class="math notranslate nohighlight">\(E_{\mathrm{rec}}\)</span>, of which a fraction <span class="math notranslate nohighlight">\(\beta_{\mathrm{acc}}\)</span>
-is accommodated to the wall and <span class="math notranslate nohighlight">\((1 - \beta_{\mathrm{acc}})\)</span>
-is returned to the nascent molecule as extra kinetic energy; this
-<strong>recombination-energy accommodation</strong> lets the catalytic
-heat load be partitioned between the surface and the gas.</p>
-</section>
-<section id="coverage-chemistry">
-<h2>Coverage chemistry<a class="headerlink" href="#coverage-chemistry" title="Link to this heading"></a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code> carries a per-species surface
-coverage <span class="math notranslate nohighlight">\(\theta\)</span> (occupied fraction of a finite site
-inventory) and resolves four elementary surface processes:</p>
+gas-surface interaction (GSI) framework for thermal-protection,
+catalysis and demise problems. It has three kinds of reacting
+surface, all sharing the per-face wall temperature, the chemical
+energy ledger and the scattering kernels described below:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 35.0%" />
+<col style="width: 35.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Surface</p></th>
+<th class="head"><p>Chemistry</p></th>
+<th class="head"><p>Geometry</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCatalyticWallPatch</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code></p></td>
+<td><p>probability mode: a list of per-impact surface reactions</p></td>
+<td><p>body-fitted wall; the ablating wall recedes under
+<code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code></p></td>
+<td><p>finite-rate engine (site sets, coverages, GS and PS
+reactions), native or SPARTA mechanism</p></td>
+<td><p>body-fitted wall; recedes from its bulk ledger under
+<code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>immersed surface (<code class="docutils literal notranslate"><span class="pre">immersedAblationProperties</span></code>)</p></td>
+<td><p>probability mode or finite-rate engine, per cut cell</p></td>
+<td><p>implicit or explicit surface on the fixed DSMC mesh</p></td>
+</tr>
+</tbody>
+</table>
+<p>The verification of every item is collected in
+<a class="reference internal" href="../reference/gsi_verification/index.html"><span class="doc">Gas-surface interaction verification</span></a>; the input keywords are
+listed in <a class="reference internal" href="../guide/input_reference.html"><span class="doc">Input Reference</span></a>.</p>
+<section id="per-face-wall-temperature">
+<h3>Per-face wall temperature<a class="headerlink" href="#per-face-wall-temperature" title="Link to this heading"></a></h3>
+<p>Every wall whose kernel re-emits at a wall temperature takes it per
+face from the wall base class <code class="docutils literal notranslate"><span class="pre">dsmcPatchBoundary</span></code>, through
+<code class="docutils literal notranslate"><span class="pre">wallTemperatureModel</span></code>:</p>
 <ul class="simple">
-<li><p><strong>Langmuir adsorption</strong> —  <span class="math notranslate nohighlight">\(\mathrm{A(g)} + * \to
-\mathrm{A(s)}\)</span> with sticking <span class="math notranslate nohighlight">\(S = S_0(1 - \theta)\)</span>
-(dissociative adsorption carries an extra <span class="math notranslate nohighlight">\((1 - \theta)\)</span>);</p></li>
-<li><p><strong>Polanyi-Wigner desorption</strong> with lateral interactions —
-<span class="math notranslate nohighlight">\(k_{\mathrm{des}} = \nu_0\,10^{C_b \theta}\,
-\exp\!\bigl[-(E_0 + W\theta)/T_w\bigr]\)</span>, so that both the
-pre-exponential and the desorption energy depend on coverage;</p></li>
-<li><p><strong>Eley-Rideal</strong> —  <span class="math notranslate nohighlight">\(\mathrm{A(g)} + \mathrm{B(s)} \to
-\mathrm{AB(g)} + *\)</span>, per impact with probability
-<span class="math notranslate nohighlight">\(\gamma_{\mathrm{ER}}\,\theta_B\)</span>;</p></li>
-<li><p><strong>Langmuir-Hinshelwood</strong> —  <span class="math notranslate nohighlight">\(\mathrm{A(s)} + \mathrm{B(s)}
-\to \mathrm{AB(g)} + 2*\)</span>, with rate
-<span class="math notranslate nohighlight">\(k_{\mathrm{LH}}\theta_A\theta_B\)</span> and
-<span class="math notranslate nohighlight">\(k_{\mathrm{LH}} = A_{\mathrm{LH}}\exp(-E_{\mathrm{LH}}/T_w)\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">uniform</span></code> (default): <span class="math notranslate nohighlight">\(T_f\)</span> = <code class="docutils literal notranslate"><span class="pre">temperature</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">radiativeEquilibrium</span></code>: per face,
+<span class="math notranslate nohighlight">\(\varepsilon\sigma(T_f^4 - T_{bg}^4) = q_f\)</span>, with the face
+energy accumulated over <code class="docutils literal notranslate"><span class="pre">updateInterval</span></code> steps and blended into a
+running flux with <code class="docutils literal notranslate"><span class="pre">relaxationFactor</span></code> (the algorithm of the
+dedicated radiative-equilibrium wall);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">coupled</span></code>: <span class="math notranslate nohighlight">\(T_f\)</span> is set by a coupled solver (the conjugate
+solid of <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>).</p></li>
 </ul>
-<p>The site inventory is enforced exactly rather than by clamping
-<span class="math notranslate nohighlight">\(\theta\)</span>: adsorption requires the free sites of the face
-(two for dissociative adsorption), Eley-Rideal requires the
-adsorbed atoms it consumes, and a rejected draw is reflected
-diffusely and counted. The adsorbed mass is therefore conserved; in
-a closed box of O with a sticking wall the O balance between gas
-and surface closes to round-off, and the Langmuir-Hinshelwood decay
-<span class="math notranslate nohighlight">\(\theta(t) = \theta_0/(1 + 2 k_{\mathrm{LH}} \theta_0 t)\)</span> is
-reproduced to the explicit-Euler error of the time step
-(<code class="docutils literal notranslate"><span class="pre">docs/Development/Verification/gsi/b0_correctness.md</span></code>). The
-coverage and the carbon ledger of the reactive walls are written at
-every output time and restored on restart (<a class="reference internal" href="../classes/boundaries.html"><span class="doc">Boundary classes</span></a>).</p>
+<p>On the reactive walls the face temperature also sets the reaction
+probabilities, the sticking and the surface rates of that face, and
+the products leave at <span class="math notranslate nohighlight">\(T_f\)</span>. The heat of reaction is not
+added to the gas energy flux <span class="math notranslate nohighlight">\(q_{BF}\)</span>: it is deposited in a
+separate chemical-energy ledger <span class="math notranslate nohighlight">\(q_{chem}\)</span> (the analogue of
+SPARTA’s <code class="docutils literal notranslate"><span class="pre">echem</span></code>), and the heat the wall receives is
+<span class="math notranslate nohighlight">\(q_{BF} + q_{chem}\)</span> (SPARTA’s <code class="docutils literal notranslate"><span class="pre">etot</span></code>). Parcels injected by
+the wall (secondary products, desorbed atoms, outgassing) are
+measured as leaving the wall. The face temperatures, the ledgers and
+the coupling window are written per processor at every write time
+and adopted on restart. In uniform mode the per-impact cost is one
+face lookup and three integer tests.
+Verification: <a class="reference internal" href="../reference/gsi_verification/b1_wall_temperature.html"><span class="doc">B1: per-face wall temperature</span></a>.</p>
 </section>
-<section id="vapour-pressure-sublimation-and-the-surface-energy-balance">
-<h2>Vapour-pressure sublimation and the surface energy balance<a class="headerlink" href="#vapour-pressure-sublimation-and-the-surface-energy-balance" title="Link to this heading"></a></h2>
-<p>At high wall temperature the solid sublimes into the carbon-vapour
-species C, C<sub>2</sub> and C<sub>3</sub>. The Langmuir-Knudsen
-evaporation flux of species <span class="math notranslate nohighlight">\(k\)</span> is</p>
+<section id="probability-mode-surface-reactions">
+<h3>Probability-mode surface reactions<a class="headerlink" href="#probability-mode-surface-reactions" title="Link to this heading"></a></h3>
+<p>A probability-mode surface reaction has a dimensionless per-impact
+probability of generalised Arrhenius form,</p>
 <div class="math notranslate nohighlight">
-\[\Phi_k = \frac{\alpha\,p_{\mathrm{vap},k}(T_w)}
-              {\sqrt{2\pi\,m_k\,k_B\,T_w}},
-\qquad
-p_{\mathrm{vap},k}(T_w) = a_k\,e^{-b_k/T_w},\]</div>
-<p>with <span class="math notranslate nohighlight">\(\alpha\)</span> an evaporation coefficient and
-<span class="math notranslate nohighlight">\((a_k, b_k)\)</span> the Clausius-Clapeyron constants of the
-three-species carbon-vapour fit. The corresponding number of real
-molecules is injected from the surface each step, debiting the
-solid carbon inventory. When radiative equilibrium is requested,
-the wall temperature is solved from the running-mean convective
-load against the grey-body re-radiation,
-<span class="math notranslate nohighlight">\(q_{\mathrm{conv}} = \varepsilon\,\sigma\,T_w^{4}\)</span>, and
-relaxed toward
-<span class="math notranslate nohighlight">\(T_w^{\mathrm{eq}} = (Q_{\mathrm{conv}}/\varepsilon\sigma)^{1/4}\)</span>.</p>
-</section>
-</section>
-<section id="surface-recession">
-<h1>Surface recession<a class="headerlink" href="#surface-recession" title="Link to this heading"></a></h1>
-<p>The reactive walls above report a recession rate as a scalar but
-do not move the mesh. Geometric surface recession is instead
-handled by a <strong>per-cell immersed level-set</strong> method, in which a
-signed-distance field <span class="math notranslate nohighlight">\(\phi\)</span> (positive in the gas, negative
-in the solid) is carried on the <em>fixed</em> mesh, and the
-<span class="math notranslate nohighlight">\(\phi = 0\)</span> isosurface recedes through the cells as carbon is
-removed. This decouples the recession from the mesh topology and
-works uniformly in 1D, 2D and 3D.</p>
+\[\beta_i(T_w) = \min\!\bigl(1,\; A\,T_w^{\,n}\,e^{-T_a/T_w}\bigr),\]</div>
+<p>with <span class="math notranslate nohighlight">\(T_a = E_a/R\)</span>. On each impact the probabilities of the
+reactions of the impinging species are summed; with probability
+<span class="math notranslate nohighlight">\(\min(\sum_i \beta_i, 1)\)</span> one reaction is selected in
+proportion to <span class="math notranslate nohighlight">\(\beta_i\)</span>, the parcel leaves as the product (a
+recombination partner or an absorbed parcel is removed, a secondary
+product is a new parcel at the impact point), and <code class="docutils literal notranslate"><span class="pre">nCConsumed</span></code>
+solid atoms per real molecule are debited from the per-face carbon
+ledger. The classes are</p>
 <ul class="simple">
-<li><p><strong>Initialisation.</strong> For analytic shapes (plane, sphere,
-cylinder) <span class="math notranslate nohighlight">\(\phi\)</span> is the signed distance to the surface;
-for arbitrary geometry it is initialised from an <strong>STL</strong> triangulated
-surface (a re-entry capsule or a cone at angle of attack), using
-inside/outside tests against the triangulation. Empty (1D/2D)
-patches must carry the <code class="docutils literal notranslate"><span class="pre">empty</span></code> boundary condition so that the
-level-set gradient is well defined.</p></li>
-<li><p><strong>Reflection and reaction.</strong> A parcel that crosses
-<span class="math notranslate nohighlight">\(\phi = 0\)</span> onto the solid side is diffuse-reflected at the
-wall temperature, optionally reacts with surface probability,
-and is mirrored back into the gas. The per-cell reaction tally
-drives the recession. The probability
-<span class="math notranslate nohighlight">\(\beta(T_w) = \min\bigl(1, A\,T_w^{\,n}\,e^{-T_a/T_w}\bigr)\)</span>
-is re-evaluated whenever the wall temperature changes (radiative
-equilibrium, or a <span class="math notranslate nohighlight">\(T_w\)</span> read from the PATO exchange file),
-so the reaction rate follows <span class="math notranslate nohighlight">\(T_w\)</span> as it relaxes; the log
-line prints <span class="math notranslate nohighlight">\(\beta(T_w)\)</span>.</p></li>
-<li><p><strong>Level-set advance.</strong> The receded depth per cell,
-<span class="math notranslate nohighlight">\(\Delta = N_{\mathrm{abl}}\,m_{\mathrm{C}}/
-(\rho_{\mathrm{solid}}\,A_c)\)</span>, is added to <span class="math notranslate nohighlight">\(\phi\)</span>, and the
-gradient is recomputed; an optional reinitialisation step
-restores <span class="math notranslate nohighlight">\(|\nabla\phi| = 1\)</span>. On an STL-initialised capsule
-at angle of attack the windward face recedes more than an order
-of magnitude faster than the leeward face, as expected.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">srFiniteRate</span></code> — the Arrhenius form above (oxidation,
+nitridation, finite-rate recombination);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">srRecombination</span></code> — catalytic recombination with a constant
+<code class="docutils literal notranslate"><span class="pre">gamma</span></code>, an Arrhenius <span class="math notranslate nohighlight">\(\gamma(T_w)\)</span> (<code class="docutils literal notranslate"><span class="pre">gamma0</span></code>/<code class="docutils literal notranslate"><span class="pre">Ea</span></code> or
+<code class="docutils literal notranslate"><span class="pre">gammaA</span></code>/<code class="docutils literal notranslate"><span class="pre">Ta</span></code>) or a tabulated <code class="docutils literal notranslate"><span class="pre">gammaTable</span></code>; the
+recombination energy <span class="math notranslate nohighlight">\(E_{rec}\)</span> is split, a fraction
+<span class="math notranslate nohighlight">\(\beta_{acc}\)</span> to the wall and the rest to the nascent
+molecule as kinetic energy;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">srAbsorption</span></code> — the parcel is absorbed (electrons, cryopanels,
+getters);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">srNeutralisation</span></code> — ion neutralisation X<sup>+</sup> → X, releasing
+<span class="math notranslate nohighlight">\(\mathrm{IP}(X) - \phi\)</span> split by <span class="math notranslate nohighlight">\(\beta_{acc}\)</span>.</p></li>
 </ul>
+<p>The carbon-ablation set comprises the Park oxidation
+O + C(s) → CO, <span class="math notranslate nohighlight">\(\beta = 0.63\,e^{-1160/T_w}\)</span> <a class="reference internal" href="#park1976gsi" id="id2"><span>[Park1976gsi]</span></a>;
+O<sub>2</sub> + C(s) → CO + O, <span class="math notranslate nohighlight">\(\beta = 0.5\)</span>;
+CO<sub>2</sub> + C(s) → 2CO, <span class="math notranslate nohighlight">\(\beta = 0.9\)</span> <a class="reference internal" href="#zhluktovabe1999" id="id3"><span>[ZhluktovAbe1999]</span></a>;
+and nitridation N + C(s) → CN, <span class="math notranslate nohighlight">\(\beta = 0.3\)</span> by default
+<a class="reference internal" href="../reference/gsi_verification/index.html#parkbogdanoff2006-gsi" id="id4"><span>[ParkBogdanoff2006_gsi]</span></a> or the low-rate Titan form
+<span class="math notranslate nohighlight">\(\beta = 0.0791\,e^{-5663/T_w}\)</span> <a class="reference internal" href="../reference/gsi_verification/index.html#zhang2012-gsi" id="id5"><span>[Zhang2012_gsi]</span></a>
+<a class="reference internal" href="../reference/gsi_verification/index.html#helber2017-gsi" id="id6"><span>[Helber2017_gsi]</span></a>. Material <span class="math notranslate nohighlight">\(\gamma(T_w)\)</span> correlations are
+provided for RCC, SiO<sub>2</sub> and SiC after Stewart <a class="reference internal" href="#stewart1997" id="id7"><span>[Stewart1997]</span></a>
+and Scott <a class="reference internal" href="#scott1983" id="id8"><span>[Scott1983]</span></a>. Verification:
+<a class="reference internal" href="../reference/gsi_verification/probability_chemistry.html"><span class="doc">Probability-based catalysis and carbon ablation</span></a>.</p>
+</section>
+<section id="finite-rate-gas-surface-engine">
+<h3>Finite-rate gas-surface engine<a class="headerlink" href="#finite-rate-gas-surface-engine" title="Link to this heading"></a></h3>
+<p>The finite-rate engine follows SPARTA’s <code class="docutils literal notranslate"><span class="pre">surf_react</span> <span class="pre">adsorb</span></code>
+<a class="reference internal" href="../reference/gsi_verification/index.html#sparta-gsi" id="id9"><span>[SPARTA_gsi]</span></a> and the framework of Swaminathan Gopalan, Borner and
+Stephani <a class="reference internal" href="../reference/gsi_verification/index.html#sg25-gsi" id="id10"><span>[SG25_gsi]</span></a>. A <em>mechanism</em> (<code class="docutils literal notranslate"><span class="pre">surfaceMechanism</span></code>, no state)
+defines site sets with a site density <span class="math notranslate nohighlight">\(\Phi\)</span>, adsorbates
+X(s) on a site set, bulk species X(b), catalysts X(sc), the options
+and the reactions. It is written natively in
+<code class="docutils literal notranslate"><span class="pre">system/surfaceChemReactDict</span></code> (<code class="docutils literal notranslate"><span class="pre">surfaceMechanisms</span></code>) or imported
+verbatim from SPARTA GS and PS files. A <em>surface state</em>
+(<code class="docutils literal notranslate"><span class="pre">surfaceState</span></code>) holds, per element (a wall face, or a cut cell of
+the immersed surface), the coverages <span class="math notranslate nohighlight">\(\theta_a\)</span>, the real
+and simulated site counts <span class="math notranslate nohighlight">\(N_{sites} = \Phi A_e\)</span> and
+<span class="math notranslate nohighlight">\(N_{sim} = \Phi A_e/W_e\)</span>, a rate cache recomputed only when the
+element temperature changes, the bulk ledger and the tallies.</p>
+<p>A gas-surface (GS) reaction starts with the impact of its gas
+reactant. Its probability is</p>
+<div class="math notranslate nohighlight">
+\[P = k\,S(\theta)\,F_s \ \ \text{(adsorption mediated: AA, DA, LH1,
+LH3, CD)}, \qquad P = k\,F_s \ \ \text{(ER, prob)}, \qquad
+P = k\,F_s E^m\cos^n \ \ \text{(CI)},\]</div>
+<p>with <span class="math notranslate nohighlight">\(k(T) = A\,T^b e^{-E_a/T}\)</span> and the surface-reactant
+factor <span class="math notranslate nohighlight">\(F_s = \prod_j C(n_j, s_j)/N_{sim}^{s_j}\)</span>
+(<code class="docutils literal notranslate"><span class="pre">stoichiometry</span> <span class="pre">combinatorial</span></code>, SPARTA) or
+<span class="math notranslate nohighlight">\(F_s = \prod_j \theta_j^{s_j}\)</span> (<code class="docutils literal notranslate"><span class="pre">power</span></code>). The free-site
+factor is Langmuir, <span class="math notranslate nohighlight">\(S = \theta_E^\alpha\)</span>, or one of three
+Kisliuk precursor forms (<code class="docutils literal notranslate"><span class="pre">sparta</span></code>, <code class="docutils literal notranslate"><span class="pre">sg25</span></code>, <code class="docutils literal notranslate"><span class="pre">legacy</span></code>). The rate
+form converts a rate constant into a per-impact factor:
+<code class="docutils literal notranslate"><span class="pre">efficiency</span></code> (<span class="math notranslate nohighlight">\(\gamma = k\)</span>), <code class="docutils literal notranslate"><span class="pre">maxwellian</span></code>
+(<span class="math notranslate nohighlight">\(\gamma = 4k\Phi^{\sum s}/\bar v\)</span>) or <code class="docutils literal notranslate"><span class="pre">perParticle</span></code>
+(<span class="math notranslate nohighlight">\(\gamma = 2k\Phi^{\sum s}/|v_n|\)</span>). With <code class="docutils literal notranslate"><span class="pre">normalisation</span>
+<span class="pre">sparta</span></code> the channels of the impinging species are summed and scaled
+by <span class="math notranslate nohighlight">\(1/P_{tot}\)</span> above 1; with <code class="docutils literal notranslate"><span class="pre">sg25</span></code> an adsorption
+probability is shared between the adsorption-mediated channels in
+proportion to their weights. The selection is <strong>exactly gated</strong>: a
+drawn channel whose surface reactants hold fewer molecules than it
+consumes, or whose products need more free sites than exist, is
+rejected and counted, so the engine never creates or destroys atoms
+(SPARTA clamps negative counts at the next synchronisation instead).
+With <code class="docutils literal notranslate"><span class="pre">coverageUpdate</span> <span class="pre">sync</span></code> the GS changes are applied every
+<code class="docutils literal notranslate"><span class="pre">nsync</span></code> steps. The impinging parcel becomes the first gas product,
+scattered by that product’s kernel; further products are new
+parcels; a reaction without gas product removes the parcel. The cost
+is O(1) per impact in the channels of the impinging species
+(20-30 ns per impact). Verification:
+<a class="reference internal" href="../reference/gsi_verification/b2_finite_rate_gs.html"><span class="doc">B2: finite-rate gas-surface engine</span></a>.</p>
+</section>
+<section id="pure-surface-integration">
+<h3>Pure-surface integration<a class="headerlink" href="#pure-surface-integration" title="Link to this heading"></a></h3>
+<p>Pure-surface (PS) reactions — desorption DS, Langmuir-Hinshelwood
+LH2 and LH4, sublimation SB — have an event frequency per element
+<span class="math notranslate nohighlight">\(\nu_r = k\,N_{sim} F_s\)</span>, so that with power stoichiometry
+the rate per site is <span class="math notranslate nohighlight">\(R = k\prod_j\theta_j^{s_j}\)</span>. Every
+<code class="docutils literal notranslate"><span class="pre">nsync</span></code> steps they are integrated over
+<span class="math notranslate nohighlight">\(h = n_{sync}\Delta t\)</span> on the active elements only, with
+<code class="docutils literal notranslate"><span class="pre">psIntegrator</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">exponential</span></code> (default): exponential Euler in extent space,
+<span class="math notranslate nohighlight">\(X = h\,\varphi_1(hM)\,R(\theta_0)\)</span>, with the Jacobian
+<span class="math notranslate nohighlight">\(M\)</span> written analytically in each PS class and
+<span class="math notranslate nohighlight">\(\varphi_1\)</span> from a Padé(6,6) exponential of the augmented
+matrix. It is exact for linear networks at any <span class="math notranslate nohighlight">\(k\,\Delta t\)</span>;
+non-linear reactions take adaptive sub-steps
+(<code class="docutils literal notranslate"><span class="pre">psSubStepTolerance</span></code>, <code class="docutils literal notranslate"><span class="pre">psMaxSubSteps</span></code>). Per-element carries
+of every gas product emit whole parcels, so atoms are conserved
+exactly per element;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">timeCounter</span></code>: SPARTA’s multiple time counters (SG25
+Algorithm 2), with SPARTA’s frozen rates under
+<code class="docutils literal notranslate"><span class="pre">spartaCompatibility</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stochastic</span></code>: the exact stochastic simulation algorithm (SG25
+Algorithm 3 with the waiting time drawn before the event).</p></li>
+</ul>
+<p>The keywords of the former coverage wall (Langmuir and Kisliuk
+sticking, Polanyi-Wigner desorption with lateral interactions,
+Eley-Rideal, collision-induced desorption, Langmuir-Hinshelwood) are
+translated at start into a built-in mechanism and run through the
+same engine. Verification:
+<a class="reference internal" href="../reference/gsi_verification/b3_ps_integration.html"><span class="doc">B3: pure-surface integration</span></a>.</p>
+</section>
+<section id="wall-kernels-and-the-exact-internal-state-sampler">
+<h3>Wall kernels and the exact internal-state sampler<a class="headerlink" href="#wall-kernels-and-the-exact-internal-state-sampler" title="Link to this heading"></a></h3>
+<p>The default kernel of a reacting wall and the kernel of every
+reaction product are run-time selected (<code class="docutils literal notranslate"><span class="pre">scatterModel</span></code>):
+<code class="docutils literal notranslate"><span class="pre">diffuse</span></code>, <code class="docutils literal notranslate"><span class="pre">specular</span></code>, <code class="docutils literal notranslate"><span class="pre">cll</span></code> (with Lord’s <code class="docutils literal notranslate"><span class="pre">partial</span></code>
+eccentricity <a class="reference internal" href="#lord1991wa" id="id11"><span>[Lord1991wa]</span></a> and per-mode internal accommodation),
+<code class="docutils literal notranslate"><span class="pre">td</span></code> (thermal desorption with <code class="docutils literal notranslate"><span class="pre">barrier</span></code>, <code class="docutils literal notranslate"><span class="pre">bond</span></code> and
+<code class="docutils literal notranslate"><span class="pre">initenergy</span></code>), <code class="docutils literal notranslate"><span class="pre">impulsive</span></code> (soft-sphere or <code class="docutils literal notranslate"><span class="pre">tempvar</span></code> speed,
+<span class="math notranslate nohighlight">\(\cos^p\)</span> and <span class="math notranslate nohighlight">\(\cos^q\)</span> lobes about the specular
+direction, <code class="docutils literal notranslate"><span class="pre">step</span></code>, <code class="docutils literal notranslate"><span class="pre">double</span></code>, <code class="docutils literal notranslate"><span class="pre">intenergy</span></code>) and <code class="docutils literal notranslate"><span class="pre">adiabatic</span></code>
+(cosine-law direction at the conserved speed relative to the wall).
+They follow the SPARTA sources, with discrete rovibronic levels in
+place of SPARTA’s continuous internal energies.</p>
+<p>Every equilibrium draw of a diatomic rovibronic state — initial fill,
+inflow, diffuse re-emission, the conditional draws of the
+accommodation walls and of the <code class="docutils literal notranslate"><span class="pre">cll</span></code> and <code class="docutils literal notranslate"><span class="pre">td</span></code> kernels — uses an
+exact O(1) sampler. At temperature nodes
+<span class="math notranslate nohighlight">\(T_m = 10\,\mathrm{K}\times 1.15^m\)</span> the code builds lazily a
+Vose alias table of <span class="math notranslate nohighlight">\(g_l e^{-(E_l - E_{min})/kT_m}\)</span> per level
+range (all allowed levels, one manifold, the rotational levels of one
+vibronic state, the vibronic states of one <span class="math notranslate nohighlight">\(J\)</span>). A draw at
+<span class="math notranslate nohighlight">\(T \le T_m\)</span> takes the alias column and accepts the level with
+probability <span class="math notranslate nohighlight">\(\exp[-(E_l - E_{min})(1/kT - 1/kT_m)] \le 1\)</span>, so
+the accepted level is exactly Boltzmann at <span class="math notranslate nohighlight">\(T\)</span>; the mean
+acceptance is at least <span class="math notranslate nohighlight">\(1.15^{-d/2}\)</span>. A two-temperature draw
+gives <span class="math notranslate nohighlight">\((n, v)\)</span> at <span class="math notranslate nohighlight">\(T_{vib}\)</span> and <span class="math notranslate nohighlight">\(J\)</span> at
+<span class="math notranslate nohighlight">\(T_{rot}\)</span>. A draw costs 75-121 ns, 10<sup>3</sup>-10<sup>4</sup>
+times less than the former rejection sampler
+(<code class="docutils literal notranslate"><span class="pre">internalStateSampler</span> <span class="pre">rejection</span></code> keeps the latter for the gas
+draws). Verification:
+<a class="reference internal" href="../reference/gsi_verification/b4_kernels_sampler.html"><span class="doc">B4: scattering kernels and the exact internal-state sampler</span></a>.</p>
+</section>
+<section id="reaction-heat-and-chemistry-driven-recession">
+<h3>Reaction heat and chemistry-driven recession<a class="headerlink" href="#reaction-heat-and-chemistry-driven-recession" title="Link to this heading"></a></h3>
+<p>Every GS and PS event releases at the wall</p>
+<div class="math notranslate nohighlight">
+\[\Delta E = \sum h_f(\text{reactants}) - \sum h_f(\text{products}),\]</div>
+<p>with the 0 K formation enthalpies on the DSMC energy zero: gas
+neutrals from the frozen species database, an ion as its neutral
+plus the ionisation potential, a bulk element 0 (graphite for
+carbon), an adsorbate <span class="math notranslate nohighlight">\(h_f(\text{gas}) - kE_a\)</span> of its
+desorption reaction (else its <code class="docutils literal notranslate"><span class="pre">bindingEnergy</span></code>), and a compound bulk
+species from the material’s <code class="docutils literal notranslate"><span class="pre">formationReference</span></code>. The energy of
+the gas parcels measured by the wall and <span class="math notranslate nohighlight">\(\Delta E\)</span> then close
+the energy balance exactly. A <code class="docutils literal notranslate"><span class="pre">heatOfReaction</span></code> overrides the
+computed value; <code class="docutils literal notranslate"><span class="pre">reactionHeat</span> <span class="pre">none</span></code> keeps only the given heats.</p>
+<p>The bulk ledger times the mass of a bulk atom gives the solid mass
+removed per face; <span class="math notranslate nohighlight">\(\Delta = m/(\rho_s A_f)\)</span> drives the wall
+motion of <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code> (<code class="docutils literal notranslate"><span class="pre">ablationRecession</span></code> in
+<code class="docutils literal notranslate"><span class="pre">constant/dynamicMeshDict</span></code>, with an <code class="docutils literal notranslate"><span class="pre">accelerationFactor</span></code>) or the
+conjugate solid. Verification:
+<a class="reference internal" href="../reference/gsi_verification/b5_recession.html"><span class="doc">B5a: reaction heats and chemistry-driven recession</span></a>.</p>
+</section>
+<section id="immersed-ablating-surfaces">
+<h3>Immersed ablating surfaces<a class="headerlink" href="#immersed-ablating-surfaces" title="Link to this heading"></a></h3>
+<p>The immersed surface lives on the fixed DSMC mesh, as in SPARTA:</p>
+<ul class="simple">
+<li><p><strong>implicit</strong> (<code class="docutils literal notranslate"><span class="pre">surfaceType</span> <span class="pre">implicit</span></code>): values at the mesh points
+(initially the signed distance to the body, analytic or from an
+STL), the surface rebuilt cell by cell by marching squares (2-D)
+or marching tetrahedra (3-D, watertight on any polyhedral mesh);</p></li>
+<li><p><strong>explicit</strong> (<code class="docutils literal notranslate"><span class="pre">surfaceType</span> <span class="pre">explicit</span></code>): a closed STL clipped by
+every cell (Sutherland-Hodgman), receding vertex by vertex with a
+Huygens correction, and handed over to the implicit representation
+when its triangulation degrades.</p></li>
+</ul>
+<p>Parcels are tested against the elements of the cell they cross
+(exact crossing during the move, no parcel enters the solid); the
+collision rate and the sampled densities use the flow volume of the
+cut cells. At each update the surface recedes monotonically by the
+removed volume (no cell ever loses gas), and one scale factor makes
+the swept volume equal the removed volume exactly. Both
+representations work on 2-D, 3-D and axisymmetric meshes, serial or
+parallel. Verification:
+<a class="reference internal" href="../reference/gsi_verification/immersed_surface.html"><span class="doc">Immersed ablating surface</span></a>.</p>
+<p>The chemistry of the immersed surface (<code class="docutils literal notranslate"><span class="pre">dsmcImmersedChemistry</span></code>)
+runs in probability mode (a <code class="docutils literal notranslate"><span class="pre">reactions</span></code> list as on the catalytic
+wall; the single-<span class="math notranslate nohighlight">\(\gamma\)</span> keywords are translated into one
+<code class="docutils literal notranslate"><span class="pre">srFiniteRate</span></code> reaction) or in mechanism mode, the finite-rate
+engine with the cut cells as elements. After every recession update
+a cell whose surface area falls releases the corresponding fraction
+of its adsorbates and carries to the neighbouring cells that gained
+area, so atoms are conserved exactly. The surface temperature is
+uniform, or per cut cell in radiative equilibrium. Vapour-pressure
+sublimation (Clausius-Clapeyron <span class="math notranslate nohighlight">\(p_{vap} = a\,e^{-b/T_w}\)</span> and
+the Hertz-Knudsen flux) and a global radiative equilibrium are also
+available on the immersed surface. Verification:
+<a class="reference internal" href="../reference/gsi_verification/b5b_immersed_chemistry.html"><span class="doc">B5b: surface chemistry on the immersed surface</span></a>.</p>
+</section>
+<section id="multi-region-conjugate-solid">
+<h3>Multi-region conjugate solid<a class="headerlink" href="#multi-region-conjugate-solid" title="Link to this heading"></a></h3>
+<p>With <code class="docutils literal notranslate"><span class="pre">constant/conjugateProperties</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code> couples
+its walls to one or more solid regions of the same case, on the gas
+<code class="docutils literal notranslate"><span class="pre">runTime</span></code> but with their own physical clock. Every
+<code class="docutils literal notranslate"><span class="pre">couplingInterval</span></code> DSMC steps the gas wall hands over the window
+heat flux (incident minus re-emitted energy plus the chemical
+energy) and, for a receding wall, the mass flux; a face-area-weighted
+AMI maps them conservatively onto the solid faces (non-conformal
+meshes allowed). The solid advances <code class="docutils literal notranslate"><span class="pre">solidStepsPerWindow</span></code> steps of
+<code class="docutils literal notranslate"><span class="pre">solidDeltaT</span></code> of</p>
+<div class="math notranslate nohighlight">
+\[\rho\,\frac{\partial h}{\partial t} = \nabla\cdot(k\nabla T),
+\qquad h(T) = \int_0^T c_p\,dT,\]</div>
+<p>on its moving mesh, with <span class="math notranslate nohighlight">\(k(T)\)</span> and <span class="math notranslate nohighlight">\(c_p(T)\)</span> any
+<code class="docutils literal notranslate"><span class="pre">Function1</span></code> of <span class="math notranslate nohighlight">\(T\)</span>, re-radiation
+<span class="math notranslate nohighlight">\(k\,\partial T/\partial n = q - \varepsilon\sigma(T_w^4 -
+T_{bg}^4)\)</span> and Stefan melting
+<span class="math notranslate nohighlight">\(\rho L v = q - \varepsilon\sigma(T_m^4 - T_{bg}^4) -
+k\,\partial T/\partial n\)</span> at <span class="math notranslate nohighlight">\(T_w = T_m\)</span>. The wall recedes on
+both meshes (each gas wall point follows the solid surface point it
+lies on) and the solid face temperatures return to the DSMC wall
+(<code class="docutils literal notranslate"><span class="pre">coupled</span></code> model). With <code class="docutils literal notranslate"><span class="pre">meltFilm</span></code> the melt stays on the wall as
+a lubrication film driven by the gas shear and pressure, capillarity
+and a body force (or the deceleration in free flight); it refreezes
+where the solid takes the heat and leaves as droplets at sharp edges
+(Friedrich criterion), where the gas tears an accumulation off
+(critical Weber number) or where it drips; the droplets move through
+the gas with free-molecular drag and heating, radiate and evaporate.
+The coupling runs in parallel (<code class="docutils literal notranslate"><span class="pre">decomposePar</span> <span class="pre">-allRegions</span></code>) and
+restarts exactly. Verification:
+<a class="reference internal" href="../reference/gsi_verification/conjugate_solid.html"><span class="doc">Conjugate solid: conduction, melting, film and droplets</span></a> and
+<a class="reference internal" href="../reference/gsi_verification/b8_conjugate_multiregion.html"><span class="doc">B8: multi-region conjugate solid</span></a>.</p>
+</section>
+<section id="production-mechanisms">
+<h3>Production mechanisms<a class="headerlink" href="#production-mechanisms" title="Link to this heading"></a></h3>
+<p>Two published mechanisms are provided as native mechanism files with
+in-repository Python oracles: the air-carbon ablation (ACA) model of
+Prata, Schwartzentruber and Minton <a class="reference internal" href="../reference/gsi_verification/index.html#pr22-gsi" id="id12"><span>[PR22_gsi]</span></a> and the O-carbon model
+of Swaminathan-Gopalan et al. <a class="reference internal" href="../reference/gsi_verification/index.html#sgc18-gsi" id="id13"><span>[SGC18_gsi]</span></a>. The oracles reproduce
+the published model curves, and the mechanism files reproduce the
+oracles’ rate constants to 4.7e-10. The ACA spectator channels are
+not yet supported by the engine. Verification:
+<a class="reference internal" href="../reference/gsi_verification/b6_mechanisms.html"><span class="doc">B6: production surface mechanisms</span></a>.</p>
+</section>
 <section id="pato-loose-coupling">
-<h2>PATO loose coupling<a class="headerlink" href="#pato-loose-coupling" title="Link to this heading"></a></h2>
-<p>For coupling to a material-response solver, the immersed surface
-exposes a loose, file-based interface to <strong>PATO</strong> (the
-Porous-material Analysis Toolbox). The DSMC side exports the
-boundary-layer edge state in the tabulated <span class="math notranslate nohighlight">\(B'\)</span> boundary-
-condition form that PATO consumes, and imports the wall
-temperature, recession and species blowing returned by PATO. The
-exchange is conformant in the per-cell level-set sense —  PATO
-returns the surface state, while the level set carries the geometry
-—  and is the intended route to a fully coupled material-response
-simulation.</p>
+<h3>PATO loose coupling<a class="headerlink" href="#pato-loose-coupling" title="Link to this heading"></a></h3>
+<p>The immersed surface exposes a file-based interface to PATO (the
+Porous-material Analysis Toolbox): the DSMC side exports the edge
+state in PATO’s <span class="math notranslate nohighlight">\(B'\)</span> boundary-condition table
+(<span class="math notranslate nohighlight">\(p\)</span>, <span class="math notranslate nohighlight">\(\rho_e u_e C_H\)</span>, <span class="math notranslate nohighlight">\(h_r\)</span>, radiative flux) and
+imports the wall temperature, the recession and the blowing returned
+by PATO.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The PATO coupling is implemented as a file-exchange interface
-and has been exercised in a mock harness only; a production
-coupled run requires the <span class="math notranslate nohighlight">\(B'\)</span> edge-state inversion and the
-per-species blowing map to be finalised. It should be regarded
-as a preview capability.</p>
+<p>The PATO coupling has been exercised against mock exchange files
+only; it should be regarded as a preview capability.</p>
 </div>
+</section>
+<section id="planned">
+<h3>Planned<a class="headerlink" href="#planned" title="Link to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>(Not implemented yet.)</strong> The following extensions are planned
+and are not available in the current build:</p>
+<ul class="simple">
+<li><p><strong>QK gas-surface chemistry</strong>: state-resolved surface reaction
+thresholds on the rovibronic levels of the impinging molecule,
+barriers estimated with the UBI-QEP bond-order method, and the
+reverse processes constructed by detailed balance, as for the
+gas-phase QK model;</p></li>
+<li><p><strong>composite surfaces</strong>: several materials on one immersed
+surface with per-cell mass consistency, after Hong and Gallis
+<a class="reference internal" href="../reference/gsi_verification/index.html#honggallis2025-gsi" id="id14"><span>[HongGallis2025_gsi]</span></a> <a class="reference internal" href="../reference/gsi_verification/index.html#hong2024-gsi" id="id15"><span>[Hong2024_gsi]</span></a>;</p></li>
+<li><p><strong>solid under the immersed surface</strong>: heat conduction and
+melting in the solid cells below the implicit surface, with the
+element temperatures returned to the surface chemistry.</p></li>
+</ul>
+</div>
+</section>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading"></a></h3>
 <div role="list" class="citation-list">
 <div class="citation" id="lord1991wa" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Lord1991wa</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>Lord1991wa<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id11">2</a>)</span>
 <p>R. G. Lord, “Some extensions to the
 Cercignani-Lampis gas-surface scattering kernel,” <em>Physics
 of Fluids A</em>, <strong>3</strong> (4), 706–710 (1991).</p>
@@ -1081,19 +1320,22 @@ carbon surface,” <em>Journal of Thermophysics and Heat Transfer</em>,
 <strong>13</strong> (1), 50–59 (1999).</p>
 </div>
 <div class="citation" id="stewart1997" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">Stewart1997</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">Stewart1997</a><span class="fn-bracket">]</span></span>
 <p>D. A. Stewart, “Surface catalytic efficiency of
 advanced carbon-carbon candidate thermal protection materials,”
 NASA TM-112206 (1997).</p>
 </div>
 <div class="citation" id="scott1983" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">Scott1983</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">Scott1983</a><span class="fn-bracket">]</span></span>
 <p>C. D. Scott, “Catalytic recombination of nitrogen
 and oxygen on high-temperature reusable surface insulation,” in
 <em>Aerothermodynamics and Planetary Entry</em>, Progress in
 Astronautics and Aeronautics <strong>82</strong>, 273–289 (1983).</p>
 </div>
 </div>
+<p>The other references of this section are listed in
+<a class="reference internal" href="../reference/gsi_verification/index.html"><span class="doc">Gas-surface interaction verification</span></a>.</p>
+</section>
 </section>
 </section>
 

@@ -1,0 +1,245 @@
+B1: per-face wall temperature
+=============================
+
+**Verified:** every wall whose kernel re-emits at a wall temperature
+takes it per face from one implementation in ``dsmcPatchBoundary``,
+with three models (``uniform``, ``radiativeEquilibrium``,
+``coupled``); the chemical heat released at the wall is kept in its
+own ledger (the analogue of SPARTA's ``echem``), so the wall heat is
+:math:`q_{BF} + q_{chem}`. **Against:** bitwise regression of the
+uniform mode, the analytic radiative-equilibrium root, the analytic
+fixed point of a catalytic radiative-equilibrium face, and a SPARTA
+``fix surf/temp`` twin on a cylinder.
+
+Regression of the uniform mode (R1)
+-----------------------------------
+
+Each case was run with the baseline and the B1 binaries and the same
+``randomSeed``; every file of every common write time was compared
+byte for byte. ``couette_cll``, ``accom_rot``, ``radeq_Ar`` and the
+catalytic case are identical (the catalytic chemical ledger equals
+the wall's own cumulative recombination energy to 7e-15). On the two
+walls that inject parcels, the wall fluxes now subtract the energy
+the injected parcels carry away:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 30 25 25
+
+   * - Case
+     - Injected parcels
+     - Expected :math:`\Delta q` [W/m²]
+     - Measured (ratio)
+   * - ``coverage_lh2``
+     - 283 LH O\ :sub:`2`, :math:`T_w` = 1000 K
+     - -0.1280 :math:`\pm` 3.2 %
+     - -0.1226 (0.958)
+   * - ablating
+     - 628 secondary O of O\ :sub:`2` + C(s) → CO + O, 2000 K
+     - -4.335e4 :math:`\pm` 2.8 %
+     - -4.267e4 (0.984)
+
+Radiative equilibrium through the base class (V2)
+-------------------------------------------------
+
+A drifting Maxwellian (10\ :sup:`19` m\ :sup:`-3`, 300 K, 7 km/s)
+strikes a plate that re-emits diffusely and radiates. Each gas runs
+on the dedicated wall and on the diffuse and accommodation walls
+with ``wallTemperatureModel radiativeEquilibrium``.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 45 20 20 15
+
+   * - Case
+     - :math:`T_w` root [K]
+     - :math:`T_w` DSMC [K]
+     - Error
+   * - Ar (:math:`\varepsilon` = 0.3), dedicated wall
+     - 1599.69
+     - 1599.704
+     - +0.001 %
+   * - Ar, diffuse + radiativeEquilibrium
+     - 1599.69
+     - 1599.719
+     - +0.002 %
+   * - Ar, accommodation + radiativeEquilibrium
+     - 1599.69
+     - 1599.704
+     - +0.001 %
+   * - N\ :sub:`2` (:math:`\varepsilon` = 1), dedicated wall
+     - 1081.24
+     - 1081.227
+     - -0.001 %
+   * - N\ :sub:`2`, diffuse + radiativeEquilibrium
+     - 1081.24
+     - 1081.233
+     - -0.001 %
+   * - N\ :sub:`2`, accommodation + radiativeEquilibrium
+     - 1081.24
+     - 1081.225
+     - -0.002 %
+   * - Ar, accommodation, 2 processors, restarted at 2e-4 s
+     - 1599.69
+     - 1599.710
+     - +0.001 %
+
+With all coefficients at 1 the accommodation wall draws the same
+random numbers as the dedicated wall, and with the same seed the two
+runs are identical parcel for parcel.
+
+.. figure:: ../../_static/figures/gsi/b1_v2.png
+   :width: 90%
+   :align: center
+
+   Plate wall temperature of the dedicated wall and of the base-class
+   mode on the diffuse and accommodation walls, against the analytic
+   root (Ar, :math:`\varepsilon` = 0.3; N\ :sub:`2`,
+   :math:`\varepsilon` = 1); lower panels: ratio, grey band
+   :math:`\pm 1` %.
+
+Catalysis on a radiative-equilibrium face (V3)
+----------------------------------------------
+
+A free-molecular O stream (10\ :sup:`19` m\ :sup:`-3`, 300 K,
+2 km/s) strikes a catalytic radiative-equilibrium face
+(:math:`\varepsilon` = 0.002), :math:`\gamma(T_w) = e^{-3000/T_w}`,
+:math:`E_{rec}` = 8.203e-19 J. The oracle is the face balance
+
+.. math::
+
+   \varepsilon\sigma(T_w^4 - T_{bg}^4) = q_{in}
+     - (1 - \gamma)\Gamma(2kT_w + \langle e_O\rangle)
+     - \tfrac{\gamma\Gamma}{2}(2kT_w + \langle e_{O_2}\rangle)
+     + \tfrac{\gamma\Gamma}{2}\,\beta_{acc} E_{rec}.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 18 18 12 14 14 14
+
+   * - :math:`\beta_{acc}`
+     - :math:`T_w` root [K]
+     - :math:`T_w` DSMC [K]
+     - Error
+     - :math:`\gamma` measured
+     - :math:`A e^{-T_a/\langle T_w\rangle}`
+     - Error (binomial :math:`\sigma`)
+   * - 1.0
+     - 2069.03
+     - 2067.13
+     - -0.092 %
+     - 0.23387
+     - 0.23427
+     - -0.17 % (0.13 %)
+   * - 0.5
+     - 1749.63
+     - 1749.88
+     - +0.014 %
+     - 0.18021
+     - 0.18007
+     - +0.08 % (0.15 %)
+
+The face ledger closes: :math:`\langle q\rangle` = 2071.07 against
+:math:`\varepsilon\sigma\langle T_w\rangle^4` = 2070.68 W/m², and
+1063.52 against 1063.34 W/m².
+
+.. figure:: ../../_static/figures/gsi/b1_v3.png
+   :width: 90%
+   :align: center
+
+   Measured :math:`(T_w, \gamma)` of the catalytic
+   radiative-equilibrium face against the oracle fixed point,
+   :math:`\beta_{acc}` = 1 and 0.5; right: ratios with the binomial
+   error of :math:`\gamma`, grey band :math:`\pm 1` %.
+
+Restart (V4) and the conjugate solid (V5)
+-----------------------------------------
+
+Ten steps after a restart that falls inside an update interval (the
+next update still 14 steps away), the face temperature
+(1599.60860368346 K), the relaxed flux and the ledger times are
+bit-identical to the restart file; without the file the wall
+falls back to the dictionary's 300 K. The ``dsmcFoamAblation`` melt
+case (O at 4 km/s onto aluminium) gives identical gas (356 files),
+solid (28 files) and log (328/328 lines) with the baseline and the
+B1 build: the coupled face temperature (300 → 474.6 K) now enters
+through the ``coupled`` model. An asymmetric two-processor restart
+of the coverage, ablating and wall-temperature files returns each
+processor its own state (for example :math:`\theta` =
+0.041594709305446 and 0.043017825104560).
+
+SPARTA ``adjust_temp`` cylinder twin
+------------------------------------
+
+Mach-10 Ar (4.247e19 m\ :sup:`-3`, 200 K, 2634.1 m/s) over the half
+cylinder of SPARTA's ``circle.surf`` (R = 0.1524 m, 50 elements),
+radiative-equilibrium wall with :math:`\varepsilon` = 0.9, unrelaxed
+250-step update in both codes, same frozen-database VSS data,
+``fnum`` and time step; two replicas per code.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 34 22 22 22
+
+   * - dsmcFoam+/SPARTA
+     - elements 1-29 (0-104°)
+     - elements 1-40 (0-144°)
+     - worst of 1-40
+   * - :math:`\langle q\rangle`
+     - 0.9959 :math:`\pm` 0.0009
+     - 1.0272 :math:`\pm` 0.0028
+     - 1.331 :math:`\pm` 0.051 (el. 40)
+   * - :math:`T(\langle q\rangle)`
+     - 0.9990 :math:`\pm` 0.0002
+     - 1.0063 :math:`\pm` 0.0006
+     - 1.074 :math:`\pm` 0.010
+   * - :math:`\langle T_w\rangle`, Jensen-corrected
+     - 0.9990 :math:`\pm` 0.0002
+     - 1.0064 :math:`\pm` 0.0007
+     - 1.073 :math:`\pm` 0.012
+
+The integrated heat load is 1597.1 :math:`\pm` 0.6 W/m (SPARTA)
+against 1590.5 :math:`\pm` 0.7 W/m (ratio 0.9958). The leeward
+difference was traced to the example's ``vremax 1000 yes`` reset in
+SPARTA: with a running maximum (``collide_modify vremax 0 no``, like
+the dsmcFoam+ ``sigmaTcRMax``) the two codes agree on the wall
+temperature to 0.15 % over elements 1-40 and on the heat load to
+0.26 % (1.0026 :math:`\pm` 0.0008).
+
+.. figure:: ../../_static/figures/gsi/b1_twin.png
+   :width: 90%
+   :align: center
+
+   Time-mean net energy flux and wall temperature per SPARTA element
+   against the angle from the stagnation point; lower panels:
+   dsmcFoam+/SPARTA, grey band :math:`\pm 1` %, shaded the starved
+   leeward elements 41-50.
+
+.. figure:: ../../_static/figures/gsi/b1_twin_wake.png
+   :width: 90%
+   :align: center
+
+   Window-averaged :math:`n/n_\infty` and :math:`T` on radial lines
+   from the lee surface and on the wake centreline, dsmcFoam+ (red)
+   against SPARTA with the running ``vremax`` (solid) and with the
+   example's reset every 1000 steps (dashed); bottom: leeward
+   per-element flux and the ratios.
+
+Cost
+----
+
+On a channel dominated by wall impacts (1.25e4 impacts per step) the
+uniform mode costs 1.0020 times the baseline instructions per step
+(about 38 instructions per impact) and 1.0040 in wall time. The
+non-per-impact code lives in a separate source file
+(``dsmcPatchBoundaryWallTemperature.C``) so that the compiler keeps
+the hot wall functions inlined.
+
+Reproduce
+---------
+
+``run/GSI/B1_wallTemperature/`` (one directory per test:
+``R1_regression``, ``V2_radeq``, ``V3_catalysis``, ``V4_restart``,
+``V5_conjugate``, ``cylinder_twin``, ``perf``, ``Review_fixes``);
+figures by ``run/GSI/B1_wallTemperature/plot_b1.py``. Note:
+``docs/Development/Verification/gsi/b1_wall_temperature.md``.

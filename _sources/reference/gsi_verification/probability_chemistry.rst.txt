@@ -1,0 +1,224 @@
+Probability-based catalysis and carbon ablation
+===============================================
+
+**Verified:** the per-impact surface reactions of the catalytic and
+ablating walls (``srRecombination``, ``srFiniteRate``): the realised
+reaction probability against the input :math:`\gamma` or
+:math:`\beta(T_w) = \min(1, A T_w^n e^{-T_a/T_w})`, the
+material :math:`\gamma(T_w)` correlations, Kisliuk precursor
+sticking, the recombination-energy accommodation and the recession
+velocity of the kinetic-theory flux. **Against:** the analytic
+definitions, SPARTA ``surf_react prob`` and the PICLas
+``CAT_RATES_ER`` regression reservoir [Lauterbach2025_gsi]_.
+
+Catalytic recombination: SPARTA, PICLas, dsmcFoam+
+--------------------------------------------------
+
+A catalytic wall recombines impinging atoms (O + O → O\ :sub:`2`)
+with probability :math:`\gamma`. SPARTA (``surf_react prob``, written
+as O → O\ :sub:`2` carrier plus O → NULL partner) and dsmcFoam+
+(``dsmcCatalyticWallPatch``, ``nReactantConsumed 2``) both apply the
+probability per impact:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 35 35
+
+   * - :math:`\gamma` input
+     - SPARTA
+     - dsmcFoam+
+   * - 0.25
+     - 0.254
+     - 0.249
+   * - 0.50
+     - 0.505
+     - 0.495
+   * - 0.75
+     - 0.749
+     - 0.750
+
+PICLas ``CAT_RATES_ER`` (Eley-Rideal, one gas atom plus one adsorbed
+atom, ``nReactantConsumed 1`` in dsmcFoam+) has an effective
+per-impact probability :math:`\gamma_{eff} \approx 0.0025`; its
+O\ :sub:`2` build-up in a closed 10\ :sup:`-5` m cube follows the
+analytic recombination relaxation
+:math:`x_{O_2} = \gamma_{eff}\,\nu_w t` to within 2 %.
+
+.. figure:: ../../_static/figures/gsi/catalytic_recombination_comparison.png
+   :width: 90%
+   :align: center
+
+   Panels: (a) Realised against input recombination probability for SPARTA
+   and dsmcFoam+ (and the PICLas effective value); (b) the PICLas
+   ``CAT_RATES_ER`` reservoir against the analytic relaxation.
+
+Recession from the kinetic-theory flux
+--------------------------------------
+
+For a gas at number density :math:`n` and temperature :math:`T`
+striking a surface with ablation probability :math:`\gamma`, the
+recession velocity is
+:math:`v_{rec} = \gamma\,\tfrac14 n \bar c\, m_C/\rho_s`. Single-cell
+box, O consuming C(s), :math:`n = 10^{23}` m\ :sup:`-3`, 5000 K,
+:math:`\rho_s` = 1800 kg/m\ :sup:`3`:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 30 30 20
+
+   * - :math:`\gamma`
+     - dsmcFoam+ :math:`v_{rec}` [m/s]
+     - analytic [m/s]
+     - ratio
+   * - 0.25
+     - 1.752e-4
+     - 1.780e-4
+     - 0.98
+   * - 0.50
+     - 3.590e-4
+     - 3.560e-4
+     - 1.01
+   * - 0.75
+     - 5.505e-4
+     - 5.340e-4
+     - 1.03
+
+SPARTA's ``examples/ablation`` (``fix ablate``, ``surf_react global
+0.5``) realises ``nsreact/nscoll`` = 0.5053. The recession in SPARTA's
+reduced units is compared through the realised probability only.
+
+.. figure:: ../../_static/figures/gsi/ablation_recession_comparison.png
+   :width: 90%
+   :align: center
+
+   Recession velocity against the ablation probability (dsmcFoam+
+   against the kinetic-theory slope) and SPARTA's realised ablation
+   probability.
+
+Park oxidation and Titan nitridation efficiencies
+-------------------------------------------------
+
+With a single reactant species the measured per-impact probability
+is events/impacts. O + C(s) → CO with the Park form
+:math:`\beta = 0.63\,e^{-1160/T_w}` [Park1976gsi]_
+(``run/GSI/parkOxidation``) and N + C(s) → CN with the low-rate
+Titan form :math:`\beta = 0.0791\,e^{-5663/T_w}` [Zhang2012_gsi]_
+[Helber2017_gsi]_ (``run/GSI/titanAblation/nitridationSweep``):
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 22 22 22 22
+
+   * - :math:`T_w` [K]
+     - O: events/impacts
+     - Park :math:`\beta`
+     - N: events/impacts
+     - Titan :math:`\beta`
+   * - 1000
+     - 0.1979
+     - 0.1975
+     -
+     -
+   * - 1500
+     - 0.3042
+     - 0.2907
+     - 0.001572
+     - 0.001814
+   * - 2000
+     - 0.3645
+     - 0.3527
+     - 0.004458
+     - 0.004661
+   * - 2500
+     - 0.3972
+     - 0.3961
+     - 0.008169
+     - 0.008211
+   * - 3000
+     - 0.4389
+     - 0.4280
+     - 0.011949
+     - 0.011978
+   * - 3500
+     -
+     -
+     - 0.017449
+     - 0.015685
+   * - 4000
+     - 0.4754
+     - 0.4714
+     - 0.019334
+     - 0.019201
+
+The oxidation efficiency follows the Park curve within 0-5 % (the
+small positive bias is the re-impact of re-emitted O in the 0-D box).
+The nitridation deviations of -13 % and +11 % at 1500 and 3500 K are
+the Poisson noise of 22 and 203 events; with more than 50 events the
+error is below a few per cent. The default nitridation stays the
+Park-Bogdanoff constant :math:`\beta = 0.3` [ParkBogdanoff2006_gsi]_;
+the Titan form is opt-in (``nitrideN_titan``).
+
+Mars and Earth ablator cases (graphite at 2000 K, dissociated
+freestream at 4 km/s) fire every channel: ``marsAblation`` gives
+:math:`\dot m_C` = 0.10 kg m\ :sup:`-2` s\ :sup:`-1` (recession
+5.5e-5 m/s, CO dominant), ``earthAblation`` 0.072 kg m\ :sup:`-2`
+s\ :sup:`-1` (4.0e-5 m/s, CO and CN).
+
+Material :math:`\gamma(T_w)`, Kisliuk sticking, energy accommodation
+--------------------------------------------------------------------
+
+.. list-table:: Measured :math:`\langle P_{react}\rangle` against
+   :math:`\gamma(T_w)` (``run/GSI/catalysisGammaT``)
+   :header-rows: 1
+   :widths: 15 45 40
+
+   * - Material
+     - Analytic :math:`\gamma` at 500 / 1000 / 1500 / 2000 / 2500 /
+       3000 K
+     - Measured, worst error
+   * - RCC (O)
+     - 0.062 / 0.198 / 0.291 / 0.353 / 0.396 / 0.428
+     - 0.060 / 0.194 / 0.286 / 0.350 / 0.396 / 0.433; ≤ 2.7 %
+   * - SiO\ :sub:`2` (O)
+     - 0.013 / 0.019 / 0.021 / 0.022 / 0.023 / 0.024
+     - 0.013 / 0.020 / 0.021 / 0.021 / 0.022 / 0.023; ≤ 6.8 %
+   * - constant :math:`\gamma` = 0.07
+     - 0.070
+     - 0.068-0.071; ≤ 3.1 %
+
+The correlations are those of Stewart [Stewart1997]_ (RCC) and
+Scott (SiO\ :sub:`2`); catalytic :math:`\gamma` values scatter by up
+to about three times between facilities, so the temperature trend
+is the robust part.
+
+Kisliuk precursor sticking,
+:math:`S(\theta) = S_0/(1 + K\theta/(1 - \theta))`
+(``run/GSI/catalysisKisliuk``): :math:`K = 1` reproduces the
+Langmuir steady coverage to all printed digits (0.7061953582);
+:math:`K = 0.2` raises it to 0.8879 and :math:`K = 5` lowers it to
+0.4577. The model-independent ratio :math:`S(\theta_{ss})/\theta_{ss}`
+is 0.416 / 0.416 / 0.436 / 0.419 (within about 5 %). These are the
+values of the original coverage wall; the same cases run through the
+finite-rate engine since B3 are given in :doc:`b3_ps_integration`.
+
+Recombination-energy accommodation (``run/GSI/catalysisEnergy``,
+O + O → O\ :sub:`2`, :math:`E_{rec}` = 8.203e-19 J): the ledger
+total equals wall share plus gas share exactly for
+:math:`\beta_{acc}` = 1, 0.5 and 0 (residual 0, shares 1.00 / 0.50 /
+0.00 to the wall). With :math:`\beta_{acc} = 0` the O\ :sub:`2`
+leaves at about 3644 m/s against about 943 m/s for
+:math:`\beta_{acc} = 1`.
+
+Reproduce
+---------
+
+dsmcFoam+ catalysis: ``run/0D/Validation/testCatalytic`` (sweep
+:math:`\gamma` in ``system/boundariesDict``); SPARTA:
+``sparta-master/run_catalytic/in.catalytic``. Carbon ablation:
+``run/GSI/parkOxidation``, ``run/GSI/titanAblation``
+(``nitridationSweep``, ``tempSweep``), ``run/GSI/marsAblation``,
+``run/GSI/earthAblation``. Catalysis enhancements:
+``run/GSI/catalysisGammaT``, ``run/GSI/catalysisKisliuk``,
+``run/GSI/catalysisEnergy``. Notes:
+``docs/Development/Verification/gsi/README.md``,
+``carbon_ablation_rates.md`` and ``catalysis_enhancements.md``.

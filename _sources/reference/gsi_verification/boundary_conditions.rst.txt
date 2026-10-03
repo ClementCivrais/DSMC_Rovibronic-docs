@@ -1,0 +1,293 @@
+Wall models and surface processes
+=================================
+
+**Verified:** the scattering and sink walls added to the solver
+(per-mode accommodation, radiative equilibrium, outgassing,
+pumping, absorption, ion neutralisation, collision-induced
+desorption, activated sticking), the corrected Cercignani-Lampis-Lord
+(CLL) wall on a moving surface, and the coverage kinetics of the
+coverage wall. **Against:** analytic references (free-molecular
+Fourier and Couette fluxes, radiative-equilibrium roots, decay
+rates, mean-field rate equations), SPARTA [SPARTA_gsi]_ twins
+(Fourier, Couette) and PICLas 4.2.0 twins.
+
+The species ladders of the analytic references are read from the
+solver's own species cache, so the references use the energies the
+solver uses. Unless stated otherwise the gas is free-molecular
+(:math:`\mathrm{Kn} \gtrsim 100`) in a 1 mm cube.
+
+.. figure:: ../../_static/figures/gsi/gsi_bc_verification.png
+   :width: 100%
+   :align: center
+
+   Panels: (a) Per-mode accommodation of O\ :sub:`2`; (b) Couette flow on a
+   moving wall, measured :math:`\tau/(\Gamma m U)` against the input
+   tangential accommodation (dsmcFoam+ Maxwell and corrected CLL,
+   CLL before the fix, SPARTA, PICLas); (c) Fourier flow, heat flux
+   per mode over the analytic value (grey band :math:`\pm 1` %);
+   (d) radiative-equilibrium wall temperature against the emissivity;
+   (e) surface quenching; (f) sink walls; (g) outgassing and
+   blowing; (h) vacuum chamber held by the PI pump.
+
+Per-mode accommodation (V1)
+---------------------------
+
+O\ :sub:`2` at 6000 K (the a and b states populated) strikes a 300 K
+wall once, and the re-emitted molecules leave the domain. The
+measured coefficient per mode is
+:math:`\alpha_m = (E_{in} - E_{out})/(E_{in} - E_w)`.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 60 40
+
+   * - Coefficient swept from 0 to 1 (others 0)
+     - Worst :math:`|\alpha_{meas} - \alpha_{in}|`
+   * - :math:`\sigma` (momentum)
+     - 0.0013
+   * - :math:`\alpha_T`
+     - 0.0012
+   * - :math:`\alpha_R`
+     - 0.0016
+   * - :math:`\alpha_V`
+     - 0.0019
+   * - :math:`\alpha_E`
+     - 0.0030
+
+Cross-mode effects are physical: vibrational accommodation at fixed
+:math:`J` raises the rotational energy slightly (measured rotational
+:math:`\alpha = -0.034` at :math:`\alpha_V = 1`), and the electronic
+draw at fixed :math:`(v, J)` gives a vibrational
+:math:`\alpha = -0.011` at :math:`\alpha_E = 1`. With the inflow at
+the wall temperature (3000 K) and every coefficient at 0.5, the net
+over incident energy flux is -0.008 % (translation), +0.15 %
+(rotation), -0.015 % (vibration) and +0.85 % (electronic), each
+within 1.5 standard errors of zero.
+
+Fourier and Couette flows (V2, V3)
+----------------------------------
+
+Plate 1 at :math:`T_1` carries the model under test; plate 2 at
+:math:`T_2` is fully accommodating. The Fourier reference is
+:math:`q_m = \Gamma a_m [e_m(T_1) - e_m(T_2)]` (for CLL
+:math:`q_{tr} = \Gamma(\alpha_n + \alpha_t) k \Delta T`); the
+Couette reference is :math:`\tau = \Gamma m s U` with plate 1 moving
+at 500 m/s.
+
+.. list-table:: Fourier flow, :math:`q/q_{ref}`
+   :header-rows: 1
+   :widths: 40 15 25 20
+
+   * - Plate 1
+     - Gas
+     - dsmcFoam+
+     - SPARTA
+   * - diffuse
+     - Ar
+     - 0.9996
+     - 0.9998
+   * - Maxwell, :math:`f = 0.5`
+     - Ar
+     - 1.0013
+     - 0.9995
+   * - CLL :math:`\alpha_n = 0.5`, :math:`\sigma_t = 0.5`
+     - Ar
+     - 0.9995
+     - 1.0013
+   * - CLL :math:`\alpha_n = 1`, :math:`\sigma_t = 0.2`
+     - Ar
+     - 0.9990
+     - 0.9996
+   * - accommodation :math:`\alpha_T = 0.3`
+     - Ar
+     - 1.0036
+     - (no equivalent)
+   * - diffuse (tr, rot, vib)
+     - N\ :sub:`2`
+     - 0.9997, 0.9994, 1.0007
+     -
+   * - accommodation :math:`\alpha_R = 0.3`, :math:`\alpha_V = 1`
+     - N\ :sub:`2`
+     - 1.0010, 0.9985, 0.9903
+     -
+   * - accommodation :math:`\alpha_R = \alpha_V = \alpha_E = 1`
+     - N\ :sub:`2`
+     - 0.9993, 0.9986, 0.9988
+     -
+
+When vibration alone is redrawn at fixed :math:`J` (70 % of the
+impacts in the :math:`\alpha_R = 0.3` case) the vibrational flux is
+1 % low: partial per-mode accommodation of coupled ladders has no
+unique definition. Blocks of modes redrawn together are exact.
+
+.. list-table:: Couette flow, measured :math:`s = \tau/(\Gamma m U)`
+   :header-rows: 1
+   :widths: 30 12 20 18 20
+
+   * - Plate 1
+     - :math:`s` input
+     - dsmcFoam+ before the fix
+     - dsmcFoam+
+     - SPARTA
+   * - diffuse
+     - 1
+     -
+     - 0.9992
+     - 1.0005
+   * - Maxwell :math:`f = 0.5`
+     - 0.5
+     -
+     - 0.4997
+     - 0.5006
+   * - CLL :math:`\sigma_t = 0.5`
+     - 0.5
+     - **0.7502**
+     - 0.5000
+     - **0.9986**
+   * - CLL :math:`\sigma_t = 0.2`, :math:`\alpha_n = 0.5`
+     - 0.2
+     - **0.3597**
+     - 0.1996
+     - **0.9998**
+
+The former CLL wall applied the kernel to the laboratory velocity
+and added :math:`\alpha_t U_w`, so a moving wall accommodated
+:math:`\alpha_t = \sigma_t(2 - \sigma_t)` instead of
+:math:`\sigma_t`; the kernel now acts on the velocity relative to
+the wall. SPARTA's ``surf_collide cll ... translate`` adds the full
+wall velocity after a laboratory-frame kernel, so its partially
+accommodating moving CLL wall accommodates fully. PICLas 4.2.0 shows
+the same frame error on its Maxwell wall (MomentumACC 0.5 gives
+:math:`s` = 0.9999, ratio 2.000).
+
+Radiative equilibrium (V5)
+--------------------------
+
+A drifting Maxwellian (:math:`n = 10^{19}` m\ :sup:`-3`, 300 K)
+strikes a plate; the reference is the root of
+:math:`\varepsilon\sigma T_w^4 = q_{in} - \Gamma(2kT_w + e_{int}(T_w))`.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 25 25 10
+
+   * - Gas, :math:`U`, :math:`\varepsilon`
+     - :math:`T_w` analytic [K]
+     - :math:`T_w` DSMC [K]
+     - Error
+   * - Ar, 7 km/s, 0.1 / 0.3 / 0.6 / 1.0
+     - 2100.7 / 1599.7 / 1346.6 / 1186.0
+     - 2100.7 / 1599.7 / 1346.7 / 1186.0
+     - ≤ 0.01 %
+   * - Ar, 3 and 5 km/s, 0.8
+     - 662.1, 972.9
+     - 662.1, 972.9
+     - 0.00 %
+   * - N\ :sub:`2`, 7 km/s, 0.1 / 1.0
+     - 1904.4 / 1081.2
+     - 1904.1 / 1081.1
+     - -0.01 %
+   * - N\ :sub:`2`, 3 km/s, 0.8
+     - 602.1
+     - 602.3
+     - +0.03 %
+
+Sinks, quenching, outgassing and pumping (V4, V6-V8, V11)
+---------------------------------------------------------
+
+A face that removes or quenches a molecule with probability
+:math:`\alpha` drains the gas of the diffuse cube at
+:math:`k = c(\alpha)\,\alpha\nu`, with :math:`\nu = \bar c A/(4V)`
+and :math:`c(\alpha)` from an independent test-particle Monte Carlo
+of the same cube (1.0002, 1.0015, 1.0031, 1.0110 at
+:math:`\alpha` = 0.01, 0.02, 0.03, 0.1, each :math:`\pm 0.0005`).
+
+.. list-table::
+   :header-rows: 1
+   :widths: 55 45
+
+   * - Test
+     - Result
+   * - Electronic quenching, :math:`\alpha_E` = 0.01 / 0.03 / 0.1
+     - :math:`k/k_{ref}` = 1.0051 / 0.9971 / 0.9934
+   * - Vibrational deactivation, :math:`\alpha_V` = 0.01 / 0.03 / 0.1
+     - 0.9912 / 1.0013 / 0.9994
+   * - Outgassing into a closed box (N\ :sub:`2`)
+     - :math:`N(t) = \dot m A t/m` to +0.04 %
+   * - Blowing into an open channel (Ar, :math:`U_b` = 0, 300,
+       1000 m/s)
+     - exact transit inventory to about 1 %
+   * - Constant-:math:`\alpha` pump (Ar)
+     - 1.0025 (:math:`\alpha` = 0.02), 1.0013 (0.1)
+   * - Pumping-speed mode
+     - decay at :math:`S/V`: 1.0074 (statistical error 0.45 %)
+   * - Vacuum chamber, outgassing against a PI pump (target 0.02 Pa)
+     - :math:`\langle p_{wall} \rangle` = 0.01997 Pa (-0.14 %),
+       captured/emitted = 1.0013
+   * - ``srAbsorption`` (H\ :sub:`2`\ O cryopanel)
+     - 0.9969 (:math:`\beta` = 0.02), 0.9995 (0.1); 1.0019 on the
+       ablating wall
+   * - ``srNeutralisation`` (N\ :sub:`2`\ :sup:`+` → N\ :sub:`2`,
+       :math:`\phi` = 4.5 eV)
+     - every event releases IP(N\ :sub:`2`) - :math:`\phi` =
+       11.081 eV; wall share = :math:`\beta_{acc}` (1.000, 0.500);
+       decay 0.9958 (0.02), 0.9988 (0.1)
+
+PICLas 4.2.0 twins (one hexahedral cell) give
+:math:`T_w` = 2100.66 / 1185.99 K against 2100.72 / 1186.02 K
+(ratio 0.99997), Fourier 1.0004 / 1.0014 / 1.0004, quenching
+0.995-0.999, pump 1.0004 and outgassing 1.0000.
+
+Coverage kinetics (V10)
+-----------------------
+
+The coverage :math:`\theta(t)` printed by the coverage wall is
+compared with the mean-field rate equations including the
+depletion of the gas inventory (these checks were repeated through
+the finite-rate engine in :doc:`b3_ps_integration`).
+
+.. figure:: ../../_static/figures/gsi/gsi_chem_verification.png
+   :width: 100%
+   :align: center
+
+   Surface chemistry against its references: (a) Park oxidation
+   efficiency, (b) catalytic :math:`\gamma(T_w)` for RCC and
+   SiO\ :sub:`2`, (c) Langmuir adsorption and desorption,
+   (d) activated sticking, (e) collision-induced desorption,
+   (f) second-order Langmuir-Hinshelwood, (g) Eley-Rideal,
+   (h) ion neutralisation energy and wall share.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 55 45
+
+   * - Process
+     - Agreement
+   * - Langmuir adsorption + Polanyi-Wigner desorption
+       (:math:`\theta_{eq} \approx 0.5`)
+     - rms :math:`\Delta\theta` = 0.009
+   * - Activated sticking :math:`S_0 e^{-600/T_w}` at 300 / 600 /
+       1200 K
+     - fitted :math:`S_0`: 0.971, 0.993, 1.036 of the analytic value
+   * - Collision-induced desorption Ar(g) + O(s) → Ar + O(g)
+     - rms :math:`\Delta\theta` = 0.005
+   * - Second-order Langmuir-Hinshelwood,
+       :math:`\theta_0/(1 + 2k\theta_0 t)`
+     - exact (deterministic step)
+   * - Eley-Rideal CO(g) + O(s) → CO\ :sub:`2`\ (g)
+     - rms :math:`\Delta\theta` = 0.007
+
+Reproduce
+---------
+
+Cases and scripts are in ``run/GSI/boundaryConditions/<test>/``
+(``accommodation``, ``twoPlate``, ``quenching``,
+``radiativeEquilibrium``, ``outgassingPump``, ``coverageKinetics``,
+``ionAbsorption``), one ``run_*.py`` per test: ``run`` generates and
+runs the cases, ``analyse`` prints the comparison. The decay
+reference is ``tools/cube_decay_mc.py`` and ``tools/decay.py``; the
+SPARTA twins are in ``twoPlate/sparta/`` and the PICLas inputs in
+``piclas/``. The figures are drawn by
+``run/GSI/boundaryConditions/figures/fig_gsi_bc.py`` and
+``fig_gsi_chem.py``. Full note:
+``docs/Development/Verification/gsi/boundary_conditions.md``.

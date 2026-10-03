@@ -1,0 +1,136 @@
+B6: production surface mechanisms
+=================================
+
+**Verified (stage B6a):** two production mechanisms written as native
+``surfaceMechanisms`` entries, the air-carbon ablation (ACA) model of
+Prata, Schwartzentruber and Minton [PR22_gsi]_ (20 reactions: 13 GS,
+7 PS) and the O-carbon model of Swaminathan-Gopalan et al.
+[SGC18_gsi]_ (6 GS, 3 PS), together with in-repository Python oracles
+of both models. **Against:** the model curves of the papers,
+extracted from the journal PDFs (PR22: the vector paths of Figs 1-9;
+SGC18: the markers of Figs 8 and 9), and the oracles' own
+:math:`k(T)` for the parser check. No C++ was changed in this stage;
+the DSMC reactor comparison (B6b) is open.
+
+ACA (PR22)
+----------
+
+The oracle is PR22 as written: Table 1, one site set
+(:math:`B` = 10\ :sup:`-5` mol m\ :sup:`-2`), the 44 277 K O(s)
+desorption energy, like-pair LH events at the rate
+:math:`k[X]^2` with two adsorbates removed per event, and
+:math:`T_{gas} = T_s`.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 38 38 24
+
+   * - PR22 figure
+     - Gas state that reproduces it
+     - Max deviation
+   * - Fig. 1, molecular beam: CO, CO\ :sub:`2`, O\ :sub:`2`, O
+       (800-2400 K)
+     - :math:`P_O` = 2.4e-2 Pa at :math:`T_{gas} = T`
+     - 4e-4
+   * - Fig. 2, coverages
+     - same
+     - 0.5 %
+   * - Fig. 3, 5400 Pa
+     - :math:`P_O` = 5400 Pa, :math:`T_{gas} = T`
+     - 3e-4
+   * - Fig. 4a, curve labelled "475 Pa"
+     - :math:`P_O` = 1600 Pa
+     - 2e-4
+   * - Figs 5 and 6, N atoms: N\ :sub:`2`, CN
+     - :math:`P_N` = 2.4e-2 Pa or 1600 Pa
+     - N\ :sub:`2` 0.3 %, CN 2.8 % (MB, 850 K), 0.5 % (1600 Pa)
+   * - Fig. 8b/c, CO for pure O and O/N mixtures
+     - :math:`P_O = P_N = P`, :math:`T_{gas} = T`
+     - 7e-4
+
+Two molecular-beam conventions appear in the paper (Fig. 1 at fixed
+pressure and :math:`T_{gas} = T_s`; Figs 3, 4, 8a and 9 with the
+concentration at 1000 K), and each figure reproduces only with its
+own. Not reproduced, and left open without tuning: the O(s)
+desorption knee of the "[G] at 1000 K" figures (up to 0.0125 in
+probability near 1400 K), and Fig. 7 (O\ :sub:`2` reactivity), whose
+paper/oracle ratio is :math:`\sqrt 2` at 4 Pa and grows to 1.84 at
+6.79e-6 Pa and 2400 K. The transients end on the closed-form steady
+state to 10\ :sup:`-15`.
+
+.. figure:: ../../_static/figures/gsi/b6_aca_oxygen.png
+   :width: 90%
+   :align: center
+
+   PR22 Figs 1-3: oracle (black lines) against the PR22 model curves
+   (open symbols, every second 50 K node).
+
+.. figure:: ../../_static/figures/gsi/b6_aca_nitrogen_o2_mix.png
+   :width: 90%
+   :align: center
+
+   Panels: (a) Fig. 5, N atoms; (b) Fig. 7, O\ :sub:`2` reactivity (not
+   reproduced); (c) Fig. 8b, pure O and O/N mixtures at 1600 Pa;
+   (d) Fig. 4a: the curve labelled "475 Pa" is the oracle at
+   1600 Pa, the dotted line the oracle at 475 Pa.
+
+SGC18
+-----
+
+Interpretations (stated in the mechanism file): O' is the total
+O-containing coverage; :math:`P_{ads}` = 0.85 is constant, the branch
+being drawn with weight :math:`w_i/\sum w` given adsorption (SG25
+two-level scheme [SG25_gsi]_); no site limit in the mean field.
+
+* **Imposed coverage.** At each temperature :math:`\theta'` is
+  inferred from the Fig. 9 model O fraction and the six-channel split
+  is predicted: it reproduces Fig. 8 to the reading precision of the
+  data, 0.02-0.04 (largest deviation 0.038, slow CO{b} at 900 K).
+* **Continuous beam.** No constant flux reproduces the pulsed-beam
+  numbers of Fig. 9 over 740-1876 K; 2e18 m\ :sup:`-2` s\ :sup:`-1`
+  follows Fig. 9 within 0.04 from 740 to 1400 K. A Langmuir reading
+  of the adsorption entry was tested and rejected (smallest
+  :math:`x_O` 0.562 at 740 K against 0.244 in the paper).
+
+.. figure:: ../../_static/figures/gsi/b6_sgc18.png
+   :width: 90%
+   :align: center
+
+   Panels: (a, b) Channel mole fractions predicted at the inferred coverage
+   (lines) against the SGC18 Fig. 8 data (symbols); (c) total
+   coverage inferred from Fig. 9 against continuous-beam steady
+   states at three fluxes; (d) continuous-beam O mole fraction
+   against the SGC18 pulsed-beam DSMC.
+
+Mechanism files and parser check
+--------------------------------
+
+``mechanisms/acaPR22`` (``normalisation sparta``, ``stoichiometry
+power``, GS reactions in the efficiency form, the spectator rows 3,
+7, 12, 17 and 20 marked ``spectator true``) and
+``mechanisms/oCarbonSGC18`` (``normalisation sg25``,
+:math:`\Phi` = 3.5e19 m\ :sup:`-2`, TD products with the ``td``
+kernel). One dsmcFoam step on a one-cell box whose six faces are
+mechanism-mode coverage walls (ACA at 800, 1500, 2400 K; SGC18 at
+700, 1000, 1875 K): **87/87 reaction-temperature rows PASS, largest
+relative difference of** :math:`k(T)` **4.7e-10** (the ten
+significant digits of the dictionary coefficients). The check passes
+again with the computed reaction heats of B5a.
+
+Open for the DSMC stage (B6b): engine support for the PR22 spectator
+channels (their per-impact sums of 1.25-1.93 are renormalised by the
+``sparta`` normalisation, so the ACA file is not yet for
+production), and the SGC18 impulsive-scattering and TD-barrier
+parameters, which are not in the paper (placeholders in the parser
+check).
+
+Reproduce
+---------
+
+``run/GSI/B6_mechanisms/``: ``oracle/aca.py`` and ``oracle/sgc18.py``
+(``python3 aca.py`` and ``python3 sgc18.py`` rerun the reproductions;
+tables in ``oracle/results/``), ``oracle/paper_data/*.json`` (the
+extracted paper values), ``mechanisms/``, ``parseTest/``
+(``run_parse.sh``, ``parse_check.py``). Note:
+``docs/Development/Verification/gsi/b6_mechanisms.md``; sources
+digest: ``docs/References/GSI_MECHANISM_SOURCES.md``.

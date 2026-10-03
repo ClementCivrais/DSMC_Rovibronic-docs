@@ -1,0 +1,255 @@
+B4: scattering kernels and the exact internal-state sampler
+===========================================================
+
+**Verified:** the exact O(1) sampler of the diatomic rovibronic
+state at a temperature (Vose alias tables at temperature nodes with
+an exact acceptance correction), its conditional and two-temperature
+draws, and the SPARTA scattering kernels ``td``, ``impulsive``,
+``cll`` (with ``partial``) and ``adiabatic`` for walls and reaction
+products. **Against:** the exact Boltzmann populations over the
+allowed levels, SPARTA's ``examples/surf_collide`` beams one-to-one,
+and the analytic marginals of the product kernels.
+
+Sampler
+-------
+
+Temperature nodes :math:`T_m = 10\,\mathrm{K}\times 1.15^m`
+(:math:`m` = 0..79, up to 6.2e5 K); a query at :math:`T` uses the
+smallest node :math:`T_m \ge T`. One draw takes a column and an alias
+test from one uniform number and accepts the level with probability
+:math:`\exp[-(E_l - E_{min})(1/kT - 1/kT_m)] \le 1`, so the accepted
+level is exactly Boltzmann at :math:`T` (mean acceptance at least
+:math:`1.15^{-d/2}`). Tables are built lazily per (species, level
+range, node).
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 15 35
+
+   * - Test
+     - Draws
+     - Result
+   * - O\ :sub:`2`, N\ :sub:`2`, NO, CO at 100-10 000 K plus three
+       two-temperature pairs (32 files)
+     - 1e7 each
+     - :math:`\chi^2`/dof 0.69-1.61, mean 1.04; max :math:`|z|` 3.45
+       over about 60 000 levels
+   * - Same, spin conserved (16 files)
+     - 1e7 each
+     - :math:`\chi^2`/dof 0.88-1.48; 0 counts in spin-forbidden
+       manifolds
+   * - High statistics: O\ :sub:`2` at 100 K, and (300, 100) K
+     - 1e9
+     - :math:`\chi^2`/dof 0.535 and 1.009; max :math:`|z|` 1.35,
+       relative error below 1.5e-4
+
+.. figure:: ../../_static/figures/gsi/b4_sampler_populations.png
+   :width: 90%
+   :align: center
+
+   O\ :sub:`2` vibrational and rotational marginals, 10\ :sup:`7`
+   draws per temperature (red markers with Poisson errors) against
+   the exact Boltzmann distribution (black lines).
+
+.. figure:: ../../_static/figures/gsi/b4_sampler_twoT.png
+   :width: 90%
+   :align: center
+
+   Two-temperature draw against the product distribution
+   :math:`P_{T_{vib}}(n, v)\,P_{T_{rot}}(J \mid n, v)`, O\ :sub:`2`,
+   10\ :sup:`7` draws per pair.
+
+.. list-table:: Cost per draw, one core
+   :header-rows: 1
+   :widths: 30 25 25 20
+
+   * - Species (levels)
+     - alias [ns]
+     - former rejection [µs]
+     - speed-up
+   * - O\ :sub:`2` (17 389)
+     - 104-116
+     - 126-339
+     - 1 100-3 200
+   * - N\ :sub:`2` (45 184)
+     - 136-147
+     - 330-801
+     - 2 200-5 700
+   * - NO (15 971)
+     - 104-187
+     - 116-505
+     - 1 000-4 800
+   * - CO (45 521)
+     - 142-151
+     - 587-845
+     - 3 900-5 700
+
+After the review the node constants are precomputed and a draw costs
+75-121 ns. On a free-molecular cube with diffuse walls (12 000-13 000
+impacts per step) the internal-state draw costs about 0.6 µs
+(O\ :sub:`2`) and 0.2 µs (N\ :sub:`2`) per impact against 190 µs and
+383 µs before: a diffuse wall now costs about as much as a specular
+one (whole-run speed-up 75 and 168).
+
+.. figure:: ../../_static/figures/gsi/b4_sampler_speed.png
+   :width: 55%
+   :align: center
+
+   Cost per draw against temperature: former rejection sampler
+   (black dashed, open markers) and alias sampler (red).
+
+Regression: the B1 radiative-equilibrium plates give the same wall
+temperature (1081.225-1081.247 K, root 1081.24 K); per-mode
+accommodation of O\ :sub:`2` with :math:`\alpha_R = 0.5` gives
+0.5000 :math:`\pm` 0.0010 over five seeds.
+
+Kernels against SPARTA
+----------------------
+
+The geometry of ``examples/surf_collide/in.beam.*``: N/O 80/20 at
+(0, 1000, -1000) m/s, 10\ :sup:`-4` K, no gas collisions, the beam
+replaced by one burst of about 1.008e6 particles so that every
+scattered particle is captured once (0 unscattered, 0 lost in every
+run of both codes). The SPARTA kernel lines are imported through the
+GS-file translation.
+
+.. list-table:: Ratios ours/SPARTA of the mean normal (En) and
+   tangential (Et) energies, and the two-sample :math:`\chi^2` of
+   the 2-D (:math:`\theta`, :math:`|v|`) histogram
+   :header-rows: 1
+   :widths: 40 15 15 15 15
+
+   * - Variant (SPARTA arguments)
+     - N: En
+     - N: Et
+     - N: :math:`\chi^2`/dof (p)
+     - O: En
+   * - ``diffuse 300 0.5``
+     - 1.0007 :math:`\pm` 0.0009
+     - 0.9992 :math:`\pm` 0.0009
+     - 1.025 (0.28)
+     - 0.9966 :math:`\pm` 0.0020
+   * - ``adiabatic``
+     - 0.9991 :math:`\pm` 0.0009
+     - 1.0009 :math:`\pm` 0.0009
+     - speed :math:`\delta`
+     - 0.9994 :math:`\pm` 0.0018
+   * - ``td 1000 barrier 1000 bond 500 0 0 initenergy 0.01 0 0``
+     - 0.9976 :math:`\pm` 0.0016
+     - 0.9991 :math:`\pm` 0.0016
+     - 0.944 (0.90)
+     - 0.9965 :math:`\pm` 0.0031
+   * - ``impulsive 1000 softsphere 0.2 50 2000 60 5 75``
+     - 0.9997 :math:`\pm` 0.0021
+     - 1.0036 :math:`\pm` 0.0016
+     - 1.026 (0.28)
+     - 1.0026 :math:`\pm` 0.0041
+   * - ``impulsive 1000 tempvar 3 500 2000 60 5 75``
+     - 1.0022 :math:`\pm` 0.0017
+     - 1.0017 :math:`\pm` 0.0010
+     - 1.011 (0.40)
+     - 1.0016 :math:`\pm` 0.0034
+   * - ``cll 300 0.8 0.8 0.8 0.8``
+     - 0.9986 :math:`\pm` 0.0014
+     - 1.0004 :math:`\pm` 0.0014
+     - 1.013 (0.37)
+     - 0.9972 :math:`\pm` 0.0028
+   * - ``cll ... partial 0.5``
+     - 0.9985 :math:`\pm` 0.0015
+     - 0.9997 :math:`\pm` 0.0015
+     - 0.949 (0.89)
+     - 0.9986 :math:`\pm` 0.0029
+
+All 52 non-degenerate energy ratios of the campaign (normal and
+tangential, N and O) are within 0.7 % of 1, with mean :math:`z^2` 1.06. After
+the review fixes, the impulsive and CLL variants give 24 ratios
+within 0.8 % of 1, and every impulsive run of both codes agrees with
+the kernel's exact second moments (ours: 60 values, mean :math:`z^2`
+1.09).
+
+.. figure:: ../../_static/figures/gsi/b4_beam_td.png
+   :width: 100%
+   :align: center
+
+   Scattered N beam, ``td`` variants: polar angle from the plate
+   normal (top) and speed (bottom); SPARTA as a black step line,
+   dsmcFoam+ as red markers with Poisson errors, and the ratio.
+
+.. figure:: ../../_static/figures/gsi/b4_beam_impulsive.png
+   :width: 90%
+   :align: center
+
+   As above, ``impulsive`` variants (re-runs after the review fixes).
+
+.. figure:: ../../_static/figures/gsi/b4_beam_cll_adiabatic.png
+   :width: 90%
+   :align: center
+
+   As above, ``cll`` and ``adiabatic`` variants.
+
+Products of a finite-rate reaction
+----------------------------------
+
+The burst beam with the reaction N(g) → N(g) of probability 1, its
+product kernel under test (about 2.0e5 N products per case), against
+the analytic marginals (Rayleigh laws of the ``td`` kernel; lobes and
+speed law of the ``impulsive`` kernel):
+
+.. list-table::
+   :header-rows: 1
+   :widths: 45 15 20 20
+
+   * - Product kernel
+     - Quantity
+     - :math:`\chi^2`/dof (dof, p)
+     - mean ratio
+   * - ``td 1000 barrier 1000 bond 500 0 0 initenergy 0.01 0 0``
+     - :math:`v_n`
+     - 0.743 (39, 0.88)
+     - 0.9990
+   * -
+     - :math:`|v_t|`
+     - 1.298 (39, 0.10)
+     - 1.0030
+   * - ``impulsive 1000 softsphere 0.2 50 2000 60 5 75 double 10``
+     - :math:`\theta`
+     - 0.994 (38, 0.48)
+     - 1.0003
+   * -
+     - :math:`|v|`
+     - 1.131 (39, 0.26)
+     - 0.9991
+
+.. figure:: ../../_static/figures/gsi/b4_products.png
+   :width: 100%
+   :align: center
+
+   Product velocity distributions against the kernel's analytic
+   marginals (re-run after the review fixes).
+
+Differences from SPARTA
+-----------------------
+
+* Discrete levels: SPARTA draws continuous rotational and
+  vibrational energies, dsmcFoam+ discrete levels (``td`` draws them
+  from the two-temperature Boltzmann distribution; ``impulsive
+  intenergy`` takes the highest level not above the new energy by
+  bisection, O(log N)).
+* The soft-sphere ``impulsive`` kernel guards the two cases where
+  SPARTA returns NaN velocities (a clamp of the mean final energy,
+  counted and printed).
+* The ``cll`` internal accommodation is a per-mode partial
+  accommodation at :math:`T` (Gibbs moves of the Boltzmann
+  distribution, so detailed balance holds); a
+  ``maintainOddEvenParity`` species keeps the parity of :math:`J`.
+
+Reproduce
+---------
+
+``run/GSI/B4_kernels/``: ``sampler/`` (``app/dsmcLevelSamplerTest.C``,
+``run_sampler.sh``, ``analyse_sampler.py``), ``perf/run_perf.py``,
+``beam/`` (``run_beam.py``, ``compare_beam.py``,
+``angular_oracle.py``, ``oracle_products.py``, ``moment_oracle.py``),
+``parseTest/``, ``kernelChecks/``, ``regression/``; figures by
+``plot_sampler.py``. Note:
+``docs/Development/Verification/gsi/b4_kernels_sampler.md``.

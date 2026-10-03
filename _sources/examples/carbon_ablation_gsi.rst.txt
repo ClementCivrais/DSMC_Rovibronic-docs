@@ -19,7 +19,7 @@ Theoretical basis
 * :doc:`../classes/boundaries` —  the reactive-wall classes
   (``dsmcCatalyticWallPatch``, ``dsmcAblatingWallPatch``,
   ``dsmcCoverageWallPatch``) and the surface-reaction dictionary
-  format.
+  format; :doc:`../guide/input_reference` lists every keyword.
 
 The reaction set comprises the Park oxidation
 :math:`\mathrm{O} + \mathrm{C(s)} \to \mathrm{CO}`
@@ -42,6 +42,17 @@ Validation goals
    correct number of solid carbon atoms from the per-face ledger,
    and the emitted CO / CO products must conserve atoms.
 
+Verification
+------------
+
+The realised oxidation efficiency, the Mars and Earth ablator
+cases and the catalysis variants are reported in
+:doc:`../reference/gsi_verification/probability_chemistry`. The
+finite-rate (coverage-resolved) alternative to the per-impact
+probabilities, including production air-carbon mechanisms, is
+described in :doc:`../theory/wall_models` and verified in
+:doc:`../reference/gsi_verification/index`.
+
 Related GSI cases
 -----------------
 
@@ -51,8 +62,12 @@ The GSI suite under ``run/GSI/`` also includes ``parkOxidation``
 ``catalysisKisliuk`` (precursor-mediated sticking),
 ``catalysisEnergy`` (recombination-energy accommodation),
 ``earthAblation`` and ``titanAblation`` (nitridation). The
-immersed-level-set surface recession on an STL geometry is
-demonstrated by ``run/3D/stlCapsule``.
+immersed ablating surfaces (implicit and explicit, against SPARTA)
+are in ``run/GSI/ablationShape`` (the earlier level-set recession on
+an STL capsule in ``run/3D/stlCapsule``), the verification blocks in
+``run/GSI/`` (``B1_wallTemperature``, ``B2_finiteRate``, ``B3_psIntegration``, ``B4_kernels``,
+``B5_recession``, ``B6_mechanisms``) and the conjugate solid in
+``run/GSI/conjugateMelt``.
 
 Running the case
 ----------------

@@ -23,7 +23,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Data provenance and modelling approaches" href="modeling_approaches.html" />
+    <link rel="next" title="Gas-surface interaction verification" href="gsi_verification/index.html" />
     <link rel="prev" title="About" href="about.html" /> 
 </head>
 
@@ -92,7 +92,16 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#hcao-local-mode-reaction-models">HCAO local-mode reaction models</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#gas-surface-interaction-dictionaries">Gas-surface interaction dictionaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#gas-surface-interaction-dictionaries">Gas-surface interaction dictionaries</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#wall-temperature-every-re-emitting-wall">Wall temperature (every re-emitting wall)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#scattering-and-sink-walls">Scattering and sink walls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#probability-mode-reactive-walls">Probability-mode reactive walls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#scattering-kernels">Scattering kernels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#immersed-surface">Immersed surface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
 </ul>
 </li>
@@ -242,24 +251,28 @@
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#fully-diffuse-reflection">Fully diffuse reflection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#mixed-diffuse-specular">Mixed diffuse / specular</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#cercignani-lampis-lord-cll-scattering">Cercignani-Lampis-Lord (CLL) scattering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#per-mode-accommodation-radiative-equilibrium-outgassing-and-pumps">Per-mode accommodation, radiative equilibrium, outgassing and pumps</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#rovibronic-aware-wall-dsmcmixeddiffusespecularwallrotpatch">Rovibronic-aware wall: <code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#free-stream-inflow">Free-stream inflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#chapman-enskog-inflow">Chapman-Enskog inflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#pressure-and-mass-flow-inlets">Pressure and mass-flow inlets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#particle-deletion">Particle deletion</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#cyclic-boundaries">Cyclic boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#gas-surface-interaction-framework">Gas-surface interaction framework</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#per-face-wall-temperature">Per-face wall temperature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#probability-mode-surface-reactions">Probability-mode surface reactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#finite-rate-gas-surface-engine">Finite-rate gas-surface engine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#pure-surface-integration">Pure-surface integration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#wall-kernels-and-the-exact-internal-state-sampler">Wall kernels and the exact internal-state sampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#reaction-heat-and-chemistry-driven-recession">Reaction heat and chemistry-driven recession</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#immersed-ablating-surfaces">Immersed ablating surfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#multi-region-conjugate-solid">Multi-region conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#production-mechanisms">Production mechanisms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#pato-loose-coupling">PATO loose coupling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#planned">Planned</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#references">References</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../theory/wall_models.html#gas-surface-interaction-catalysis-and-ablation">Gas-surface interaction (catalysis and ablation)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#finite-rate-surface-reactions">Finite-rate surface reactions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#carbon-ablation">Carbon ablation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#finite-rate-catalysis-with-gamma-t">Finite-rate catalysis with <span class="math notranslate nohighlight">\(\gamma(T)\)</span></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#coverage-chemistry">Coverage chemistry</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#vapour-pressure-sublimation-and-the-surface-energy-balance">Vapour-pressure sublimation and the surface energy balance</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../theory/wall_models.html#surface-recession">Surface recession</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#pato-loose-coupling">PATO loose coupling</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/macroscopic_properties.html">Macroscopic properties</a><ul>
@@ -644,6 +657,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/carbon_ablation_gsi.html">Carbon ablation on a heat shield (Mars)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#theoretical-basis">Theoretical basis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#verification">Verification</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#related-gsi-cases">Related GSI cases</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#running-the-case">Running the case</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#expected-results">Expected results</a></li>
@@ -669,7 +683,29 @@
 <li class="toctree-l3"><a class="reference internal" href="#two-temperature-recombination-and-three-body-channel">Two-temperature recombination and three-body channel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#heats-of-reaction">Heats of reaction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#shock-profiles">Shock profiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gas-surface-interaction">Gas-surface interaction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#outstanding-items">Outstanding items</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gsi_verification/index.html">Gas-surface interaction verification</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gsi_verification/index.html#conventions">Conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gsi_verification/index.html#cost">Cost</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gsi_verification/boundary_conditions.html">Wall models and surface processes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsi_verification/probability_chemistry.html">Probability-based catalysis and carbon ablation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsi_verification/b0_correctness.html">B0: correctness of the surface state</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsi_verification/b1_wall_temperature.html">B1: per-face wall temperature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsi_verification/b2_finite_rate_gs.html">B2: finite-rate gas-surface engine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsi_verification/b3_ps_integration.html">B3: pure-surface integration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsi_verification/b4_kernels_sampler.html">B4: scattering kernels and the exact internal-state sampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsi_verification/b5_recession.html">B5a: reaction heats and chemistry-driven recession</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsi_verification/b5b_immersed_chemistry.html">B5b: surface chemistry on the immersed surface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsi_verification/b6_mechanisms.html">B6: production surface mechanisms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsi_verification/immersed_surface.html">Immersed ablating surface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsi_verification/conjugate_solid.html">Conjugate solid: conduction, melting, film and droplets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gsi_verification/b8_conjugate_multiregion.html">B8: multi-region conjugate solid</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gsi_verification/index.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="modeling_approaches.html">Data provenance and modelling approaches</a><ul>
@@ -685,6 +721,7 @@
 <li class="toctree-l2"><a class="reference internal" href="bibliography.html">Bibliography</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="bibliography.html#foundational-dsmc-literature">Foundational DSMC literature</a></li>
 <li class="toctree-l3"><a class="reference internal" href="bibliography.html#polyatomic-relaxation-and-gas-surface-modelling">Polyatomic, relaxation and gas-surface modelling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bibliography.html#gas-surface-interaction">Gas-surface interaction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="bibliography.html#the-dsmcfoam-lineage">The dsmcFoam+ lineage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="bibliography.html#publications-associated-with-the-rovibronic-extension">Publications associated with the rovibronic extension</a></li>
 <li class="toctree-l3"><a class="reference internal" href="bibliography.html#in-repository-derivations-and-notes">In-repository derivations and notes</a></li>
@@ -873,6 +910,17 @@ Park and Macheret reference data, as published in
 collision or chemistry modules is the recommended next-level
 validation beyond the heat-bath test.</p>
 </section>
+<section id="gas-surface-interaction">
+<h2>Gas-surface interaction<a class="headerlink" href="#gas-surface-interaction" title="Link to this heading"></a></h2>
+<p>The wall models and the gas-surface interaction framework (per-face
+wall temperature, probability-based and finite-rate surface
+chemistry, pure-surface integration, scattering kernels and the
+exact internal-state sampler, reaction heats, receding body-fitted
+and immersed surfaces, and the conjugate solid of
+<code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>) are verified against analytic oracles, SPARTA,
+PICLas and published cases in
+<a class="reference internal" href="gsi_verification/index.html"><span class="doc">Gas-surface interaction verification</span></a>.</p>
+</section>
 <section id="outstanding-items">
 <h2>Outstanding items<a class="headerlink" href="#outstanding-items" title="Link to this heading"></a></h2>
 <ul class="simple">
@@ -899,7 +947,7 @@ imperfect gases.”</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="about.html" class="btn btn-neutral float-left" title="About" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="modeling_approaches.html" class="btn btn-neutral float-right" title="Data provenance and modelling approaches" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="gsi_verification/index.html" class="btn btn-neutral float-right" title="Gas-surface interaction verification" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

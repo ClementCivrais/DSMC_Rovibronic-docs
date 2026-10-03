@@ -1,0 +1,202 @@
+B5a: reaction heats and chemistry-driven recession
+==================================================
+
+**Verified:** every gas-surface (GS) and pure-surface (PS) event of
+the finite-rate engine releases its 0 K heat of reaction
+
+.. math::
+
+   \Delta E = \sum h_f(\text{reactants}) - \sum h_f(\text{products}),
+
+computed from the formation enthalpies of the frozen species
+database; the coverage wall recedes from the bulk ledger of its
+surface state, on the moving body-fitted mesh of
+``dsmcFoamAblation`` and on the conjugate solid; the ablating wall
+splits the recombination energy with the gas as the catalytic wall
+does. **Against:** hand values from the raw database sources, exact
+energy and atom ledgers, and the exact solution of the 0-D rate
+equations.
+
+Reaction heats
+--------------
+
+Gas neutrals take the database formation enthalpy; an ion its
+neutral plus the ionisation potential; a bulk element 0 (graphite:
+:math:`h_f(\mathrm{C, gas})` = 711.749985 kJ/mol); an adsorbate
+:math:`h_f(\text{gas}) - kE_a` of its desorption, else its
+``bindingEnergy``. An independent oracle computes every
+:math:`h_f` from the raw sources (ATcT rows and the ground-term
+offsets of the frozen database):
+
+.. list-table:: 19 reactions, DSMC against hand values [kJ/mol]
+   (selection)
+   :header-rows: 1
+   :widths: 50 25 25
+
+   * - Reaction
+     - DSMC
+     - hand
+   * - gs ``O(g) --> O(s)``
+     - 249.434447
+     - 249.433879
+   * - gs ``O(g) + C(b) --> CO(g)``
+     - 361.576784
+     - 361.576784
+   * - gs ``O2(g) + C(b) --> CO(g) + O(g)``
+     - -133.976784
+     - -133.976784
+   * - gs ``CO2(g) + C(b) --> 2CO(g)``
+     - -165.510000
+     - -165.510000
+   * - gs ``N(g) + C(b) --> CN(g)``
+     - 33.847000
+     - 33.847000
+   * - gs ``C3(g) --> 3C(b)``
+     - 814.180000
+     - 814.180000
+   * - gs ``O+(g) --> O(g)``
+     - 1313.009768
+     - 1313.009764
+   * - gs ``Ar+(g) --> Ar(g)``
+     - 1526.279904
+     - 1526.279898
+   * - ps ``2O(s) --> O2(g)``
+     - -3.315326
+     - -3.314189
+   * - ps ``C(b) --> C(g)``
+     - -711.749985
+     - -711.749985
+
+All 19 agree: neutrals, C(g) and the bulk channels to 1.6e-7
+kJ/mol, ions to 6e-6 kJ/mol, the reactions with an adsorbate or a
+unit conversion to 1.1e-3 kJ/mol (the relative 1.5-2.3e-6 difference
+between OpenFOAM's physical constants and CODATA 2018 of the oracle).
+
+.. figure:: ../../_static/figures/gsi/b5_heat_table.png
+   :width: 80%
+   :align: center
+
+   Heats of the 19 reactions in the dsmcFoam+ start-up table (red)
+   against the hand values from the frozen sources (black, top), and
+   their absolute difference in kJ/mol (bottom).
+
+Energy ledger closure
+---------------------
+
+Closed column of O and O\ :sub:`2` (5e21 m\ :sup:`-3` each,
+3000 K) above a coverage wall at 2000 K with a mixed mechanism (AA O,
+DA O\ :sub:`2`, ER, oxidation by O and O\ :sub:`2`; PS desorption,
+second-order LH, oxidation of O(s), sublimation), 2000 steps:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 25 25
+
+   * - Identity
+     - exponential
+     - stochastic
+   * - chemical-energy ledger against :math:`\sum \Delta E_r\,
+       N_r`
+     - 2.7e-14
+     - 4.9e-14
+   * - total energy (gas kinetic, internal and :math:`h_f`, adsorbed
+       and carried :math:`h_f`, wall heat :math:`q_{BF} + q_{chem}`),
+       relative to the wall heat
+     - 2.3e-14
+     - 9.5e-15
+   * - kinetic plus internal energy against the solver's "Total
+       energy"
+     - 1.8e-15
+     - 1.8e-15
+
+The ablating wall (O → O\ :sub:`2`, :math:`\gamma` = 0.3,
+:math:`\beta_{acc}` = 0.3 and 1) closes its own identity, gas plus
+wall energy changing by :math:`h_f(\mathrm{O})(N_{events} -
+N_{partners})`, to 5.5e-14 and 7.0e-14 of the wall heat.
+
+.. figure:: ../../_static/figures/gsi/b5_energy_closure.png
+   :width: 65%
+   :align: center
+
+   Change of each energy term over the run of the mixed GS/PS
+   closed case (kinetic, internal, :math:`h_f` of the gas, adsorbed
+   and carried, wall heat :math:`q_{BF} + q_{chem}`) for the
+   exponential and stochastic PS integrators; the total is zero to
+   round-off.
+
+0-D recession on the moving body-fitted wall
+--------------------------------------------
+
+O beam (10\ :sup:`20` m\ :sup:`-3`, 4000 m/s, 1000 K) onto a graphite
+plate at 2000 K with a linear mechanism (AA :math:`S_0` = 0.5, direct
+oxidation 0.05, desorption, oxidation of O(s), sublimation),
+``dsmcFoamAblation`` with ``ablationRecession { patch wall;
+accelerationFactor 1e6; }``. Oracle:
+:math:`\Phi\,d\theta/dt = F S_0(1 - \theta) - (k_d + k_o)\Phi\theta`,
+:math:`v_{rec} = m_C j_{C,ss}/\rho_s`, with the measured O impact
+flux :math:`F`.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 55 45
+
+   * - Quantity
+     - DSMC/exact
+   * - Steady recession velocity (second half)
+     - 0.99988
+   * - Coverage (after the end-of-step sampling factor 0.998507)
+     - 0.99971 :math:`\pm` 0.00015
+   * - Removed mass at 500 µs
+     - 0.99984
+   * - Wall points moved against :math:`10^6` times the ledger depth
+       (3.46e-4 m)
+     - 0.999998890206
+   * - Direct-oxidation probability
+     - 0.050016 (input 0.05)
+
+The measured flux is 7.2 % above the analytic beam flux :math:`nU`
+because the gas re-emitted by the wall builds up in the column; the
+oracle therefore takes the measured flux.
+
+.. figure:: ../../_static/figures/gsi/b5_recession.png
+   :width: 55%
+   :align: center
+
+   Coverage, recession depth and the ratio DSMC/exact of the moving
+   body-fitted wall against the exact solution of the rate
+   equations; the early deficit is the flux transient while the
+   re-emitted gas builds up.
+
+Conjugate run with a finite-rate wall
+-------------------------------------
+
+The B8 multi-region column with a coverage wall (same mechanism, the
+element temperature from the solid face) and a graphite-like slab
+(:math:`\rho` 1800, :math:`c_p` 710, :math:`k` 100, :math:`T_0`
+2000 K), 20 windows: the solid recession equals
+:math:`\sum_w v_{chem,w}\,t_{s,w}` to 1.3e-15 and the gas-side bulk
+ledger :math:`\times\, m_C/\rho_s` (scaled by the solid/gas window
+time) to 5.6e-15; the solid wall points move by the recession to
+1e-12; the region energy closure is :math:`\le` 2.0e-12 and the
+chemical ledger equals :math:`\sum \Delta E\,N` to 2.1e-13.
+
+.. figure:: ../../_static/figures/gsi/b5_conjugate.png
+   :width: 60%
+   :align: center
+
+   Finite-rate wall coupled to the conjugate solid: recession of the
+   solid region (ledger) against the gas-side bulk ledger
+   :math:`\times\,m_C/\rho_s` (top); wall temperature and wall heat
+   :math:`q_{BF} + q_{chem}` over the 20 windows (bottom).
+
+Reproduce
+---------
+
+``run/GSI/B5_recession/`` (``README.md``): ``heatTable/``
+(``run_table.sh``, ``oracle_dE.py``), ``energyClosure/``
+(``run_closure.sh``, ``run_ablating.sh``, ``closure.py``),
+``recession0D/`` (``make_recession.py``, ``oracle_recession.py``),
+``conjugate/`` (``make_conjugate.py``, ``analyse_conjugate.py``),
+``regression/``, ``reviewFixes/``; figures by ``plot_b5.py``.
+Formation enthalpies: ``docs/Development/gsi_specs/B5_formation_enthalpy_data.md``.
+Note: ``docs/Development/Verification/gsi/b5_recession.md``.

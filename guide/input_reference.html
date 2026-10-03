@@ -92,7 +92,16 @@
 <li class="toctree-l4"><a class="reference internal" href="#hcao-local-mode-reaction-models">HCAO local-mode reaction models</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#gas-surface-interaction-dictionaries">Gas-surface interaction dictionaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gas-surface-interaction-dictionaries">Gas-surface interaction dictionaries</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#wall-temperature-every-re-emitting-wall">Wall temperature (every re-emitting wall)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scattering-and-sink-walls">Scattering and sink walls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#probability-mode-reactive-walls">Probability-mode reactive walls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scattering-kernels">Scattering kernels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#immersed-surface">Immersed surface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
 </ul>
 </li>
@@ -242,24 +251,28 @@
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#fully-diffuse-reflection">Fully diffuse reflection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#mixed-diffuse-specular">Mixed diffuse / specular</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#cercignani-lampis-lord-cll-scattering">Cercignani-Lampis-Lord (CLL) scattering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#per-mode-accommodation-radiative-equilibrium-outgassing-and-pumps">Per-mode accommodation, radiative equilibrium, outgassing and pumps</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#rovibronic-aware-wall-dsmcmixeddiffusespecularwallrotpatch">Rovibronic-aware wall: <code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#free-stream-inflow">Free-stream inflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#chapman-enskog-inflow">Chapman-Enskog inflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#pressure-and-mass-flow-inlets">Pressure and mass-flow inlets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#particle-deletion">Particle deletion</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#cyclic-boundaries">Cyclic boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#gas-surface-interaction-framework">Gas-surface interaction framework</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#per-face-wall-temperature">Per-face wall temperature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#probability-mode-surface-reactions">Probability-mode surface reactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#finite-rate-gas-surface-engine">Finite-rate gas-surface engine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#pure-surface-integration">Pure-surface integration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#wall-kernels-and-the-exact-internal-state-sampler">Wall kernels and the exact internal-state sampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#reaction-heat-and-chemistry-driven-recession">Reaction heat and chemistry-driven recession</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#immersed-ablating-surfaces">Immersed ablating surfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#multi-region-conjugate-solid">Multi-region conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#production-mechanisms">Production mechanisms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#pato-loose-coupling">PATO loose coupling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#planned">Planned</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../theory/wall_models.html#references">References</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../theory/wall_models.html#gas-surface-interaction-catalysis-and-ablation">Gas-surface interaction (catalysis and ablation)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#finite-rate-surface-reactions">Finite-rate surface reactions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#carbon-ablation">Carbon ablation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#finite-rate-catalysis-with-gamma-t">Finite-rate catalysis with <span class="math notranslate nohighlight">\(\gamma(T)\)</span></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#coverage-chemistry">Coverage chemistry</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#vapour-pressure-sublimation-and-the-surface-energy-balance">Vapour-pressure sublimation and the surface energy balance</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../theory/wall_models.html#surface-recession">Surface recession</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../theory/wall_models.html#pato-loose-coupling">PATO loose coupling</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/macroscopic_properties.html">Macroscopic properties</a><ul>
@@ -644,6 +657,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/carbon_ablation_gsi.html">Carbon ablation on a heat shield (Mars)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#theoretical-basis">Theoretical basis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#validation-goals">Validation goals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#verification">Verification</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#related-gsi-cases">Related GSI cases</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#running-the-case">Running the case</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../examples/carbon_ablation_gsi.html#expected-results">Expected results</a></li>
@@ -669,7 +683,29 @@
 <li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#two-temperature-recombination-and-three-body-channel">Two-temperature recombination and three-body channel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#heats-of-reaction">Heats of reaction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#shock-profiles">Shock profiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#gas-surface-interaction">Gas-surface interaction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/validation.html#outstanding-items">Outstanding items</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/gsi_verification/index.html">Gas-surface interaction verification</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/gsi_verification/index.html#conventions">Conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/gsi_verification/index.html#cost">Cost</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/boundary_conditions.html">Wall models and surface processes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/probability_chemistry.html">Probability-based catalysis and carbon ablation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b0_correctness.html">B0: correctness of the surface state</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b1_wall_temperature.html">B1: per-face wall temperature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b2_finite_rate_gs.html">B2: finite-rate gas-surface engine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b3_ps_integration.html">B3: pure-surface integration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b4_kernels_sampler.html">B4: scattering kernels and the exact internal-state sampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b5_recession.html">B5a: reaction heats and chemistry-driven recession</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b5b_immersed_chemistry.html">B5b: surface chemistry on the immersed surface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b6_mechanisms.html">B6: production surface mechanisms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/immersed_surface.html">Immersed ablating surface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/conjugate_solid.html">Conjugate solid: conduction, melting, film and droplets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b8_conjugate_multiregion.html">B8: multi-region conjugate solid</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/gsi_verification/index.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/modeling_approaches.html">Data provenance and modelling approaches</a><ul>
@@ -685,6 +721,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../reference/bibliography.html">Bibliography</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#foundational-dsmc-literature">Foundational DSMC literature</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#polyatomic-relaxation-and-gas-surface-modelling">Polyatomic, relaxation and gas-surface modelling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#gas-surface-interaction">Gas-surface interaction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#the-dsmcfoam-lineage">The dsmcFoam+ lineage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#publications-associated-with-the-rovibronic-extension">Publications associated with the rovibronic extension</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/bibliography.html#in-repository-derivations-and-notes">In-repository derivations and notes</a></li>
@@ -1190,23 +1227,35 @@ re-sampled on diffuse reflection using the wall temperature.</p></td>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCLLWallPatch</span></code></p></td>
 <td><p>Cercignani-Lampis-Lord scattering model.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCatalyticWallPatch</span></code>,
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcAccommodationWallPatch</span></code></p></td>
+<td><p>Maxwell wall with a separate accommodation coefficient per
+energy mode (optionally per species).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcRadiativeEquilibriumWallPatch</span></code></p></td>
+<td><p>Per-face wall temperature from the radiative balance.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcOutgassingWallPatch</span></code>,
+<code class="docutils literal notranslate"><span class="pre">dsmcPumpWallPatch</span></code></p></td>
+<td><p>Prescribed species emission; capture with a probability, a
+pumping speed or a target pressure.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCatalyticWallPatch</span></code>,
 <code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code>,
 <code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code></p></td>
-<td><p>Reactive gas-surface-interaction walls (catalysis,
-ablation, coverage chemistry). See the surface-chemistry
-section below.</p></td>
+<td><p>Reactive gas-surface-interaction walls (probability-mode
+catalysis and ablation; finite-rate coverage chemistry). See
+the gas-surface interaction section below.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcDeletionPatch</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcDeletionPatch</span></code></p></td>
 <td><p>Particle sink (outflow or selective deletion).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcFreeStreamInflowPatch</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcFreeStreamInflowPatch</span></code></p></td>
 <td><p>Maxwellian free-stream inflow.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogFreeStreamInflowPatch</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogFreeStreamInflowPatch</span></code></p></td>
 <td><p>Chapman-Enskog (first-order non-equilibrium) inflow.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcWangPressureInlet</span></code>,
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcWangPressureInlet</span></code>,
 <code class="docutils literal notranslate"><span class="pre">dsmcLiouFangPressureInlet</span></code>,
 <code class="docutils literal notranslate"><span class="pre">dsmcMassFlowRateInlet</span></code></p></td>
 <td><p>Alternative pressure- and mass-flow-rate-driven inlets.</p></td>
@@ -1276,15 +1325,92 @@ ledger), optional <code class="docutils literal notranslate"><span class="pre">r
 </section>
 <section id="gas-surface-interaction-dictionaries">
 <h2>Gas-surface interaction dictionaries<a class="headerlink" href="#gas-surface-interaction-dictionaries" title="Link to this heading"></a></h2>
-<p>The reactive walls (<code class="docutils literal notranslate"><span class="pre">dsmcCatalyticWallPatch</span></code>,
-<code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code>) read their
-surface reactions either inline or by name against a central
-<code class="docutils literal notranslate"><span class="pre">system/surfaceChemReactDict</span></code>, which carries <code class="docutils literal notranslate"><span class="pre">surfaceReactions</span></code>
-and <code class="docutils literal notranslate"><span class="pre">surfaceMaterials</span></code> blocks. A finite-rate reaction has the
-generalised-Arrhenius probability
-<span class="math notranslate nohighlight">\(\beta = \min(1, A\,T_w^{n}\,e^{-T_a/T_w})\)</span>; a recombination
-reaction has a constant, Arrhenius or tabulated <span class="math notranslate nohighlight">\(\gamma\)</span>:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">surfaceReactions</span>
+<p>The models are described in <a class="reference internal" href="../theory/wall_models.html"><span class="doc">Wall and inflow models</span></a> and verified
+in <a class="reference internal" href="../reference/gsi_verification/index.html"><span class="doc">Gas-surface interaction verification</span></a>. The keywords below are
+those read by the source; the class headers under
+<code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/</span></code> carry the same Usage blocks.</p>
+<section id="wall-temperature-every-re-emitting-wall">
+<h3>Wall temperature (every re-emitting wall)<a class="headerlink" href="#wall-temperature-every-re-emitting-wall" title="Link to this heading"></a></h3>
+<p>Read from <code class="docutils literal notranslate"><span class="pre">&lt;boundaryModel&gt;Properties</span></code> by every wall that re-emits
+at a wall temperature (diffuse, mixed, CLL, accommodation, pump,
+outgassing, catalytic, ablating and coverage walls):</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">temperature</span><span class="w">            </span><span class="mi">1000</span><span class="p">;</span><span class="w">   </span><span class="c1">// uniform value, initial face value</span>
+<span class="n">wallTemperatureModel</span><span class="w">   </span><span class="n">radiativeEquilibrium</span><span class="p">;</span><span class="w">  </span><span class="c1">// uniform (default) |</span>
+<span class="w">                                              </span><span class="c1">// radiativeEquilibrium |</span>
+<span class="w">                                              </span><span class="c1">// coupled</span>
+<span class="n">wallTemperatureProperties</span><span class="w">      </span><span class="c1">// radiativeEquilibrium only</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">emissivity</span><span class="w">            </span><span class="mf">0.85</span><span class="p">;</span><span class="w">   </span><span class="c1">// (0, 1], required</span>
+<span class="w">    </span><span class="n">backgroundTemperature</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">      </span><span class="c1">// radiative sink [K]</span>
+<span class="w">    </span><span class="n">relaxationFactor</span><span class="w">      </span><span class="mf">0.2</span><span class="p">;</span><span class="w">    </span><span class="c1">// (0, 1]</span>
+<span class="w">    </span><span class="n">updateInterval</span><span class="w">        </span><span class="mi">10</span><span class="p">;</span><span class="w">     </span><span class="c1">// steps per update</span>
+<span class="w">    </span><span class="n">minTemperature</span><span class="w">        </span><span class="mi">50</span><span class="p">;</span>
+<span class="w">    </span><span class="n">maxTemperature</span><span class="w">        </span><span class="mf">1e5</span><span class="p">;</span>
+<span class="w">    </span><span class="n">sampleStartTime</span><span class="w">       </span><span class="mi">0</span><span class="p">;</span><span class="w">      </span><span class="c1">// start of the Tw/q averaging ledger</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>A non-uniform model on a wall that does not re-emit at a face
+temperature (specular, deletion, the <code class="docutils literal notranslate"><span class="pre">*Field*</span></code> walls, the dedicated
+radiative-equilibrium wall) is a <code class="docutils literal notranslate"><span class="pre">FatalError</span></code>; <code class="docutils literal notranslate"><span class="pre">coupled</span></code> is set
+by the conjugate solid of <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>.</p>
+</section>
+<section id="scattering-and-sink-walls">
+<h3>Scattering and sink walls<a class="headerlink" href="#scattering-and-sink-walls" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 32.0%" />
+<col style="width: 68.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>Keywords of <code class="docutils literal notranslate"><span class="pre">&lt;boundaryModel&gt;Properties</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcAccommodationWallPatch</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">momentumAccommodationCoefficient</span></code>,
+<code class="docutils literal notranslate"><span class="pre">translationalAccommodationCoefficient</span></code>,
+<code class="docutils literal notranslate"><span class="pre">rotationalAccommodationCoefficient</span></code>,
+<code class="docutils literal notranslate"><span class="pre">vibrationalAccommodationCoefficient</span></code>,
+<code class="docutils literal notranslate"><span class="pre">electronicAccommodationCoefficient</span></code> (all default 1),
+<code class="docutils literal notranslate"><span class="pre">internalAccommodationDiffuseOnly</span></code> (default <code class="docutils literal notranslate"><span class="pre">false</span></code>,
+PICLas convention), <code class="docutils literal notranslate"><span class="pre">sampleStartTime</span></code>, optional per-species
+overrides <code class="docutils literal notranslate"><span class="pre">species</span> <span class="pre">{</span> <span class="pre">O2</span> <span class="pre">{</span> <span class="pre">electronicAccommodationCoefficient</span>
+<span class="pre">1e-3;</span> <span class="pre">}</span> <span class="pre">}</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCLLWallPatch</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">normalAccommodationCoefficient</span></code>,
+<code class="docutils literal notranslate"><span class="pre">tangentialAccommodationCoefficient</span></code>, optional
+<code class="docutils literal notranslate"><span class="pre">internalAccommodationCoefficient</span></code> or the per-mode
+<code class="docutils literal notranslate"><span class="pre">rotational/vibrational/electronicAccommodationCoefficient</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcRadiativeEquilibriumWallPatch</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">emissivity</span></code>, <code class="docutils literal notranslate"><span class="pre">backgroundTemperature</span></code>,
+<code class="docutils literal notranslate"><span class="pre">relaxationFactor</span></code>, <code class="docutils literal notranslate"><span class="pre">updateInterval</span></code>, <code class="docutils literal notranslate"><span class="pre">minTemperature</span></code>,
+<code class="docutils literal notranslate"><span class="pre">maxTemperature</span></code>, <code class="docutils literal notranslate"><span class="pre">sampleStartTime</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcOutgassingWallPatch</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">outgassing</span> <span class="pre">{</span> <span class="pre">H2O</span> <span class="pre">{</span> <span class="pre">massFlux</span> <span class="pre">1e-6;</span> <span class="pre">}</span> <span class="pre">N2</span> <span class="pre">{</span> <span class="pre">numberFlux</span> <span class="pre">1e18;</span> <span class="pre">}</span> <span class="pre">}</span></code>,
+<code class="docutils literal notranslate"><span class="pre">blowingVelocity</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcPumpWallPatch</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">captureProbability</span></code> (optionally per species in
+<code class="docutils literal notranslate"><span class="pre">species</span> <span class="pre">{</span> <span class="pre">}</span></code>); pumping-speed mode <code class="docutils literal notranslate"><span class="pre">pumpingSpeed</span></code> [m³/s];
+adaptive mode <code class="docutils literal notranslate"><span class="pre">targetPressure</span></code>, <code class="docutils literal notranslate"><span class="pre">proportionalGain</span></code>,
+<code class="docutils literal notranslate"><span class="pre">integralGain</span></code>, <code class="docutils literal notranslate"><span class="pre">relaxationFactor</span></code>, <code class="docutils literal notranslate"><span class="pre">updateInterval</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="probability-mode-reactive-walls">
+<h3>Probability-mode reactive walls<a class="headerlink" href="#probability-mode-reactive-walls" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">dsmcCatalyticWallPatch</span></code> and <code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code> take a
+<code class="docutils literal notranslate"><span class="pre">reactions</span></code> entry that is either an inline dictionary or a list of
+names resolved against the <code class="docutils literal notranslate"><span class="pre">surfaceReactions</span></code> block of
+<code class="docutils literal notranslate"><span class="pre">system/surfaceChemReactDict</span></code>:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// system/surfaceChemReactDict</span>
+<span class="n">surfaceReactions</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="n">oxidiseO</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">srFiniteRate</span><span class="p">;</span><span class="w"> </span><span class="n">reactant</span><span class="w"> </span><span class="n">O</span><span class="p">;</span><span class="w">  </span><span class="n">product</span><span class="w"> </span><span class="n">CO</span><span class="p">;</span>
 <span class="w">                 </span><span class="n">A</span><span class="w"> </span><span class="mf">0.63</span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span><span class="w"> </span><span class="n">Ta</span><span class="w"> </span><span class="mf">1160.0</span><span class="p">;</span>
@@ -1293,50 +1419,285 @@ reaction has a constant, Arrhenius or tabulated <span class="math notranslate no
 <span class="w">                 </span><span class="n">secondaryProduct</span><span class="w"> </span><span class="n">CO</span><span class="p">;</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="mf">0.9</span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span><span class="w"> </span><span class="n">Ta</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span>
 <span class="w">                 </span><span class="n">nCConsumed</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">nReactantConsumed</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
 <span class="w">    </span><span class="n">recombineO</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">srRecombination</span><span class="p">;</span><span class="w"> </span><span class="n">reactant</span><span class="w"> </span><span class="n">O</span><span class="p">;</span><span class="w"> </span><span class="n">product</span><span class="w"> </span><span class="n">O2</span><span class="p">;</span>
-<span class="w">                 </span><span class="n">gamma</span><span class="w"> </span><span class="mf">0.07</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">                 </span><span class="n">gamma</span><span class="w"> </span><span class="mf">0.07</span><span class="p">;</span><span class="w"> </span><span class="n">betaAcc</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span><span class="w"> </span><span class="n">Erecomb</span><span class="w"> </span><span class="mf">8.203e-19</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
 <span class="p">}</span>
 <span class="n">surfaceMaterials</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="n">graphite</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">solidDensity</span><span class="w"> </span><span class="mi">1800</span><span class="p">;</span><span class="w"> </span><span class="n">carbonMass</span><span class="w"> </span><span class="mf">1.994e-26</span><span class="p">;</span>
-<span class="w">               </span><span class="n">siteDensity</span><span class="w"> </span><span class="mf">1e19</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">graphite</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">solidDensity</span><span class="w"> </span><span class="mi">1800</span><span class="p">;</span><span class="w"> </span><span class="n">carbonMass</span><span class="w"> </span><span class="mf">1.9944734729e-26</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
 <span class="p">}</span>
-</pre></div>
-</div>
-<p>The boundary patch then references these reactions by name:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">boundaryModel</span><span class="w"> </span><span class="n">dsmcAblatingWallPatch</span><span class="p">;</span>
+
+<span class="c1">// system/boundariesDict</span>
+<span class="n">boundaryModel</span><span class="w"> </span><span class="n">dsmcAblatingWallPatch</span><span class="p">;</span>
 <span class="n">dsmcAblatingWallPatchProperties</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="n">temperature</span><span class="w"> </span><span class="mi">2000</span><span class="p">;</span>
 <span class="w">    </span><span class="n">velocity</span><span class="w">    </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="w">    </span><span class="n">material</span><span class="w">    </span><span class="n">graphite</span><span class="p">;</span>
-<span class="w">    </span><span class="n">reactions</span><span class="w">   </span><span class="p">(</span><span class="w"> </span><span class="n">oxidiseO</span><span class="w"> </span><span class="n">oxidiseO2</span><span class="w"> </span><span class="n">boudouard</span><span class="w"> </span><span class="n">recombineO</span><span class="w"> </span><span class="p">);</span>
+<span class="w">    </span><span class="n">material</span><span class="w">    </span><span class="n">graphite</span><span class="p">;</span><span class="w">      </span><span class="c1">// or solidDensity and carbonMass</span>
+<span class="w">    </span><span class="n">reactions</span><span class="w">   </span><span class="p">(</span><span class="w"> </span><span class="n">oxidiseO</span><span class="w"> </span><span class="n">boudouard</span><span class="w"> </span><span class="n">recombineO</span><span class="w"> </span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Geometric surface recession (the immersed level-set of
-<a class="reference internal" href="../theory/wall_models.html"><span class="doc">Wall and inflow models</span></a>) is enabled by an
-<code class="docutils literal notranslate"><span class="pre">immersedAblationProperties</span></code> sub-dictionary in
-<code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code>. Its principal keys are the surface
-specification (<code class="docutils literal notranslate"><span class="pre">shape</span></code> plane/sphere/cylinder with <code class="docutils literal notranslate"><span class="pre">point</span></code> /
-<code class="docutils literal notranslate"><span class="pre">normal</span></code> or <code class="docutils literal notranslate"><span class="pre">centre</span></code> / <code class="docutils literal notranslate"><span class="pre">radius</span></code>, <strong>or</strong> <code class="docutils literal notranslate"><span class="pre">stlFile</span></code> for an
-arbitrary triangulated geometry), the reaction (<code class="docutils literal notranslate"><span class="pre">gamma</span></code> / <code class="docutils literal notranslate"><span class="pre">A</span></code> /
-<code class="docutils literal notranslate"><span class="pre">n</span></code> / <code class="docutils literal notranslate"><span class="pre">Ta</span></code>, <code class="docutils literal notranslate"><span class="pre">reactant</span></code>, <code class="docutils literal notranslate"><span class="pre">product</span></code>), the solid properties
-(<code class="docutils literal notranslate"><span class="pre">material</span></code> or <code class="docutils literal notranslate"><span class="pre">solidDensity</span></code> + <code class="docutils literal notranslate"><span class="pre">carbonMass</span></code>), and optional
-<code class="docutils literal notranslate"><span class="pre">radiativeEquilibrium</span></code> + <code class="docutils literal notranslate"><span class="pre">emissivity</span></code>, <code class="docutils literal notranslate"><span class="pre">sublimation</span></code> +
-<code class="docutils literal notranslate"><span class="pre">sublimationProducts</span></code>, and <code class="docutils literal notranslate"><span class="pre">patoCoupling</span></code> switches:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p></th>
+<th class="head"><p>Keywords</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">srFiniteRate</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">reactant</span></code>, <code class="docutils literal notranslate"><span class="pre">product</span></code>, <code class="docutils literal notranslate"><span class="pre">A</span></code> (required), <code class="docutils literal notranslate"><span class="pre">n</span></code>, <code class="docutils literal notranslate"><span class="pre">Ta</span></code>
+(default 0), <code class="docutils literal notranslate"><span class="pre">nCConsumed</span></code>, <code class="docutils literal notranslate"><span class="pre">nReactantConsumed</span></code>, optional
+<code class="docutils literal notranslate"><span class="pre">secondaryProduct</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">srRecombination</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">reactant</span></code>, <code class="docutils literal notranslate"><span class="pre">product</span></code>; one of <code class="docutils literal notranslate"><span class="pre">gamma</span></code>,
+<code class="docutils literal notranslate"><span class="pre">gamma0</span></code> + <code class="docutils literal notranslate"><span class="pre">Ea</span></code> [J/mol], <code class="docutils literal notranslate"><span class="pre">gammaA</span></code> + <code class="docutils literal notranslate"><span class="pre">Ta</span></code> [K]
+(optional <code class="docutils literal notranslate"><span class="pre">n</span></code>), or <code class="docutils literal notranslate"><span class="pre">gammaTable</span> <span class="pre">((T0</span> <span class="pre">g0)</span> <span class="pre">(T1</span> <span class="pre">g1)</span> <span class="pre">...)</span></code>;
+<code class="docutils literal notranslate"><span class="pre">Erecomb</span></code> [J], <code class="docutils literal notranslate"><span class="pre">betaAcc</span></code> (default 1)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">srAbsorption</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">reactant</span></code>, optional <code class="docutils literal notranslate"><span class="pre">A</span></code> (default 1), <code class="docutils literal notranslate"><span class="pre">n</span></code>, <code class="docutils literal notranslate"><span class="pre">Ta</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">srNeutralisation</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">reactant</span></code>, <code class="docutils literal notranslate"><span class="pre">product</span></code>, <code class="docutils literal notranslate"><span class="pre">workFunction</span></code> [eV], <code class="docutils literal notranslate"><span class="pre">betaAcc</span></code>,
+optional <code class="docutils literal notranslate"><span class="pre">releasedEnergy</span></code> [eV], <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">n</span></code>, <code class="docutils literal notranslate"><span class="pre">Ta</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="finite-rate-mechanisms-and-the-coverage-wall">
+<h3>Finite-rate mechanisms and the coverage wall<a class="headerlink" href="#finite-rate-mechanisms-and-the-coverage-wall" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code> takes a native mechanism by name, a SPARTA
+import, or the legacy keywords (translated at start):</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">boundaryModel</span><span class="w">   </span><span class="n">dsmcCoverageWallPatch</span><span class="p">;</span>
+<span class="n">dsmcCoverageWallPatchProperties</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">temperature</span><span class="w">   </span><span class="mi">1000</span><span class="p">;</span><span class="w">             </span><span class="c1">// element temperature [K]</span>
+<span class="w">    </span><span class="n">velocity</span><span class="w">      </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">mechanism</span><span class="w">     </span><span class="n">sample</span><span class="p">;</span><span class="w">           </span><span class="c1">// system/surfaceChemReactDict</span>
+<span class="w">    </span><span class="c1">// or</span>
+<span class="w">    </span><span class="n">spartaMechanism</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">gsFile</span><span class="w">      </span><span class="s">&quot;sample-GS_2.surf&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// in constant/</span>
+<span class="w">        </span><span class="n">psFile</span><span class="w">      </span><span class="s">&quot;sample-PS_2.surf&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// optional</span>
+<span class="w">        </span><span class="n">siteDensity</span><span class="w"> </span><span class="mf">6.022e18</span><span class="p">;</span><span class="w">             </span><span class="c1">// SPARTA n_sites [m^-2]</span>
+<span class="w">        </span><span class="n">temperature</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w">                 </span><span class="c1">// SPARTA twall [K]</span>
+<span class="w">        </span><span class="n">nsync</span><span class="w">       </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">// psIntegrator timeCounter;      // default of the import</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">scatterModel</span><span class="w">  </span><span class="n">cll</span><span class="p">;</span><span class="w">              </span><span class="c1">// default kernel (default diffuse)</span>
+<span class="w">    </span><span class="n">cllProperties</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">temperature</span><span class="w"> </span><span class="mi">300</span><span class="p">;</span><span class="w"> </span><span class="n">alphaN</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span><span class="w"> </span><span class="n">alphaT</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span>
+<span class="w">                    </span><span class="n">alphaRot</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span><span class="w"> </span><span class="n">alphaVib</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">material</span><span class="w">      </span><span class="n">graphite</span><span class="p">;</span><span class="w">         </span><span class="c1">// optional surfaceMaterials entry</span>
+<span class="w">    </span><span class="n">printInterval</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w">              </span><span class="c1">// optional</span>
+<span class="w">    </span><span class="n">elementTallies</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w">           </span><span class="c1">// optional</span>
+<span class="w">    </span><span class="n">wallTemperatureModel</span><span class="w"> </span><span class="n">uniform</span><span class="p">;</span><span class="w">   </span><span class="c1">// optional</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The native mechanism, in <code class="docutils literal notranslate"><span class="pre">system/surfaceChemReactDict</span></code>:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">surfaceMechanisms</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">sample</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">siteSets</span><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">siteDensity</span><span class="w"> </span><span class="mf">6.022e18</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="n">adsorbates</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="n">O</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="n">siteSet</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="n">initialCoverage</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">                        </span><span class="n">CO</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">siteSet</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="n">bindingEnergy</span><span class="w"> </span><span class="mf">2.3</span><span class="p">;</span>
+<span class="w">                                </span><span class="n">bindingEnergyUnit</span><span class="w"> </span><span class="n">eV</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="n">bulk</span><span class="w">          </span><span class="p">(</span><span class="w"> </span><span class="n">C</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">);</span>
+<span class="w">        </span><span class="n">normalisation</span><span class="w"> </span><span class="n">sparta</span><span class="p">;</span><span class="w">        </span><span class="c1">// sparta | sg25</span>
+<span class="w">        </span><span class="n">stoichiometry</span><span class="w"> </span><span class="n">combinatorial</span><span class="p">;</span><span class="w"> </span><span class="c1">// combinatorial | power (mandatory)</span>
+<span class="w">        </span><span class="n">coverageUpdate</span><span class="w"> </span><span class="n">immediate</span><span class="p">;</span><span class="w">    </span><span class="c1">// immediate | sync</span>
+<span class="w">        </span><span class="c1">// nsync              1;</span>
+<span class="w">        </span><span class="c1">// psIntegrator       exponential;  // | timeCounter | stochastic</span>
+<span class="w">        </span><span class="c1">// psSubStepTolerance 0.1;</span>
+<span class="w">        </span><span class="c1">// psMaxSubSteps      100;</span>
+<span class="w">        </span><span class="n">temperature</span><span class="w">   </span><span class="n">element</span><span class="p">;</span><span class="w">       </span><span class="c1">// element | fixed</span>
+<span class="w">        </span><span class="c1">// fixedTemperature   1000;</span>
+<span class="w">        </span><span class="c1">// probabilityCap     1;     // perParticle channels only</span>
+<span class="w">        </span><span class="c1">// reactionHeat       computed;     // | none</span>
+<span class="w">        </span><span class="c1">// material           graphite;</span>
+<span class="w">        </span><span class="c1">// adsorption { O { S0 { A 0.85; b 0; Ea 0; } Kkis { A 0; }</span>
+<span class="w">        </span><span class="c1">//                  alpha 1; siteSet s; } }   // sg25 only</span>
+<span class="w">        </span><span class="n">reactions</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">adsO</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">AA</span><span class="p">;</span><span class="w"> </span><span class="n">reaction</span><span class="w"> </span><span class="s">&quot;O(g) --&gt; O(s)&quot;</span><span class="p">;</span>
+<span class="w">                   </span><span class="n">rate</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">Ea</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">            </span><span class="n">lh1</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">LH1</span><span class="p">;</span><span class="w"> </span><span class="n">reaction</span><span class="w"> </span><span class="s">&quot;O(g) + O(s) --&gt; CO2(g)&quot;</span><span class="p">;</span>
+<span class="w">                   </span><span class="n">rate</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="mf">536.3e5</span><span class="p">;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">Ea</span><span class="w"> </span><span class="mf">655.65</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">                   </span><span class="n">products</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">CO2</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">scatterModel</span><span class="w"> </span><span class="n">td</span><span class="p">;</span>
+<span class="w">                                    </span><span class="n">tdProperties</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">temperature</span><span class="w"> </span><span class="mi">300</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">            </span><span class="n">dsO</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">DS</span><span class="p">;</span><span class="w"> </span><span class="n">reaction</span><span class="w"> </span><span class="s">&quot;O(s) --&gt; O(g)&quot;</span><span class="p">;</span>
+<span class="w">                   </span><span class="n">rate</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="mf">0.050457</span><span class="p">;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="n">Ea</span><span class="w"> </span><span class="mf">3177.17</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="n">surfaceMaterials</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">graphite</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">solidDensity</span><span class="w"> </span><span class="mi">1800</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// optional formationReference</span>
+<span class="w">                                      </span><span class="c1">// { X(b) h; } [kJ/mol], atomMass</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Reaction types: GS <code class="docutils literal notranslate"><span class="pre">AA</span></code>, <code class="docutils literal notranslate"><span class="pre">DA</span></code>, <code class="docutils literal notranslate"><span class="pre">ER</span></code>, <code class="docutils literal notranslate"><span class="pre">CI</span></code>, <code class="docutils literal notranslate"><span class="pre">LH1</span></code>, <code class="docutils literal notranslate"><span class="pre">LH3</span></code>,
+<code class="docutils literal notranslate"><span class="pre">CD</span></code>, <code class="docutils literal notranslate"><span class="pre">prob</span></code>; PS <code class="docutils literal notranslate"><span class="pre">DS</span></code>, <code class="docutils literal notranslate"><span class="pre">LH2</span></code>, <code class="docutils literal notranslate"><span class="pre">LH4</span></code>, <code class="docutils literal notranslate"><span class="pre">SB</span></code>. Optional keys
+of a reaction: <code class="docutils literal notranslate"><span class="pre">id</span></code>, <code class="docutils literal notranslate"><span class="pre">rateStyle</span></code> (<code class="docutils literal notranslate"><span class="pre">arrhenius</span></code> | <code class="docutils literal notranslate"><span class="pre">constant</span></code>),
+<code class="docutils literal notranslate"><span class="pre">alpha</span></code>, <code class="docutils literal notranslate"><span class="pre">siteSet</span></code>, <code class="docutils literal notranslate"><span class="pre">kisliuk</span> <span class="pre">{</span> <span class="pre">form</span> <span class="pre">sparta|sg25|legacy;</span> <span class="pre">A;</span> <span class="pre">b;</span> <span class="pre">Ea;</span> <span class="pre">}</span></code>
+(<code class="docutils literal notranslate"><span class="pre">form</span></code> mandatory), <code class="docutils literal notranslate"><span class="pre">rateForm</span></code> (<code class="docutils literal notranslate"><span class="pre">efficiency</span></code> | <code class="docutils literal notranslate"><span class="pre">maxwellian</span></code> |
+<code class="docutils literal notranslate"><span class="pre">perParticle</span></code>), <code class="docutils literal notranslate"><span class="pre">heatOfReaction</span></code> with <code class="docutils literal notranslate"><span class="pre">heatOfReactionUnit</span></code>
+(<code class="docutils literal notranslate"><span class="pre">J</span></code> | <code class="docutils literal notranslate"><span class="pre">K</span></code> | <code class="docutils literal notranslate"><span class="pre">eV</span></code>), <code class="docutils literal notranslate"><span class="pre">spectator</span></code>, and <code class="docutils literal notranslate"><span class="pre">products</span></code> (gas-product
+kernels by name or as a list in token order).</p>
+<p>Legacy coverage keywords (translated into a mechanism): <code class="docutils literal notranslate"><span class="pre">siteDensity</span></code>
+or <code class="docutils literal notranslate"><span class="pre">material</span></code>; <code class="docutils literal notranslate"><span class="pre">species</span> <span class="pre">{</span> <span class="pre">X</span> <span class="pre">{</span> <span class="pre">stick;</span> <span class="pre">stickEnergy;</span> <span class="pre">stickingModel</span>
+<span class="pre">langmuir|kisliuk;</span> <span class="pre">kisliukK;</span> <span class="pre">dissociateTo;</span> <span class="pre">desorbPrefactor;</span>
+<span class="pre">desorbEnergy;</span> <span class="pre">desorbLateral;</span> <span class="pre">desorbPrefactorCov;</span> <span class="pre">initCoverage;</span> <span class="pre">}</span> <span class="pre">}</span></code>;
+<code class="docutils literal notranslate"><span class="pre">reactions</span> <span class="pre">{</span> <span class="pre">name</span> <span class="pre">{</span> <span class="pre">type</span> <span class="pre">ER|CID|LH;</span> <span class="pre">reactant;</span> <span class="pre">coReactant;</span> <span class="pre">product;</span>
+<span class="pre">gamma;</span> <span class="pre">A;</span> <span class="pre">Ta;</span> <span class="pre">}</span> <span class="pre">}</span></code>; optional <code class="docutils literal notranslate"><span class="pre">psIntegrator</span></code>.</p>
+</section>
+<section id="scattering-kernels">
+<h3>Scattering kernels<a class="headerlink" href="#scattering-kernels" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">scatterModel</span></code> selects the default kernel of a reacting wall and,
+inside <code class="docutils literal notranslate"><span class="pre">products</span></code>, the kernel of a reaction product; coefficients go
+in <code class="docutils literal notranslate"><span class="pre">&lt;scatterModel&gt;Properties</span></code>:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 18.0%" />
+<col style="width: 82.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Kernel</p></th>
+<th class="head"><p>Keywords (<code class="docutils literal notranslate"><span class="pre">temperature</span></code> optional in every kernel, else the
+element temperature)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">diffuse</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">accommodation</span></code> (diffuse fraction, default 1)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">specular</span></code></p></td>
+<td><p>none</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cll</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">alphaN</span></code>, <code class="docutils literal notranslate"><span class="pre">alphaT</span></code>, <code class="docutils literal notranslate"><span class="pre">alphaRot</span></code>, <code class="docutils literal notranslate"><span class="pre">alphaVib</span></code>, optional
+<code class="docutils literal notranslate"><span class="pre">partial</span></code> (eccentricity in [0, 1))</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">td</span></code></p></td>
+<td><p>optional <code class="docutils literal notranslate"><span class="pre">barrier</span></code> [K], <code class="docutils literal notranslate"><span class="pre">bond</span> <span class="pre">(Bt</span> <span class="pre">Br</span> <span class="pre">Bv)</span></code> [K],
+<code class="docutils literal notranslate"><span class="pre">initenergy</span> <span class="pre">(ft</span> <span class="pre">fr</span> <span class="pre">fv)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">impulsive</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">softsphere|tempvar</span></code>, <code class="docutils literal notranslate"><span class="pre">energyRatio</span></code> and
+<code class="docutils literal notranslate"><span class="pre">effectiveMass</span></code> (softsphere), <code class="docutils literal notranslate"><span class="pre">u0a</span></code> and <code class="docutils literal notranslate"><span class="pre">u0b</span></code> (tempvar),
+<code class="docutils literal notranslate"><span class="pre">alpha</span></code>, <code class="docutils literal notranslate"><span class="pre">thetaPeak</span></code>, <code class="docutils literal notranslate"><span class="pre">cosThetaPower</span></code>, <code class="docutils literal notranslate"><span class="pre">cosPhiPower</span></code>,
+optional <code class="docutils literal notranslate"><span class="pre">step</span></code>, <code class="docutils literal notranslate"><span class="pre">double</span></code>, <code class="docutils literal notranslate"><span class="pre">intenergy</span> <span class="pre">(fr</span> <span class="pre">fv)</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ladderSearch</span> <span class="pre">bisection|linear</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">adiabatic</span></code></p></td>
+<td><p>none</p></td>
+</tr>
+</tbody>
+</table>
+<p>The internal-state sampler of the gas-phase equilibrium draws is
+selected in <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code> by
+<code class="docutils literal notranslate"><span class="pre">internalStateSampler</span> <span class="pre">alias;</span></code> (default) or <code class="docutils literal notranslate"><span class="pre">rejection</span></code>.</p>
+</section>
+<section id="immersed-surface">
+<h3>Immersed surface<a class="headerlink" href="#immersed-surface" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">immersedAblationProperties</span></code> in <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code>:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">immersedAblationProperties</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="n">stlFile</span><span class="w">        </span><span class="s">&quot;constant/triSurface/capsule.stl&quot;</span><span class="p">;</span>
-<span class="w">    </span><span class="n">temperature</span><span class="w">    </span><span class="mi">1000</span><span class="p">;</span>
-<span class="w">    </span><span class="n">gamma</span><span class="w">          </span><span class="mf">1.0</span><span class="p">;</span>
-<span class="w">    </span><span class="n">solidDensity</span><span class="w">   </span><span class="mi">50</span><span class="p">;</span>
-<span class="w">    </span><span class="n">reactant</span><span class="w">       </span><span class="n">O</span><span class="p">;</span>
-<span class="w">    </span><span class="n">product</span><span class="w">        </span><span class="n">O2</span><span class="p">;</span>
-<span class="w">    </span><span class="n">maxPenetration</span><span class="w"> </span><span class="mf">7e-4</span><span class="p">;</span>
-<span class="w">    </span><span class="n">perCellRecession</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// geometry: analytic shape or STL</span>
+<span class="w">    </span><span class="n">shape</span><span class="w">        </span><span class="n">cylinder</span><span class="p">;</span><span class="w">          </span><span class="c1">// plane (point, normal) |</span>
+<span class="w">                                    </span><span class="c1">// sphere | cylinder (centre,</span>
+<span class="w">                                    </span><span class="c1">// radius; cylinder: axis)</span>
+<span class="w">    </span><span class="n">centre</span><span class="w">       </span><span class="p">(</span><span class="mf">1.5e-3</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mf">5e-5</span><span class="p">);</span><span class="w"> </span><span class="n">axis</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="n">radius</span><span class="w"> </span><span class="mf">5e-4</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// stlFile   &quot;constant/triSurface/body.stl&quot;;</span>
+<span class="w">    </span><span class="n">surfaceType</span><span class="w">  </span><span class="n">implicit</span><span class="p">;</span><span class="w">          </span><span class="c1">// implicit | explicit</span>
+<span class="w">    </span><span class="n">cutCellVolumes</span><span class="w">    </span><span class="nb">true</span><span class="p">;</span><span class="w">         </span><span class="c1">// default</span>
+<span class="w">    </span><span class="n">recessionInterval</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">            </span><span class="c1">// default</span>
+<span class="w">    </span><span class="n">temperature</span><span class="w">  </span><span class="mi">2000</span><span class="p">;</span>
+<span class="w">    </span><span class="n">area</span><span class="w">         </span><span class="mf">3.14159e-7</span><span class="p">;</span>
+<span class="w">    </span><span class="n">material</span><span class="w">     </span><span class="n">graphite</span><span class="p">;</span><span class="w">          </span><span class="c1">// or solidDensity, carbonMass</span>
+
+<span class="w">    </span><span class="c1">// probability mode: single reaction ...</span>
+<span class="w">    </span><span class="n">reactant</span><span class="w"> </span><span class="n">O</span><span class="p">;</span><span class="w">  </span><span class="n">product</span><span class="w"> </span><span class="n">CO</span><span class="p">;</span><span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="mf">0.63</span><span class="p">;</span><span class="w">  </span><span class="n">n</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">  </span><span class="n">Ta</span><span class="w"> </span><span class="mi">1160</span><span class="p">;</span><span class="w">   </span><span class="c1">// or gamma</span>
+<span class="w">    </span><span class="c1">// ... or a reactions list (srFiniteRate, srRecombination, ...)</span>
+<span class="w">    </span><span class="c1">// reactions { oxO { type srFiniteRate; reactant O; product CO;</span>
+<span class="w">    </span><span class="c1">//                   A 0.63; Ta 1160; nCConsumed 1; } }</span>
+<span class="w">    </span><span class="c1">// mechanism mode</span>
+<span class="w">    </span><span class="c1">// mechanism  b5rec;            // or spartaMechanism { ... }</span>
+<span class="w">    </span><span class="c1">// scatterModel diffuse; printInterval 100; ledgerCheck true;</span>
+<span class="w">    </span><span class="c1">// elementTallies false;</span>
+<span class="w">    </span><span class="c1">// wallTemperatureModel radiativeEquilibrium;   // per cut cell</span>
+<span class="w">    </span><span class="c1">// wallTemperatureProperties { emissivity 0.85; ... }</span>
+
+<span class="w">    </span><span class="c1">// optional</span>
+<span class="w">    </span><span class="c1">// radiativeEquilibrium true; emissivity 0.85;  // global Tw</span>
+<span class="w">    </span><span class="c1">// sublimation true; sublimationAlpha 1;</span>
+<span class="w">    </span><span class="c1">// sublimationProducts { C3 { pvapA ...; pvapB ...; nCarbon 3; } }</span>
+<span class="w">    </span><span class="c1">// perCellRecession true;      // former cell-centred level set</span>
+<span class="w">    </span><span class="c1">// patoCoupling true; patoCouplingInterval 100;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
+<p>A mechanism needs the cut cells of the implicit or explicit surface;
+the analytic and level-set paths keep the probability mode.</p>
+</section>
+<section id="dsmcfoamablation-receding-walls-and-the-conjugate-solid">
+<h3><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid<a class="headerlink" href="#dsmcfoamablation-receding-walls-and-the-conjugate-solid" title="Link to this heading"></a></h3>
+<p>Body-fitted recession of an ablating or coverage wall, in
+<code class="docutils literal notranslate"><span class="pre">constant/dynamicMeshDict</span></code> (the <code class="docutils literal notranslate"><span class="pre">pointDisplacement</span></code> condition of
+the patch must be <code class="docutils literal notranslate"><span class="pre">fixedValue</span></code>):</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">ablationRecession</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">patch</span><span class="w"> </span><span class="n">wall</span><span class="p">;</span><span class="w"> </span><span class="n">accelerationFactor</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The conjugate solid, in <code class="docutils literal notranslate"><span class="pre">constant/conjugateProperties</span></code> (it recedes
+the wall itself, so it excludes <code class="docutils literal notranslate"><span class="pre">ablationRecession</span></code>):</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">solidRegions</span><span class="w">          </span><span class="p">(</span><span class="n">solid</span><span class="p">);</span>
+<span class="n">couplings</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">plate</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">gasPatch</span><span class="w"> </span><span class="n">plate</span><span class="p">;</span><span class="w"> </span><span class="n">solidRegion</span><span class="w"> </span><span class="n">solid</span><span class="p">;</span><span class="w"> </span><span class="n">solidPatch</span><span class="w"> </span><span class="n">top</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="n">couplingInterval</span><span class="w">      </span><span class="mi">1000</span><span class="p">;</span><span class="w">   </span><span class="c1">// DSMC steps per window</span>
+<span class="n">solidStepsPerWindow</span><span class="w">   </span><span class="mi">10</span><span class="p">;</span>
+<span class="n">solidDeltaT</span><span class="w">           </span><span class="mf">1e-4</span><span class="p">;</span><span class="w">   </span><span class="c1">// physical solid time step [s]</span>
+<span class="n">emissivity</span><span class="w">            </span><span class="mf">0.85</span><span class="p">;</span>
+<span class="n">backgroundTemperature</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="n">nOuterCorrectors</span><span class="w">      </span><span class="mi">3</span><span class="p">;</span>
+<span class="n">prescribedHeatFlux</span><span class="w">    </span><span class="mf">1e7</span><span class="p">;</span><span class="w">    </span><span class="c1">// optional (verification)</span>
+<span class="n">maxRecession</span><span class="w">          </span><span class="mf">2e-4</span><span class="p">;</span><span class="w">   </span><span class="c1">// optional: write and stop [m]</span>
+<span class="n">meltFilm</span><span class="w">                      </span><span class="c1">// optional</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">bodyForce</span><span class="w">         </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">freeFlight</span><span class="w">        </span><span class="n">no</span><span class="p">;</span>
+<span class="w">    </span><span class="n">separation</span><span class="w">        </span><span class="n">full</span><span class="p">;</span><span class="w">   </span><span class="c1">// full | partial | none</span>
+<span class="w">    </span><span class="n">weberCritical</span><span class="w">     </span><span class="mi">12</span><span class="p">;</span>
+<span class="w">    </span><span class="n">maxCourant</span><span class="w">        </span><span class="mf">0.4</span><span class="p">;</span>
+<span class="w">    </span><span class="n">sampleInterval</span><span class="w">    </span><span class="mi">5</span><span class="p">;</span>
+<span class="w">    </span><span class="n">dropletEmissivity</span><span class="w"> </span><span class="mf">0.1</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// prescribedShear, initialFilm { }, testDroplet { } (verification)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Each solid region has <code class="docutils literal notranslate"><span class="pre">constant/&lt;region&gt;/polyMesh</span></code>,
+<code class="docutils literal notranslate"><span class="pre">dynamicMeshDict</span></code> (a motion solver, to recede) and
+<code class="docutils literal notranslate"><span class="pre">solidProperties</span></code> (<code class="docutils literal notranslate"><span class="pre">rho</span></code>, <code class="docutils literal notranslate"><span class="pre">cp</span></code>, <code class="docutils literal notranslate"><span class="pre">k</span></code>, <code class="docutils literal notranslate"><span class="pre">Tmelt</span></code>, <code class="docutils literal notranslate"><span class="pre">Lmelt</span></code>,
+<code class="docutils literal notranslate"><span class="pre">T0</span></code>; <code class="docutils literal notranslate"><span class="pre">cp</span></code> and <code class="docutils literal notranslate"><span class="pre">k</span></code> may be any <code class="docutils literal notranslate"><span class="pre">Function1</span></code> of <span class="math notranslate nohighlight">\(T\)</span>;
+optional <code class="docutils literal notranslate"><span class="pre">cellZones</span></code> overrides; for the film <code class="docutils literal notranslate"><span class="pre">rhoLiquid</span></code>,
+<code class="docutils literal notranslate"><span class="pre">muLiquid</span></code>, <code class="docutils literal notranslate"><span class="pre">sigmaLiquid</span></code>, <code class="docutils literal notranslate"><span class="pre">cpLiquid</span></code> and optionally <code class="docutils literal notranslate"><span class="pre">Tboil</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Lvap</span></code>, <code class="docutils literal notranslate"><span class="pre">molarMass</span></code>), <code class="docutils literal notranslate"><span class="pre">system/&lt;region&gt;/fvSchemes</span></code> and
+<code class="docutils literal notranslate"><span class="pre">fvSolution</span></code>, <code class="docutils literal notranslate"><span class="pre">0/&lt;region&gt;/T</span></code> (<code class="docutils literal notranslate"><span class="pre">mixed</span></code> on the coupled patches) and
+<code class="docutils literal notranslate"><span class="pre">0/&lt;region&gt;/pointDisplacement</span></code> (<code class="docutils literal notranslate"><span class="pre">fixedValue</span></code> on the coupled
+patches). <code class="docutils literal notranslate"><span class="pre">constant/regionProperties</span></code> (<code class="docutils literal notranslate"><span class="pre">regions</span> <span class="pre">(</span> <span class="pre">gas</span> <span class="pre">(region0)</span>
+<span class="pre">solid</span> <span class="pre">(solid)</span> <span class="pre">);</span></code>) is read by <code class="docutils literal notranslate"><span class="pre">decomposePar</span> <span class="pre">-allRegions</span></code> and
+<code class="docutils literal notranslate"><span class="pre">reconstructPar</span> <span class="pre">-allRegions</span></code>. The couplings must be disjoint: no
+patch in two couplings and no point shared by two coupled patches of
+one mesh. The former <code class="docutils literal notranslate"><span class="pre">solidCase</span></code> layout is refused.</p>
+</section>
 </section>
 <section id="system-controldict">
 <h2><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code><a class="headerlink" href="#system-controldict" title="Link to this heading"></a></h2>

@@ -1,0 +1,186 @@
+Gas-surface interaction verification
+====================================
+
+The present section collects the verification of the gas-surface
+interaction (GSI) framework of :doc:`../../theory/wall_models`:
+wall scattering and accommodation, probability-based and
+finite-rate surface chemistry, the time integration of the
+pure-surface reactions, the scattering kernels of reaction
+products, the heat of reaction, the receding surfaces (body-fitted,
+implicit and explicit immersed) and the conjugate solid of
+``dsmcFoamAblation``. Each page states what is verified and against
+what (an analytic oracle, SPARTA [SPARTA_gsi]_, PICLas
+[Lauterbach2025_gsi]_ or a published case), summarises the set-up,
+reproduces the key numbers of the verification note in the source
+tree and gives the paths needed to rerun the case.
+
+The work was organised in blocks (B0-B8) after an audit of the
+state of the art (``docs/Development/GSI_SOTA_AUDIT_20260929.md``);
+the design decisions of each block are recorded in
+``docs/Development/gsi_specs/`` and the full verification notes in
+``docs/Development/Verification/gsi/``. Every case, oracle and
+compact result lives under ``run/GSI/``; the run directories were
+deleted after harvest, so the pages quote the numbers written in
+the notes.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 40 30
+
+   * - Page
+     - What is verified
+     - Reference
+   * - :doc:`boundary_conditions`
+     - Per-mode accommodation, Fourier and Couette flows, radiative
+       equilibrium, quenching, outgassing, pumps, sink walls,
+       coverage kinetics
+     - analytic, SPARTA, PICLas
+   * - :doc:`probability_chemistry`
+     - Per-impact catalysis and carbon ablation
+       (:math:`\gamma`, :math:`\beta(T_w)`), Kisliuk sticking,
+       recombination-energy accommodation
+     - analytic, SPARTA, PICLas
+   * - :doc:`b0_correctness`
+     - Exact site gating, wall-state restart, immersed
+       :math:`\beta(T_w)`
+     - round-off identities
+   * - :doc:`b1_wall_temperature`
+     - Per-face wall temperature on every wall, chemical-energy
+       ledger, restart
+     - analytic root, SPARTA ``fix surf/temp`` twin
+   * - :doc:`b2_finite_rate_gs`
+     - Finite-rate gas-surface (GS) engine
+     - SPARTA ``surf_react adsorb`` twins, rate-equation oracle
+   * - :doc:`b3_ps_integration`
+     - Pure-surface (PS) integration, legacy coverage translation
+     - SPARTA, analytic, SG25 [SG25_gsi]_
+   * - :doc:`b4_kernels_sampler`
+     - Scattering kernels (TD, impulsive, CLL partial, adiabatic) and
+       the exact O(1) internal-state sampler
+     - SPARTA beam, exact Boltzmann populations
+   * - :doc:`b5_recession`
+     - Computed reaction heats, energy ledgers, chemistry-driven
+       recession of body-fitted walls
+     - hand values, 0-D exact solution
+   * - :doc:`b5b_immersed_chemistry`
+     - Surface chemistry on the immersed implicit and explicit
+       surfaces
+     - body-fitted wall, SPARTA, 0-D exact solution
+   * - :doc:`b6_mechanisms`
+     - Production mechanisms ACA [PR22_gsi]_ and SGC18 [SGC18_gsi]_
+     - published figures (Python oracles)
+   * - :doc:`immersed_surface`
+     - Implicit and explicit immersed ablating surfaces
+     - SPARTA explicit surface and ``fix ablate``
+   * - :doc:`conjugate_solid`
+     - Heat conduction, melting, melt film and droplets
+     - exact solutions, free-molecular ODE
+   * - :doc:`b8_conjugate_multiregion`
+     - Multi-region conjugate solid (AMI, parallel, :math:`k(T)`,
+       :math:`c_p(T)`), Cao and Ma cases 1 and 3
+     - exact solutions, Cao and Ma [CaoMa2025_gsi]_
+
+Conventions
+-----------
+
+* *ours* designates dsmcFoam+; ratios are ours/reference unless
+  stated otherwise.
+* Errors quoted with :math:`\pm` are standard errors (of a mean
+  over seeds, of batch means or Poisson errors, as stated on each
+  page); :math:`z` is the deviation in standard errors.
+* Every figure follows the same style: dsmcFoam+ in red markers,
+  the reference as black lines (or SPARTA as black symbols).
+* A *seed* is an independent replica set with ``randomSeed N;`` in
+  ``constant/dsmcProperties``.
+
+Cost
+----
+
+Speed was a requirement of every block. The measured overheads
+are summarised below; details are on the block pages.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 45 55
+
+   * - Item
+     - Measured cost
+   * - Per-face wall temperature, uniform mode (B1)
+     - +0.20 % instructions per step on a wall-dominated case
+       (38 instructions per impact)
+   * - Finite-rate GS selection (B2)
+     - 20-30 ns per impact, under 1 % of the step cost per impact
+   * - PS integration, per active element and step (B3)
+     - exponential 0.55 µs (4 reactions, full Jacobian),
+       timeCounter 0.05 µs, stochastic 0.455 µs; inactive elements
+       cost nothing
+   * - Internal-state draw at a diffuse wall (B4)
+     - 0.6 µs (O\ :sub:`2`) and 0.2 µs (N\ :sub:`2`) per impact,
+       against 190 µs and 383 µs with the former rejection sampler
+   * - Immersed chemistry (B5b)
+     - 3413-3440 s per immersed run against 3449-3499 s for the
+       same case on a body-fitted wall
+
+.. toctree::
+   :maxdepth: 1
+
+   boundary_conditions
+   probability_chemistry
+   b0_correctness
+   b1_wall_temperature
+   b2_finite_rate_gs
+   b3_ps_integration
+   b4_kernels_sampler
+   b5_recession
+   b5b_immersed_chemistry
+   b6_mechanisms
+   immersed_surface
+   conjugate_solid
+   b8_conjugate_multiregion
+
+References
+----------
+
+.. [SPARTA_gsi] S. J. Plimpton and M. A. Gallis, *SPARTA direct
+   simulation Monte Carlo (DSMC) simulator*, Sandia National
+   Laboratories (2015), http://sparta.sandia.gov. Versions used
+   here: 24 Sep 2025 and 27 Aug 2026.
+.. [Lauterbach2025_gsi] S. Lauterbach, S. Fasoulas, and
+   M. Pfeiffer, "Modeling of heterogeneous catalytic reactions with
+   the simulation tool PICLas," *Computer Physics Communications*,
+   **311**, 109560 (2025), DOI 10.1016/j.cpc.2025.109560.
+.. [SG25_gsi] K. Swaminathan Gopalan, A. Borner, and
+   K. A. Stephani, "Development of a detailed surface chemistry
+   framework in DSMC," *Computers & Fluids*, **292**, 106525
+   (2025), DOI 10.1016/j.compfluid.2024.106525.
+.. [PR22_gsi] K. S. Prata, T. E. Schwartzentruber, and
+   T. K. Minton, "Air-carbon ablation model for hypersonic flight
+   from molecular-beam data," *AIAA Journal*, **60** (2), 627–640
+   (2022), DOI 10.2514/1.J060516.
+.. [SGC18_gsi] K. Swaminathan-Gopalan, A. Borner, V. J. Murray,
+   S. Poovathingal, T. K. Minton, N. N. Mansour, and
+   K. A. Stephani, "Development and validation of a finite-rate
+   model for carbon oxidation by atomic oxygen," *Carbon*, **137**,
+   313–332 (2018), DOI 10.1016/j.carbon.2018.04.088.
+.. [CaoMa2025_gsi] Z. Cao and Ma, "A non-intrusive DSMC-FEM
+   coupling method for two-dimensional conjugate heat transfer in
+   rarefied hypersonic conditions," *Aerospace*, **12** (11), 1021
+   (2025), DOI 10.3390/aerospace12111021.
+.. [HongGallis2025_gsi] A. Y. K. Hong and M. A. Gallis, "A general
+   ablation model for composites based on a coupled direct
+   simulation Monte Carlo and mass-consistent marching cubes
+   approach," *Physics of Fluids*, **37** (9), 096106 (2025),
+   DOI 10.1063/5.0284168.
+.. [Hong2024_gsi] A. Y. K. Hong, M. A. Gallis, S. G. Moore, and
+   S. J. Plimpton, "Toward physically realistic ablation modeling in
+   direct simulation Monte Carlo," *Physics of Fluids*, **36**,
+   126132 (2024), DOI 10.1063/5.0245713.
+.. [ParkBogdanoff2006_gsi] Park and Bogdanoff, *Journal of
+   Thermophysics and Heat Transfer*, **20** (3), 487–492 (2006),
+   DOI 10.2514/1.15743 (shock-tube nitridation of carbon).
+.. [Zhang2012_gsi] Zhang, Goldstein et al., *Journal of
+   Thermophysics and Heat Transfer* (2012), DOI 10.2514/1.T3612
+   (atomic-nitrogen beam nitridation of graphite).
+.. [Helber2017_gsi] Helber, Turchi, and Magin, *Carbon*, **125**,
+   582–594 (2017), DOI 10.1016/j.carbon.2017.09.081 (VKI Plasmatron
+   nitridation of graphite).

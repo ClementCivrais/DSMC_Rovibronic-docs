@@ -6,5 +6,6 @@ Reference
 
    about
    validation
+   gsi_verification/index
    modeling_approaches
    bibliography

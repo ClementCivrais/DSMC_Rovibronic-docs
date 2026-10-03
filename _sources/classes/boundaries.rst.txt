@@ -140,6 +140,27 @@ Patch boundaries — catalogue
    * - ``dsmcCLLWallFieldPatch``
      - No
      - Field-varying CLL variant.
+   * - ``dsmcAccommodationWallPatch``
+     - **Yes**
+     - Maxwell wall with separate coefficients for momentum,
+       translation, rotation, vibration and electronic energy (the
+       last one the surface-quenching probability), optionally per
+       species; internal modes redrawn on the rovibronic levels at
+       :math:`T_w`.
+   * - ``dsmcRadiativeEquilibriumWallPatch``
+     - **Yes**
+     - Per-face wall temperature from
+       :math:`\varepsilon\sigma(T_w^4 - T_{bg}^4) = q`, with a relaxed
+       running flux; written and read back on restart.
+   * - ``dsmcOutgassingWallPatch``
+     - —
+     - Emits prescribed species fluxes (mass or number) from every
+       face, optionally with a blowing velocity.
+   * - ``dsmcPumpWallPatch``
+     - —
+     - Captures impinging parcels with a constant probability, a
+       pumping speed, or a PI-controlled probability holding a target
+       wall pressure.
    * - ``dsmcCatalyticWallPatch``
      - —
      - **Reactive wall**: per-impact catalytic recombination and
@@ -151,9 +172,9 @@ Patch boundaries — catalogue
        carbon ledger and a reported recession rate (see below).
    * - ``dsmcCoverageWallPatch``
      - —
-     - **Reactive wall**: adsorption-site coverage chemistry
-       (Langmuir / Kisliuk sticking, Polanyi-Wigner desorption,
-       Eley-Rideal, Langmuir-Hinshelwood; see below).
+     - **Reactive wall**: finite-rate surface chemistry (site sets,
+       coverages, gas-surface and pure-surface reactions; native or
+       SPARTA mechanism; see below).
    * - ``dsmcDeletionPatch``
      - —
      - Particle sink: parcels that hit the patch are removed.
@@ -348,44 +369,54 @@ as a half-Maxwellian at :math:`T_w`, and partitions the
 recombination energy :math:`E_{\mathrm{rec}}` between the wall and
 the nascent molecule via the accommodation fraction
 :math:`\beta_{\mathrm{acc}}`. Sub-dictionary keys include
-``temperature``, ``velocity``, ``material`` (or an explicit site
-density), and a ``reactions`` list.
+``temperature``, ``velocity``, a ``reactions`` entry (inline, or a
+list of names in ``system/surfaceChemReactDict``) and the optional
+``wallTemperatureModel``. The recombination energy enters the wall's
+chemical-energy ledger. Verification:
+:doc:`../reference/gsi_verification/probability_chemistry`.
 
 ``dsmcAblatingWallPatch``
 `````````````````````````
 
 Adds a per-face solid-carbon ledger to the catalytic machinery:
 ablation reactions debit carbon atoms, and the patch reports a
-recession rate and depth from the consumed mass. Under ``dsmcFoam``
-the mesh does not move (geometric recession is handled by the
-immersed level-set, :doc:`../theory/wall_models`); this class is
-the natural boundary diagnostic for surface mass loss, and under
-``dsmcFoamAblation`` it drives the receding wall.
+recession rate and depth from the consumed mass (``material``, or
+``solidDensity`` and ``carbonMass``). Under ``dsmcFoam`` the mesh
+does not move; under ``dsmcFoamAblation`` the ledger drives the
+receding wall (``ablationRecession``) or the conjugate solid.
+Geometric recession on a fixed mesh is handled by the immersed
+surfaces of :doc:`../theory/wall_models`.
 
 ``dsmcCoverageWallPatch``
 `````````````````````````
 
-Carries a per-species surface coverage :math:`\theta` over a finite
-site inventory and resolves Langmuir / Kisliuk sticking,
-Polanyi-Wigner desorption with lateral interactions, Eley-Rideal
-and Langmuir-Hinshelwood surface reactions. Configured through a
-per-species ``species`` block (sticking and desorption parameters)
-and a ``reactions`` block (``ER`` / ``LH`` entries).
-
-The patch conserves the adsorbed mass exactly. A parcel adsorbs
-only if its face holds the free sites it needs (two per molecule
-for dissociative adsorption), and an Eley-Rideal event occurs only
-if the adsorbed atoms it consumes are present. A draw that fails
-either test reflects the parcel diffusely and is counted in
-``nRejected``, which the patch reports with the other tallies.
-Coverage therefore never exceeds 1 or falls below 0, and no atom is
-created or destroyed at saturation.
+Every face is an element of the finite-rate surface-chemistry engine
+(``surfaceMechanism`` and ``surfaceState``, after SPARTA's
+``surf_react adsorb`` and Swaminathan Gopalan et al.). Per impact
+the state selects a gas-surface reaction of the impinging species,
+or none (the parcel scatters with the default kernel
+``scatterModel``); every ``nsync`` steps the pure-surface reactions
+are integrated over the active faces (``psIntegrator exponential``,
+``timeCounter`` or ``stochastic``). The mechanism is given by name
+(``mechanism``, in ``system/surfaceChemReactDict``), imported from
+SPARTA GS and PS files (``spartaMechanism``), or translated at start
+from the legacy keywords (``species`` with sticking, Kisliuk and
+Polanyi-Wigner desorption parameters, and ``reactions`` of type
+``ER``, ``CID`` and ``LH``). The selection is exactly gated: a
+channel whose surface reactants or free sites are missing is rejected
+and counted, so no atom is created or destroyed. Each event deposits
+its heat of reaction (computed from the 0 K formation enthalpies) in
+the wall's chemical-energy ledger, and the bulk ledger drives the
+recession under ``dsmcFoamAblation``. Theory:
+:doc:`../theory/wall_models`; verification:
+:doc:`../reference/gsi_verification/b2_finite_rate_gs` and
+:doc:`../reference/gsi_verification/b3_ps_integration`.
 
 Wall-state restart
 ``````````````````
 
-At every write time the coverage and ablating walls save their
-state, and read it back on start-up:
+At every write time the walls save their state under
+``<time>/uniform/dsmcWalls/`` and read it back on start-up:
 
 .. list-table::
    :header-rows: 1
@@ -393,22 +424,25 @@ state, and read it back on start-up:
 
    * - File
      - Content
-   * - ``<time>/uniform/dsmcWalls/<patch>Coverage``
-     - coverage :math:`\theta` per species and face, pending
-       desorption, and the tallies (adsorbed, rejected, desorbed,
-       reacted, collision-desorbed).
-   * - ``<time>/uniform/dsmcWalls/<patch>Ablation``
-     - per-face carbon consumed and :math:`T_w`, total carbon
-       consumed, production totals, per-reaction counts and impact
-       counters.
+   * - ``<patch>SurfaceState``
+     - coverage wall: coverages, pending changes, bulk ledger,
+       pure-surface carries or counters, tallies.
+   * - ``<patch>Ablation``
+     - ablating wall: per-face carbon consumed, totals, per-reaction
+       counts, impact counters and the carbon coupling window.
+   * - ``<patch>Recession``
+     - coverage wall with bulk reactions: the coupling window of the
+       removed mass.
+   * - ``<patch>WallTemperature``
+     - per-face wall temperature, relaxed flux, averaging ledger,
+       chemical-energy ledger and coupling window.
 
-A restarted run therefore resumes :math:`\theta`, the carbon ledger
-(and with it ``recessionVelocity()``) and the wall temperature
-instead of resetting them. In a parallel run the files are written
-per processor; a restart must use the same decomposition and, for
-the ablating wall, the same reaction list, otherwise the solver
-stops with a ``FatalError``. A case without these files starts from
-``initCoverage`` and an empty ledger, as before.
+The files are processor-local and written at 17 significant digits,
+so a restart with the same decomposition continues exactly; the
+coverage and ablating walls stop with a ``FatalError`` when the
+decomposition or the reaction list changed, the wall temperature
+falls back to ``temperature`` with a warning. A legacy
+``<patch>Coverage`` file is read once.
 
 Surface-reaction dictionary
 ```````````````````````````

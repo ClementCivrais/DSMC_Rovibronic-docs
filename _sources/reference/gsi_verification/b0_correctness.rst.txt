@@ -1,0 +1,81 @@
+B0: correctness of the surface state
+====================================
+
+**Verified:** three correctness fixes without new physics. The
+coverage wall conserves the adsorbed mass exactly (no clamp of the
+coverage), the reactive walls write and read their state on restart,
+and the probability of the immersed surface follows the wall
+temperature. **Against:** round-off identities (atom balance, restart
+continuation) and the analytic :math:`\beta(T_w)`.
+
+D1: exact site gating
+---------------------
+
+A parcel adsorbs only if its face holds the free sites it needs (two
+per molecule for dissociative adsorption), and an Eley-Rideal event
+occurs only if the adsorbed atoms are present; otherwise the parcel
+is reflected and counted as rejected.
+
+Closed 1 mm box of O with a sticking wall (:math:`S_0 = 1`, no
+desorption), the site density chosen so that one parcel fills 0.3 of
+the face (:math:`W = 10^6`, :math:`n_{sites}` = 3.333e6):
+
+* the face saturates at :math:`\theta` = 0.9 (three parcels), and 55
+  later adsorption draws are rejected;
+* O balance: 104 parcels (1.04e8 atoms) at :math:`t = 0`; at
+  2e-5 s, 101 parcels in the gas plus 3e6 adsorbed atoms, a relative
+  difference of 0.0;
+* the former clamp would have taken the face to 1.0 and destroyed
+  2e5 atoms.
+
+D2: restart of the wall state
+-----------------------------
+
+The coverage wall writes its state, and the ablating wall its
+per-face carbon ledger, at every write time (processor-local files
+under ``<time>/uniform/dsmcWalls/``; since B2 the coverage wall
+writes ``<patch>SurfaceState``). The saturation case restarted from
+1e-5 s resumes at :math:`\theta` = 0.900000000009 instead of 0, and
+its tallies continue.
+
+D3: immersed probability follows :math:`T_w`
+--------------------------------------------
+
+The immersed slab with radiative equilibrium, :math:`A = 0.5` and
+:math:`T_a = 3000` K:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 35 35
+
+   * - :math:`T_w` [K]
+     - :math:`\beta`
+     - :math:`\beta/(0.5\,e^{-3000/T_w})`
+   * - 656.825
+     - 5.192336e-03
+     - 0.999999999996
+   * - 551.841
+     - 2.177668e-03
+     - 0.999999999997
+   * - 516.439
+     - 1.500199e-03
+     - 1.000000000004
+   * - 509.290
+     - 1.382719e-03
+     - 1.000000000002
+
+Before the fix :math:`\beta` stayed at :math:`0.5\,e^{-3}` = 0.0249.
+
+Regression: the second-order Langmuir-Hinshelwood case
+``coverage_lh2`` (:math:`k` = 2e4 s\ :sup:`-1`,
+:math:`\theta_0 = 0.8`) gives :math:`\theta(10^{-4}\,\mathrm{s})` =
+0.190455 against the exact :math:`0.8/(1 + 2k\theta_0 t)` = 0.190476,
+the explicit-Euler error of the step at the time (since B3 the
+integration is exact: 0.1904761917).
+
+Reproduce
+---------
+
+Copies of ``run/GSI/boundaryConditions/regression/coverage_lh2`` and
+``run/GSI/immersedSlab/cases/slab_analytic``. Note:
+``docs/Development/Verification/gsi/b0_correctness.md``.

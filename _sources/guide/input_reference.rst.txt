@@ -443,12 +443,21 @@ The following patch classes are implemented in
        re-sampled on diffuse reflection using the wall temperature.
    * - ``dsmcCLLWallPatch``
      - Cercignani-Lampis-Lord scattering model.
+   * - ``dsmcAccommodationWallPatch``
+     - Maxwell wall with a separate accommodation coefficient per
+       energy mode (optionally per species).
+   * - ``dsmcRadiativeEquilibriumWallPatch``
+     - Per-face wall temperature from the radiative balance.
+   * - ``dsmcOutgassingWallPatch``,
+       ``dsmcPumpWallPatch``
+     - Prescribed species emission; capture with a probability, a
+       pumping speed or a target pressure.
    * - ``dsmcCatalyticWallPatch``,
        ``dsmcAblatingWallPatch``,
        ``dsmcCoverageWallPatch``
-     - Reactive gas-surface-interaction walls (catalysis,
-       ablation, coverage chemistry). See the surface-chemistry
-       section below.
+     - Reactive gas-surface-interaction walls (probability-mode
+       catalysis and ablation; finite-rate coverage chemistry). See
+       the gas-surface interaction section below.
    * - ``dsmcDeletionPatch``
      - Particle sink (outflow or selective deletion).
    * - ``dsmcFreeStreamInflowPatch``
@@ -527,17 +536,88 @@ a reaction that names a normal-mode species stops with a
 Gas-surface interaction dictionaries
 ------------------------------------
 
-The reactive walls (``dsmcCatalyticWallPatch``,
-``dsmcAblatingWallPatch``, ``dsmcCoverageWallPatch``) read their
-surface reactions either inline or by name against a central
-``system/surfaceChemReactDict``, which carries ``surfaceReactions``
-and ``surfaceMaterials`` blocks. A finite-rate reaction has the
-generalised-Arrhenius probability
-:math:`\beta = \min(1, A\,T_w^{n}\,e^{-T_a/T_w})`; a recombination
-reaction has a constant, Arrhenius or tabulated :math:`\gamma`:
+The models are described in :doc:`../theory/wall_models` and verified
+in :doc:`../reference/gsi_verification/index`. The keywords below are
+those read by the source; the class headers under
+``src/lagrangian/DSMC/`` carry the same Usage blocks.
+
+Wall temperature (every re-emitting wall)
+`````````````````````````````````````````
+
+Read from ``<boundaryModel>Properties`` by every wall that re-emits
+at a wall temperature (diffuse, mixed, CLL, accommodation, pump,
+outgassing, catalytic, ablating and coverage walls):
 
 .. code-block:: cpp
 
+   temperature            1000;   // uniform value, initial face value
+   wallTemperatureModel   radiativeEquilibrium;  // uniform (default) |
+                                                 // radiativeEquilibrium |
+                                                 // coupled
+   wallTemperatureProperties      // radiativeEquilibrium only
+   {
+       emissivity            0.85;   // (0, 1], required
+       backgroundTemperature 0;      // radiative sink [K]
+       relaxationFactor      0.2;    // (0, 1]
+       updateInterval        10;     // steps per update
+       minTemperature        50;
+       maxTemperature        1e5;
+       sampleStartTime       0;      // start of the Tw/q averaging ledger
+   }
+
+A non-uniform model on a wall that does not re-emit at a face
+temperature (specular, deletion, the ``*Field*`` walls, the dedicated
+radiative-equilibrium wall) is a ``FatalError``; ``coupled`` is set
+by the conjugate solid of ``dsmcFoamAblation``.
+
+Scattering and sink walls
+`````````````````````````
+
+.. list-table::
+   :header-rows: 1
+   :widths: 32 68
+
+   * - Class
+     - Keywords of ``<boundaryModel>Properties``
+   * - ``dsmcAccommodationWallPatch``
+     - ``momentumAccommodationCoefficient``,
+       ``translationalAccommodationCoefficient``,
+       ``rotationalAccommodationCoefficient``,
+       ``vibrationalAccommodationCoefficient``,
+       ``electronicAccommodationCoefficient`` (all default 1),
+       ``internalAccommodationDiffuseOnly`` (default ``false``,
+       PICLas convention), ``sampleStartTime``, optional per-species
+       overrides ``species { O2 { electronicAccommodationCoefficient
+       1e-3; } }``
+   * - ``dsmcCLLWallPatch``
+     - ``normalAccommodationCoefficient``,
+       ``tangentialAccommodationCoefficient``, optional
+       ``internalAccommodationCoefficient`` or the per-mode
+       ``rotational/vibrational/electronicAccommodationCoefficient``
+   * - ``dsmcRadiativeEquilibriumWallPatch``
+     - ``emissivity``, ``backgroundTemperature``,
+       ``relaxationFactor``, ``updateInterval``, ``minTemperature``,
+       ``maxTemperature``, ``sampleStartTime``
+   * - ``dsmcOutgassingWallPatch``
+     - ``outgassing { H2O { massFlux 1e-6; } N2 { numberFlux 1e18; } }``,
+       ``blowingVelocity``
+   * - ``dsmcPumpWallPatch``
+     - ``captureProbability`` (optionally per species in
+       ``species { }``); pumping-speed mode ``pumpingSpeed`` [m³/s];
+       adaptive mode ``targetPressure``, ``proportionalGain``,
+       ``integralGain``, ``relaxationFactor``, ``updateInterval``
+
+Probability-mode reactive walls
+```````````````````````````````
+
+``dsmcCatalyticWallPatch`` and ``dsmcAblatingWallPatch`` take a
+``reactions`` entry that is either an inline dictionary or a list of
+names resolved against the ``surfaceReactions`` block of
+``system/surfaceChemReactDict``:
+
+.. code-block:: cpp
+
+   // system/surfaceChemReactDict
    surfaceReactions
    {
        oxidiseO   { type srFiniteRate; reactant O;  product CO;
@@ -547,52 +627,276 @@ reaction has a constant, Arrhenius or tabulated :math:`\gamma`:
                     secondaryProduct CO; A 0.9; n 0.0; Ta 0.0;
                     nCConsumed 1; nReactantConsumed 1; }
        recombineO { type srRecombination; reactant O; product O2;
-                    gamma 0.07; }
+                    gamma 0.07; betaAcc 0.5; Erecomb 8.203e-19; }
    }
    surfaceMaterials
    {
-       graphite { solidDensity 1800; carbonMass 1.994e-26;
-                  siteDensity 1e19; }
+       graphite { solidDensity 1800; carbonMass 1.9944734729e-26; }
    }
 
-The boundary patch then references these reactions by name:
-
-.. code-block:: cpp
-
+   // system/boundariesDict
    boundaryModel dsmcAblatingWallPatch;
    dsmcAblatingWallPatchProperties
    {
        temperature 2000;
        velocity    (0 0 0);
-       material    graphite;
-       reactions   ( oxidiseO oxidiseO2 boudouard recombineO );
+       material    graphite;      // or solidDensity and carbonMass
+       reactions   ( oxidiseO boudouard recombineO );
    }
 
-Geometric surface recession (the immersed level-set of
-:doc:`../theory/wall_models`) is enabled by an
-``immersedAblationProperties`` sub-dictionary in
-``constant/dsmcProperties``. Its principal keys are the surface
-specification (``shape`` plane/sphere/cylinder with ``point`` /
-``normal`` or ``centre`` / ``radius``, **or** ``stlFile`` for an
-arbitrary triangulated geometry), the reaction (``gamma`` / ``A`` /
-``n`` / ``Ta``, ``reactant``, ``product``), the solid properties
-(``material`` or ``solidDensity`` + ``carbonMass``), and optional
-``radiativeEquilibrium`` + ``emissivity``, ``sublimation`` +
-``sublimationProducts``, and ``patoCoupling`` switches:
+.. list-table::
+   :header-rows: 1
+   :widths: 25 75
+
+   * - ``type``
+     - Keywords
+   * - ``srFiniteRate``
+     - ``reactant``, ``product``, ``A`` (required), ``n``, ``Ta``
+       (default 0), ``nCConsumed``, ``nReactantConsumed``, optional
+       ``secondaryProduct``
+   * - ``srRecombination``
+     - ``reactant``, ``product``; one of ``gamma``,
+       ``gamma0`` + ``Ea`` [J/mol], ``gammaA`` + ``Ta`` [K]
+       (optional ``n``), or ``gammaTable ((T0 g0) (T1 g1) ...)``;
+       ``Erecomb`` [J], ``betaAcc`` (default 1)
+   * - ``srAbsorption``
+     - ``reactant``, optional ``A`` (default 1), ``n``, ``Ta``
+   * - ``srNeutralisation``
+     - ``reactant``, ``product``, ``workFunction`` [eV], ``betaAcc``,
+       optional ``releasedEnergy`` [eV], ``A``, ``n``, ``Ta``
+
+Finite-rate mechanisms and the coverage wall
+````````````````````````````````````````````
+
+``dsmcCoverageWallPatch`` takes a native mechanism by name, a SPARTA
+import, or the legacy keywords (translated at start):
+
+.. code-block:: cpp
+
+   boundaryModel   dsmcCoverageWallPatch;
+   dsmcCoverageWallPatchProperties
+   {
+       temperature   1000;             // element temperature [K]
+       velocity      (0 0 0);
+       mechanism     sample;           // system/surfaceChemReactDict
+       // or
+       spartaMechanism
+       {
+           gsFile      "sample-GS_2.surf";   // in constant/
+           psFile      "sample-PS_2.surf";   // optional
+           siteDensity 6.022e18;             // SPARTA n_sites [m^-2]
+           temperature 1000;                 // SPARTA twall [K]
+           nsync       1;
+           // psIntegrator timeCounter;      // default of the import
+       }
+       scatterModel  cll;              // default kernel (default diffuse)
+       cllProperties { temperature 300; alphaN 0.5; alphaT 0.5;
+                       alphaRot 0.5; alphaVib 0.5; }
+       material      graphite;         // optional surfaceMaterials entry
+       printInterval 100;              // optional
+       elementTallies false;           // optional
+       wallTemperatureModel uniform;   // optional
+   }
+
+The native mechanism, in ``system/surfaceChemReactDict``:
+
+.. code-block:: cpp
+
+   surfaceMechanisms
+   {
+       sample
+       {
+           siteSets      { s { siteDensity 6.022e18; } }
+           adsorbates    { O(s)  { siteSet s; initialCoverage 0; }
+                           CO(s) { siteSet s; bindingEnergy 2.3;
+                                   bindingEnergyUnit eV; } }
+           bulk          ( C(b) );
+           normalisation sparta;        // sparta | sg25
+           stoichiometry combinatorial; // combinatorial | power (mandatory)
+           coverageUpdate immediate;    // immediate | sync
+           // nsync              1;
+           // psIntegrator       exponential;  // | timeCounter | stochastic
+           // psSubStepTolerance 0.1;
+           // psMaxSubSteps      100;
+           temperature   element;       // element | fixed
+           // fixedTemperature   1000;
+           // probabilityCap     1;     // perParticle channels only
+           // reactionHeat       computed;     // | none
+           // material           graphite;
+           // adsorption { O { S0 { A 0.85; b 0; Ea 0; } Kkis { A 0; }
+           //                  alpha 1; siteSet s; } }   // sg25 only
+           reactions
+           {
+               adsO { type AA; reaction "O(g) --> O(s)";
+                      rate { A 1.0; b 0; Ea 0; } alpha 1; }
+               lh1  { type LH1; reaction "O(g) + O(s) --> CO2(g)";
+                      rate { A 536.3e5; b 0; Ea 655.65; } alpha 1;
+                      products { CO2 { scatterModel td;
+                                       tdProperties { temperature 300; } } } }
+               dsO  { type DS; reaction "O(s) --> O(g)";
+                      rate { A 0.050457; b 2; Ea 3177.17; } }
+           }
+       }
+   }
+   surfaceMaterials
+   {
+       graphite { solidDensity 1800; }   // optional formationReference
+                                         // { X(b) h; } [kJ/mol], atomMass
+   }
+
+Reaction types: GS ``AA``, ``DA``, ``ER``, ``CI``, ``LH1``, ``LH3``,
+``CD``, ``prob``; PS ``DS``, ``LH2``, ``LH4``, ``SB``. Optional keys
+of a reaction: ``id``, ``rateStyle`` (``arrhenius`` | ``constant``),
+``alpha``, ``siteSet``, ``kisliuk { form sparta|sg25|legacy; A; b; Ea; }``
+(``form`` mandatory), ``rateForm`` (``efficiency`` | ``maxwellian`` |
+``perParticle``), ``heatOfReaction`` with ``heatOfReactionUnit``
+(``J`` | ``K`` | ``eV``), ``spectator``, and ``products`` (gas-product
+kernels by name or as a list in token order).
+
+Legacy coverage keywords (translated into a mechanism): ``siteDensity``
+or ``material``; ``species { X { stick; stickEnergy; stickingModel
+langmuir|kisliuk; kisliukK; dissociateTo; desorbPrefactor;
+desorbEnergy; desorbLateral; desorbPrefactorCov; initCoverage; } }``;
+``reactions { name { type ER|CID|LH; reactant; coReactant; product;
+gamma; A; Ta; } }``; optional ``psIntegrator``.
+
+Scattering kernels
+``````````````````
+
+``scatterModel`` selects the default kernel of a reacting wall and,
+inside ``products``, the kernel of a reaction product; coefficients go
+in ``<scatterModel>Properties``:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 18 82
+
+   * - Kernel
+     - Keywords (``temperature`` optional in every kernel, else the
+       element temperature)
+   * - ``diffuse``
+     - ``accommodation`` (diffuse fraction, default 1)
+   * - ``specular``
+     - none
+   * - ``cll``
+     - ``alphaN``, ``alphaT``, ``alphaRot``, ``alphaVib``, optional
+       ``partial`` (eccentricity in [0, 1))
+   * - ``td``
+     - optional ``barrier`` [K], ``bond (Bt Br Bv)`` [K],
+       ``initenergy (ft fr fv)``
+   * - ``impulsive``
+     - ``model softsphere|tempvar``, ``energyRatio`` and
+       ``effectiveMass`` (softsphere), ``u0a`` and ``u0b`` (tempvar),
+       ``alpha``, ``thetaPeak``, ``cosThetaPower``, ``cosPhiPower``,
+       optional ``step``, ``double``, ``intenergy (fr fv)``,
+       ``ladderSearch bisection|linear``
+   * - ``adiabatic``
+     - none
+
+The internal-state sampler of the gas-phase equilibrium draws is
+selected in ``constant/dsmcProperties`` by
+``internalStateSampler alias;`` (default) or ``rejection``.
+
+Immersed surface
+````````````````
+
+``immersedAblationProperties`` in ``constant/dsmcProperties``:
 
 .. code-block:: cpp
 
    immersedAblationProperties
    {
-       stlFile        "constant/triSurface/capsule.stl";
-       temperature    1000;
-       gamma          1.0;
-       solidDensity   50;
-       reactant       O;
-       product        O2;
-       maxPenetration 7e-4;
-       perCellRecession true;
+       // geometry: analytic shape or STL
+       shape        cylinder;          // plane (point, normal) |
+                                       // sphere | cylinder (centre,
+                                       // radius; cylinder: axis)
+       centre       (1.5e-3 0 5e-5); axis (0 0 1); radius 5e-4;
+       // stlFile   "constant/triSurface/body.stl";
+       surfaceType  implicit;          // implicit | explicit
+       cutCellVolumes    true;         // default
+       recessionInterval 1;            // default
+       temperature  2000;
+       area         3.14159e-7;
+       material     graphite;          // or solidDensity, carbonMass
+
+       // probability mode: single reaction ...
+       reactant O;  product CO;  A 0.63;  n 0;  Ta 1160;   // or gamma
+       // ... or a reactions list (srFiniteRate, srRecombination, ...)
+       // reactions { oxO { type srFiniteRate; reactant O; product CO;
+       //                   A 0.63; Ta 1160; nCConsumed 1; } }
+       // mechanism mode
+       // mechanism  b5rec;            // or spartaMechanism { ... }
+       // scatterModel diffuse; printInterval 100; ledgerCheck true;
+       // elementTallies false;
+       // wallTemperatureModel radiativeEquilibrium;   // per cut cell
+       // wallTemperatureProperties { emissivity 0.85; ... }
+
+       // optional
+       // radiativeEquilibrium true; emissivity 0.85;  // global Tw
+       // sublimation true; sublimationAlpha 1;
+       // sublimationProducts { C3 { pvapA ...; pvapB ...; nCarbon 3; } }
+       // perCellRecession true;      // former cell-centred level set
+       // patoCoupling true; patoCouplingInterval 100;
    }
+
+A mechanism needs the cut cells of the implicit or explicit surface;
+the analytic and level-set paths keep the probability mode.
+
+``dsmcFoamAblation``: receding walls and the conjugate solid
+````````````````````````````````````````````````````````````
+
+Body-fitted recession of an ablating or coverage wall, in
+``constant/dynamicMeshDict`` (the ``pointDisplacement`` condition of
+the patch must be ``fixedValue``):
+
+.. code-block:: cpp
+
+   ablationRecession { patch wall; accelerationFactor 1; }
+
+The conjugate solid, in ``constant/conjugateProperties`` (it recedes
+the wall itself, so it excludes ``ablationRecession``):
+
+.. code-block:: cpp
+
+   solidRegions          (solid);
+   couplings
+   {
+       plate { gasPatch plate; solidRegion solid; solidPatch top; }
+   }
+   couplingInterval      1000;   // DSMC steps per window
+   solidStepsPerWindow   10;
+   solidDeltaT           1e-4;   // physical solid time step [s]
+   emissivity            0.85;
+   backgroundTemperature 0;
+   nOuterCorrectors      3;
+   prescribedHeatFlux    1e7;    // optional (verification)
+   maxRecession          2e-4;   // optional: write and stop [m]
+   meltFilm                      // optional
+   {
+       bodyForce         (0 0 0);
+       freeFlight        no;
+       separation        full;   // full | partial | none
+       weberCritical     12;
+       maxCourant        0.4;
+       sampleInterval    5;
+       dropletEmissivity 0.1;
+       // prescribedShear, initialFilm { }, testDroplet { } (verification)
+   }
+
+Each solid region has ``constant/<region>/polyMesh``,
+``dynamicMeshDict`` (a motion solver, to recede) and
+``solidProperties`` (``rho``, ``cp``, ``k``, ``Tmelt``, ``Lmelt``,
+``T0``; ``cp`` and ``k`` may be any ``Function1`` of :math:`T`;
+optional ``cellZones`` overrides; for the film ``rhoLiquid``,
+``muLiquid``, ``sigmaLiquid``, ``cpLiquid`` and optionally ``Tboil``,
+``Lvap``, ``molarMass``), ``system/<region>/fvSchemes`` and
+``fvSolution``, ``0/<region>/T`` (``mixed`` on the coupled patches) and
+``0/<region>/pointDisplacement`` (``fixedValue`` on the coupled
+patches). ``constant/regionProperties`` (``regions ( gas (region0)
+solid (solid) );``) is read by ``decomposePar -allRegions`` and
+``reconstructPar -allRegions``. The couplings must be disjoint: no
+patch in two couplings and no point shared by two coupled patches of
+one mesh. The former ``solidCase`` layout is refused.
 
 ``system/controlDict``
 ----------------------
