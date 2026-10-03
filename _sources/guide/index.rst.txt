@@ -16,6 +16,7 @@ rebuild of the solver.
    :maxdepth: 2
 
    installation
+   solvers/index
    running
    input_reference
    planetary_atmospheres

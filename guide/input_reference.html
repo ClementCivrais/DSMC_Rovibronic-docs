@@ -66,6 +66,37 @@
 <li class="toctree-l3"><a class="reference internal" href="installation.html#troubleshooting-common-issues">Troubleshooting common issues</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="solvers/index.html">Solvers and coupling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="solvers/dsmcInitialise.html">dsmcInitialise</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcInitialise.html#purpose">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcInitialise.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcInitialise.html#inputs">Inputs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcInitialise.html#outputs">Outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="solvers/dsmcFoam.html">dsmcFoam</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoam.html#purpose">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoam.html#what-the-solver-includes">What the solver includes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoam.html#one-time-step">One time step</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoam.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="solvers/dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#purpose">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#time-loop">Time loop</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#solid-model">Solid model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#case-layout">Case layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#outputs">Outputs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#restart">Restart</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#verification">Verification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#limitations">Limitations</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="running.html">Running a Case</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="running.html#serial-execution">Serial execution</a></li>
 <li class="toctree-l3"><a class="reference internal" href="running.html#parallel-execution">Parallel execution</a></li>
@@ -1139,7 +1170,7 @@ tables are cached, conventionally <code class="docutils literal notranslate"><sp
 </section>
 </section>
 <section id="constant-speciescache">
-<h2><code class="docutils literal notranslate"><span class="pre">constant/speciesCache/</span></code><a class="headerlink" href="#constant-speciescache" title="Link to this heading"></a></h2>
+<span id="input-species-cache"></span><h2><code class="docutils literal notranslate"><span class="pre">constant/speciesCache/</span></code><a class="headerlink" href="#constant-speciescache" title="Link to this heading"></a></h2>
 <p>The species data are compiled into the solver, not read from the
 case. When <code class="docutils literal notranslate"><span class="pre">databasePath</span></code> is set, the solver writes one
 <code class="docutils literal notranslate"><span class="pre">&lt;species&gt;.dat</span></code> file per diatomic or atomic species (level table,

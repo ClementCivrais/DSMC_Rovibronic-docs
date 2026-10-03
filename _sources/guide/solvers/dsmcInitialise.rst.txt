@@ -1,0 +1,51 @@
+dsmcInitialise
+==============
+
+``applications/utilities/preProcessing/DSMC/dsmcInitialise``
+
+Purpose
+-------
+
+``dsmcInitialise`` fills the gas mesh with simulator parcels before the
+first run. Each zone of ``system/dsmcInitialiseDict`` sets the number
+density of every species, the translational and internal temperatures
+and the bulk velocity; the parcels are drawn from the corresponding
+equilibrium distributions, with their electronic, vibrational and
+rotational quantum numbers :math:`(n, v, J)` sampled from the rovibronic
+level tables of the species database (:doc:`../../theory/rovibronic_levels`).
+
+When ``databasePath`` is set in ``constant/dsmcProperties``, the utility
+also writes the level tables of the atomic and diatomic species to
+``constant/speciesCache/``. The solvers recompute the tables at
+start-up; the caches are read by the Python oracles of the verification
+cases, so they must be regenerated after any change of the species
+database (see :ref:`the species cache entry <input-species-cache>` of the
+input reference).
+
+Usage
+-----
+
+.. code-block:: bash
+
+   blockMesh
+   dsmcInitialise
+   # then dsmcFoam or dsmcFoamAblation
+
+For a parallel run, decompose after the initialisation
+(``decomposePar``, or ``decomposePar -allRegions`` for a case with solid
+regions).
+
+Inputs
+------
+
+- ``system/dsmcInitialiseDict``: the initialisation zones
+  (:doc:`../input_reference`);
+- ``constant/dsmcProperties``: the species, the simulator weight
+  ``nEquivalentParticles`` and the model choices;
+- the mesh in ``constant/polyMesh``.
+
+Outputs
+-------
+
+- the parcels in ``0/lagrangian/dsmc``;
+- the species caches in ``constant/speciesCache`` (when requested).

@@ -1,0 +1,110 @@
+dsmcFoam
+========
+
+``applications/solvers/discreteMethods/dsmcFoam``
+
+Purpose
+-------
+
+``dsmcFoam`` is the transient, multi-species DSMC solver of the code. It
+advances the simulator parcels on a fixed mesh in two, three or
+axisymmetric dimensions. Every parcel carries its electronic, vibrational
+and rotational quantum numbers :math:`(n, v, J)`, so the internal energy,
+its relaxation and the chemistry are resolved state by state
+(:doc:`../../theory/index`).
+
+What the solver includes
+------------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Model family
+     - Content
+   * - Collisions
+     - VHS and VSS cross sections with collision-specific pair data;
+       no-time-counter pair selection
+       (:doc:`../../theory/collision_cross_sections`,
+       :doc:`../../theory/collision_sampling`)
+   * - Internal energy
+     - Larsen-Borgnakke relaxation of the rovibronic levels with the
+       Nizenkov rate correction
+       (:doc:`../../theory/larsen_borgnakke`, :doc:`../../theory/relaxation`)
+   * - Chemistry
+     - quantum-kinetic (QK) dissociation, SR-:math:`\mu`\ TST exchange,
+       recombination by detailed balance, charged-species reactions
+       (:doc:`../../theory/chemistry`)
+   * - Walls
+     - diffuse, specular, CLL, TD, impulsive and adiabatic kernels with an
+       exact internal-state sampler; per-face wall temperature; catalytic,
+       ablating and finite-rate coverage walls
+       (:doc:`../../theory/wall_models`)
+   * - Immersed surfaces
+     - implicit (level set) and explicit (STL) surfaces on the fixed gas
+       mesh, with probability or finite-rate chemistry and recession
+       (:doc:`../../reference/gsi_verification/immersed_surface`)
+   * - Measurements
+     - cell, zone and boundary measurements, controllers, mesh adaptation
+
+The receding body-fitted wall and the conjugate solid need a moving mesh
+or a second region; they are in :doc:`dsmcFoamAblation`.
+
+One time step
+-------------
+
+Each time step calls ``dsmcCloud::evolve()``:
+
+#. update the time information of the boundaries, fields and
+   controllers;
+#. move the parcels for :math:`\Delta t`; wall impacts are handled by
+   the wall models of ``system/boundariesDict`` during the move;
+#. interactions with the immersed surface (reflection, chemistry,
+   recession at its update interval);
+#. cell occupancy and weighting, then the update of the internal-energy
+   corrections;
+#. collisions: pair selection, Larsen-Borgnakke relaxation and the
+   reactions of ``system/chemReactDict``;
+#. surface kinetics of the finite-rate walls, measurements, controllers
+   and adaptation.
+
+The figure below follows one gas-surface impact through these models.
+
+.. figure:: ../../_static/figures/diagrams/impact_path.svg
+   :width: 90%
+   :alt: path of one gas-surface impact through the kernel, probability
+         and finite-rate surface models, the energy and mass ledgers, the
+         surface kinetics and the recession update
+
+   One gas-surface impact. The surface model of the wall or of the
+   immersed surface decides the outcome; every outcome is booked in the
+   energy and mass ledgers. Between impacts the surface kinetics of each
+   element advance every step; the removed bulk atoms drive the
+   recession at each update.
+
+Usage
+-----
+
+.. code-block:: bash
+
+   blockMesh
+   dsmcInitialise
+   dsmcFoam > log.dsmcFoam 2>&1
+
+   # in parallel
+   decomposePar
+   mpirun -np 4 dsmcFoam -parallel > log.dsmcFoam 2>&1
+   reconstructPar
+
+The random-number seed is taken from the clock unless ``randomSeed`` is
+set in ``constant/dsmcProperties``; set it (and stagger the seeds of
+replicas) for reproducible runs. On the same build and processor count a
+seeded run is reproduced exactly.
+
+Inputs and outputs
+------------------
+
+The case files and their keywords are listed in
+:doc:`../input_reference`; the outputs and their post-processing in
+:doc:`../post_processing`. The tutorials are described in
+:doc:`../../examples/index`.

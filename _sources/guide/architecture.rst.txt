@@ -7,6 +7,8 @@ extending the rovibronic machinery. Every subsystem is documented
 class by class in the companion :doc:`../classes/index` section;
 the present page is the quickest way to locate a given piece of
 functionality in the tree.
+How the executables and their regions exchange data during a run is
+shown in :doc:`solvers/index`.
 
 Top-level layout
 ----------------

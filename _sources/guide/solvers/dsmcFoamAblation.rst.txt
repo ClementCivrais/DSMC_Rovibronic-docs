@@ -1,0 +1,209 @@
+dsmcFoamAblation
+================
+
+``applications/solvers/discreteMethods/dsmcFoamAblation``
+
+Purpose
+-------
+
+``dsmcFoamAblation`` is :doc:`dsmcFoam` on a dynamic mesh, coupled in the
+same executable to one or more solid regions. It simulates a gas flow
+over a body whose surface reacts, heats, melts and recedes:
+
+- **receding body-fitted walls**: an ablating wall
+  (``dsmcAblatingWallPatch``) or a finite-rate coverage wall with bulk
+  reactions (``dsmcCoverageWallPatch``) moves the gas mesh as it loses
+  material;
+- **conjugate solid**: heat conduction in the solid with
+  temperature-dependent properties, re-radiation, melting, a melt film
+  and droplets, and recession of the solid and gas meshes together; the
+  solid sets the wall temperature seen by the gas.
+
+With a ``staticFvMesh`` in ``constant/dynamicMeshDict`` and no
+``constant/conjugateProperties`` the solver reduces exactly to
+``dsmcFoam``. The immersed receding surfaces are a feature of the particle
+cloud and work in both solvers.
+
+The coupling stays inside OpenFOAM: the solid regions are meshes of the
+same case on the same ``Time``, decomposed with the gas
+(``decomposePar -allRegions``); no external library is linked.
+
+Time loop
+---------
+
+Each time step of ``dsmcFoamAblation.C``:
+
+#. a receding body-fitted wall converts this step's recession depth into
+   a displacement of its points along the current point normals;
+#. the gas mesh is moved (``mesh.update()``, skipped inside a coupling
+   window when the conjugate solid moves the wall); each parcel keeps its
+   position in its tetrahedron, so no parcel is left in the solid;
+#. ``dsmc.evolve()`` advances the gas exactly as in :doc:`dsmcFoam`, with
+   the walls adding their heat, mass and momentum to the window sums;
+#. at the end of a coupling window the solid regions are advanced and
+   the wall temperature and displacement are returned to the gas
+   (``conjugateRegionsCoupling.H``).
+
+.. figure:: ../../_static/figures/diagrams/coupling_window.svg
+   :width: 100%
+   :alt: gas and solid time lines, with N DSMC steps per window, the
+         window-averaged exchange to the solid, M solid steps, and the
+         wall temperature and displacement returned to the gas
+
+   The coupling window. During :math:`N` DSMC steps the coupled walls
+   accumulate the heat flux :math:`q`, the mass flux :math:`\dot m` and the
+   force :math:`F` per face. At the end of the window these are mapped to
+   the solid, which takes :math:`M` steps of :math:`\Delta t_s`; the wall
+   temperature :math:`T_w` and the wall displacement come back to the gas
+   before the next window.
+
+Solid model
+-----------
+
+Each solid region solves the transient heat equation in enthalpy form on
+its own moving mesh,
+
+.. math::
+
+   \rho\,\frac{\partial h(T)}{\partial t} = \nabla\cdot\big(k(T)\,\nabla T\big),
+   \qquad h(T) = \int_0^T c_p(T')\,\mathrm{d}T',
+
+with :math:`k(T)` and :math:`c_p(T)` any OpenFOAM ``Function1`` of the
+temperature. The time term is written over the solid step
+:math:`\Delta t_s` as
+:math:`\rho\,[h(T)V - h(T^0)V^0]/(\Delta t_s V)`, linearised about the
+current iterate in the outer correctors, and the mesh flux of the moving
+solid mesh enters as an arbitrary Lagrangian-Eulerian term.
+
+On a coupled face that is not melting, the conducted flux balances the
+gas heat flux and the re-radiation (a Robin condition, linearised about
+the face temperature),
+
+.. math::
+
+   k\,\frac{\partial T}{\partial n}\Big|_w = q - \varepsilon\sigma\left(T_w^4 - T_\mathrm{bg}^4\right).
+
+A face that reaches :math:`T_\mathrm{melt}` is held there and melts at the
+speed given by the Stefan condition,
+
+.. math::
+
+   \rho L\,v_\mathrm{melt} = q - \varepsilon\sigma\left(T_\mathrm{melt}^4 - T_\mathrm{bg}^4\right)
+   - k\,\frac{\partial T}{\partial n}\Big|_\mathrm{solid},
+
+and the outer correctors repeat until no face changes state. Without a
+melt film the melt leaves at once and the wall recedes at
+:math:`v_\mathrm{melt} + \dot m/\rho`, where :math:`\dot m` is the
+chemical mass flux of the wall. With ``meltFilm`` the liquid stays on
+the wall as a thin film driven by the gas shear and pressure,
+capillarity and a body force, freezes again where the solid takes the
+heat, and leaves as droplets that the gas carries away.
+
+Gas-solid exchange
+------------------
+
+Every coupled wall accumulates, per face and at :math:`O(1)` cost per
+impact, the window energy (incident minus re-emitted energy in the wall
+frame, absorbed and injected parcels, and the chemical energy where it is
+deposited), the momentum and the removed mass. At the end of the window
+these become the heat flux :math:`q`, the force density and the mass flux
+:math:`\dot m` of each gas face. A face-area-weighted AMI maps them to the
+solid faces conservatively,
+
+.. math::
+
+   q_s A_s = \sum_g q_g A_g\,\frac{A_{gs}}{\sum_{s'} A_{gs'}},
+
+so the heat load of the patch is kept to round-off; the temperatures
+return to the gas faces as area averages. The meshes may be
+non-conformal. The solid wall points move by the least-squares offset of
+their faces; each gas wall point is located on the solid surface and
+moves with it.
+
+Case layout
+-----------
+
+.. code-block:: text
+
+   case/
+     constant/
+       dynamicMeshDict          gas mesh motion (ablationRecession for a
+                                receding wall without the solid)
+       conjugateProperties      solid regions, couplings, window, film
+       regionProperties         regions ( gas (region0) solid (solid) );
+       solid/polyMesh, solid/dynamicMeshDict, solid/solidProperties
+     system/
+       solid/fvSchemes, solid/fvSolution, solid/decomposeParDict
+     0/
+       solid/T                  mixed on the coupled patches
+       solid/pointDisplacement  fixedValue on the coupled patches
+
+The keywords of ``conjugateProperties``, ``solidProperties`` and
+``ablationRecession`` are listed in :doc:`../input_reference` (section
+"Gas-surface interaction dictionaries"). The couplings must be disjoint:
+no patch in two couplings and no point shared by two coupled patches of
+one mesh.
+
+Usage
+-----
+
+.. code-block:: bash
+
+   blockMesh
+   blockMesh -region solid
+   dsmcInitialise
+   dsmcFoamAblation > log.dsmcFoamAblation 2>&1
+
+   # in parallel
+   decomposePar -allRegions
+   mpirun -np 4 dsmcFoamAblation -parallel > log.dsmcFoamAblation 2>&1
+   reconstructPar -allRegions
+
+Outputs
+-------
+
+- ``postProcessing/conjugate/<startTime>/<coupling>.dat``: one line per
+  window, with the window heat load and its relative difference between
+  the gas and solid sides of the AMI;
+- ``postProcessing/conjugate/<coupling>/<time>/wallData``: the face data
+  at the write times;
+- ``<time>/solid/``: the solid temperature, the melting state and the
+  moved solid mesh;
+- the gas fields and wall measurements of :doc:`dsmcFoam`.
+
+Restart
+-------
+
+``<time>/solid/uniform/solidTime`` holds the solid clock, the window
+counters and the ledger; the fields ``vMelt`` and ``melting`` hold the
+state of the coupled faces, and the ``pointDisplacement`` conditions the
+accumulated displacements. The window sums of the walls are restarted
+with them. The gas sample of an unfinished window is not restarted.
+
+Verification
+------------
+
+- :doc:`../../reference/gsi_verification/b8_conjugate_multiregion`:
+  regions against the former layout, melting, film and droplets,
+  non-conformal walls, Cao and Ma (2025) cases 1 and 3;
+- :doc:`../../reference/gsi_verification/conjugate_solid`: melting slab,
+  film and droplet analytic checks;
+- :doc:`../../reference/gsi_verification/b5_recession`: chemistry-driven
+  recession with the solid (solid recession equal to the gas-side ledger
+  to round-off);
+- :doc:`../../reference/gsi_verification/b1_wall_temperature` and
+  :doc:`../../reference/gsi_verification/boundary_conditions`: wall
+  temperature and moving walls against SPARTA.
+
+Limitations
+-----------
+
+- No pyrolysis, porosity or in-depth decomposition (charring ablators).
+- No anisotropic conductivity, no mushy zone inside the solid, no
+  radiative exchange between faces.
+- Adjacent couplings (patches sharing points) are refused.
+- The body-fitted mesh motion has no remeshing; strongly graded meshes
+  fold after large recession. Large recession is the domain of the
+  immersed surfaces, which have no solid under them yet (planned).
+- The window accelerates the solid clock; this assumes a quasi-steady
+  gas over a window.

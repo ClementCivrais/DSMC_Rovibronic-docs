@@ -359,6 +359,8 @@ Required; a case without it stops at start-up.
 * ``databasePath`` (fileName, optional) —  directory in which the
   tables are cached, conventionally ``"constant/speciesCache"``.
 
+.. _input-species-cache:
+
 ``constant/speciesCache/``
 --------------------------
 

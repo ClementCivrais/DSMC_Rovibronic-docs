@@ -65,6 +65,37 @@
 <li class="toctree-l3"><a class="reference internal" href="installation.html#troubleshooting-common-issues">Troubleshooting common issues</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="solvers/index.html">Solvers and coupling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="solvers/dsmcInitialise.html">dsmcInitialise</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcInitialise.html#purpose">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcInitialise.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcInitialise.html#inputs">Inputs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcInitialise.html#outputs">Outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="solvers/dsmcFoam.html">dsmcFoam</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoam.html#purpose">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoam.html#what-the-solver-includes">What the solver includes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoam.html#one-time-step">One time step</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoam.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="solvers/dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#purpose">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#time-loop">Time loop</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#solid-model">Solid model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#case-layout">Case layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#outputs">Outputs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#restart">Restart</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#verification">Verification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#limitations">Limitations</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="running.html">Running a Case</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="running.html#serial-execution">Serial execution</a></li>
 <li class="toctree-l3"><a class="reference internal" href="running.html#parallel-execution">Parallel execution</a></li>
@@ -762,7 +793,9 @@ principal classes that a developer is likely to encounter when
 extending the rovibronic machinery. Every subsystem is documented
 class by class in the companion <a class="reference internal" href="../classes/index.html"><span class="doc">Solver Classes</span></a> section;
 the present page is the quickest way to locate a given piece of
-functionality in the tree.</p>
+functionality in the tree.
+How the executables and their regions exchange data during a run is
+shown in <a class="reference internal" href="solvers/index.html"><span class="doc">Solvers and coupling</span></a>.</p>
 <section id="top-level-layout">
 <h2>Top-level layout<a class="headerlink" href="#top-level-layout" title="Link to this heading"></a></h2>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>src/                 C++ libraries (DSMC core + rovibronic extension)

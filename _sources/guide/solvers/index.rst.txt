@@ -1,0 +1,63 @@
+Solvers and coupling
+====================
+
+The code provides one pre-processing utility and two solvers. All three
+are built on the same DSMC library (``src/lagrangian/DSMC``): the
+particle cloud, the rovibronic species database, the collision,
+relaxation and chemistry models, the wall models and the immersed
+surfaces are shared, so a case set up for ``dsmcFoam`` runs unchanged
+in ``dsmcFoamAblation``. The second solver adds what needs a moving
+mesh or a second region: receding body-fitted walls and the conjugate
+solid (heat conduction, melting, melt film and droplets).
+
+.. list-table::
+   :header-rows: 1
+   :widths: 22 18 60
+
+   * - Executable
+     - Type
+     - Role
+   * - :doc:`dsmcInitialise`
+     - utility
+     - fills the gas domain with parcels; writes the species caches
+   * - :doc:`dsmcFoam`
+     - solver
+     - transient DSMC on a fixed mesh: rovibronic relaxation, QK
+       chemistry, every wall model, immersed receding surfaces
+   * - :doc:`dsmcFoamAblation`
+     - solver
+     - ``dsmcFoam`` on a dynamic mesh, coupled in the same executable to
+       solid regions: wall recession, heat conduction, melting, melt film
+       and droplets
+
+The figure below shows how the parts of ``dsmcFoamAblation`` exchange
+data. The gas region and the gas-surface interaction models are those of
+``dsmcFoam``; the solid regions and the gas mesh motion are the additions
+of ``dsmcFoamAblation``. The external codes on the right are used for
+verification only: no external library is linked.
+
+.. figure:: ../../_static/figures/diagrams/framework_overview.svg
+   :width: 100%
+   :alt: dsmcFoamAblation, its gas region, gas-surface interaction models,
+         solid regions and gas mesh motion, with the input databases,
+         the outputs, the external verification codes and the planned
+         blocks
+
+   Structure of ``dsmcFoamAblation``. Arrows inside the frame are the
+   data exchanged during a run: impacts and products between the gas and
+   the surfaces, the window-averaged heat flux :math:`q`, mass flux
+   :math:`\dot m` and force :math:`F` from the walls to the solid, the
+   wall temperature :math:`T_w` and the wall displacement back to the gas.
+   The planned blocks are not available yet.
+
+.. toctree::
+   :maxdepth: 1
+
+   dsmcInitialise
+   dsmcFoam
+   dsmcFoamAblation
+
+The diagrams of this section are drawn by
+``docs/OnlineDocumentation/_static/figures/diagrams/make_diagrams.py``
+from the time loop of ``dsmcFoamAblation.C``, ``dsmcCloud::evolve()`` and
+``conjugateRegionsCoupling.H``.

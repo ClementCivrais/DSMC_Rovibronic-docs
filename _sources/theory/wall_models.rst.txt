@@ -247,7 +247,19 @@ energy ledger and the scattering kernels described below:
 
 The verification of every item is collected in
 :doc:`../reference/gsi_verification/index`; the input keywords are
-listed in :doc:`../guide/input_reference`.
+listed in :doc:`../guide/input_reference`. How the surfaces connect to
+the gas and to the conjugate solid is shown in
+:doc:`../guide/solvers/index`.
+
+.. figure:: ../_static/figures/diagrams/impact_path.svg
+   :width: 90%
+   :alt: path of one gas-surface impact through the kernel, probability
+         and finite-rate surface models, the energy and mass ledgers, the
+         surface kinetics and the recession update
+
+   One gas-surface impact through the three kinds of surface model, the
+   energy and mass ledgers, the surface kinetics between impacts and the
+   recession update.
 
 Per-face wall temperature
 ~~~~~~~~~~~~~~~~~~~~~~~~~
