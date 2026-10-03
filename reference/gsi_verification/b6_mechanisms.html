@@ -914,12 +914,114 @@ mechanism-mode coverage walls (ACA at 800, 1500, 2400 K; SGC18 at
 relative difference of</strong> <span class="math notranslate nohighlight">\(k(T)\)</span> <strong>4.7e-10</strong> (the ten
 significant digits of the dictionary coefficients). The check passes
 again with the computed reaction heats of B5a.</p>
-<p>Open for the DSMC stage (B6b): engine support for the PR22 spectator
-channels (their per-impact sums of 1.25-1.93 are renormalised by the
-<code class="docutils literal notranslate"><span class="pre">sparta</span></code> normalisation, so the ACA file is not yet for
-production), and the SGC18 impulsive-scattering and TD-barrier
-parameters, which are not in the paper (placeholders in the parser
-check).</p>
+</section>
+<section id="dsmc-verification-b6b">
+<h2>DSMC verification (B6b)<a class="headerlink" href="#dsmc-verification-b6b" title="Link to this heading"></a></h2>
+<p>The B6b engine runs the two mechanisms in DSMC. It adds the PR22 spectator channels: a GS
+reaction whose gas reactant reappears unchanged among its products (rows 3, 7, 12, 17, 20,
+e.g. O + O(s) + C(b) <span class="math notranslate nohighlight">\(\rightarrow\)</span> CO + O) is an independent event induced by the
+impact, not a fate of the impinging parcel.</p>
+<ul class="simple">
+<li><p>Each impact of species G adds <span class="math notranslate nohighlight">\(P_r W\)</span> to a per-element carry of every spectator
+channel <span class="math notranslate nohighlight">\(r\)</span> of G (<span class="math notranslate nohighlight">\(W\)</span>, the parcel weight).</p></li>
+<li><p>Whole events of the element weight fire from the carry.</p></li>
+<li><p>The impinging parcel’s own fate is drawn from the other channels.</p></li>
+<li><p>When both happen in one impact, a fair coin sets their order.</p></li>
+</ul>
+<p>Both hosts emit the events: the coverage wall and the immersed surface. A host that cannot
+emit them stops with an error.</p>
+<p>The adsorbate binding energies of the ACA are not the PR22 desorption activation energies,
+which make several steps endothermic beyond their activation energy:</p>
+<ul class="simple">
+<li><p>O(s) and O*(s): 33 301 K, from the microscopic reversibility of the forward and reverse
+pairs (rows 9/8 and 16/19);</p></li>
+<li><p>N(s): 11 070 K, the upper bound set by row 12.</p></li>
+</ul>
+<p>The steady wall heat does not depend on them (to <span class="math notranslate nohighlight">\(5\times10^{-14}\)</span>).</p>
+<p>0-D reactors (a 2-D column with a beam onto the wall, from the closed-form coverages, two seeded
+replicas) against the oracles:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 38.0%" />
+<col style="width: 62.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Check</p></th>
+<th class="head"><p>Result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ACA steady states: incident O, N, O<sub>2</sub> and the mixture at 1000, 2000 and 3000 K</p></td>
+<td><p>every product probability, the O<sub>2</sub> reactivity and the mass-loss rate with at
+least <span class="math notranslate nohighlight">\(10^4\)</span> events within 0.5 % of the oracle; coverages within 0.6 %, except
+O(s) under the O<sub>2</sub> beam at 1000 K (1.0123 <span class="math notranslate nohighlight">\(\pm\)</span> 0.0095)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Atom ledger (bulk carbon consumed against the tallies)</p></td>
+<td><p>1 <span class="math notranslate nohighlight">\(\pm\ 3\times10^{-6}\)</span> in all 12 conditions</p></td>
+</tr>
+<tr class="row-even"><td><p>ACA transient (O beam at 1000 K, wall stepped to 1600 K)</p></td>
+<td><p>largest deviation <span class="math notranslate nohighlight">\(4\times10^{-4}\)</span> (O(s)) and <span class="math notranslate nohighlight">\(2.8\times10^{-3}\)</span>
+(O*(s)) of the range over 2 ms</p></td>
+</tr>
+<tr class="row-odd"><td><p>SGC18 six-channel split (800, 1000, 1400 K)</p></td>
+<td><p>every channel within 2.4 % (Poisson 0.2-1.1 %)</p></td>
+</tr>
+<tr class="row-even"><td><p>Moving body-fitted wall (<code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>), O beam at 2000 K</p></td>
+<td><p>p<sub>CO</sub> 1.0002, p<sub>O2</sub> 1.0006, p<sub>O</sub> 0.9990, mass loss 1.0002 of the
+oracle</p></td>
+</tr>
+<tr class="row-odd"><td><p>Gas-side ledger: molecules leaving the domain against the tallies</p></td>
+<td><p>every species within <span class="math notranslate nohighlight">\(1.5\times10^{-4}\)</span> (CN <span class="math notranslate nohighlight">\(6\times10^{-4}\)</span>, 2
+<span class="math notranslate nohighlight">\(\sigma\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td><p>Immersed implicit plane against the coverage wall, O beam at 2000 K</p></td>
+<td><p>immersed/oracle: p<sub>CO</sub> 0.9997, p<sub>O2</sub> 1.0001, p<sub>O</sub> 1.0004, mass
+loss 0.9997 (wall: 1.0005, 1.0011, 0.9981, 1.0005), errors 0.2-0.3 %</p></td>
+</tr>
+<tr class="row-odd"><td><p>Restart of the spectator carries</p></td>
+<td><p>carries, per-species impacts and counters restarted; the restarted run continues the
+counters</p></td>
+</tr>
+<tr class="row-even"><td><p>Cost</p></td>
+<td><p>0.639 s per step with the ACA against 0.646 s with a diffuse wall at
+<span class="math notranslate nohighlight">\(4.4\times10^4\)</span> impacts per step (surface work below 1 % of the 14.6 <span class="math notranslate nohighlight">\(\mu\)</span>s
+per impact); surface kinetics 2.6 <span class="math notranslate nohighlight">\(\mu\)</span>s per element and step</p></td>
+</tr>
+</tbody>
+</table>
+<figure class="align-default" id="id7">
+<a class="reference internal image-reference" href="../../_images/b6b_aca_steady.png"><img alt="ACA steady-state product probabilities, mass loss and coverages, DSMC against the oracle" src="../../_images/b6b_aca_steady.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-text">ACA steady states: DSMC (red) against the oracle (black) for the four beams at
+1000-3000 K.</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id8">
+<a class="reference internal image-reference" href="../../_images/b6b_aca_transient.png"><img alt="ACA transient coverages after a wall-temperature step, DSMC against the closed-form solution" src="../../_images/b6b_aca_transient.png" style="width: 70%;" /></a>
+<figcaption>
+<p><span class="caption-text">ACA transient: the O(s) and O*(s) coverages after the wall is stepped from 1000 to 1600 K.</span><a class="headerlink" href="#id8" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id9">
+<a class="reference internal image-reference" href="../../_images/b6b_sgc18.png"><img alt="SGC18 six-channel split per incident O against the oracle" src="../../_images/b6b_sgc18.png" style="width: 70%;" /></a>
+<figcaption>
+<p><span class="caption-text">SGC18: the six product channels per incident O at 800, 1000 and 1400 K.</span><a class="headerlink" href="#id9" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id10">
+<a class="reference internal image-reference" href="../../_images/b6b_aca_heat_margins.png"><img alt="heat margins of the twenty ACA steps with the adopted and the desorption-energy binding energies" src="../../_images/b6b_aca_heat_margins.png" style="width: 70%;" /></a>
+<figcaption>
+<p><span class="caption-text">Heat margins <span class="math notranslate nohighlight">\(\Delta E + R E_a\)</span> of the 20 ACA steps: all non-negative with the adopted
+binding energies, several negative with the desorption energies read as binding energies.</span><a class="headerlink" href="#id10" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id11">
+<a class="reference internal image-reference" href="../../_images/b6b_review_fixes.png"><img alt="gas-side ledger and immersed surface against the coverage wall" src="../../_images/b6b_review_fixes.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-text">Review fixes: the molecules leaving the domain match the tallies, and the immersed surface
+reproduces the oracle and the coverage wall.</span><a class="headerlink" href="#id11" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 </section>
 <section id="reproduce">
 <h2>Reproduce<a class="headerlink" href="#reproduce" title="Link to this heading"></a></h2>
@@ -927,8 +1029,10 @@ check).</p>
 (<code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">aca.py</span></code> and <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">sgc18.py</span></code> rerun the reproductions;
 tables in <code class="docutils literal notranslate"><span class="pre">oracle/results/</span></code>), <code class="docutils literal notranslate"><span class="pre">oracle/paper_data/*.json</span></code> (the
 extracted paper values), <code class="docutils literal notranslate"><span class="pre">mechanisms/</span></code>, <code class="docutils literal notranslate"><span class="pre">parseTest/</span></code>
-(<code class="docutils literal notranslate"><span class="pre">run_parse.sh</span></code>, <code class="docutils literal notranslate"><span class="pre">parse_check.py</span></code>). Note:
-<code class="docutils literal notranslate"><span class="pre">docs/Development/Verification/gsi/b6_mechanisms.md</span></code>; sources
+(<code class="docutils literal notranslate"><span class="pre">run_parse.sh</span></code>, <code class="docutils literal notranslate"><span class="pre">parse_check.py</span></code>); B6b: <code class="docutils literal notranslate"><span class="pre">dsmc/campaign.py</span></code> (cases),
+<code class="docutils literal notranslate"><span class="pre">dsmc/summarise.py</span></code> (tables and figures), <code class="docutils literal notranslate"><span class="pre">dsmc/b6b.py</span></code> and <code class="docutils literal notranslate"><span class="pre">dsmc/binding_check.py</span></code>
+(binding energies), <code class="docutils literal notranslate"><span class="pre">dsmc/make_immersed.py</span></code> (immersed plane). Notes:
+<code class="docutils literal notranslate"><span class="pre">docs/Development/Verification/gsi/b6_mechanisms.md</span></code> and <code class="docutils literal notranslate"><span class="pre">b6b_mechanisms_dsmc.md</span></code>; sources
 digest: <code class="docutils literal notranslate"><span class="pre">docs/References/GSI_MECHANISM_SOURCES.md</span></code>.</p>
 </section>
 </section>
