@@ -101,11 +101,8 @@ Cases that are not in the set yet
 
 Blocks B6b and B11 are not on the main branch; their tutorials will
 be added to ``tutorials/verification/gsi/`` with the same layout
-when they are verified there. The fixed-shape cylinder comparisons
-with SPARTA (implicit, explicit and body-fitted surfaces) are held
-back: the stored SPARTA twins were run with the collision data that
-preceded the frozen species database, and they are being rerun. The
-recession of the body-fitted wall is covered by
-``B5a_recession0D`` and that of the immersed surfaces by
-``B5b_immersedRecession``, ``IMM_implicitRecession`` and
-``IMM_explicitRecession``.
+when they are verified there. The SPARTA twin of the recession
+comparison (``fix ablate``) still uses the collision data that
+preceded the frozen species database; ``IMM_implicitRecession`` and
+``IMM_explicitRecession`` therefore check geometry and mass closure
+only and print the removed carbon against SPARTA for information.

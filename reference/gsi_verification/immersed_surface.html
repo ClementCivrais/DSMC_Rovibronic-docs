@@ -1078,21 +1078,35 @@ surface stays explicit. The runs are shortened to 3.75 µs, since the
 checks are identities that hold at every step. Run <code class="docutils literal notranslate"><span class="pre">./Allrun</span></code> in the
 tutorial directory; the last line is <code class="docutils literal notranslate"><span class="pre">PASS:</span> <span class="pre">n/n</span> <span class="pre">metrics</span> <span class="pre">pass</span></code> and the
 figure is written to <code class="docutils literal notranslate"><span class="pre">plots/</span></code>.</p>
-<p>The SPARTA twins of this page were run with the collision data of the
-species database before it was frozen on 2026-09-29. With the current
-data a serial run of the fixed implicit cylinder (seed 11) removes 1.047
-times SPARTA’s carbon over 3-15 µs, so the fixed-shape comparison is not
-a tutorial until the twin is rerun with the current data (the prepared
-cases and the evidence are in
-<code class="docutils literal notranslate"><span class="pre">run/GSI/ablationShape/pendingTutorials/</span></code>). The two tutorials print
-the removed carbon against SPARTA’s <code class="docutils literal notranslate"><span class="pre">fix</span> <span class="pre">ablate</span></code> for information only.</p>
+<p>Three more tutorials repeat the fixed-shape comparison with SPARTA:
+<code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/IMM_implicitCylinder</span></code>,
+<code class="docutils literal notranslate"><span class="pre">IMM_explicitCylinder</span></code> and <code class="docutils literal notranslate"><span class="pre">MOV_bodyFittedCylinder</span></code> (body-fitted
+wall of <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>). Each runs 7.5 µs on one core (about
+45-55 min) and checks the carbon removal over the whole surface and
+at 0-30° against SPARTA’s 180-segment cylinder (tolerances 0.025 and
+0.04); the immersed ones also check that no parcel is found inside
+the solid. The stored SPARTA result was rerun on 2026-10-03 with the
+collision data of the frozen species database (masses and VHS pairs
+of <code class="docutils literal notranslate"><span class="pre">species_frozen.py</span></code>, the CO-O pair given to SPARTA as a
+cross-species line so that SPARTA does not mix the species values;
+two replicas). Against it, seeds 11 and 12 give 1.009 and 1.003
+(implicit), 1.008 and 1.005 (explicit), 1.012 and 1.001
+(body-fitted) over the whole surface. The earlier twin, with the
+pre-freeze data, removed 4.2 % less carbon (1.5 % at the front,
+24-200 % on the flank and lee side), which is why the immersed
+surface had shown 1.05 before the rerun. The SPARTA twin of the
+recession comparison (<code class="docutils literal notranslate"><span class="pre">fix</span> <span class="pre">ablate</span></code>) still uses the pre-freeze data,
+so the two recession tutorials print the removed carbon against it
+for information only.</p>
 </section>
 <section id="reproduce">
 <h2>Reproduce<a class="headerlink" href="#reproduce" title="Link to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">run/GSI/ablationShape/</span></code>: <code class="docutils literal notranslate"><span class="pre">make_cylinder.py</span></code>, <code class="docutils literal notranslate"><span class="pre">make_sphere.py</span></code>,
 <code class="docutils literal notranslate"><span class="pre">run_implicit.sh</span></code>, <code class="docutils literal notranslate"><span class="pre">run_sphere.sh</span></code>, <code class="docutils literal notranslate"><span class="pre">compare_one_to_one.py</span></code>,
 <code class="docutils literal notranslate"><span class="pre">compare_recession.py</span></code>, <code class="docutils literal notranslate"><span class="pre">compare_sphere.py</span></code>; SPARTA inputs in
-<code class="docutils literal notranslate"><span class="pre">sparta_ablation/</span></code> and <code class="docutils literal notranslate"><span class="pre">sparta_sphere/</span></code>. Level-set comparison:
+<code class="docutils literal notranslate"><span class="pre">sparta_ablation/</span></code> and <code class="docutils literal notranslate"><span class="pre">sparta_sphere/</span></code>; fixed-cylinder twin on
+the frozen collision data in <code class="docutils literal notranslate"><span class="pre">sparta_cylinder_frozen/</span></code>
+(<code class="docutils literal notranslate"><span class="pre">make_twin_frozen.py</span></code>, <code class="docutils literal notranslate"><span class="pre">make_reference_csv.py</span></code>). Level-set comparison:
 <code class="docutils literal notranslate"><span class="pre">run/2D/freestreamAblation</span></code> and <code class="docutils literal notranslate"><span class="pre">run/2D/sparta_freestreamAblation</span></code>.
 Notes: <code class="docutils literal notranslate"><span class="pre">docs/Development/Verification/gsi/implicit_surface.md</span></code>,
 <code class="docutils literal notranslate"><span class="pre">per_cell_recession.md</span></code>, <code class="docutils literal notranslate"><span class="pre">freestream_recession_comparison.md</span></code>.</p>

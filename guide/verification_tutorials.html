@@ -888,14 +888,11 @@ standard errors and the deterministic identities do not change.</p>
 <h2>Cases that are not in the set yet<a class="headerlink" href="#cases-that-are-not-in-the-set-yet" title="Link to this heading"></a></h2>
 <p>Blocks B6b and B11 are not on the main branch; their tutorials will
 be added to <code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/</span></code> with the same layout
-when they are verified there. The fixed-shape cylinder comparisons
-with SPARTA (implicit, explicit and body-fitted surfaces) are held
-back: the stored SPARTA twins were run with the collision data that
-preceded the frozen species database, and they are being rerun. The
-recession of the body-fitted wall is covered by
-<code class="docutils literal notranslate"><span class="pre">B5a_recession0D</span></code> and that of the immersed surfaces by
-<code class="docutils literal notranslate"><span class="pre">B5b_immersedRecession</span></code>, <code class="docutils literal notranslate"><span class="pre">IMM_implicitRecession</span></code> and
-<code class="docutils literal notranslate"><span class="pre">IMM_explicitRecession</span></code>.</p>
+when they are verified there. The SPARTA twin of the recession
+comparison (<code class="docutils literal notranslate"><span class="pre">fix</span> <span class="pre">ablate</span></code>) still uses the collision data that
+preceded the frozen species database; <code class="docutils literal notranslate"><span class="pre">IMM_implicitRecession</span></code> and
+<code class="docutils literal notranslate"><span class="pre">IMM_explicitRecession</span></code> therefore check geometry and mass closure
+only and print the removed carbon against SPARTA for information.</p>
 </section>
 </section>
 
