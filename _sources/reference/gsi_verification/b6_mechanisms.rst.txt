@@ -117,12 +117,104 @@ relative difference of** :math:`k(T)` **4.7e-10** (the ten
 significant digits of the dictionary coefficients). The check passes
 again with the computed reaction heats of B5a.
 
-Open for the DSMC stage (B6b): engine support for the PR22 spectator
-channels (their per-impact sums of 1.25-1.93 are renormalised by the
-``sparta`` normalisation, so the ACA file is not yet for
-production), and the SGC18 impulsive-scattering and TD-barrier
-parameters, which are not in the paper (placeholders in the parser
-check).
+DSMC verification (B6b)
+-----------------------
+
+The B6b engine runs the two mechanisms in DSMC. It adds the PR22 spectator channels: a GS
+reaction whose gas reactant reappears unchanged among its products (rows 3, 7, 12, 17, 20,
+e.g. O + O(s) + C(b) :math:`\rightarrow` CO + O) is an independent event induced by the
+impact, not a fate of the impinging parcel.
+
+- Each impact of species G adds :math:`P_r W` to a per-element carry of every spectator
+  channel :math:`r` of G (:math:`W`, the parcel weight).
+- Whole events of the element weight fire from the carry.
+- The impinging parcel's own fate is drawn from the other channels.
+- When both happen in one impact, a fair coin sets their order.
+
+Both hosts emit the events: the coverage wall and the immersed surface. A host that cannot
+emit them stops with an error.
+
+The adsorbate binding energies of the ACA are not the PR22 desorption activation energies,
+which make several steps endothermic beyond their activation energy:
+
+- O(s) and O\*(s): 33 301 K, from the microscopic reversibility of the forward and reverse
+  pairs (rows 9/8 and 16/19);
+- N(s): 11 070 K, the upper bound set by row 12.
+
+The steady wall heat does not depend on them (to :math:`5\times10^{-14}`).
+
+0-D reactors (a 2-D column with a beam onto the wall, from the closed-form coverages, two seeded
+replicas) against the oracles:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 38 62
+
+   * - Check
+     - Result
+   * - ACA steady states: incident O, N, O\ :sub:`2` and the mixture at 1000, 2000 and 3000 K
+     - every product probability, the O\ :sub:`2` reactivity and the mass-loss rate with at
+       least :math:`10^4` events within 0.5 % of the oracle; coverages within 0.6 %, except
+       O(s) under the O\ :sub:`2` beam at 1000 K (1.0123 :math:`\pm` 0.0095)
+   * - Atom ledger (bulk carbon consumed against the tallies)
+     - 1 :math:`\pm\ 3\times10^{-6}` in all 12 conditions
+   * - ACA transient (O beam at 1000 K, wall stepped to 1600 K)
+     - largest deviation :math:`4\times10^{-4}` (O(s)) and :math:`2.8\times10^{-3}`
+       (O\*(s)) of the range over 2 ms
+   * - SGC18 six-channel split (800, 1000, 1400 K)
+     - every channel within 2.4 % (Poisson 0.2-1.1 %)
+   * - Moving body-fitted wall (``dsmcFoamAblation``), O beam at 2000 K
+     - p\ :sub:`CO` 1.0002, p\ :sub:`O2` 1.0006, p\ :sub:`O` 0.9990, mass loss 1.0002 of the
+       oracle
+   * - Gas-side ledger: molecules leaving the domain against the tallies
+     - every species within :math:`1.5\times10^{-4}` (CN :math:`6\times10^{-4}`, 2
+       :math:`\sigma`)
+   * - Immersed implicit plane against the coverage wall, O beam at 2000 K
+     - immersed/oracle: p\ :sub:`CO` 0.9997, p\ :sub:`O2` 1.0001, p\ :sub:`O` 1.0004, mass
+       loss 0.9997 (wall: 1.0005, 1.0011, 0.9981, 1.0005), errors 0.2-0.3 %
+   * - Restart of the spectator carries
+     - carries, per-species impacts and counters restarted; the restarted run continues the
+       counters
+   * - Cost
+     - 0.639 s per step with the ACA against 0.646 s with a diffuse wall at
+       :math:`4.4\times10^4` impacts per step (surface work below 1 % of the 14.6 :math:`\mu`\ s
+       per impact); surface kinetics 2.6 :math:`\mu`\ s per element and step
+
+.. figure:: ../../_static/figures/gsi/b6b_aca_steady.png
+   :width: 100%
+   :alt: ACA steady-state product probabilities, mass loss and coverages, DSMC against the
+         oracle
+
+   ACA steady states: DSMC (red) against the oracle (black) for the four beams at
+   1000-3000 K.
+
+.. figure:: ../../_static/figures/gsi/b6b_aca_transient.png
+   :width: 70%
+   :alt: ACA transient coverages after a wall-temperature step, DSMC against the closed-form
+         solution
+
+   ACA transient: the O(s) and O\*(s) coverages after the wall is stepped from 1000 to 1600 K.
+
+.. figure:: ../../_static/figures/gsi/b6b_sgc18.png
+   :width: 70%
+   :alt: SGC18 six-channel split per incident O against the oracle
+
+   SGC18: the six product channels per incident O at 800, 1000 and 1400 K.
+
+.. figure:: ../../_static/figures/gsi/b6b_aca_heat_margins.png
+   :width: 70%
+   :alt: heat margins of the twenty ACA steps with the adopted and the desorption-energy
+         binding energies
+
+   Heat margins :math:`\Delta E + R E_a` of the 20 ACA steps: all non-negative with the adopted
+   binding energies, several negative with the desorption energies read as binding energies.
+
+.. figure:: ../../_static/figures/gsi/b6b_review_fixes.png
+   :width: 100%
+   :alt: gas-side ledger and immersed surface against the coverage wall
+
+   Review fixes: the molecules leaving the domain match the tallies, and the immersed surface
+   reproduces the oracle and the coverage wall.
 
 Reproduce
 ---------
@@ -131,8 +223,10 @@ Reproduce
 (``python3 aca.py`` and ``python3 sgc18.py`` rerun the reproductions;
 tables in ``oracle/results/``), ``oracle/paper_data/*.json`` (the
 extracted paper values), ``mechanisms/``, ``parseTest/``
-(``run_parse.sh``, ``parse_check.py``). Note:
-``docs/Development/Verification/gsi/b6_mechanisms.md``; sources
+(``run_parse.sh``, ``parse_check.py``); B6b: ``dsmc/campaign.py`` (cases),
+``dsmc/summarise.py`` (tables and figures), ``dsmc/b6b.py`` and ``dsmc/binding_check.py``
+(binding energies), ``dsmc/make_immersed.py`` (immersed plane). Notes:
+``docs/Development/Verification/gsi/b6_mechanisms.md`` and ``b6b_mechanisms_dsmc.md``; sources
 digest: ``docs/References/GSI_MECHANISM_SOURCES.md``.
 
 Run it yourself

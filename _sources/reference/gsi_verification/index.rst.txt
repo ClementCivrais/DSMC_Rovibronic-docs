@@ -67,8 +67,9 @@ the notes.
        surfaces
      - body-fitted wall, SPARTA, 0-D exact solution
    * - :doc:`b6_mechanisms`
-     - Production mechanisms ACA [PR22_gsi]_ and SGC18 [SGC18_gsi]_
-     - published figures (Python oracles)
+     - Production mechanisms ACA [PR22_gsi]_ and SGC18 [SGC18_gsi]_:
+       oracles, then the mechanisms in DSMC (spectator channels, both hosts)
+     - published figures (Python oracles); DSMC against the oracles
    * - :doc:`immersed_surface`
      - Implicit and explicit immersed ablating surfaces
      - SPARTA explicit surface and ``fix ablate``
