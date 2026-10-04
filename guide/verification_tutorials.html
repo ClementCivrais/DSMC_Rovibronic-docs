@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Running a Case &mdash; DSMC Rovibronic</title>
+  <title>Verification tutorials (gas-surface interaction) &mdash; DSMC Rovibronic</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -22,8 +22,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Input Reference" href="input_reference.html" />
-    <link rel="prev" title="dsmcFoamAblation" href="solvers/dsmcFoamAblation.html" /> 
+    <link rel="next" title="Theory guide" href="../theory/index.html" />
+    <link rel="prev" title="Regression tests" href="regression_tests.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -96,10 +96,10 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Running a Case</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#serial-execution">Serial execution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#parallel-execution">Parallel execution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#startup-diagnostics">Startup diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running.html">Running a Case</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="running.html#serial-execution">Serial execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="running.html#parallel-execution">Parallel execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="running.html#startup-diagnostics">Startup diagnostics</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="input_reference.html">Input Reference</a><ul>
@@ -172,12 +172,12 @@
 <li class="toctree-l3"><a class="reference internal" href="regression_tests.html#interpreting-a-failure">Interpreting a failure</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="verification_tutorials.html">Verification tutorials (gas-surface interaction)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="verification_tutorials.html#content-of-a-case">Content of a case</a></li>
-<li class="toctree-l3"><a class="reference internal" href="verification_tutorials.html#running-the-set">Running the set</a></li>
-<li class="toctree-l3"><a class="reference internal" href="verification_tutorials.html#what-pass-means">What PASS means</a></li>
-<li class="toctree-l3"><a class="reference internal" href="verification_tutorials.html#reproducibility">Reproducibility</a></li>
-<li class="toctree-l3"><a class="reference internal" href="verification_tutorials.html#cases-that-are-not-in-the-set-yet">Cases that are not in the set yet</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Verification tutorials (gas-surface interaction)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#content-of-a-case">Content of a case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-the-set">Running the set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-pass-means">What PASS means</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reproducibility">Reproducibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cases-that-are-not-in-the-set-yet">Cases that are not in the set yet</a></li>
 </ul>
 </li>
 </ul>
@@ -784,9 +784,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">User and Developer Guide</a></li>
-      <li class="breadcrumb-item active">Running a Case</li>
+      <li class="breadcrumb-item active">Verification tutorials (gas-surface interaction)</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/guide/running.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/guide/verification_tutorials.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -794,67 +794,108 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="running-a-case">
-<h1>Running a Case<a class="headerlink" href="#running-a-case" title="Link to this heading"></a></h1>
-<p>Reference cases are distributed under <code class="docutils literal notranslate"><span class="pre">tutorials/</span></code> and, as
-focused verification cases, under <code class="docutils literal notranslate"><span class="pre">run/0D/</span></code>. We describe below the standard invocation
-sequence, together with the parallel variant; a detailed walk-through
-of dictionaries, mesh requirements, and species-database wiring is
-given in the companion setup guide at
-<code class="docutils literal notranslate"><span class="pre">docs/UserGuide/SetupGuide/dsmc_case_setup_guide.pdf</span></code>, while each input
-dictionary is documented individually in <a class="reference internal" href="input_reference.html"><span class="doc">Input Reference</span></a>.</p>
-<section id="serial-execution">
-<h2>Serial execution<a class="headerlink" href="#serial-execution" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>run/0D/&lt;<span class="k">case</span>&gt;
-blockMesh
-dsmcInitialise
-dsmcFoam
+  <section id="verification-tutorials-gas-surface-interaction">
+<h1>Verification tutorials (gas-surface interaction)<a class="headerlink" href="#verification-tutorials-gas-surface-interaction" title="Link to this heading"></a></h1>
+<p>The verification of the gas-surface interaction (GSI) framework,
+summarised in <a class="reference internal" href="../reference/gsi_verification/index.html"><span class="doc">Gas-surface interaction verification</span></a>, is
+shipped as a set of tutorials that a user can rerun to retrieve the
+verified results. They live in <code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/</span></code>,
+one directory per case, named after the block of the verification
+(<code class="docutils literal notranslate"><span class="pre">B0</span></code> to <code class="docutils literal notranslate"><span class="pre">B8</span></code>; <code class="docutils literal notranslate"><span class="pre">PROB</span></code> for the probability-mode catalysis and
+ablation, <code class="docutils literal notranslate"><span class="pre">IMM</span></code> for the immersed surfaces, <code class="docutils literal notranslate"><span class="pre">MOV</span></code> for the moving
+body-fitted walls).</p>
+<section id="content-of-a-case">
+<h2>Content of a case<a class="headerlink" href="#content-of-a-case" title="Link to this heading"></a></h2>
+<p>Every case holds</p>
+<ul class="simple">
+<li><p>the ready case files (<code class="docutils literal notranslate"><span class="pre">system/</span></code>, <code class="docutils literal notranslate"><span class="pre">constant/</span></code>, <code class="docutils literal notranslate"><span class="pre">0/</span></code>), with a
+<code class="docutils literal notranslate"><span class="pre">blockMeshDict</span></code> or the small mesh generator, and a fixed
+<code class="docutils literal notranslate"><span class="pre">randomSeed</span> <span class="pre">N;</span></code> in <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reference/reference.json</span></code>: the verified numbers, the
+verification note they come from, their origin (analytic
+solution, Python oracle, SPARTA twin, or our verified run of
+exactly that set-up) and the tolerance of each metric. The SPARTA
+numbers are stored, so SPARTA is not needed to rerun a case;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">check.py</span></code> (Python 3 with numpy and matplotlib): it parses the
+run outputs, prints one <code class="docutils literal notranslate"><span class="pre">PASS</span></code> or <code class="docutils literal notranslate"><span class="pre">FAIL</span></code> line per metric,
+writes <code class="docutils literal notranslate"><span class="pre">check.result</span></code> and redraws the comparison figure in
+<code class="docutils literal notranslate"><span class="pre">plots/</span></code> (red markers for the present run, black for the
+reference);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Allrun</span></code>, which ends with the check, <code class="docutils literal notranslate"><span class="pre">Allclean</span></code> and a plain
+text <code class="docutils literal notranslate"><span class="pre">README</span></code> that gives the set-up, any scaling of the
+verification set-up, the tolerances, the cores and the measured
+wall time.</p></li>
+</ul>
+<p>The shared plot style and the comparison helper are in
+<code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/common/</span></code>.</p>
+</section>
+<section id="running-the-set">
+<h2>Running the set<a class="headerlink" href="#running-the-set" title="Link to this heading"></a></h2>
+<p>Copy the directory to a working location, source the OpenFOAM
+environment of dsmcFoam+ and run the set:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>-r<span class="w"> </span>&lt;dsmcFoam+<span class="w"> </span>source&gt;/tutorials/verification/gsi<span class="w"> </span><span class="nv">$HOME</span>/gsiTutorials
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/gsiTutorials
+./Allrun<span class="w">            </span><span class="c1"># quick set (every case of at most 30 min)</span>
+./Allrun<span class="w"> </span>--long<span class="w">     </span><span class="c1"># every case, the long ones included</span>
+./Allrun<span class="w"> </span>B3_coverageLH2<span class="w"> </span>B5a_recession0D<span class="w">   </span><span class="c1"># selected cases</span>
 </pre></div>
 </div>
-<p>The three stages carry out, respectively, mesh generation, particle
-initialisation (drawing positions, velocities, and rovibronic states
-from the distributions specified in <code class="docutils literal notranslate"><span class="pre">system/dsmcInitialiseDict</span></code>),
-and the time integration itself. Post-processing may then be carried
-out with the standard OpenFOAM tools (<code class="docutils literal notranslate"><span class="pre">paraFoam</span></code>, <code class="docutils literal notranslate"><span class="pre">postProcess</span></code>)
-or with the solver-specific utilities under
-<code class="docutils literal notranslate"><span class="pre">applications/utilities/</span></code> —  see <a class="reference internal" href="post_processing.html"><span class="doc">Post-processing</span></a> for an
-overview.</p>
+<p>The top-level <code class="docutils literal notranslate"><span class="pre">Allrun</span></code> cleans each case, runs its <code class="docutils literal notranslate"><span class="pre">Allrun</span></code> with
+the output in <code class="docutils literal notranslate"><span class="pre">&lt;case&gt;/log.Allrun</span></code> and prints a summary table with
+the wall time and the verdict of each case; its exit status is the
+number of cases that did not pass. A single case is run with
+<code class="docutils literal notranslate"><span class="pre">./Allrun</span></code> in its own directory. <code class="docutils literal notranslate"><span class="pre">./Allclean</span></code> restores the
+directories. The list of cases and their quick or long flag is the
+file <code class="docutils literal notranslate"><span class="pre">cases</span></code>; the <code class="docutils literal notranslate"><span class="pre">README</span></code> of the directory tabulates what each
+case compares, the reference, the tolerance, the cores and the wall
+time.</p>
 </section>
-<section id="parallel-execution">
-<h2>Parallel execution<a class="headerlink" href="#parallel-execution" title="Link to this heading"></a></h2>
-<p>For production runs on multiple cores we decompose the domain,
-launch the solver in parallel, and reconstruct the resulting
-fields:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>decomposePar
-mpirun<span class="w"> </span>-np<span class="w"> </span>&lt;N&gt;<span class="w"> </span>dsmcFoam<span class="w"> </span>-parallel
-reconstructPar
-</pre></div>
-</div>
-<p>As the DSMC load balance is particle-count driven, strongly
-non-uniform flows benefit from a finer spatial decomposition, or
-from on-the-fly load balancing where available.</p>
+<section id="what-pass-means">
+<h2>What PASS means<a class="headerlink" href="#what-pass-means" title="Link to this heading"></a></h2>
+<p>A case passes when every metric of its <code class="docutils literal notranslate"><span class="pre">reference.json</span></code> is within
+the stated tolerance. Three kinds of tolerance are used:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rel</span></code> and <code class="docutils literal notranslate"><span class="pre">abs</span></code>: deterministic quantities (round-off
+identities such as atom and energy balances, an analytic root,
+parsed rate constants). The tolerance is a few orders of
+magnitude above the round-off, or the time-discretisation error
+stated in the note;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sigma</span></code>: statistical quantities (a channel fraction, a recession
+velocity, a population). The deviation from the reference is
+divided by the standard error of the present run (combined with
+that of the stored SPARTA result for a SPARTA twin) and must not
+exceed 3 or 4 standard errors, as stated per metric.</p></li>
+</ul>
+<p>A <code class="docutils literal notranslate"><span class="pre">FAIL</span></code> of a <code class="docutils literal notranslate"><span class="pre">sigma</span></code> metric at the 3-4 standard-error level is
+expected in a small fraction of seeds; a <code class="docutils literal notranslate"><span class="pre">FAIL</span></code> of a <code class="docutils literal notranslate"><span class="pre">rel</span></code> or
+<code class="docutils literal notranslate"><span class="pre">abs</span></code> identity is a defect.</p>
 </section>
-<section id="startup-diagnostics">
-<h2>Startup diagnostics<a class="headerlink" href="#startup-diagnostics" title="Link to this heading"></a></h2>
-<p>At initialisation the solver prints the collision-pair table
-taken from the frozen species database
-(<code class="docutils literal notranslate"><span class="pre">Collision</span> <span class="pre">pairs</span> <span class="pre">(d_ref</span> <span class="pre">[m],</span> <span class="pre">omega,</span> <span class="pre">alpha;</span> <span class="pre">Tref</span> <span class="pre">=</span> <span class="pre">273</span> <span class="pre">K)</span></code>), the
-level count of every species, and, for each dissociation channel,
-the asymptote-matching table. With the generated spectroscopy the
-matching errors are at round-off; a larger value is symptomatic of
-an inconsistent species entry. A case that sets species data in
-<code class="docutils literal notranslate"><span class="pre">moleculeProperties</span></code>, lacks the <code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code>
-sub-dictionary, or uses a <code class="docutils literal notranslate"><span class="pre">collisionProperties/Tref</span></code> other than
-273 stops here with a <code class="docutils literal notranslate"><span class="pre">FatalError</span></code> (see
-<a class="reference internal" href="../classes/species_database_sources.html"><span class="doc">Species database: sources, generation and lock</span></a>).</p>
-<p>It is useful to keep the first few lines of a clean run’s standard
-output as a baseline; the startup section is deterministic and any
-change in the printed collision pairs, level counts or heats of
-reaction is a reliable signal that the species database has changed
-between runs. For reproducible runs, or for independent replicas
-launched together, set <code class="docutils literal notranslate"><span class="pre">randomSeed</span></code> in
-<code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code>: the default seed is the wall-clock time
-in whole seconds.</p>
+<section id="reproducibility">
+<h2>Reproducibility<a class="headerlink" href="#reproducibility" title="Link to this heading"></a></h2>
+<p>With the seed of <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code>, the same build and the
+same number of processors, a rerun is bitwise identical: the
+<code class="docutils literal notranslate"><span class="pre">B3_beamPSTwin</span></code> case run twice from clean copies gives the same
+check output and the same solver log apart from the timing lines,
+and two runs of <code class="docutils literal notranslate"><span class="pre">B8_dropletStream</span></code> give bitwise identical droplet
+and wall files.
+Each processor seeds its generator with <code class="docutils literal notranslate"><span class="pre">randomSeed</span></code> plus a
+processor offset, so a different decomposition, a different
+compiler or library build, or another seed changes the particle
+histories; the statistical metrics then change within their stated
+standard errors and the deterministic identities do not change.</p>
+</section>
+<section id="cases-that-are-not-in-the-set-yet">
+<h2>Cases that are not in the set yet<a class="headerlink" href="#cases-that-are-not-in-the-set-yet" title="Link to this heading"></a></h2>
+<p>Blocks B6b and B11 are not on the main branch; their tutorials will
+be added to <code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/</span></code> with the same layout
+when they are verified there. The fixed-shape cylinder comparisons
+with SPARTA (implicit, explicit and body-fitted surfaces) are held
+back: the stored SPARTA twins were run with the collision data that
+preceded the frozen species database, and they are being rerun. The
+recession of the body-fitted wall is covered by
+<code class="docutils literal notranslate"><span class="pre">B5a_recession0D</span></code> and that of the immersed surfaces by
+<code class="docutils literal notranslate"><span class="pre">B5b_immersedRecession</span></code>, <code class="docutils literal notranslate"><span class="pre">IMM_implicitRecession</span></code> and
+<code class="docutils literal notranslate"><span class="pre">IMM_explicitRecession</span></code>.</p>
 </section>
 </section>
 
@@ -862,8 +903,8 @@ in whole seconds.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="solvers/dsmcFoamAblation.html" class="btn btn-neutral float-left" title="dsmcFoamAblation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="input_reference.html" class="btn btn-neutral float-right" title="Input Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="regression_tests.html" class="btn btn-neutral float-left" title="Regression tests" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../theory/index.html" class="btn btn-neutral float-right" title="Theory guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

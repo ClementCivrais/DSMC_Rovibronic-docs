@@ -280,3 +280,20 @@ Reproduce
 ``oracle_table.py``), ``smokeTest/``, ``perf/``. Developer note:
 ``run/GSI/B2_finiteRate/IMPLEMENTATION.md``. Verification note:
 ``docs/Development/Verification/gsi/b2_finite_rate_gs.md``.
+
+Run it yourself
+---------------
+
+Two tutorials in ``tutorials/verification/gsi/`` reproduce the
+decisive checks of this page (one core, under a minute each):
+
+* ``B2_beamTwin``: variant (b) of the SPARTA beam twin; the channel
+  fractions and adsorbed counts are compared with the means of the 20
+  SPARTA seeds stored in the tutorial (SPARTA is not needed);
+* ``B2_rateOracle``: case ``cycleComb`` of the 0-D oracle against the
+  mean-field rate equations, integrated by the check script.
+
+Copy a tutorial to a run directory and type ``./Allrun``; it ends with
+``check.py``, which prints PASS or FAIL per metric, redraws the
+comparison in ``plots/`` and finishes with ``PASS: n/n metrics pass``.
+The statistical metrics allow four standard errors.

@@ -222,3 +222,21 @@ dsmcFoam+ catalysis: ``run/0D/Validation/testCatalytic`` (sweep
 ``run/GSI/catalysisEnergy``. Notes:
 ``docs/Development/Verification/gsi/README.md``,
 ``carbon_ablation_rates.md`` and ``catalysis_enhancements.md``.
+
+Run it yourself
+---------------
+
+Three tutorials in ``tutorials/verification/gsi/`` reproduce the
+probability-mode checks of this page (one core, 1.5-4 minutes each):
+
+* ``PROB_catalyticGammaT``: RCC :math:`\gamma(T_w)` at 1000, 2000
+  and 3000 K against :math:`0.63\,e^{-1160/T_w}`;
+* ``PROB_catalyticEnergy``: the recombination-energy ledger with
+  :math:`\beta_{acc}` = 0.5 (exact split);
+* ``PROB_parkOxidation``: Park oxidation on the ablating wall at
+  2000 K and the carbon-ledger and recession identities.
+
+Copy a tutorial to a run directory and type ``./Allrun``; it ends with
+``check.py``, which prints PASS or FAIL per metric, redraws the
+comparison in ``plots/`` and finishes with ``PASS: n/n metrics pass``.
+The probabilities allow four binomial standard errors of the run.

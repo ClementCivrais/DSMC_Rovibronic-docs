@@ -200,3 +200,21 @@ Reproduce
 ``regression/``, ``reviewFixes/``; figures by ``plot_b5.py``.
 Formation enthalpies: ``docs/Development/gsi_specs/B5_formation_enthalpy_data.md``.
 Note: ``docs/Development/Verification/gsi/b5_recession.md``.
+
+Run it yourself
+---------------
+
+Three tutorials in ``tutorials/verification/gsi/`` reproduce this page
+on one core:
+
+* ``B5a_reactionHeats``: the start-up table of the 19 reaction heats
+  against the hand values of the database sources (0.005 kJ/mol);
+* ``B5a_energyClosure``: the energy-ledger closure of the closed
+  column (identities to 1e-10);
+* ``B5a_recession0D``: the moving body-fitted wall against the exact
+  solution, scaled to 1000 steps and ``nEquivalentParticles 1e7`` (the
+  quick run of the review), so that it runs in under two minutes.
+
+Copy a tutorial to a run directory and type ``./Allrun``; ``check.py``
+prints PASS or FAIL per metric, redraws the comparison in ``plots/``
+and ends with ``PASS: n/n metrics pass``.

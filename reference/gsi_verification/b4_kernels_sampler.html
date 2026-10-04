@@ -173,6 +173,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../guide/regression_tests.html#interpreting-a-failure">Interpreting a failure</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../guide/verification_tutorials.html">Verification tutorials (gas-surface interaction)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#content-of-a-case">Content of a case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#running-the-set">Running the set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#what-pass-means">What PASS means</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#reproducibility">Reproducibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#cases-that-are-not-in-the-set-yet">Cases that are not in the set yet</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1087,6 +1095,25 @@ distribution, so detailed balance holds); a
 <code class="docutils literal notranslate"><span class="pre">parseTest/</span></code>, <code class="docutils literal notranslate"><span class="pre">kernelChecks/</span></code>, <code class="docutils literal notranslate"><span class="pre">regression/</span></code>; figures by
 <code class="docutils literal notranslate"><span class="pre">plot_sampler.py</span></code>. Note:
 <code class="docutils literal notranslate"><span class="pre">docs/Development/Verification/gsi/b4_kernels_sampler.md</span></code>.</p>
+</section>
+<section id="run-it-yourself">
+<h2>Run it yourself<a class="headerlink" href="#run-it-yourself" title="Link to this heading"></a></h2>
+<p>Three tutorials in <code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/</span></code> reproduce the
+decisive checks of this page against analytic references (one core,
+under a minute each):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">B4_internalStateSampler</span></code>: 4e5 O<sub>2</sub> and 4e5 N<sub>2</sub>
+states drawn by <code class="docutils literal notranslate"><span class="pre">dsmcInitialise</span></code> at 3000 K against the exact
+Boltzmann populations;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B4_tdProductKernel</span></code>: td product kernel of N(g) –&gt; N(g) on the
+burst beam against its Rayleigh marginals;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B4_impulsiveKernel</span></code>: impulsive kernel on the burst beam against
+its exact moments and angular and speed laws.</p></li>
+</ul>
+<p>Copy a tutorial to a run directory and type <code class="docutils literal notranslate"><span class="pre">./Allrun</span></code>; it ends with
+<code class="docutils literal notranslate"><span class="pre">check.py</span></code>, which prints PASS or FAIL per metric, redraws the
+comparison in <code class="docutils literal notranslate"><span class="pre">plots/</span></code> and finishes with <code class="docutils literal notranslate"><span class="pre">PASS:</span> <span class="pre">n/n</span> <span class="pre">metrics</span> <span class="pre">pass</span></code>.
+The tolerances are four standard errors of the run.</p>
 </section>
 </section>
 

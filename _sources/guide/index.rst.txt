@@ -25,3 +25,4 @@ rebuild of the solver.
    adding_a_feature
    tests
    regression_tests
+   verification_tutorials

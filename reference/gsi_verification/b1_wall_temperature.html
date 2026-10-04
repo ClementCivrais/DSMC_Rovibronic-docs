@@ -173,6 +173,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../guide/regression_tests.html#interpreting-a-failure">Interpreting a failure</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../guide/verification_tutorials.html">Verification tutorials (gas-surface interaction)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#content-of-a-case">Content of a case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#running-the-set">Running the set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#what-pass-means">What PASS means</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#reproducibility">Reproducibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#cases-that-are-not-in-the-set-yet">Cases that are not in the set yet</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1068,6 +1076,25 @@ the hot wall functions inlined.</p>
 <code class="docutils literal notranslate"><span class="pre">V5_conjugate</span></code>, <code class="docutils literal notranslate"><span class="pre">cylinder_twin</span></code>, <code class="docutils literal notranslate"><span class="pre">perf</span></code>, <code class="docutils literal notranslate"><span class="pre">Review_fixes</span></code>);
 figures by <code class="docutils literal notranslate"><span class="pre">run/GSI/B1_wallTemperature/plot_b1.py</span></code>. Note:
 <code class="docutils literal notranslate"><span class="pre">docs/Development/Verification/gsi/b1_wall_temperature.md</span></code>.</p>
+</section>
+<section id="run-it-yourself">
+<h2>Run it yourself<a class="headerlink" href="#run-it-yourself" title="Link to this heading"></a></h2>
+<p>Two tutorials in <code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/</span></code> reproduce the
+analytic checks of this page (one core):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">B1_radEqPlate</span></code>: Ar plate on a diffuse wall with
+<code class="docutils literal notranslate"><span class="pre">wallTemperatureModel</span> <span class="pre">radiativeEquilibrium</span></code> against the analytic
+root 1599.69 K (V2, about 6 minutes);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B1_catalyticRadEq</span></code>: catalytic radiative-equilibrium face,
+<span class="math notranslate nohighlight">\(\beta_{acc}\)</span> = 1, against the oracle root 2069.03 K and
+<span class="math notranslate nohighlight">\(\gamma = e^{-3000/\langle T_w\rangle}\)</span> (V3, about 1.5
+minutes).</p></li>
+</ul>
+<p>Copy a tutorial to a run directory and type <code class="docutils literal notranslate"><span class="pre">./Allrun</span></code>; it ends with
+<code class="docutils literal notranslate"><span class="pre">check.py</span></code>, which prints PASS or FAIL per metric, redraws the
+comparison in <code class="docutils literal notranslate"><span class="pre">plots/</span></code> and finishes with <code class="docutils literal notranslate"><span class="pre">PASS:</span> <span class="pre">n/n</span> <span class="pre">metrics</span> <span class="pre">pass</span></code>.
+The tolerances are stated in each README (statistical where the
+result is).</p>
 </section>
 </section>
 

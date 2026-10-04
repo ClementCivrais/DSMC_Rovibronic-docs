@@ -173,6 +173,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../guide/regression_tests.html#interpreting-a-failure">Interpreting a failure</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../guide/verification_tutorials.html">Verification tutorials (gas-surface interaction)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#content-of-a-case">Content of a case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#running-the-set">Running the set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#what-pass-means">What PASS means</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#reproducibility">Reproducibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#cases-that-are-not-in-the-set-yet">Cases that are not in the set yet</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -872,6 +880,24 @@ integration is exact: 0.1904761917).</p>
 <p>Copies of <code class="docutils literal notranslate"><span class="pre">run/GSI/boundaryConditions/regression/coverage_lh2</span></code> and
 <code class="docutils literal notranslate"><span class="pre">run/GSI/immersedSlab/cases/slab_analytic</span></code>. Note:
 <code class="docutils literal notranslate"><span class="pre">docs/Development/Verification/gsi/b0_correctness.md</span></code>.</p>
+</section>
+<section id="run-it-yourself">
+<h2>Run it yourself<a class="headerlink" href="#run-it-yourself" title="Link to this heading"></a></h2>
+<p>Two tutorials in <code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/</span></code> reproduce the checks
+of this page (one core, under a minute each):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">B0_coverageSaturation</span></code>: site gating (<span class="math notranslate nohighlight">\(\theta\)</span> = 0.900090009,
+exact atom balance) and the restart of the coverage wall;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B0_immersedBetaTw</span></code>: <span class="math notranslate nohighlight">\(\beta(T_w) = 0.5\,e^{-3000/T_w}\)</span> on the
+immersed slab with a radiative-equilibrium <span class="math notranslate nohighlight">\(T_w\)</span> (ratio 1 to
+1e-9).</p></li>
+</ul>
+<p>The second-order LH regression (<code class="docutils literal notranslate"><span class="pre">coverage_lh2</span></code>) is the tutorial
+<code class="docutils literal notranslate"><span class="pre">B3_coverageLH2</span></code> of <a class="reference internal" href="b3_ps_integration.html"><span class="doc">B3: pure-surface integration</span></a>.</p>
+<p>Copy a tutorial to a run directory and type <code class="docutils literal notranslate"><span class="pre">./Allrun</span></code>; it ends with
+<code class="docutils literal notranslate"><span class="pre">check.py</span></code>, which prints PASS or FAIL per metric, redraws the
+comparison in <code class="docutils literal notranslate"><span class="pre">plots/</span></code> and finishes with <code class="docutils literal notranslate"><span class="pre">PASS:</span> <span class="pre">n/n</span> <span class="pre">metrics</span> <span class="pre">pass</span></code>.
+The tolerances are round-off identities.</p>
 </section>
 </section>
 

@@ -79,3 +79,23 @@ Reproduce
 Copies of ``run/GSI/boundaryConditions/regression/coverage_lh2`` and
 ``run/GSI/immersedSlab/cases/slab_analytic``. Note:
 ``docs/Development/Verification/gsi/b0_correctness.md``.
+
+Run it yourself
+---------------
+
+Two tutorials in ``tutorials/verification/gsi/`` reproduce the checks
+of this page (one core, under a minute each):
+
+* ``B0_coverageSaturation``: site gating (:math:`\theta` = 0.900090009,
+  exact atom balance) and the restart of the coverage wall;
+* ``B0_immersedBetaTw``: :math:`\beta(T_w) = 0.5\,e^{-3000/T_w}` on the
+  immersed slab with a radiative-equilibrium :math:`T_w` (ratio 1 to
+  1e-9).
+
+The second-order LH regression (``coverage_lh2``) is the tutorial
+``B3_coverageLH2`` of :doc:`b3_ps_integration`.
+
+Copy a tutorial to a run directory and type ``./Allrun``; it ends with
+``check.py``, which prints PASS or FAIL per metric, redraws the
+comparison in ``plots/`` and finishes with ``PASS: n/n metrics pass``.
+The tolerances are round-off identities.

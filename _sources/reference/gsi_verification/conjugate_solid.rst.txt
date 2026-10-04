@@ -125,6 +125,18 @@ lubrication model.
    (b) film thickness around the wall; (c) where the melt goes;
    (d) solid wall displacement.
 
+Run it yourself
+---------------
+
+The 1-D melting slab, the shear-driven film and the droplet in the DSMC
+stream are tutorials (:doc:`../../guide/verification_tutorials`):
+``tutorials/verification/gsi/B8_melt1D`` (exact solution, a few
+seconds), ``B8_meltFilmShear`` (exact film thickness, about 30 s) and
+``B8_dropletStream`` (free-molecular ODE, statistical tolerance from
+five seeds, about 2 min), all on 1 core. Run ``./Allrun`` in the
+tutorial directory: the check prints PASS or FAIL per metric, ends with
+``PASS: n/n metrics pass`` and draws the comparison in ``plots/``.
+
 Reproduce
 ---------
 

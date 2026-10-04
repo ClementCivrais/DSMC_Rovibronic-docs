@@ -173,6 +173,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../guide/regression_tests.html#interpreting-a-failure">Interpreting a failure</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../guide/verification_tutorials.html">Verification tutorials (gas-surface interaction)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#content-of-a-case">Content of a case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#running-the-set">Running the set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#what-pass-means">What PASS means</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#reproducibility">Reproducibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#cases-that-are-not-in-the-set-yet">Cases that are not in the set yet</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1188,6 +1196,24 @@ DSMC (markers).</span><a class="headerlink" href="#id9" title="Link to this imag
 <code class="docutils literal notranslate"><span class="pre">reviewFixes/</span></code>; figures by <code class="docutils literal notranslate"><span class="pre">plot_b3.py</span></code>. Developer note:
 <code class="docutils literal notranslate"><span class="pre">run/GSI/B3_psIntegration/IMPLEMENTATION.md</span></code>. Verification note:
 <code class="docutils literal notranslate"><span class="pre">docs/Development/Verification/gsi/b3_ps_integration.md</span></code>.</p>
+</section>
+<section id="run-it-yourself">
+<h2>Run it yourself<a class="headerlink" href="#run-it-yourself" title="Link to this heading"></a></h2>
+<p>Three tutorials in <code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/</span></code> reproduce the
+decisive checks of this page (one core, under a minute each):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">B3_linearNetwork</span></code>: the linear PS network with a full M against
+its closed form, the O and C atom balances and the bitwise restart;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B3_coverageLH2</span></code>: the legacy <code class="docutils literal notranslate"><span class="pre">coverage_lh2</span></code> case through the
+translation, <span class="math notranslate nohighlight">\(\theta(10^{-4}\,s)\)</span> = 0.1904761917 against the
+exact 0.1904761905;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B3_beamPSTwin</span></code>: the gs/ps beam twin (gsps2, <code class="docutils literal notranslate"><span class="pre">timeCounter</span></code>)
+against the means of the 20 SPARTA seeds stored in the tutorial.</p></li>
+</ul>
+<p>Copy a tutorial to a run directory and type <code class="docutils literal notranslate"><span class="pre">./Allrun</span></code>; it ends with
+<code class="docutils literal notranslate"><span class="pre">check.py</span></code>, which prints PASS or FAIL per metric, redraws the
+comparison in <code class="docutils literal notranslate"><span class="pre">plots/</span></code> and finishes with <code class="docutils literal notranslate"><span class="pre">PASS:</span> <span class="pre">n/n</span> <span class="pre">metrics</span> <span class="pre">pass</span></code>.
+The statistical metrics allow four standard errors.</p>
 </section>
 </section>
 

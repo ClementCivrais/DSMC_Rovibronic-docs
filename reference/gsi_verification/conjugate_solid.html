@@ -173,6 +173,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../guide/regression_tests.html#interpreting-a-failure">Interpreting a failure</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../guide/verification_tutorials.html">Verification tutorials (gas-surface interaction)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#content-of-a-case">Content of a case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#running-the-set">Running the set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#what-pass-means">What PASS means</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#reproducibility">Reproducibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#cases-that-are-not-in-the-set-yet">Cases that are not in the set yet</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -933,6 +941,17 @@ flight, against melt removal: (a) solid and liquid at the end;
 (d) solid wall displacement.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
 </figcaption>
 </figure>
+</section>
+<section id="run-it-yourself">
+<h2>Run it yourself<a class="headerlink" href="#run-it-yourself" title="Link to this heading"></a></h2>
+<p>The 1-D melting slab, the shear-driven film and the droplet in the DSMC
+stream are tutorials (<a class="reference internal" href="../../guide/verification_tutorials.html"><span class="doc">Verification tutorials (gas-surface interaction)</span></a>):
+<code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/B8_melt1D</span></code> (exact solution, a few
+seconds), <code class="docutils literal notranslate"><span class="pre">B8_meltFilmShear</span></code> (exact film thickness, about 30 s) and
+<code class="docutils literal notranslate"><span class="pre">B8_dropletStream</span></code> (free-molecular ODE, statistical tolerance from
+five seeds, about 2 min), all on 1 core. Run <code class="docutils literal notranslate"><span class="pre">./Allrun</span></code> in the
+tutorial directory: the check prints PASS or FAIL per metric, ends with
+<code class="docutils literal notranslate"><span class="pre">PASS:</span> <span class="pre">n/n</span> <span class="pre">metrics</span> <span class="pre">pass</span></code> and draws the comparison in <code class="docutils literal notranslate"><span class="pre">plots/</span></code>.</p>
 </section>
 <section id="reproduce">
 <h2>Reproduce<a class="headerlink" href="#reproduce" title="Link to this heading"></a></h2>

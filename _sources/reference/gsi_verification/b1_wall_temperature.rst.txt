@@ -243,3 +243,23 @@ Reproduce
 ``V5_conjugate``, ``cylinder_twin``, ``perf``, ``Review_fixes``);
 figures by ``run/GSI/B1_wallTemperature/plot_b1.py``. Note:
 ``docs/Development/Verification/gsi/b1_wall_temperature.md``.
+
+Run it yourself
+---------------
+
+Two tutorials in ``tutorials/verification/gsi/`` reproduce the
+analytic checks of this page (one core):
+
+* ``B1_radEqPlate``: Ar plate on a diffuse wall with
+  ``wallTemperatureModel radiativeEquilibrium`` against the analytic
+  root 1599.69 K (V2, about 6 minutes);
+* ``B1_catalyticRadEq``: catalytic radiative-equilibrium face,
+  :math:`\beta_{acc}` = 1, against the oracle root 2069.03 K and
+  :math:`\gamma = e^{-3000/\langle T_w\rangle}` (V3, about 1.5
+  minutes).
+
+Copy a tutorial to a run directory and type ``./Allrun``; it ends with
+``check.py``, which prints PASS or FAIL per metric, redraws the
+comparison in ``plots/`` and finishes with ``PASS: n/n metrics pass``.
+The tolerances are stated in each README (statistical where the
+result is).

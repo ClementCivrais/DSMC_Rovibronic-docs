@@ -173,6 +173,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../guide/regression_tests.html#interpreting-a-failure">Interpreting a failure</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../guide/verification_tutorials.html">Verification tutorials (gas-surface interaction)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#content-of-a-case">Content of a case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#running-the-set">Running the set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#what-pass-means">What PASS means</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#reproducibility">Reproducibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#cases-that-are-not-in-the-set-yet">Cases that are not in the set yet</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1016,6 +1024,23 @@ solid region (ledger) against the gas-side bulk ledger
 <code class="docutils literal notranslate"><span class="pre">regression/</span></code>, <code class="docutils literal notranslate"><span class="pre">reviewFixes/</span></code>; figures by <code class="docutils literal notranslate"><span class="pre">plot_b5.py</span></code>.
 Formation enthalpies: <code class="docutils literal notranslate"><span class="pre">docs/Development/gsi_specs/B5_formation_enthalpy_data.md</span></code>.
 Note: <code class="docutils literal notranslate"><span class="pre">docs/Development/Verification/gsi/b5_recession.md</span></code>.</p>
+</section>
+<section id="run-it-yourself">
+<h2>Run it yourself<a class="headerlink" href="#run-it-yourself" title="Link to this heading"></a></h2>
+<p>Three tutorials in <code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/</span></code> reproduce this page
+on one core:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">B5a_reactionHeats</span></code>: the start-up table of the 19 reaction heats
+against the hand values of the database sources (0.005 kJ/mol);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B5a_energyClosure</span></code>: the energy-ledger closure of the closed
+column (identities to 1e-10);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B5a_recession0D</span></code>: the moving body-fitted wall against the exact
+solution, scaled to 1000 steps and <code class="docutils literal notranslate"><span class="pre">nEquivalentParticles</span> <span class="pre">1e7</span></code> (the
+quick run of the review), so that it runs in under two minutes.</p></li>
+</ul>
+<p>Copy a tutorial to a run directory and type <code class="docutils literal notranslate"><span class="pre">./Allrun</span></code>; <code class="docutils literal notranslate"><span class="pre">check.py</span></code>
+prints PASS or FAIL per metric, redraws the comparison in <code class="docutils literal notranslate"><span class="pre">plots/</span></code>
+and ends with <code class="docutils literal notranslate"><span class="pre">PASS:</span> <span class="pre">n/n</span> <span class="pre">metrics</span> <span class="pre">pass</span></code>.</p>
 </section>
 </section>
 

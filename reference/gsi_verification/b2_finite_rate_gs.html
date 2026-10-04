@@ -173,6 +173,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../guide/regression_tests.html#interpreting-a-failure">Interpreting a failure</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../guide/verification_tutorials.html">Verification tutorials (gas-surface interaction)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#content-of-a-case">Content of a case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#running-the-set">Running the set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#what-pass-means">What PASS means</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#reproducibility">Reproducibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#cases-that-are-not-in-the-set-yet">Cases that are not in the set yet</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1150,6 +1158,22 @@ recomputed only when its temperature changes.</p>
 <code class="docutils literal notranslate"><span class="pre">oracle_table.py</span></code>), <code class="docutils literal notranslate"><span class="pre">smokeTest/</span></code>, <code class="docutils literal notranslate"><span class="pre">perf/</span></code>. Developer note:
 <code class="docutils literal notranslate"><span class="pre">run/GSI/B2_finiteRate/IMPLEMENTATION.md</span></code>. Verification note:
 <code class="docutils literal notranslate"><span class="pre">docs/Development/Verification/gsi/b2_finite_rate_gs.md</span></code>.</p>
+</section>
+<section id="run-it-yourself">
+<h2>Run it yourself<a class="headerlink" href="#run-it-yourself" title="Link to this heading"></a></h2>
+<p>Two tutorials in <code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/</span></code> reproduce the
+decisive checks of this page (one core, under a minute each):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">B2_beamTwin</span></code>: variant (b) of the SPARTA beam twin; the channel
+fractions and adsorbed counts are compared with the means of the 20
+SPARTA seeds stored in the tutorial (SPARTA is not needed);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B2_rateOracle</span></code>: case <code class="docutils literal notranslate"><span class="pre">cycleComb</span></code> of the 0-D oracle against the
+mean-field rate equations, integrated by the check script.</p></li>
+</ul>
+<p>Copy a tutorial to a run directory and type <code class="docutils literal notranslate"><span class="pre">./Allrun</span></code>; it ends with
+<code class="docutils literal notranslate"><span class="pre">check.py</span></code>, which prints PASS or FAIL per metric, redraws the
+comparison in <code class="docutils literal notranslate"><span class="pre">plots/</span></code> and finishes with <code class="docutils literal notranslate"><span class="pre">PASS:</span> <span class="pre">n/n</span> <span class="pre">metrics</span> <span class="pre">pass</span></code>.
+The statistical metrics allow four standard errors.</p>
 </section>
 </section>
 

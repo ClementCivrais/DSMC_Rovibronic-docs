@@ -1,0 +1,111 @@
+Verification tutorials (gas-surface interaction)
+================================================
+
+The verification of the gas-surface interaction (GSI) framework,
+summarised in :doc:`../reference/gsi_verification/index`, is
+shipped as a set of tutorials that a user can rerun to retrieve the
+verified results. They live in ``tutorials/verification/gsi/``,
+one directory per case, named after the block of the verification
+(``B0`` to ``B8``; ``PROB`` for the probability-mode catalysis and
+ablation, ``IMM`` for the immersed surfaces, ``MOV`` for the moving
+body-fitted walls).
+
+Content of a case
+-----------------
+
+Every case holds
+
+* the ready case files (``system/``, ``constant/``, ``0/``), with a
+  ``blockMeshDict`` or the small mesh generator, and a fixed
+  ``randomSeed N;`` in ``constant/dsmcProperties``;
+* ``reference/reference.json``: the verified numbers, the
+  verification note they come from, their origin (analytic
+  solution, Python oracle, SPARTA twin, or our verified run of
+  exactly that set-up) and the tolerance of each metric. The SPARTA
+  numbers are stored, so SPARTA is not needed to rerun a case;
+* ``check.py`` (Python 3 with numpy and matplotlib): it parses the
+  run outputs, prints one ``PASS`` or ``FAIL`` line per metric,
+  writes ``check.result`` and redraws the comparison figure in
+  ``plots/`` (red markers for the present run, black for the
+  reference);
+* ``Allrun``, which ends with the check, ``Allclean`` and a plain
+  text ``README`` that gives the set-up, any scaling of the
+  verification set-up, the tolerances, the cores and the measured
+  wall time.
+
+The shared plot style and the comparison helper are in
+``tutorials/verification/gsi/common/``.
+
+Running the set
+---------------
+
+Copy the directory to a working location, source the OpenFOAM
+environment of dsmcFoam+ and run the set:
+
+.. code-block:: bash
+
+   cp -r <dsmcFoam+ source>/tutorials/verification/gsi $HOME/gsiTutorials
+   cd $HOME/gsiTutorials
+   ./Allrun            # quick set (every case of at most 30 min)
+   ./Allrun --long     # every case, the long ones included
+   ./Allrun B3_coverageLH2 B5a_recession0D   # selected cases
+
+The top-level ``Allrun`` cleans each case, runs its ``Allrun`` with
+the output in ``<case>/log.Allrun`` and prints a summary table with
+the wall time and the verdict of each case; its exit status is the
+number of cases that did not pass. A single case is run with
+``./Allrun`` in its own directory. ``./Allclean`` restores the
+directories. The list of cases and their quick or long flag is the
+file ``cases``; the ``README`` of the directory tabulates what each
+case compares, the reference, the tolerance, the cores and the wall
+time.
+
+What PASS means
+---------------
+
+A case passes when every metric of its ``reference.json`` is within
+the stated tolerance. Three kinds of tolerance are used:
+
+* ``rel`` and ``abs``: deterministic quantities (round-off
+  identities such as atom and energy balances, an analytic root,
+  parsed rate constants). The tolerance is a few orders of
+  magnitude above the round-off, or the time-discretisation error
+  stated in the note;
+* ``sigma``: statistical quantities (a channel fraction, a recession
+  velocity, a population). The deviation from the reference is
+  divided by the standard error of the present run (combined with
+  that of the stored SPARTA result for a SPARTA twin) and must not
+  exceed 3 or 4 standard errors, as stated per metric.
+
+A ``FAIL`` of a ``sigma`` metric at the 3-4 standard-error level is
+expected in a small fraction of seeds; a ``FAIL`` of a ``rel`` or
+``abs`` identity is a defect.
+
+Reproducibility
+---------------
+
+With the seed of ``constant/dsmcProperties``, the same build and the
+same number of processors, a rerun is bitwise identical: the
+``B3_beamPSTwin`` case run twice from clean copies gives the same
+check output and the same solver log apart from the timing lines,
+and two runs of ``B8_dropletStream`` give bitwise identical droplet
+and wall files.
+Each processor seeds its generator with ``randomSeed`` plus a
+processor offset, so a different decomposition, a different
+compiler or library build, or another seed changes the particle
+histories; the statistical metrics then change within their stated
+standard errors and the deterministic identities do not change.
+
+Cases that are not in the set yet
+---------------------------------
+
+Blocks B6b and B11 are not on the main branch; their tutorials will
+be added to ``tutorials/verification/gsi/`` with the same layout
+when they are verified there. The fixed-shape cylinder comparisons
+with SPARTA (implicit, explicit and body-fitted surfaces) are held
+back: the stored SPARTA twins were run with the collision data that
+preceded the frozen species database, and they are being rerun. The
+recession of the body-fitted wall is covered by
+``B5a_recession0D`` and that of the immersed surfaces by
+``B5b_immersedRecession``, ``IMM_implicitRecession`` and
+``IMM_explicitRecession``.

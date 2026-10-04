@@ -270,3 +270,22 @@ Reproduce
 ``regression/``; mechanisms in ``run/GSI/B5_recession/mechanisms/``;
 figures by ``plot_b5b.py``. Note:
 ``docs/Development/Verification/gsi/b5b_immersed_chemistry.md``.
+
+Run it yourself
+---------------
+
+Three tutorials in ``tutorials/verification/gsi/`` reproduce the
+decisive checks of this page on one core:
+
+* ``B5b_immersedRecession``: the receding immersed plane against the
+  0-D exact solution (the set-up of section "Recession against the
+  0-D exact solution", seed 21);
+* ``B5b_immersedLedger``: the atom and energy ledgers of the receding
+  cylinder through 500 element updates and a restart (identities to
+  1e-12);
+* ``B5b_secondaryProducts``: review fix 1, one impact per reaction
+  event and every secondary product queued on the level-set surface.
+
+Copy a tutorial to a run directory and type ``./Allrun``; ``check.py``
+prints PASS or FAIL per metric, redraws the comparison in ``plots/``
+and ends with ``PASS: n/n metrics pass``.

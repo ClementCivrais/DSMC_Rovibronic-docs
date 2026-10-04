@@ -322,3 +322,22 @@ Reproduce
 ``reviewFixes/``; figures by ``plot_b3.py``. Developer note:
 ``run/GSI/B3_psIntegration/IMPLEMENTATION.md``. Verification note:
 ``docs/Development/Verification/gsi/b3_ps_integration.md``.
+
+Run it yourself
+---------------
+
+Three tutorials in ``tutorials/verification/gsi/`` reproduce the
+decisive checks of this page (one core, under a minute each):
+
+* ``B3_linearNetwork``: the linear PS network with a full M against
+  its closed form, the O and C atom balances and the bitwise restart;
+* ``B3_coverageLH2``: the legacy ``coverage_lh2`` case through the
+  translation, :math:`\theta(10^{-4}\,s)` = 0.1904761917 against the
+  exact 0.1904761905;
+* ``B3_beamPSTwin``: the gs/ps beam twin (gsps2, ``timeCounter``)
+  against the means of the 20 SPARTA seeds stored in the tutorial.
+
+Copy a tutorial to a run directory and type ``./Allrun``; it ends with
+``check.py``, which prints PASS or FAIL per metric, redraws the
+comparison in ``plots/`` and finishes with ``PASS: n/n metrics pass``.
+The statistical metrics allow four standard errors.

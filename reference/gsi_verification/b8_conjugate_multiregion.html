@@ -173,6 +173,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../guide/regression_tests.html#interpreting-a-failure">Interpreting a failure</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../guide/verification_tutorials.html">Verification tutorials (gas-surface interaction)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#content-of-a-case">Content of a case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#running-the-set">Running the set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#what-pass-means">What PASS means</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#reproducibility">Reproducibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#cases-that-are-not-in-the-set-yet">Cases that are not in the set yet</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1106,6 +1114,37 @@ Goshayeshi et al., Cao and Ma (SPARTA) and Scanlon et al.
 semi-infinite estimates and Cao and Ma’s value at 0.744 s.</span><a class="headerlink" href="#id10" title="Link to this image"></a></p>
 </figcaption>
 </figure>
+</section>
+<section id="run-it-yourself">
+<h2>Run it yourself<a class="headerlink" href="#run-it-yourself" title="Link to this heading"></a></h2>
+<p>Five tutorials reproduce the verified numbers of this page; each ends
+with a check script that prints PASS or FAIL per metric against the
+stored reference and redraws the comparison
+(<a class="reference internal" href="../../guide/verification_tutorials.html"><span class="doc">Verification tutorials (gas-surface interaction)</span></a>):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/B8_melt1D</span></code>: the 1-D melting slab
+against the exact solution (melt onset, surface temperature, melting
+speed, energy closure); 1 core, 4 s.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/B8_caoMaCase1</span></code>: Cao and Ma’s copper
+plate against the semi-infinite solution on their mesh; 1 core, 1 s.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/B8_meltFilmShear</span></code>: the shear-driven
+film against the exact thickness profile, film mass closure; 1 core,
+31 s.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/B8_dropletStream</span></code>: the droplet in the
+DSMC O stream against the free-molecular ODE, with the spread of
+five seeds as tolerance; 1 core, 2 min.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/B8_caoMaCase3</span></code> (long): Cao and Ma’s
+case 3, stagnation heat flux and heat load against their SPARTA, the
+temperature rise at 0.744 s against their 1.12 K; 2 cores,
+2 h 12 min. The acceptance run on the main build gave
+42 582 ± 296 W/m<sup>2</sup> at the stagnation point (1.043 times
+their SPARTA), a heat load of 1.018 and 1.141 K; its stagnation flux
+is 3.9 % above the verified run of the B8 branch build.</p></li>
+</ul>
+<p>Run <code class="docutils literal notranslate"><span class="pre">./Allrun</span></code> in the tutorial directory (with the OpenFOAM
+environment of dsmcFoam+ sourced); the last line is
+<code class="docutils literal notranslate"><span class="pre">PASS:</span> <span class="pre">n/n</span> <span class="pre">metrics</span> <span class="pre">pass</span></code> and the figure is written to <code class="docutils literal notranslate"><span class="pre">plots/</span></code>.
+<code class="docutils literal notranslate"><span class="pre">./Allclean</span></code> restores the tutorial.</p>
 </section>
 <section id="reproduce">
 <h2>Reproduce<a class="headerlink" href="#reproduce" title="Link to this heading"></a></h2>

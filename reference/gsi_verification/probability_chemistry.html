@@ -173,6 +173,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../guide/regression_tests.html#interpreting-a-failure">Interpreting a failure</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../guide/verification_tutorials.html">Verification tutorials (gas-surface interaction)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#content-of-a-case">Content of a case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#running-the-set">Running the set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#what-pass-means">What PASS means</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#reproducibility">Reproducibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#cases-that-are-not-in-the-set-yet">Cases that are not in the set yet</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1047,6 +1055,23 @@ leaves at about 3644 m/s against about 943 m/s for
 <code class="docutils literal notranslate"><span class="pre">run/GSI/catalysisEnergy</span></code>. Notes:
 <code class="docutils literal notranslate"><span class="pre">docs/Development/Verification/gsi/README.md</span></code>,
 <code class="docutils literal notranslate"><span class="pre">carbon_ablation_rates.md</span></code> and <code class="docutils literal notranslate"><span class="pre">catalysis_enhancements.md</span></code>.</p>
+</section>
+<section id="run-it-yourself">
+<h2>Run it yourself<a class="headerlink" href="#run-it-yourself" title="Link to this heading"></a></h2>
+<p>Three tutorials in <code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/</span></code> reproduce the
+probability-mode checks of this page (one core, 1.5-4 minutes each):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">PROB_catalyticGammaT</span></code>: RCC <span class="math notranslate nohighlight">\(\gamma(T_w)\)</span> at 1000, 2000
+and 3000 K against <span class="math notranslate nohighlight">\(0.63\,e^{-1160/T_w}\)</span>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PROB_catalyticEnergy</span></code>: the recombination-energy ledger with
+<span class="math notranslate nohighlight">\(\beta_{acc}\)</span> = 0.5 (exact split);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PROB_parkOxidation</span></code>: Park oxidation on the ablating wall at
+2000 K and the carbon-ledger and recession identities.</p></li>
+</ul>
+<p>Copy a tutorial to a run directory and type <code class="docutils literal notranslate"><span class="pre">./Allrun</span></code>; it ends with
+<code class="docutils literal notranslate"><span class="pre">check.py</span></code>, which prints PASS or FAIL per metric, redraws the
+comparison in <code class="docutils literal notranslate"><span class="pre">plots/</span></code> and finishes with <code class="docutils literal notranslate"><span class="pre">PASS:</span> <span class="pre">n/n</span> <span class="pre">metrics</span> <span class="pre">pass</span></code>.
+The probabilities allow four binomial standard errors of the run.</p>
 </section>
 </section>
 

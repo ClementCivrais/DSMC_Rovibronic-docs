@@ -253,3 +253,23 @@ Reproduce
 ``parseTest/``, ``kernelChecks/``, ``regression/``; figures by
 ``plot_sampler.py``. Note:
 ``docs/Development/Verification/gsi/b4_kernels_sampler.md``.
+
+Run it yourself
+---------------
+
+Three tutorials in ``tutorials/verification/gsi/`` reproduce the
+decisive checks of this page against analytic references (one core,
+under a minute each):
+
+* ``B4_internalStateSampler``: 4e5 O\ :sub:`2` and 4e5 N\ :sub:`2`
+  states drawn by ``dsmcInitialise`` at 3000 K against the exact
+  Boltzmann populations;
+* ``B4_tdProductKernel``: td product kernel of N(g) --> N(g) on the
+  burst beam against its Rayleigh marginals;
+* ``B4_impulsiveKernel``: impulsive kernel on the burst beam against
+  its exact moments and angular and speed laws.
+
+Copy a tutorial to a run directory and type ``./Allrun``; it ends with
+``check.py``, which prints PASS or FAIL per metric, redraws the
+comparison in ``plots/`` and finishes with ``PASS: n/n metrics pass``.
+The tolerances are four standard errors of the run.

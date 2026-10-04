@@ -173,6 +173,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../guide/regression_tests.html#interpreting-a-failure">Interpreting a failure</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../guide/verification_tutorials.html">Verification tutorials (gas-surface interaction)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#content-of-a-case">Content of a case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#running-the-set">Running the set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#what-pass-means">What PASS means</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#reproducibility">Reproducibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#cases-that-are-not-in-the-set-yet">Cases that are not in the set yet</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1053,6 +1061,31 @@ replaces it.</p>
 <code class="docutils literal notranslate"><span class="pre">fix</span> <span class="pre">ablate</span></code> in a directed O stream.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
 </figcaption>
 </figure>
+</section>
+<section id="run-it-yourself">
+<h2>Run it yourself<a class="headerlink" href="#run-it-yourself" title="Link to this heading"></a></h2>
+<p>Two tutorials repeat the geometry and mass-closure checks of the
+receding cylinder on one core
+(<a class="reference internal" href="../../guide/verification_tutorials.html"><span class="doc">Verification tutorials (gas-surface interaction)</span></a>):
+<code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/IMM_implicitRecession</span></code> (implicit
+surface) and <code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/IMM_explicitRecession</span></code>
+(SPARTA’s 180-segment circle as an STL). Each checks the perimeter and
+area of the initial body against an oracle computed by the check
+script, the area swept by the receding surface against the removed
+carbon (exact mass closure), and that no parcel is found inside the
+solid and no cut cell loses gas; the explicit one also checks that the
+surface stays explicit. The runs are shortened to 3.75 µs, since the
+checks are identities that hold at every step. Run <code class="docutils literal notranslate"><span class="pre">./Allrun</span></code> in the
+tutorial directory; the last line is <code class="docutils literal notranslate"><span class="pre">PASS:</span> <span class="pre">n/n</span> <span class="pre">metrics</span> <span class="pre">pass</span></code> and the
+figure is written to <code class="docutils literal notranslate"><span class="pre">plots/</span></code>.</p>
+<p>The SPARTA twins of this page were run with the collision data of the
+species database before it was frozen on 2026-09-29. With the current
+data a serial run of the fixed implicit cylinder (seed 11) removes 1.047
+times SPARTA’s carbon over 3-15 µs, so the fixed-shape comparison is not
+a tutorial until the twin is rerun with the current data (the prepared
+cases and the evidence are in
+<code class="docutils literal notranslate"><span class="pre">run/GSI/ablationShape/pendingTutorials/</span></code>). The two tutorials print
+the removed carbon against SPARTA’s <code class="docutils literal notranslate"><span class="pre">fix</span> <span class="pre">ablate</span></code> for information only.</p>
 </section>
 <section id="reproduce">
 <h2>Reproduce<a class="headerlink" href="#reproduce" title="Link to this heading"></a></h2>

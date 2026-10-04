@@ -221,6 +221,33 @@ replaces it.
    Level-set recession pattern of dsmcFoam+ against SPARTA's
    ``fix ablate`` in a directed O stream.
 
+Run it yourself
+---------------
+
+Two tutorials repeat the geometry and mass-closure checks of the
+receding cylinder on one core
+(:doc:`../../guide/verification_tutorials`):
+``tutorials/verification/gsi/IMM_implicitRecession`` (implicit
+surface) and ``tutorials/verification/gsi/IMM_explicitRecession``
+(SPARTA's 180-segment circle as an STL). Each checks the perimeter and
+area of the initial body against an oracle computed by the check
+script, the area swept by the receding surface against the removed
+carbon (exact mass closure), and that no parcel is found inside the
+solid and no cut cell loses gas; the explicit one also checks that the
+surface stays explicit. The runs are shortened to 3.75 µs, since the
+checks are identities that hold at every step. Run ``./Allrun`` in the
+tutorial directory; the last line is ``PASS: n/n metrics pass`` and the
+figure is written to ``plots/``.
+
+The SPARTA twins of this page were run with the collision data of the
+species database before it was frozen on 2026-09-29. With the current
+data a serial run of the fixed implicit cylinder (seed 11) removes 1.047
+times SPARTA's carbon over 3-15 µs, so the fixed-shape comparison is not
+a tutorial until the twin is rerun with the current data (the prepared
+cases and the evidence are in
+``run/GSI/ablationShape/pendingTutorials/``). The two tutorials print
+the removed carbon against SPARTA's ``fix ablate`` for information only.
+
 Reproduce
 ---------
 
