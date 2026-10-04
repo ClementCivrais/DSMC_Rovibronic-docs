@@ -1119,6 +1119,74 @@ first write, explicit, implicit and 2-processor implicit runs.</span><a class="h
 </figcaption>
 </figure>
 </section>
+<section id="finite-rate-recession-of-a-curved-body">
+<h2>Finite-rate recession of a curved body<a class="headerlink" href="#finite-rate-recession-of-a-curved-body" title="Link to this heading"></a></h2>
+<p>The fixed cylinder of the first section is given the solid density
+<span class="math notranslate nohighlight">\(1800/1.5\times10^5\)</span> kg/m<sup>3</sup>. In 15 µs the stagnation
+point recedes 0.18 mm, i.e. 3.6 cells or 36 % of the radius. The same
+gas, mesh resolution and acceleration run on the body-fitted coverage
+wall (moving O-grid, <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>) and on the implicit and
+explicit immersed surfaces, with 2 seeds each. The numbers are after
+the body-fitted fix of <a class="reference internal" href="b5_recession.html"><span class="doc">B5a: reaction heats and chemistry-driven recession</span></a> (section “Body-fitted
+recession on curved walls”).</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 52.0%" />
+<col style="width: 24.0%" />
+<col style="width: 24.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Immersed / body-fitted (mean of 2 seeds)</p></th>
+<th class="head"><p>implicit</p></th>
+<th class="head"><p>explicit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Removed carbon at 15 µs</p></td>
+<td><p>0.9955 <span class="math notranslate nohighlight">\(\pm\)</span> 0.0054</p></td>
+<td><p>0.9951 <span class="math notranslate nohighlight">\(\pm\)</span> 0.0054</p></td>
+</tr>
+<tr class="row-odd"><td><p>Impacts</p></td>
+<td><p>0.9940 <span class="math notranslate nohighlight">\(\pm\)</span> 0.0039</p></td>
+<td><p>0.9979 <span class="math notranslate nohighlight">\(\pm\)</span> 0.0026</p></td>
+</tr>
+<tr class="row-even"><td><p>Mean coverage O(s)</p></td>
+<td><p>0.9936 <span class="math notranslate nohighlight">\(\pm\)</span> 0.0034</p></td>
+<td><p>0.9969 <span class="math notranslate nohighlight">\(\pm\)</span> 0.0051</p></td>
+</tr>
+<tr class="row-odd"><td><p>Adsorption / desorption and oxidation of O(s)</p></td>
+<td><p>0.996 / 0.996</p></td>
+<td><p>0.994 / 0.998</p></td>
+</tr>
+<tr class="row-even"><td><p>Direct oxidation / LH / ER</p></td>
+<td><p>0.995 / 0.986 / 1.009</p></td>
+<td><p>0.990 / 0.992 / 0.964</p></td>
+</tr>
+<tr class="row-odd"><td><p>Largest difference of the depth profile (15 µs)</p></td>
+<td><p>3.9 µm</p></td>
+<td><p>4.9 µm</p></td>
+</tr>
+<tr class="row-even"><td><p>Swept volume / (removed carbon <span class="math notranslate nohighlight">\(\times\,m_C/\rho_s\)</span>)</p></td>
+<td><p>1 - 4e-10</p></td>
+<td><p>1 - 2e-6</p></td>
+</tr>
+</tbody>
+</table>
+<p>On the body-fitted wall the swept volume equals the removed volume to
+3e-15. The single-run spread is about 0.5 % in removed carbon, 0.4 %
+in coverage and 1-2 µm in depth. The three surfaces agree within it,
+and the depth profiles agree within 0.1 cell at every angle. The ER
+channel (3.4 % of the impacts) has 1.7 % counting noise per run.</p>
+<figure class="align-center" id="id7">
+<a class="reference internal image-reference" href="../../_images/b5b_curved_recession.png"><img alt="../../_images/b5b_curved_recession.png" src="../../_images/b5b_curved_recession.png" style="width: 95%;" /></a>
+<figcaption>
+<p><span class="caption-text">Receding cylinder. Left: swept/removed volume minus 1. Middle:
+removed carbon, immersed over body-fitted. Right: recession depth
+against the angle at 7.5 and 15 µs (black: body-fitted; red:
+implicit and explicit).</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
 <section id="reproduce">
 <h2>Reproduce<a class="headerlink" href="#reproduce" title="Link to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">run/GSI/B5_recession/immersed/</span></code> (<code class="docutils literal notranslate"><span class="pre">README.md</span></code>): <code class="docutils literal notranslate"><span class="pre">fixedShape/</span></code>
@@ -1130,7 +1198,7 @@ figures by <code class="docutils literal notranslate"><span class="pre">plot_b5b
 </section>
 <section id="run-it-yourself">
 <h2>Run it yourself<a class="headerlink" href="#run-it-yourself" title="Link to this heading"></a></h2>
-<p>Three tutorials in <code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/</span></code> reproduce the
+<p>Six tutorials in <code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/</span></code> reproduce the
 decisive checks of this page on one core:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">B5b_immersedRecession</span></code>: the receding immersed plane against the
@@ -1141,6 +1209,13 @@ cylinder through 500 element updates and a restart (identities to
 1e-12);</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">B5b_secondaryProducts</span></code>: review fix 1, one impact per reaction
 event and every secondary product queued on the level-set surface.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B5b_curvedRecessionBodyFitted</span></code>, <code class="docutils literal notranslate"><span class="pre">B5b_curvedRecessionImplicit</span></code>
+and <code class="docutils literal notranslate"><span class="pre">B5b_curvedRecessionExplicit</span></code>: the receding cylinder of section
+“Finite-rate recession of a curved body” on each surface (seed 11,
+2-3 min). The swept-volume identity is checked, and the removed
+carbon, coverage, the six reaction totals and the depth profile at
+7.5 and 15 µs are compared with the mean of the verified body-fitted
+runs, within the tolerances of their replica spread.</p></li>
 </ul>
 <p>Copy a tutorial to a run directory and type <code class="docutils literal notranslate"><span class="pre">./Allrun</span></code>; <code class="docutils literal notranslate"><span class="pre">check.py</span></code>
 prints PASS or FAIL per metric, redraws the comparison in <code class="docutils literal notranslate"><span class="pre">plots/</span></code>

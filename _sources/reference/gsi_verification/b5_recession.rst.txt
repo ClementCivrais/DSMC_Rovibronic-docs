@@ -189,6 +189,34 @@ chemical ledger equals :math:`\sum \Delta E\,N` to 2.1e-13.
    :math:`\times\,m_C/\rho_s` (top); wall temperature and wall heat
    :math:`q_{BF} + q_{chem}` over the 20 windows (bottom).
 
+Body-fitted recession on curved walls (2026-10-04)
+--------------------------------------------------
+
+The receding carbon cylinder of :doc:`b5b_immersed_chemistry`
+(section "Finite-rate recession of a curved body") showed that the
+moving body-fitted wall was exact only on a plane. It moved its points
+by the cumulative depth :math:`m_f/(\rho_s A_{f,0})` along the current
+point normals, so a receding circle swept :math:`d\,(R - d/2)` per unit
+angle instead of :math:`m/\rho_s` (swept/removed 0.887 after 3.6
+cells). Its site areas stayed at the initial face areas, and the
+converging normals folded the faces at the stagnation point. Since
+2026-10-04 ``dsmcFoamAblation`` works as follows:
+
+* every step, the removed volume of each face (``removedSolidVolume``)
+  is divided by the current face area;
+* the wall points move along the normals of the initial wall by the
+  least-squares offset of the face planes;
+* the displacement of the step is scaled so that the swept volume
+  (``face::sweptVol``) equals the removed volume, so the closure holds
+  to round-off;
+* after every mesh motion the coverage wall's element areas follow the
+  faces (``meshMoved``, adsorbed inventory kept).
+
+The conjugate solid's wall motion is closed the same way. On the
+melting Al cylinder of B8, the solid volume lost over the removed
+volume goes from 0.99885 to 1.00000000. On the plane, the results of
+the previous section are unchanged to the printed digits.
+
 Reproduce
 ---------
 
@@ -214,6 +242,11 @@ on one core:
 * ``B5a_recession0D``: the moving body-fitted wall against the exact
   solution, scaled to 1000 steps and ``nEquivalentParticles 1e7`` (the
   quick run of the review), so that it runs in under two minutes.
+
+The body-fitted recession on a curved wall is checked by
+``B5b_curvedRecessionBodyFitted`` (see :doc:`b5b_immersed_chemistry`):
+the receding cylinder sweeps the removed volume to 1e-10 and matches the
+verified removed carbon, coverage, rates and depth profile.
 
 Copy a tutorial to a run directory and type ``./Allrun``; ``check.py``
 prints PASS or FAIL per metric, redraws the comparison in ``plots/``

@@ -261,6 +261,62 @@ parcel failed to be placed.
    Relative change of the O atoms, C atoms and energy since the
    first write, explicit, implicit and 2-processor implicit runs.
 
+Finite-rate recession of a curved body
+--------------------------------------
+
+The fixed cylinder of the first section is given the solid density
+:math:`1800/1.5\times10^5` kg/m\ :sup:`3`. In 15 µs the stagnation
+point recedes 0.18 mm, i.e. 3.6 cells or 36 % of the radius. The same
+gas, mesh resolution and acceleration run on the body-fitted coverage
+wall (moving O-grid, ``dsmcFoamAblation``) and on the implicit and
+explicit immersed surfaces, with 2 seeds each. The numbers are after
+the body-fitted fix of :doc:`b5_recession` (section "Body-fitted
+recession on curved walls").
+
+.. list-table::
+   :header-rows: 1
+   :widths: 52 24 24
+
+   * - Immersed / body-fitted (mean of 2 seeds)
+     - implicit
+     - explicit
+   * - Removed carbon at 15 µs
+     - 0.9955 :math:`\pm` 0.0054
+     - 0.9951 :math:`\pm` 0.0054
+   * - Impacts
+     - 0.9940 :math:`\pm` 0.0039
+     - 0.9979 :math:`\pm` 0.0026
+   * - Mean coverage O(s)
+     - 0.9936 :math:`\pm` 0.0034
+     - 0.9969 :math:`\pm` 0.0051
+   * - Adsorption / desorption and oxidation of O(s)
+     - 0.996 / 0.996
+     - 0.994 / 0.998
+   * - Direct oxidation / LH / ER
+     - 0.995 / 0.986 / 1.009
+     - 0.990 / 0.992 / 0.964
+   * - Largest difference of the depth profile (15 µs)
+     - 3.9 µm
+     - 4.9 µm
+   * - Swept volume / (removed carbon :math:`\times\,m_C/\rho_s`)
+     - 1 - 4e-10
+     - 1 - 2e-6
+
+On the body-fitted wall the swept volume equals the removed volume to
+3e-15. The single-run spread is about 0.5 % in removed carbon, 0.4 %
+in coverage and 1-2 µm in depth. The three surfaces agree within it,
+and the depth profiles agree within 0.1 cell at every angle. The ER
+channel (3.4 % of the impacts) has 1.7 % counting noise per run.
+
+.. figure:: ../../_static/figures/gsi/b5b_curved_recession.png
+   :width: 95%
+   :align: center
+
+   Receding cylinder. Left: swept/removed volume minus 1. Middle:
+   removed carbon, immersed over body-fitted. Right: recession depth
+   against the angle at 7.5 and 15 µs (black: body-fitted; red:
+   implicit and explicit).
+
 Reproduce
 ---------
 
@@ -274,7 +330,7 @@ figures by ``plot_b5b.py``. Note:
 Run it yourself
 ---------------
 
-Three tutorials in ``tutorials/verification/gsi/`` reproduce the
+Six tutorials in ``tutorials/verification/gsi/`` reproduce the
 decisive checks of this page on one core:
 
 * ``B5b_immersedRecession``: the receding immersed plane against the
@@ -285,6 +341,13 @@ decisive checks of this page on one core:
   1e-12);
 * ``B5b_secondaryProducts``: review fix 1, one impact per reaction
   event and every secondary product queued on the level-set surface.
+* ``B5b_curvedRecessionBodyFitted``, ``B5b_curvedRecessionImplicit``
+  and ``B5b_curvedRecessionExplicit``: the receding cylinder of section
+  "Finite-rate recession of a curved body" on each surface (seed 11,
+  2-3 min). The swept-volume identity is checked, and the removed
+  carbon, coverage, the six reaction totals and the depth profile at
+  7.5 and 15 µs are compared with the mean of the verified body-fitted
+  runs, within the tolerances of their replica spread.
 
 Copy a tutorial to a run directory and type ``./Allrun``; ``check.py``
 prints PASS or FAIL per metric, redraws the comparison in ``plots/``

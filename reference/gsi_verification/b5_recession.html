@@ -1014,6 +1014,33 @@ solid region (ledger) against the gas-side bulk ledger
 </figcaption>
 </figure>
 </section>
+<section id="body-fitted-recession-on-curved-walls-2026-10-04">
+<h2>Body-fitted recession on curved walls (2026-10-04)<a class="headerlink" href="#body-fitted-recession-on-curved-walls-2026-10-04" title="Link to this heading"></a></h2>
+<p>The receding carbon cylinder of <a class="reference internal" href="b5b_immersed_chemistry.html"><span class="doc">B5b: surface chemistry on the immersed surface</span></a>
+(section “Finite-rate recession of a curved body”) showed that the
+moving body-fitted wall was exact only on a plane. It moved its points
+by the cumulative depth <span class="math notranslate nohighlight">\(m_f/(\rho_s A_{f,0})\)</span> along the current
+point normals, so a receding circle swept <span class="math notranslate nohighlight">\(d\,(R - d/2)\)</span> per unit
+angle instead of <span class="math notranslate nohighlight">\(m/\rho_s\)</span> (swept/removed 0.887 after 3.6
+cells). Its site areas stayed at the initial face areas, and the
+converging normals folded the faces at the stagnation point. Since
+2026-10-04 <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code> works as follows:</p>
+<ul class="simple">
+<li><p>every step, the removed volume of each face (<code class="docutils literal notranslate"><span class="pre">removedSolidVolume</span></code>)
+is divided by the current face area;</p></li>
+<li><p>the wall points move along the normals of the initial wall by the
+least-squares offset of the face planes;</p></li>
+<li><p>the displacement of the step is scaled so that the swept volume
+(<code class="docutils literal notranslate"><span class="pre">face::sweptVol</span></code>) equals the removed volume, so the closure holds
+to round-off;</p></li>
+<li><p>after every mesh motion the coverage wall’s element areas follow the
+faces (<code class="docutils literal notranslate"><span class="pre">meshMoved</span></code>, adsorbed inventory kept).</p></li>
+</ul>
+<p>The conjugate solid’s wall motion is closed the same way. On the
+melting Al cylinder of B8, the solid volume lost over the removed
+volume goes from 0.99885 to 1.00000000. On the plane, the results of
+the previous section are unchanged to the printed digits.</p>
+</section>
 <section id="reproduce">
 <h2>Reproduce<a class="headerlink" href="#reproduce" title="Link to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">run/GSI/B5_recession/</span></code> (<code class="docutils literal notranslate"><span class="pre">README.md</span></code>): <code class="docutils literal notranslate"><span class="pre">heatTable/</span></code>
@@ -1038,6 +1065,10 @@ column (identities to 1e-10);</p></li>
 solution, scaled to 1000 steps and <code class="docutils literal notranslate"><span class="pre">nEquivalentParticles</span> <span class="pre">1e7</span></code> (the
 quick run of the review), so that it runs in under two minutes.</p></li>
 </ul>
+<p>The body-fitted recession on a curved wall is checked by
+<code class="docutils literal notranslate"><span class="pre">B5b_curvedRecessionBodyFitted</span></code> (see <a class="reference internal" href="b5b_immersed_chemistry.html"><span class="doc">B5b: surface chemistry on the immersed surface</span></a>):
+the receding cylinder sweeps the removed volume to 1e-10 and matches the
+verified removed carbon, coverage, rates and depth profile.</p>
 <p>Copy a tutorial to a run directory and type <code class="docutils literal notranslate"><span class="pre">./Allrun</span></code>; <code class="docutils literal notranslate"><span class="pre">check.py</span></code>
 prints PASS or FAIL per metric, redraws the comparison in <code class="docutils literal notranslate"><span class="pre">plots/</span></code>
 and ends with <code class="docutils literal notranslate"><span class="pre">PASS:</span> <span class="pre">n/n</span> <span class="pre">metrics</span> <span class="pre">pass</span></code>.</p>
