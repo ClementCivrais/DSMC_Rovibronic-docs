@@ -738,6 +738,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b5_recession.html">B5a: reaction heats and chemistry-driven recession</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b5b_immersed_chemistry.html">B5b: surface chemistry on the immersed surface</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b6_mechanisms.html">B6: production surface mechanisms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b11b_state_layer.html">B11b: state-resolved gas-surface layer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/immersed_surface.html">Immersed ablating surface</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/conjugate_solid.html">Conjugate solid: conduction, melting, film and droplets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b8_conjugate_multiregion.html">B8: multi-region conjugate solid</a></li>
@@ -886,9 +887,10 @@ standard errors and the deterministic identities do not change.</p>
 </section>
 <section id="cases-that-are-not-in-the-set-yet">
 <h2>Cases that are not in the set yet<a class="headerlink" href="#cases-that-are-not-in-the-set-yet" title="Link to this heading"></a></h2>
-<p>Blocks B6b and B11 are not on the main branch; their tutorials will
-be added to <code class="docutils literal notranslate"><span class="pre">tutorials/verification/gsi/</span></code> with the same layout
-when they are verified there. The SPARTA twin of the recession
+<p>The state-resolved layer of block B11 (stage B11b) has three cases,
+<code class="docutils literal notranslate"><span class="pre">B11b_equilibriumConsistency</span></code>, <code class="docutils literal notranslate"><span class="pre">B11b_hotO2Response</span></code> and
+<code class="docutils literal notranslate"><span class="pre">B11b_productEnergies</span></code> (<a class="reference internal" href="../reference/gsi_verification/b11b_state_layer.html"><span class="doc">B11b: state-resolved gas-surface layer</span></a>).
+Block B6b and the paused QK rate route of B11 have no tutorial yet. The SPARTA twin of the recession
 comparison (<code class="docutils literal notranslate"><span class="pre">fix</span> <span class="pre">ablate</span></code>) still uses the collision data that
 preceded the frozen species database; <code class="docutils literal notranslate"><span class="pre">IMM_implicitRecession</span></code> and
 <code class="docutils literal notranslate"><span class="pre">IMM_explicitRecession</span></code> therefore check geometry and mass closure

@@ -99,9 +99,10 @@ standard errors and the deterministic identities do not change.
 Cases that are not in the set yet
 ---------------------------------
 
-Blocks B6b and B11 are not on the main branch; their tutorials will
-be added to ``tutorials/verification/gsi/`` with the same layout
-when they are verified there. The SPARTA twin of the recession
+The state-resolved layer of block B11 (stage B11b) has three cases,
+``B11b_equilibriumConsistency``, ``B11b_hotO2Response`` and
+``B11b_productEnergies`` (:doc:`../reference/gsi_verification/b11b_state_layer`).
+Block B6b and the paused QK rate route of B11 have no tutorial yet. The SPARTA twin of the recession
 comparison (``fix ablate``) still uses the collision data that
 preceded the frozen species database; ``IMM_implicitRecession`` and
 ``IMM_explicitRecession`` therefore check geometry and mass closure

@@ -76,6 +76,10 @@ the notes.
    * - :doc:`conjugate_solid`
      - Heat conduction, melting, melt film and droplets
      - exact solutions, free-molecular ODE
+   * - :doc:`b11b_state_layer`
+     - State-resolved gas-surface layer on the ACA: threshold response of
+       the impact steps, product states, weighted re-emission, both hosts
+     - Python oracle of the layer, ACA oracle, layer off
    * - :doc:`b8_conjugate_multiregion`
      - Multi-region conjugate solid (AMI, parallel, :math:`k(T)`,
        :math:`c_p(T)`), Cao and Ma cases 1 and 3
@@ -121,6 +125,9 @@ are summarised below; details are on the block pages.
    * - Immersed chemistry (B5b)
      - 3413-3440 s per immersed run against 3449-3499 s for the
        same case on a body-fitted wall
+   * - State-resolved layer (B11b)
+     - below the run-to-run noise (:math:`< 0.3\ \mu`\ s per impact);
+       start-up tables 0.4 s for the ACA
 
 .. toctree::
    :maxdepth: 1
@@ -135,6 +142,7 @@ are summarised below; details are on the block pages.
    b5_recession
    b5b_immersed_chemistry
    b6_mechanisms
+   b11b_state_layer
    immersed_surface
    conjugate_solid
    b8_conjugate_multiregion
