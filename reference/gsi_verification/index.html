@@ -178,6 +178,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#running-the-set">Running the set</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#what-pass-means">What PASS means</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#reproducibility">Reproducibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#applications">Applications</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../guide/verification_tutorials.html#cases-that-are-not-in-the-set-yet">Cases that are not in the set yet</a></li>
 </ul>
 </li>
@@ -741,6 +742,9 @@
 <li class="toctree-l4"><a class="reference internal" href="b6_mechanisms.html">B6: production surface mechanisms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="b11b_state_layer.html">B11b: state-resolved gas-surface layer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="immersed_surface.html">Immersed ablating surface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sphere3d.html">Three-dimensional immersed sphere and SPARTA twin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beam_consistency.html">Beam consistency of DSMC with the ACA mechanism</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aca_cylinder.html">Application: carbon cylinder under the ACA mechanism</a></li>
 <li class="toctree-l4"><a class="reference internal" href="conjugate_solid.html">Conjugate solid: conduction, melting, film and droplets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="b8_conjugate_multiregion.html">B8: multi-region conjugate solid</a></li>
 </ul>
@@ -894,7 +898,22 @@ oracles, then the mechanisms in DSMC (spectator channels, both hosts)</p></td>
 the impact steps, product states, weighted re-emission, both hosts</p></td>
 <td><p>Python oracle of the layer, ACA oracle, layer off</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="b8_conjugate_multiregion.html"><span class="doc">B8: multi-region conjugate solid</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="sphere3d.html"><span class="doc">Three-dimensional immersed sphere and SPARTA twin</span></a></p></td>
+<td><p>Three-dimensional immersed sphere: implicit against explicit at
+fixed shape and under recession, SPARTA <code class="docutils literal notranslate"><span class="pre">surf_react</span> <span class="pre">adsorb</span></code> twin</p></td>
+<td><p>other representation, SPARTA twin, identities</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="beam_consistency.html"><span class="doc">Beam consistency of DSMC with the ACA mechanism</span></a></p></td>
+<td><p>DSMC with the ACA mechanism under the molecular beams it was
+fitted to (consistency check)</p></td>
+<td><p>closed form of the mechanism, measured yields</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="aca_cylinder.html"><span class="doc">Application: carbon cylinder under the ACA mechanism</span></a></p></td>
+<td><p>Application: carbon cylinder ablating under the ACA mechanism in
+dissociated air, implicit and explicit surfaces, cost</p></td>
+<td><p>other representation, closed form per sector</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="b8_conjugate_multiregion.html"><span class="doc">B8: multi-region conjugate solid</span></a></p></td>
 <td><p>Multi-region conjugate solid (AMI, parallel, <span class="math notranslate nohighlight">\(k(T)\)</span>,
 <span class="math notranslate nohighlight">\(c_p(T)\)</span>), Cao and Ma cases 1 and 3</p></td>
 <td><p>exact solutions, Cao and Ma <a class="reference internal" href="#caoma2025-gsi" id="id6"><span>[CaoMa2025_gsi]</span></a></p></td>
@@ -950,7 +969,12 @@ against 190 µs and 383 µs with the former rejection sampler</p></td>
 <td><p>3413-3440 s per immersed run against 3449-3499 s for the
 same case on a body-fitted wall</p></td>
 </tr>
-<tr class="row-odd"><td><p>State-resolved layer (B11b)</p></td>
+<tr class="row-odd"><td><p>ACA cylinder, 20 reactions, 155 000 parcels</p></td>
+<td><p>step 1.18 times the diffuse wall (one probability 1.13-1.17); the
+surface functions are 0.1 % of the step, the rest is the gas
+(<a class="reference internal" href="aca_cylinder.html"><span class="doc">Application: carbon cylinder under the ACA mechanism</span></a>)</p></td>
+</tr>
+<tr class="row-even"><td><p>State-resolved layer (B11b)</p></td>
 <td><p>below the run-to-run noise (<span class="math notranslate nohighlight">\(&lt; 0.3\ \mu\)</span>s per impact);
 start-up tables 0.4 s for the ACA</p></td>
 </tr>
@@ -970,6 +994,9 @@ start-up tables 0.4 s for the ACA</p></td>
 <li class="toctree-l1"><a class="reference internal" href="b6_mechanisms.html">B6: production surface mechanisms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="b11b_state_layer.html">B11b: state-resolved gas-surface layer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="immersed_surface.html">Immersed ablating surface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphere3d.html">Three-dimensional immersed sphere and SPARTA twin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beam_consistency.html">Beam consistency of DSMC with the ACA mechanism</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aca_cylinder.html">Application: carbon cylinder under the ACA mechanism</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conjugate_solid.html">Conjugate solid: conduction, melting, film and droplets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="b8_conjugate_multiregion.html">B8: multi-region conjugate solid</a></li>
 </ul>

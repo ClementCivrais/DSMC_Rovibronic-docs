@@ -1,0 +1,139 @@
+Three-dimensional immersed sphere and SPARTA twin
+=================================================
+
+**Verified:** the immersed finite-rate engine in three dimensions, at fixed
+shape and under recession, on the implicit surface (marching tetrahedra)
+and the explicit surface (triangulated STL). **Against:** the other
+representation, and SPARTA's ``surf_react adsorb`` [SPARTA_gsi]_ in a
+one-to-one twin on the same triangles. Results and scripts:
+``run/GSI/Article_JCP/RESULTS_3D_beam.md`` section 1 and
+``run/GSI/Article_JCP/sphere3d/``.
+
+Set-up
+------
+
+* Carbon sphere, R = 0.5 mm at (1.5 mm, 0, 0), in the O stream of
+  :doc:`immersed_surface` (4 km/s, 1000 K, :math:`2\times10^{22}`
+  m\ :sup:`-3`); quarter domain 4 :math:`\times` 2 :math:`\times` 2 mm with
+  symmetry planes y = 0 and z = 0, 80 :math:`\times` 40 :math:`\times` 40
+  cells (R/h = 10); wall at 2000 K.
+* Coverage mechanism ``b5bcyl`` of :doc:`b5b_immersed_chemistry`
+  (adsorption, Eley-Rideal, direct oxidation; desorption, oxidation of
+  O(s), Langmuir-Hinshelwood), :math:`10^{19}` sites/m\ :sup:`2`.
+* Explicit surface: the 20 480-triangle icosphere; :math:`5\times10^{8}`
+  atoms per parcel, 3000 steps of 5 ns, two seeds per surface.
+
+Fixed shape: implicit against explicit
+--------------------------------------
+
+Window 3-15 µs, whole-sphere values; :math:`\pm` standard error of batch
+means.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Quantity
+     - explicit / implicit
+   * - Carbon removal
+     - 0.9985 :math:`\pm` 0.0027
+   * - O impacts
+     - 1.0020 :math:`\pm` 0.0016
+   * - Mean O(s) coverage
+     - 0.9987 :math:`\pm` 0.0020
+   * - The six reactions
+     - 0.9942-1.0010
+
+The coverage falls from 0.43 at the stagnation point to 0.15 at 75-90°
+and below 0.005 beyond 120°; the bulk ledger equals the oxidation tallies
+to 1.000000 in every run.
+
+SPARTA twin (1280 triangles)
+----------------------------
+
+SPARTA's coverage is per triangle: on the 20 480-triangle sphere one parcel
+would fill a third of a triangle's sites. The twin therefore uses the
+level-3 icosphere (1280 triangles of about one cut cell), the ``b5bcyl``
+reactions in SPARTA's files, read by dsmcFoam+ through its SPARTA import
+(combinatorial stoichiometry, ``timeCounter``), SPARTA 27 Aug 2026,
+two seeds each.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Quantity (3-15 µs)
+     - dsmcFoam+ / SPARTA
+   * - Adsorption
+     - 1.0069 :math:`\pm` 0.0019
+   * - Eley-Rideal
+     - 1.0068 :math:`\pm` 0.0081
+   * - Direct oxidation
+     - 1.0025 :math:`\pm` 0.0044
+   * - Desorption
+     - 1.0053 :math:`\pm` 0.0035
+   * - Oxidation of O(s)
+     - 1.0021 :math:`\pm` 0.0052
+   * - Langmuir-Hinshelwood
+     - 0.9953 :math:`\pm` 0.0089
+   * - Mean coverage
+     - 1.0014 :math:`\pm` 0.0028
+   * - O impacts
+     - 1.0081 :math:`\pm` 0.0017
+
+Every channel and the coverage agree within 0.7 %. The O impacts of
+dsmcFoam+ are 0.8 % above SPARTA's (4.8 standard errors), and adsorption
+and Eley-Rideal follow them. **The cause has not been found**; the two
+codes differ in their gas collision models (rovibronic Larsen-Borgnakke
+against SPARTA's rotational relaxation) and in the collision volumes of
+the cut cells.
+
+*Discreteness of the inventory.* With SPARTA's combinatorial LH
+convention, pairs are counted among 5-20 simulated O(s) per element, and
+the recombination proceeds at 0.62 of the mean-field rate of the native
+mechanism (power form): coverage +2.3 %, carbon removal +3.8 %. The same
+family of effect appears on the ACA cylinder of :doc:`aca_cylinder`, where
+fewer than one simulated O*(s) per element and a single-quantum removal
+probability above one double the O*(s) coverage.
+
+.. figure:: ../../_static/figures/gsi/sphere3d_fixed.png
+   :width: 95%
+
+   O(s) coverage and carbon removal flux against the polar angle:
+   implicit, explicit, explicit with the SPARTA files (twin), and SPARTA
+   on 1280 triangles.
+
+Recession
+---------
+
+Solid density 1800/1.5e5 kg/m\ :sup:`3`, 15 µs, two seeds per surface; the
+sphere loses 31 % of its volume.
+
+* Swept / removed volume: 1.000000 (implicit, both seeds, at 7.5 and
+  15 µs), 0.999998-1.000008 (explicit).
+* Stagnation depth at 15 µs: 192.0 µm (implicit), 191.9 µm (explicit);
+  largest difference 7.4 µm at 30° (0.15 cell), seed spread up to 4 µm.
+* No parcel inside the solid, no cell that lost gas, no hand-over of the
+  explicit surface.
+
+No SPARTA reference exists for this recession: SPARTA runs its site
+chemistry on explicit surfaces only, and ``fix ablate`` recedes implicit
+surfaces only.
+
+.. figure:: ../../_static/figures/gsi/sphere3d_recession.png
+   :width: 95%
+
+   Recession depth against the polar angle at 7.5 and 15 µs, and removed
+   carbon (ledger) against the swept solid of both surfaces.
+
+Run it yourself
+---------------
+
+Two tutorials in ``tutorials/verification/gsi/`` reproduce this page on
+one core (:doc:`../../guide/verification_tutorials`):
+``sphere3dTwin`` (the SPARTA twin, about 43 min) and ``sphere3dImplicit``
+(the implicit surface at fixed shape against the stored explicit runs,
+about 44 min). The beam reactor of :doc:`beam_consistency` is
+``acaBeamReactor``. The full set:
+``run/GSI/Article_JCP/sphere3d/run_sphere3d.sh``, ``run_twin.sh`` and
+``sparta/run_sparta.sh``, then ``analyse_sphere3d.py``.

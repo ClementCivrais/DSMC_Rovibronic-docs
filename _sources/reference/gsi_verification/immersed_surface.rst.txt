@@ -12,7 +12,8 @@ serial and parallel. **Against:** the exact geometry, the removed
 mass, SPARTA's explicit surface at fixed shape, and SPARTA's
 implicit surface with ``fix ablate`` under recession. The surface
 chemistry on these surfaces is verified in
-:doc:`b5b_immersed_chemistry`.
+:doc:`b5b_immersed_chemistry`, in three dimensions in :doc:`sphere3d`,
+and applied to a production mechanism in :doc:`aca_cylinder`.
 
 Geometry of the reconstructed body
 ----------------------------------

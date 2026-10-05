@@ -195,6 +195,14 @@ Verification
   :doc:`../../reference/gsi_verification/boundary_conditions`: wall
   temperature and moving walls against SPARTA.
 
+The immersed receding surfaces, which run in both solvers, are verified in
+:doc:`../../reference/gsi_verification/immersed_surface`,
+:doc:`../../reference/gsi_verification/b5b_immersed_chemistry` and
+:doc:`../../reference/gsi_verification/sphere3d`; their application to a
+carbon cylinder under the ACA mechanism is
+:doc:`../../reference/gsi_verification/aca_cylinder` (tutorials
+``APP_acaCylinderImplicit`` and ``APP_acaCylinderExplicit``).
+
 Limitations
 -----------
 

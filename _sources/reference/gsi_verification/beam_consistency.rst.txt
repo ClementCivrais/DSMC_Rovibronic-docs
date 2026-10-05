@@ -1,0 +1,87 @@
+Beam consistency of DSMC with the ACA mechanism
+===============================================
+
+**Checked:** DSMC with the air-carbon ablation (ACA) mechanism [PR22_gsi]_
+under the molecular beams of Minton's group, against the closed-form
+steady state of the mechanism (solver error) and against the measured
+product yields (model error). The ACA was fitted to these data, so the
+comparison with the data is a **consistency check, not an independent
+validation**. Results and scripts: ``run/GSI/Article_JCP/RESULTS_3D_beam.md``
+section 2 and ``run/GSI/Article_JCP/beam/``.
+
+Reactor
+-------
+
+One carbon element of 1 mm\ :sup:`2` on a coverage wall (mechanism
+``acaPR22``) under a collisionless drifting beam, outgoing gas counted per
+species at the top of the column, started from the closed-form steady
+coverages; 25 000 steps, about 40 parcels per step, two seeds, 100 runs.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 40 30
+
+   * - Data
+     - Beam
+     - Yield
+   * - Murray et al. (2015), as probabilities of Poovathingal et al. (2017)
+     - 5 eV O
+     - X/(O + CO + CO\ :sub:`2`)
+   * - Murray et al. (2020), Fig. 8
+     - 0.36 eV O + O\ :sub:`2`
+     - efficiencies, Eq. 1
+   * - Murray et al. (2020), Fig. 12
+     - 0.36 eV N
+     - efficiencies, Eq. 2
+   * - Murray and Minton (2019), Fig. 5
+     - 4.8 eV N
+     - CN/(N + CN), arbitrary units (shape only)
+
+Solver: DSMC against the closed form
+------------------------------------
+
+* Every yield above :math:`10^{-3}`: DSMC / closed form 0.996-1.006, except
+  the CO\ :sub:`2` efficiency of the 0.36 eV O beam at 1600 K (1.04 at
+  :math:`1.4\times10^{-3}`, about 250 events).
+* Gas ledger (deleted / expected) 0.9925-1.0005; coverages / closed form
+  0.992-1.006.
+* At the conditions of the 5 eV beam, DSMC reproduces the model curves of
+  PR22 Fig. 1 to three digits (CO 0.7861 against 0.7858, O\ :sub:`2`
+  0.1022 against 0.1018 at 1200 K).
+
+The solver error is therefore separated from the model error.
+
+Model: the mechanism against the data
+-------------------------------------
+
+* Follows the data: the O and CO efficiencies of the 0.36 eV O beam within
+  40 % at every surface temperature (800-1870 K), and the N efficiency of
+  the 0.36 eV N beam within a factor of two.
+* Misses: the O\ :sub:`2` and N\ :sub:`2` recombination (about three times
+  low; no net O\ :sub:`2` below about 1270 K), CO\ :sub:`2` above 1400 K
+  (falls by :math:`10^3` from 1200 to 1800 K, the data by about
+  :math:`10^2`), CN of the N beam below 1100 K (30 times low), and the
+  5 eV O beam (CO about two times high, O about three times low). The
+  5 eV misfit belongs to the published model: with the PR22 molecular-beam
+  convention it returns 10-36 % of the O atoms as O\ :sub:`2`, which the
+  normalisation O + CO + CO\ :sub:`2` does not count.
+
+.. figure:: ../../_static/figures/gsi/beam_consistency.png
+   :width: 100%
+
+   Product yields against the surface temperature: DSMC with the ACA
+   (mean of two seeds), the closed form of the mechanism, and the
+   measurements. Rows: 5 eV O beam and 4.8 eV N beam (top), 0.36 eV O
+   beam (middle), 0.36 eV N beam (bottom).
+
+The same runs with the state-resolved layer of :doc:`b11b_state_layer` are
+in ``RESULTS_3D_beam.md`` (not shown here).
+
+Run it yourself
+---------------
+
+The tutorial ``tutorials/verification/gsi/acaBeamReactor`` runs the beam
+reactor in about 75 s; its 21 checks lie within 4 standard errors of the
+closed form (:doc:`../../guide/verification_tutorials`); the 3-D tutorials
+``sphere3dTwin`` and ``sphere3dImplicit`` are on :doc:`sphere3d`. The full campaign:
+``run/GSI/Article_JCP/beam/campaign_beam.py`` and ``summarise_beam.py``.

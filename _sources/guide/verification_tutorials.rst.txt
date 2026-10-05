@@ -96,6 +96,18 @@ compiler or library build, or another seed changes the particle
 histories; the statistical metrics then change within their stated
 standard errors and the deterministic identities do not change.
 
+Applications
+------------
+
+``APP_acaCylinderImplicit`` and ``APP_acaCylinderExplicit`` run the
+carbon cylinder of :doc:`../reference/gsi_verification/aca_cylinder`
+(ACA mechanism, dissociated air) to 4.5 µs on one core (11-13 min each)
+and check 15 metrics against the article runs at 4.5 µs. The
+three-dimensional sphere of :doc:`../reference/gsi_verification/sphere3d`
+has ``sphere3dTwin`` (SPARTA twin) and ``sphere3dImplicit``, and the beam
+reactor of :doc:`../reference/gsi_verification/beam_consistency` has
+``acaBeamReactor``.
+
 Cases that are not in the set yet
 ---------------------------------
 

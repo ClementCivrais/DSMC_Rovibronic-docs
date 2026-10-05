@@ -177,6 +177,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#running-the-set">Running the set</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#what-pass-means">What PASS means</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reproducibility">Reproducibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#applications">Applications</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cases-that-are-not-in-the-set-yet">Cases that are not in the set yet</a></li>
 </ul>
 </li>
@@ -740,6 +741,9 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b6_mechanisms.html">B6: production surface mechanisms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b11b_state_layer.html">B11b: state-resolved gas-surface layer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/immersed_surface.html">Immersed ablating surface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/sphere3d.html">Three-dimensional immersed sphere and SPARTA twin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/beam_consistency.html">Beam consistency of DSMC with the ACA mechanism</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/aca_cylinder.html">Application: carbon cylinder under the ACA mechanism</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/conjugate_solid.html">Conjugate solid: conduction, melting, film and droplets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b8_conjugate_multiregion.html">B8: multi-region conjugate solid</a></li>
 </ul>
@@ -884,6 +888,17 @@ processor offset, so a different decomposition, a different
 compiler or library build, or another seed changes the particle
 histories; the statistical metrics then change within their stated
 standard errors and the deterministic identities do not change.</p>
+</section>
+<section id="applications">
+<h2>Applications<a class="headerlink" href="#applications" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">APP_acaCylinderImplicit</span></code> and <code class="docutils literal notranslate"><span class="pre">APP_acaCylinderExplicit</span></code> run the
+carbon cylinder of <a class="reference internal" href="../reference/gsi_verification/aca_cylinder.html"><span class="doc">Application: carbon cylinder under the ACA mechanism</span></a>
+(ACA mechanism, dissociated air) to 4.5 µs on one core (11-13 min each)
+and check 15 metrics against the article runs at 4.5 µs. The
+three-dimensional sphere of <a class="reference internal" href="../reference/gsi_verification/sphere3d.html"><span class="doc">Three-dimensional immersed sphere and SPARTA twin</span></a>
+has <code class="docutils literal notranslate"><span class="pre">sphere3dTwin</span></code> (SPARTA twin) and <code class="docutils literal notranslate"><span class="pre">sphere3dImplicit</span></code>, and the beam
+reactor of <a class="reference internal" href="../reference/gsi_verification/beam_consistency.html"><span class="doc">Beam consistency of DSMC with the ACA mechanism</span></a> has
+<code class="docutils literal notranslate"><span class="pre">acaBeamReactor</span></code>.</p>
 </section>
 <section id="cases-that-are-not-in-the-set-yet">
 <h2>Cases that are not in the set yet<a class="headerlink" href="#cases-that-are-not-in-the-set-yet" title="Link to this heading"></a></h2>
