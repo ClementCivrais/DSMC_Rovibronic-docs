@@ -74,8 +74,14 @@ Model: the mechanism against the data
    measurements. Rows: 5 eV O beam and 4.8 eV N beam (top), 0.36 eV O
    beam (middle), 0.36 eV N beam (bottom).
 
-The same runs with the state-resolved layer of :doc:`b11b_state_layer` are
-in ``RESULTS_3D_beam.md`` (not shown here).
+The runs with the state-resolved layer of :doc:`b11b_state_layer` are in
+``RESULTS_3D_beam.md`` (not shown here). The layer acts on the normal
+energy of the impact, so these runs use the incidence angles of the
+experiments: 45° for Murray et al. (2015) and Murray and Minton (2019),
+60° for Murray et al. (2020), with the same speed and the same flux per
+unit area as at normal incidence. The ACA alone does not depend on the
+angle: one point per experiment at its angle gives the yields of the
+normal-incidence runs within 0.7 %.
 
 Run it yourself
 ---------------
