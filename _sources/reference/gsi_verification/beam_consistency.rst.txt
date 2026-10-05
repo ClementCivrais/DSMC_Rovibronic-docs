@@ -4,9 +4,11 @@ Beam consistency of DSMC with the ACA mechanism
 **Checked:** DSMC with the air-carbon ablation (ACA) mechanism [PR22_gsi]_
 under the molecular beams of Minton's group, against the closed-form
 steady state of the mechanism (solver error) and against the measured
-product yields (model error). The ACA was fitted to these data, so the
-comparison with the data is a **consistency check, not an independent
-validation**. Results and scripts: ``run/GSI/Article_JCP/RESULTS_3D_beam.md``
+product yields (model error). The ACA was fitted to the continuous
+0.36 eV O and N beams of Murray et al. (2020), so the comparison with
+these data is a **consistency check, not an independent validation**. The
+pulsed 5 eV O and 4.8 eV N beams were not fitted (PR22 report similar
+trends) and test the mechanism outside its calibration. Results and scripts: ``run/GSI/Article_JCP/RESULTS_3D_beam.md``
 section 2 and ``run/GSI/Article_JCP/beam/``.
 
 Reactor

@@ -85,8 +85,8 @@ the notes.
        fixed shape and under recession, SPARTA ``surf_react adsorb`` twin
      - other representation, SPARTA twin, identities
    * - :doc:`beam_consistency`
-     - DSMC with the ACA mechanism under the molecular beams it was
-       fitted to (consistency check)
+     - DSMC with the ACA mechanism under the molecular beams of Minton's
+       group (consistency check on the continuous beams it was fitted to)
      - closed form of the mechanism, measured yields
    * - :doc:`aca_cylinder`
      - Application: carbon cylinder ablating under the ACA mechanism in

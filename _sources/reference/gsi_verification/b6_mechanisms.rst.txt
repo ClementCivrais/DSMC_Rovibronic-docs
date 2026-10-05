@@ -240,6 +240,7 @@ relative tolerance 5e-9). ``./Allrun`` takes a few seconds on one core
 and ends with ``PASS: 89/89 metrics pass``. Stage B6b (engine runs of
 the mechanisms against the papers' figures) is not covered yet.
 
-The ACA in DSMC under the molecular beams it was fitted to is
+The ACA in DSMC under the molecular beams of Minton's group (the
+continuous beams it was fitted to and the earlier pulsed beams) is
 :doc:`beam_consistency`; its application to a receding carbon cylinder in
 dissociated air is :doc:`aca_cylinder`.
