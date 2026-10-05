@@ -8,7 +8,8 @@ verified results. They live in ``tutorials/verification/gsi/``,
 one directory per case, named after the block of the verification
 (``B0`` to ``B8``; ``PROB`` for the probability-mode catalysis and
 ablation, ``IMM`` for the immersed surfaces, ``MOV`` for the moving
-body-fitted walls).
+body-fitted walls, ``APP`` for the applications, ``MELT`` for the
+melting cases of the conjugate solid).
 
 Content of a case
 -----------------
@@ -107,6 +108,16 @@ three-dimensional sphere of :doc:`../reference/gsi_verification/sphere3d`
 has ``sphere3dTwin`` (SPARTA twin) and ``sphere3dImplicit``, and the beam
 reactor of :doc:`../reference/gsi_verification/beam_consistency` has
 ``acaBeamReactor``.
+
+The melting cases of the conjugate solid are ``MELT_iceAblation``
+(ice slab, melt removed: onset and melting speed against the exact
+solution and a front-fixed oracle; 38 s), ``MELT_iceNeumann`` (melt
+retained: front and profile against the Neumann solution; 21 s), both on
+:doc:`../reference/gsi_verification/melting_ice`, and ``MELT_leiserBar``
+(Al 6060 bar at 843 kW/m², energy balance of the melt-through; 1 s), on
+:doc:`../reference/gsi_verification/melting_couette`. The
+DSMC-coupled Couette slab of the same page has no tutorial (3 replicas of
+5.5 h).
 
 Cases that are not in the set yet
 ---------------------------------

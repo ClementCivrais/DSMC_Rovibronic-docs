@@ -96,6 +96,14 @@ the notes.
      - Multi-region conjugate solid (AMI, parallel, :math:`k(T)`,
        :math:`c_p(T)`), Cao and Ma cases 1 and 3
      - exact solutions, Cao and Ma [CaoMa2025_gsi]_
+   * - :doc:`melting_ice`
+     - Melting of ice with the melt removed and retained (IAPWS
+       properties)
+     - exact onset, front-fixed oracle, Neumann solution
+   * - :doc:`melting_couette`
+     - Application: melting slab under a rarefied argon Couette flow,
+       coupled to the DSMC gas; window stability
+     - slip-regime solution and thesis of Bariselli
 
 Conventions
 -----------
@@ -165,6 +173,8 @@ are summarised below; details are on the block pages.
    aca_cylinder
    conjugate_solid
    b8_conjugate_multiregion
+   melting_ice
+   melting_couette
 
 References
 ----------

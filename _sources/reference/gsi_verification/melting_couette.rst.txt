@@ -1,0 +1,136 @@
+Application: melting slab under a rarefied Couette flow
+=======================================================
+
+**Shown:** the conjugate solid of ``dsmcFoamAblation`` coupled to the DSMC
+gas through the coupling windows, on the supersonic Couette flow of argon
+over a melting slab of Bariselli [Bariselli2020_melt]_ (thesis Sec. 6.6.1,
+Appendix E). **Against:** the slip-regime solution of Appendix E (oracle
+written for any viscosity law, reproduces Table 6.5 and the solid fraction
+4.44 % with the thesis gas) and the value reported in the thesis. Results,
+scripts and the full numbers: ``run/GSI/Article_Melting/RESULTS.md``
+(section 1).
+
+Set-up
+------
+
+* Gap 0.1 m, upper wall at 2000 K sliding at 832.95 m/s, diffuse; slab of
+  1.02 mm with its base at 300 K; Kn 0.01 on the gap,
+  :math:`n_0` = 1.742e21 m\ :sup:`-3`.
+* Condensed phase (Table 6.3): :math:`\rho_c` 1e3 kg/m³, :math:`\nu_l`
+  1e-8 m²/s, :math:`\lambda_l` 1e-4 and :math:`\lambda_s` 1e-5 W/(m K),
+  :math:`T_m` 900 K.
+* **Deviation 1, gas model:** the frozen species database gives the
+  Ar-Ar VSS pair (:math:`\omega` 0.71967, :math:`\alpha` 1.46794), not
+  the thesis VHS with :math:`\omega` = 1; same :math:`n_0`. The slip
+  solution is solved for both gases: the gas model moves the shear by 9 %
+  but the heat flux and the solid fraction by < 1 %.
+* **Deviation 2, liquid model:** the liquid conducts (95 % of the slab,
+  2190 K at its surface), which the isothermal melt film cannot hold. The
+  steady state is computed with the solid region alone, :math:`k(T)`
+  switching from :math:`\lambda_s` to :math:`\lambda_l` at :math:`T_m`,
+  Stefan path off (no latent heat enters a steady state). The liquid
+  surface velocity :math:`V_i = \tau D_l/\eta_l` is imposed through the
+  frame (upper wall at :math:`V_u - V_i`), updated between run segments.
+* Three replicas (seeds 1-3), 2 ms of gas spin-up, then eight segments
+  of 10 ms (50 000 DSMC steps, 25 000 windows of 0.04 s of solid time);
+  the first two segments are left out. One serial core each, about 5.5 h.
+
+Window stability
+----------------
+
+The window coupling is explicit, and the wall flux responds at once to
+:math:`T_w` through the re-emitted molecules, :math:`h = 2k_B\Gamma`
+(12.8 W/(m² K) here). A window of solid time :math:`\Delta t_w` is
+stable when
+
+.. math::
+
+   2h\left(\frac{\Delta t_w}{\pi k\rho c_p}\right)^{1/2} < 1 .
+
+With :math:`\lambda_l` = 1e-4 W/(m K) the left-hand side is 4.6 for 10 s
+windows (the first attempt diverged in five windows) and 0.29 for the
+0.04 s windows used. The number of windows per conduction time
+:math:`D_c^2/(\pi^2\alpha)` does not depend on :math:`\rho c_p`: about
+26 000 here.
+
+Results
+-------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 34 22 22 22
+
+   * - Quantity
+     - dsmcFoam+ (3 replicas)
+     - slip solution, VSS Ar
+     - thesis
+   * - Heat flux into the condensed phase [W/m²]
+     - 132.37 :math:`\pm` 0.40
+     - 131.38 (ratio 1.0075)
+     - 132.37 (oracle, VHS Ar)
+   * - **Solid fraction**
+     - **4.437 % ± 0.009**
+     - 4.477 %
+     - **4.44 %**
+   * - Liquid surface temperature [K]
+     - 2193.0 :math:`\pm` 2.6
+     - 2180.05
+     - 2190.2
+   * - Wall shear [Pa]
+     - 0.7012 :math:`\pm` 0.0017
+     - 0.6798 (ratio 1.031)
+     - 0.7444 (oracle)
+   * - Liquid surface velocity [m/s]
+     - 68.35 :math:`\pm` 0.17
+     - 66.23
+     - 72.6
+
+The shear (hence :math:`V_i`) is 3 % above the first-order slip solution,
+the gas 10-15 K hotter at its peak and the velocity jumps 13 % larger:
+expected differences between the Boltzmann gas and a Navier-Stokes
+solution with first-order jumps and first-order Chapman-Enskog transport;
+not adjusted. Cost: 3 :math:`\times` 5.5 h serial, against about 20 days
+for the DSMC-SPH run of the thesis.
+
+.. figure:: ../../_static/figures/gsi/melt_couette_gas.png
+   :width: 100%
+
+   Gas velocity, temperature and number density across the gap
+   (laboratory frame, mean of three replicas) against the slip solution.
+
+.. figure:: ../../_static/figures/gsi/melt_couette_condensed.png
+   :width: 49%
+
+   Condensed-phase temperature of the three replicas against the slip
+   solutions with both gases.
+
+.. figure:: ../../_static/figures/gsi/melt_couette_history.png
+   :width: 49%
+
+   Solid fraction per segment of 10 ms of gas time against the slip
+   solution and the thesis value (the first two segments are left out).
+
+Metal bars (Leiser et al. 2022)
+-------------------------------
+
+The Al 6060 and AA7075 bars of Leiser et al. [Leiser2022_melt]_ have been
+run as 1-D slabs under the measured PWK4 heat fluxes, with the melt
+removed. The final numbers will be published after the melt-through fix
+of the solid region; ``tutorials/verification/gsi/MELT_leiserBar``
+checks the energy balance of the 65 km case.
+
+Rerun
+-----
+
+* Generator ``run/GSI/Article_Melting/bariselliCouette/make_couette.py``,
+  driver ``run_couette.sh``, warm start ``run_stageA.sh`` and
+  ``warm_start.py``, analysis ``analyse_couette.py``, oracle
+  ``oracle/couette_oracle.py``; segment data ``cases/c*/segments.json``.
+* The ice cases of the same campaign: :doc:`melting_ice`.
+
+.. [Bariselli2020_melt] F. Bariselli, *Development of an Ablation Model
+   for Rarefied Flows with Application to Meteoroid Entry*, PhD thesis,
+   Politecnico di Milano and Vrije Universiteit Brussel (2020).
+.. [Leiser2022_melt] D. Leiser, S. Loehle and S. Fasoulas, "Spectral
+   features for reentry breakup event identification," *J. Spacecraft
+   Rockets* 59(5), 1496-1506 (2022).

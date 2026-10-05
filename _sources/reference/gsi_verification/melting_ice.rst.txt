@@ -1,0 +1,147 @@
+Melting of ice: ablating slab and Neumann slab
+==============================================
+
+**Verified:** the solid region of ``dsmcFoamAblation`` with water ice,
+first with the melt removed as it forms (wall Stefan path), then with the
+melt retained and conducting (latent heat as an apparent heat capacity in
+the enthalpy form, :math:`c_p(T)` and :math:`k(T)` tables). **Against:**
+the exact onset and pre-melting surface temperature of a semi-infinite
+slab, a front-fixed finite-difference oracle, and the two-phase Neumann
+solution [CJ1959_melt]_. Results, scripts and the full numbers:
+``run/GSI/Article_Melting/RESULTS.md`` (section 3).
+
+Properties
+----------
+
+Checked on 2026-10-05 against the IAPWS releases (no source was in the
+local library); the four ice values held by the cases were correct, the
+two liquid-water values were corrected and the Neumann runs redone.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 26 18 56
+
+   * - Property
+     - Value
+     - Source
+   * - Ice density
+     - 916.72 kg/m³
+     - IAPWS R10-06(2009) [IAPWS2009_melt]_, Table 6, normal melting point (916.721)
+   * - Ice :math:`c_p`
+     - 2096.7 J/(kg K)
+     - same table (2096.71)
+   * - Latent heat :math:`L`
+     - 3.3343e5 J/kg
+     - :math:`h_\mathrm{water} - h_\mathrm{ice}` at the normal melting
+       point, IAPWS-95 [IAPWS95_melt]_ and R10-06 (333.427 kJ/kg)
+   * - Melting point
+     - 273.15 K
+     - R10-06: 273.152519 K at 101 325 Pa (2.5 mK difference, kept)
+   * - Ice conductivity
+     - 2.14 W/(m K)
+     - **source to be confirmed** (Slack 1980 requested)
+   * - Water :math:`c_p` (Neumann)
+     - 4219.4 J/(kg K)
+     - IAPWS-95 at 273.15 K, 0.101325 MPa (was 4219.9)
+   * - Water conductivity (Neumann)
+     - 0.5557 W/(m K)
+     - IAPWS R15-11 [IAPWS2011_melt]_ at 273.15 K, 0.101325 MPa (was 0.561,
+       the superseded 1985 value)
+
+Ablating slab (melt removed)
+----------------------------
+
+Ice slab of 0.3 m (600 cells), initially at 253.15 K, under
+:math:`q = 10^4` W/m² (``prescribedHeatFlux``, :math:`\varepsilon = 0`,
+empty gas column), solid step 0.1 s, ten steps per window, to 4000 s.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Check
+     - Result
+   * - Melt onset
+     - window (12, 13] s, exact 12.922 s
+   * - Surface temperature before melting
+     - within 0.013 K of the semi-infinite solution
+   * - Melting speed at 4000 s / oracle
+     - 0.999999 (steady speed 2.9061e-5 m/s)
+   * - Recession at 4000 s / oracle
+     - 0.999979 (0.1123 m)
+   * - Energy closure
+     - 1.1e-11
+
+Neumann slab (melt retained)
+----------------------------
+
+Ice at 263.15 K melts from a face held at 283.15 K (slab 0.2 m, 2000
+cells, step 1 s, 3600 s); both phases have the density of ice, as in the
+exact solution; the latent heat is a trapezoid of area :math:`L` over
+:math:`T_m \pm \Delta T`; the wall Stefan path is switched off.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 35 35
+
+   * - :math:`\Delta T`
+     - front / exact at 3600 s
+     - max :math:`|T - T_\mathrm{exact}|`
+   * - 2 K
+     - 1.0932
+     - 0.71 K
+   * - 1 K
+     - 1.0495
+     - 0.42 K
+   * - 0.5 K
+     - 1.0259
+     - 0.27 K
+   * - 0.25 K
+     - 1.0140
+     - 0.27 K
+   * - linear fit at 0
+     - 1.0033
+     -
+
+The error is that of the finite latent-heat interval: halving the cell
+size or the step changes the front by less than 1e-4. The energy ledger
+of this case closes only to 2-3 %, as the energy through a face held at a
+fixed temperature is not recorded by the ledger of the coupled walls; the
+front and the profile are unaffected.
+
+.. figure:: ../../_static/figures/gsi/melt_ice.png
+   :width: 100%
+
+   Ice in the solid region: (top left) surface temperature before
+   melting against the semi-infinite solution; (top right) melting speed
+   over the steady Stefan speed against the front-fixed oracle, melt
+   removed; (bottom left) temperature profile at 3600 s against the
+   Neumann solution, melt retained, :math:`\Delta T` = 0.25 K; (bottom
+   right) front position at 3600 s over the Neumann front against the
+   half-width of the latent-heat interval.
+
+Rerun
+-----
+
+* ``tutorials/verification/gsi/MELT_iceAblation`` (1 core, 38 s) and
+  ``tutorials/verification/gsi/MELT_iceNeumann`` (1 core, 21 s):
+  :doc:`../../guide/verification_tutorials`.
+* Generators and oracles: ``run/GSI/Article_Melting/slab/make_slab.py``,
+  ``slab/slab_oracle.py``, ``ice/run_neumann.sh``,
+  ``ice/oracle/neumann.py``; compact results ``ice/results/`` (written by
+  ``ice/export_ice_results.py``).
+
+Not run: the ice spheres of Hauk and Bonaccurso (2016) and Rasmussen
+et al. (1984) melt under convective and evaporative exchange in air at
+1 bar, which needs a convective and evaporative wall condition and the
+axisymmetric film terms first.
+
+.. [CJ1959_melt] H. S. Carslaw and J. C. Jaeger, *Conduction of Heat in
+   Solids*, 2nd ed., Oxford University Press (1959), Sec. 11.2.
+.. [IAPWS2009_melt] IAPWS, *Revised Release on the Equation of State 2006
+   for H2O Ice Ih*, R10-06(2009), Doorwerth (2009).
+.. [IAPWS95_melt] W. Wagner and A. Pruß, "The IAPWS formulation 1995 for
+   the thermodynamic properties of ordinary water substance for general
+   and scientific use," *J. Phys. Chem. Ref. Data* 31, 387 (2002).
+.. [IAPWS2011_melt] IAPWS, *Release on the IAPWS Formulation 2011 for the
+   Thermal Conductivity of Ordinary Water Substance*, R15-11, Plzeň (2011).

@@ -746,6 +746,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/aca_cylinder.html">Application: carbon cylinder under the ACA mechanism</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/conjugate_solid.html">Conjugate solid: conduction, melting, film and droplets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b8_conjugate_multiregion.html">B8: multi-region conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/melting_ice.html">Melting of ice: ablating slab and Neumann slab</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/melting_couette.html">Application: melting slab under a rarefied Couette flow</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/gsi_verification/index.html#references">References</a></li>
@@ -808,7 +810,8 @@ verified results. They live in <code class="docutils literal notranslate"><span 
 one directory per case, named after the block of the verification
 (<code class="docutils literal notranslate"><span class="pre">B0</span></code> to <code class="docutils literal notranslate"><span class="pre">B8</span></code>; <code class="docutils literal notranslate"><span class="pre">PROB</span></code> for the probability-mode catalysis and
 ablation, <code class="docutils literal notranslate"><span class="pre">IMM</span></code> for the immersed surfaces, <code class="docutils literal notranslate"><span class="pre">MOV</span></code> for the moving
-body-fitted walls).</p>
+body-fitted walls, <code class="docutils literal notranslate"><span class="pre">APP</span></code> for the applications, <code class="docutils literal notranslate"><span class="pre">MELT</span></code> for the
+melting cases of the conjugate solid).</p>
 <section id="content-of-a-case">
 <h2>Content of a case<a class="headerlink" href="#content-of-a-case" title="Link to this heading"></a></h2>
 <p>Every case holds</p>
@@ -899,6 +902,15 @@ three-dimensional sphere of <a class="reference internal" href="../reference/gsi
 has <code class="docutils literal notranslate"><span class="pre">sphere3dTwin</span></code> (SPARTA twin) and <code class="docutils literal notranslate"><span class="pre">sphere3dImplicit</span></code>, and the beam
 reactor of <a class="reference internal" href="../reference/gsi_verification/beam_consistency.html"><span class="doc">Beam consistency of DSMC with the ACA mechanism</span></a> has
 <code class="docutils literal notranslate"><span class="pre">acaBeamReactor</span></code>.</p>
+<p>The melting cases of the conjugate solid are <code class="docutils literal notranslate"><span class="pre">MELT_iceAblation</span></code>
+(ice slab, melt removed: onset and melting speed against the exact
+solution and a front-fixed oracle; 38 s), <code class="docutils literal notranslate"><span class="pre">MELT_iceNeumann</span></code> (melt
+retained: front and profile against the Neumann solution; 21 s), both on
+<a class="reference internal" href="../reference/gsi_verification/melting_ice.html"><span class="doc">Melting of ice: ablating slab and Neumann slab</span></a>, and <code class="docutils literal notranslate"><span class="pre">MELT_leiserBar</span></code>
+(Al 6060 bar at 843 kW/m², energy balance of the melt-through; 1 s), on
+<a class="reference internal" href="../reference/gsi_verification/melting_couette.html"><span class="doc">Application: melting slab under a rarefied Couette flow</span></a>. The
+DSMC-coupled Couette slab of the same page has no tutorial (3 replicas of
+5.5 h).</p>
 </section>
 <section id="cases-that-are-not-in-the-set-yet">
 <h2>Cases that are not in the set yet<a class="headerlink" href="#cases-that-are-not-in-the-set-yet" title="Link to this heading"></a></h2>
