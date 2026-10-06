@@ -122,9 +122,12 @@ DSMC-coupled Couette slab of the same page has no tutorial (3 replicas of
 Cases that are not in the set yet
 ---------------------------------
 
-The state-resolved layer of block B11 (stage B11b) has three cases,
+The state-resolved layer of block B11 has three cases for stage B11b,
 ``B11b_equilibriumConsistency``, ``B11b_hotO2Response`` and
-``B11b_productEnergies`` (:doc:`../reference/gsi_verification/b11b_state_layer`).
+``B11b_productEnergies`` (:doc:`../reference/gsi_verification/b11b_state_layer`),
+and one for stage B11c, ``B11c_fourierLayer`` (the Kn = 10 gap between a
+reservoir at 4000 K and a carbon wall, layer on, 90 s;
+:doc:`../reference/gsi_verification/b11c_state_layer_flows`).
 Block B6b and the paused QK rate route of B11 have no tutorial yet. The SPARTA twin of the recession
 comparison (``fix ablate``) still uses the collision data that
 preceded the frozen species database; ``IMM_implicitRecession`` and

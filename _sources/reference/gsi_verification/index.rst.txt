@@ -80,6 +80,10 @@ the notes.
      - State-resolved gas-surface layer on the ACA: threshold response of
        the impact steps, product states, weighted re-emission, both hosts
      - Python oracle of the layer, ACA oracle, layer off
+   * - :doc:`b11c_state_layer_flows`
+     - Induced (spectator) product energy of the layer; the layer in flows:
+       1-D gap Kn 0.02-10 and the ACA cylinder, layer on against off
+     - analytic sharing, ACA oracle, free-molecular layer oracle, layer off
    * - :doc:`sphere3d`
      - Three-dimensional immersed sphere: implicit against explicit at
        fixed shape and under recession, SPARTA ``surf_react adsorb`` twin
@@ -167,6 +171,7 @@ are summarised below; details are on the block pages.
    b5b_immersed_chemistry
    b6_mechanisms
    b11b_state_layer
+   b11c_state_layer_flows
    immersed_surface
    sphere3d
    beam_consistency

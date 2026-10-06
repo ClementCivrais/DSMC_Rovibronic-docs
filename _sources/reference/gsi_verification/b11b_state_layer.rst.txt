@@ -125,7 +125,8 @@ Flags and open items
   ladder (:math:`\le 3\times10^{-4}` at 3000 K).
 * Spectator channels are exactly those of B6b (state independent, their
   product kernels kept); the induced-event product energy of the B11a note
-  (section 10.6) is not implemented.
+  (section 10.6) is implemented in stage B11c
+  (:doc:`b11c_state_layer_flows`).
 * CO\ :sub:`2` products (PR22-4, PR22-18) keep their kernels (polyatomic
   products are not resolved); the N\ :sub:`2` and CN windows of PR22-14 and
   PR22-15 are detailed-balance mirrors (no reverse step in the ACA).

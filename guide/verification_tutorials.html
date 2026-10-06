@@ -740,6 +740,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b5b_immersed_chemistry.html">B5b: surface chemistry on the immersed surface</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b6_mechanisms.html">B6: production surface mechanisms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b11b_state_layer.html">B11b: state-resolved gas-surface layer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/b11c_state_layer_flows.html">B11c: induced product energy and the state-resolved layer in flows</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/immersed_surface.html">Immersed ablating surface</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/sphere3d.html">Three-dimensional immersed sphere and SPARTA twin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/gsi_verification/beam_consistency.html">Beam consistency of DSMC with the ACA mechanism</a></li>
@@ -914,9 +915,12 @@ DSMC-coupled Couette slab of the same page has no tutorial (3 replicas of
 </section>
 <section id="cases-that-are-not-in-the-set-yet">
 <h2>Cases that are not in the set yet<a class="headerlink" href="#cases-that-are-not-in-the-set-yet" title="Link to this heading"></a></h2>
-<p>The state-resolved layer of block B11 (stage B11b) has three cases,
+<p>The state-resolved layer of block B11 has three cases for stage B11b,
 <code class="docutils literal notranslate"><span class="pre">B11b_equilibriumConsistency</span></code>, <code class="docutils literal notranslate"><span class="pre">B11b_hotO2Response</span></code> and
-<code class="docutils literal notranslate"><span class="pre">B11b_productEnergies</span></code> (<a class="reference internal" href="../reference/gsi_verification/b11b_state_layer.html"><span class="doc">B11b: state-resolved gas-surface layer</span></a>).
+<code class="docutils literal notranslate"><span class="pre">B11b_productEnergies</span></code> (<a class="reference internal" href="../reference/gsi_verification/b11b_state_layer.html"><span class="doc">B11b: state-resolved gas-surface layer</span></a>),
+and one for stage B11c, <code class="docutils literal notranslate"><span class="pre">B11c_fourierLayer</span></code> (the Kn = 10 gap between a
+reservoir at 4000 K and a carbon wall, layer on, 90 s;
+<a class="reference internal" href="../reference/gsi_verification/b11c_state_layer_flows.html"><span class="doc">B11c: induced product energy and the state-resolved layer in flows</span></a>).
 Block B6b and the paused QK rate route of B11 have no tutorial yet. The SPARTA twin of the recession
 comparison (<code class="docutils literal notranslate"><span class="pre">fix</span> <span class="pre">ablate</span></code>) still uses the collision data that
 preceded the frozen species database; <code class="docutils literal notranslate"><span class="pre">IMM_implicitRecession</span></code> and
