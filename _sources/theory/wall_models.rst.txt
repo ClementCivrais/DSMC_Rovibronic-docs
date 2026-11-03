@@ -10,7 +10,7 @@ describes the gas-surface interaction framework: per-face wall
 temperature, probability-based and finite-rate surface chemistry,
 the scattering kernels of reaction products, reaction heats,
 receding body-fitted and immersed surfaces, and the conjugate solid
-of ``dsmcFoamAblation``. Its verification is collected in
+of ``dsmcFoam``. Its verification is collected in
 :doc:`../reference/gsi_verification/index`.
 
 Specular reflection
@@ -235,12 +235,12 @@ energy ledger and the scattering kernels described below:
    * - ``dsmcCatalyticWallPatch``, ``dsmcAblatingWallPatch``
      - probability mode: a list of per-impact surface reactions
      - body-fitted wall; the ablating wall recedes under
-       ``dsmcFoamAblation``
+       ``dsmcFoam``
    * - ``dsmcCoverageWallPatch``
      - finite-rate engine (site sets, coverages, GS and PS
        reactions), native or SPARTA mechanism
      - body-fitted wall; recedes from its bulk ledger under
-       ``dsmcFoamAblation``
+       ``dsmcFoam``
    * - immersed surface (``immersedAblationProperties``)
      - probability mode or finite-rate engine, per cut cell
      - implicit or explicit surface on the fixed DSMC mesh
@@ -275,7 +275,7 @@ face from the wall base class ``dsmcPatchBoundary``, through
   running flux with ``relaxationFactor`` (the algorithm of the
   dedicated radiative-equilibrium wall);
 * ``coupled``: :math:`T_f` is set by a coupled solver (the conjugate
-  solid of ``dsmcFoamAblation``).
+  solid of ``dsmcFoam``).
 
 On the reactive walls the face temperature also sets the reaction
 probabilities, the sticking and the surface rates of that face, and
@@ -310,17 +310,17 @@ product is a new parcel at the impact point), and ``nCConsumed``
 solid atoms per real molecule are debited from the per-face carbon
 ledger. The classes are
 
-* ``srFiniteRate`` — the Arrhenius form above (oxidation,
+* ``wallFiniteRate`` — the Arrhenius form above (oxidation,
   nitridation, finite-rate recombination);
-* ``srRecombination`` — catalytic recombination with a constant
+* ``wallRecombination`` — catalytic recombination with a constant
   ``gamma``, an Arrhenius :math:`\gamma(T_w)` (``gamma0``/``Ea`` or
   ``gammaA``/``Ta``) or a tabulated ``gammaTable``; the
   recombination energy :math:`E_{rec}` is split, a fraction
   :math:`\beta_{acc}` to the wall and the rest to the nascent
   molecule as kinetic energy;
-* ``srAbsorption`` — the parcel is absorbed (electrons, cryopanels,
+* ``wallAbsorption`` — the parcel is absorbed (electrons, cryopanels,
   getters);
-* ``srNeutralisation`` — ion neutralisation X\ :sup:`+` → X, releasing
+* ``wallNeutralisation`` — ion neutralisation X\ :sup:`+` → X, releasing
   :math:`\mathrm{IP}(X) - \phi` split by :math:`\beta_{acc}`.
 
 The carbon-ablation set comprises the Park oxidation
@@ -475,7 +475,7 @@ computed value; ``reactionHeat none`` keeps only the given heats.
 
 The bulk ledger times the mass of a bulk atom gives the solid mass
 removed per face; :math:`\Delta = m/(\rho_s A_f)` drives the wall
-motion of ``dsmcFoamAblation`` (``ablationRecession`` in
+motion of ``dsmcFoam`` (``ablationRecession`` in
 ``constant/dynamicMeshDict``, with an ``accelerationFactor``) or the
 conjugate solid. Verification:
 :doc:`../reference/gsi_verification/b5_recession`.
@@ -507,7 +507,7 @@ parallel. Verification:
 The chemistry of the immersed surface (``dsmcImmersedChemistry``)
 runs in probability mode (a ``reactions`` list as on the catalytic
 wall; the single-:math:`\gamma` keywords are translated into one
-``srFiniteRate`` reaction) or in mechanism mode, the finite-rate
+``wallFiniteRate`` reaction) or in mechanism mode, the finite-rate
 engine with the cut cells as elements. After every recession update
 a cell whose surface area falls releases the corresponding fraction
 of its adsorbates and carries to the neighbouring cells that gained
@@ -521,7 +521,7 @@ available on the immersed surface. Verification:
 Multi-region conjugate solid
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-With ``constant/conjugateProperties``, ``dsmcFoamAblation`` couples
+With ``constant/conjugateProperties``, ``dsmcFoam`` couples
 its walls to one or more solid regions of the same case, on the gas
 ``runTime`` but with their own physical clock. Every
 ``couplingInterval`` DSMC steps the gas wall hands over the window

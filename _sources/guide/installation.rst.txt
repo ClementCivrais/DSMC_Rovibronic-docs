@@ -279,13 +279,6 @@ The build script carries out three tasks:
    associated pre-processing utility (``dsmcInitialise``) into
    ``$FOAM_USER_APPBIN``.
 
-The moving-mesh ablation solver ``dsmcFoamAblation`` is not built
-by ``Allwmake``; it is built separately once the libraries exist:
-
-.. code-block:: bash
-
-   (cd applications/solvers/discreteMethods/dsmcFoamAblation && wmake)
-
 .. note::
    ``Allwmake`` starts with ``wclean all`` in ``src/lagrangian``,
    i.e. it always performs a full rebuild. After a change to a

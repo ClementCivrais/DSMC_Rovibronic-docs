@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>B5a: reaction heats and chemistry-driven recession &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
 
@@ -15,7 +15,7 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=eef4a3d2"></script>
@@ -80,19 +80,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#one-time-step">One time step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#purpose">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#time-loop">Time loop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#solid-model">Solid model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#case-layout">Case layout</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#outputs">Outputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#restart">Restart</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#verification">Verification</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#receding-walls-and-conjugate-solid">Receding walls and conjugate solid</a></li>
 </ul>
 </li>
 </ul>
@@ -130,7 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#scattering-kernels">Scattering kernels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#immersed-surface">Immersed surface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#dsmcfoam-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>: receding walls and the conjugate solid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
@@ -281,8 +269,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#charge-exchange">Charge exchange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ion-attached-electrons">Electron population: ion-attached electrons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../theory/chemistry_charged.html#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions">Electron collisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#status">Status</a></li>
 </ul>
 </li>
@@ -813,7 +804,7 @@ the finite-rate engine releases its 0 K heat of reaction</p>
 <p>computed from the formation enthalpies of the frozen species
 database; the coverage wall recedes from the bulk ledger of its
 surface state, on the moving body-fitted mesh of
-<code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code> and on the conjugate solid; the ablating wall
+<code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> and on the conjugate solid; the ablating wall
 splits the recombination energy with the gas as the catalytic wall
 does. <strong>Against:</strong> hand values from the raw database sources, exact
 energy and atom ledgers, and the exact solution of the 0-D rate
@@ -889,7 +880,8 @@ kJ/mol, ions to 6e-6 kJ/mol, the reactions with an adsorbate or a
 unit conversion to 1.1e-3 kJ/mol (the relative 1.5-2.3e-6 difference
 between OpenFOAM’s physical constants and CODATA 2018 of the oracle).</p>
 <figure class="align-center" id="id2">
-<a class="reference internal image-reference" href="../../_images/b5_heat_table.png"><img alt="../../_images/b5_heat_table.png" src="../../_images/b5_heat_table.png" style="width: 80%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b5_heat_table.png"><img alt="../../_images/b5_heat_table.png" src="../../_images/b5_heat_table.png" style="width: 80%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Heats of the 19 reactions in the dsmcFoam+ start-up table (red)
 against the hand values from the frozen sources (black, top), and
@@ -939,7 +931,8 @@ energy”</p></td>
 wall energy changing by <span class="math notranslate nohighlight">\(h_f(\mathrm{O})(N_{events} -
 N_{partners})\)</span>, to 5.5e-14 and 7.0e-14 of the wall heat.</p>
 <figure class="align-center" id="id3">
-<a class="reference internal image-reference" href="../../_images/b5_energy_closure.png"><img alt="../../_images/b5_energy_closure.png" src="../../_images/b5_energy_closure.png" style="width: 65%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b5_energy_closure.png"><img alt="../../_images/b5_energy_closure.png" src="../../_images/b5_energy_closure.png" style="width: 65%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Change of each energy term over the run of the mixed GS/PS
 closed case (kinetic, internal, <span class="math notranslate nohighlight">\(h_f\)</span> of the gas, adsorbed
@@ -954,7 +947,7 @@ round-off.</span><a class="headerlink" href="#id3" title="Link to this image">�
 <p>O beam (10<sup>20</sup> m<sup>-3</sup>, 4000 m/s, 1000 K) onto a graphite
 plate at 2000 K with a linear mechanism (AA <span class="math notranslate nohighlight">\(S_0\)</span> = 0.5, direct
 oxidation 0.05, desorption, oxidation of O(s), sublimation),
-<code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code> with <code class="docutils literal notranslate"><span class="pre">ablationRecession</span> <span class="pre">{</span> <span class="pre">patch</span> <span class="pre">wall;</span>
+<code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> with <code class="docutils literal notranslate"><span class="pre">ablationRecession</span> <span class="pre">{</span> <span class="pre">patch</span> <span class="pre">wall;</span>
 <span class="pre">accelerationFactor</span> <span class="pre">1e6;</span> <span class="pre">}</span></code>. Oracle:
 <span class="math notranslate nohighlight">\(\Phi\,d\theta/dt = F S_0(1 - \theta) - (k_d + k_o)\Phi\theta\)</span>,
 <span class="math notranslate nohighlight">\(v_{rec} = m_C j_{C,ss}/\rho_s\)</span>, with the measured O impact
@@ -992,7 +985,8 @@ flux <span class="math notranslate nohighlight">\(F\)</span>.</p>
 because the gas re-emitted by the wall builds up in the column; the
 oracle therefore takes the measured flux.</p>
 <figure class="align-center" id="id4">
-<a class="reference internal image-reference" href="../../_images/b5_recession.png"><img alt="../../_images/b5_recession.png" src="../../_images/b5_recession.png" style="width: 55%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b5_recession.png"><img alt="../../_images/b5_recession.png" src="../../_images/b5_recession.png" style="width: 55%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Coverage, recession depth and the ratio DSMC/exact of the moving
 body-fitted wall against the exact solution of the rate
@@ -1013,7 +1007,8 @@ time) to 5.6e-15; the solid wall points move by the recession to
 1e-12; the region energy closure is <span class="math notranslate nohighlight">\(\le\)</span> 2.0e-12 and the
 chemical ledger equals <span class="math notranslate nohighlight">\(\sum \Delta E\,N\)</span> to 2.1e-13.</p>
 <figure class="align-center" id="id5">
-<a class="reference internal image-reference" href="../../_images/b5_conjugate.png"><img alt="../../_images/b5_conjugate.png" src="../../_images/b5_conjugate.png" style="width: 60%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b5_conjugate.png"><img alt="../../_images/b5_conjugate.png" src="../../_images/b5_conjugate.png" style="width: 60%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Finite-rate wall coupled to the conjugate solid: recession of the
 solid region (ledger) against the gas-side bulk ledger
@@ -1032,7 +1027,7 @@ point normals, so a receding circle swept <span class="math notranslate nohighli
 angle instead of <span class="math notranslate nohighlight">\(m/\rho_s\)</span> (swept/removed 0.887 after 3.6
 cells). Its site areas stayed at the initial face areas, and the
 converging normals folded the faces at the stagnation point. Since
-2026-10-04 <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code> works as follows:</p>
+2026-10-04 <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> works as follows:</p>
 <ul class="simple">
 <li><p>every step, the removed volume of each face (<code class="docutils literal notranslate"><span class="pre">removedSolidVolume</span></code>)
 is divided by the current face area;</p></li>

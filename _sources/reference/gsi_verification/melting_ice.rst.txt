@@ -1,7 +1,7 @@
 Melting of ice: ablating slab and Neumann slab
 ==============================================
 
-**Verified:** the solid region of ``dsmcFoamAblation`` with water ice,
+**Verified:** the solid region of ``dsmcFoam`` with water ice,
 first with the melt removed as it forms (wall Stefan path), then with the
 melt retained and conducting (latent heat as an apparent heat capacity in
 the enthalpy form, :math:`c_p(T)` and :math:`k(T)` tables). **Against:**

@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Melting of ice: ablating slab and Neumann slab &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
 
@@ -15,7 +15,7 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=eef4a3d2"></script>
@@ -80,19 +80,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#one-time-step">One time step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#purpose">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#time-loop">Time loop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#solid-model">Solid model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#case-layout">Case layout</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#outputs">Outputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#restart">Restart</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#verification">Verification</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#receding-walls-and-conjugate-solid">Receding walls and conjugate solid</a></li>
 </ul>
 </li>
 </ul>
@@ -130,7 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#scattering-kernels">Scattering kernels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#immersed-surface">Immersed surface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#dsmcfoam-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>: receding walls and the conjugate solid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
@@ -281,8 +269,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#charge-exchange">Charge exchange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ion-attached-electrons">Electron population: ion-attached electrons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../theory/chemistry_charged.html#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions">Electron collisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#status">Status</a></li>
 </ul>
 </li>
@@ -806,7 +797,7 @@
              
   <section id="melting-of-ice-ablating-slab-and-neumann-slab">
 <h1>Melting of ice: ablating slab and Neumann slab<a class="headerlink" href="#melting-of-ice-ablating-slab-and-neumann-slab" title="Link to this heading"></a></h1>
-<p><strong>Verified:</strong> the solid region of <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code> with water ice,
+<p><strong>Verified:</strong> the solid region of <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> with water ice,
 first with the melt removed as it forms (wall Stefan path), then with the
 melt retained and conducting (latent heat as an apparent heat capacity in
 the enthalpy form, <span class="math notranslate nohighlight">\(c_p(T)\)</span> and <span class="math notranslate nohighlight">\(k(T)\)</span> tables). <strong>Against:</strong>
@@ -946,7 +937,8 @@ of this case closes only to 2-3 %, as the energy through a face held at a
 fixed temperature is not recorded by the ledger of the coupled walls; the
 front and the profile are unaffected.</p>
 <figure class="align-default" id="id5">
-<a class="reference internal image-reference" href="../../_images/melt_ice.png"><img alt="../../_images/melt_ice.png" src="../../_images/melt_ice.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/melt_ice.png"><img alt="../../_images/melt_ice.png" src="../../_images/melt_ice.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Ice in the solid region: (top left) surface temperature before
 melting against the semi-infinite solution; (top right) melting speed

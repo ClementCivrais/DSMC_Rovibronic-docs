@@ -16,7 +16,7 @@ Top-level layout
 .. code-block:: text
 
    src/                 C++ libraries (DSMC core + rovibronic extension)
-   applications/        Solvers (dsmcFoam, dsmcFoamAblation) and dsmcInitialise
+   applications/        Solver (dsmcFoam) and dsmcInitialise
    tutorials/           Tutorial cases
    run/                 Verification and research cases (0D, 3D, GSI, …)
    docs/                User guides (PDF), Sphinx source for the docs site,
@@ -94,7 +94,7 @@ Applications
   executable. The ``Make/files`` line ``EXE =
   $(FOAM_USER_APPBIN)/dsmcFoam`` fixes the binary name to
   ``dsmcFoam``.
-* ``applications/solvers/discreteMethods/dsmcFoamAblation/`` —
+* ``applications/solvers/discreteMethods/dsmcFoam/`` —
   the same solver on a dynamic mesh, for receding ablating walls
   and the optional conjugate solid; it is built separately from
   ``Allwmake``.
@@ -116,7 +116,7 @@ root, carries out three jobs:
    ``$WM_PROJECT_USER_DIR/src/lagrangian/``;
 #. builds ``dsmcFoam`` and ``dsmcInitialise``.
 
-``dsmcFoamAblation`` is built afterwards with ``wmake`` in its own
+``dsmcFoam`` is built afterwards with ``wmake`` in its own
 directory (``BUILD.md``). Build products are not tracked by git.
 
 The use of symbolic links allows the OpenFOAM build machinery to

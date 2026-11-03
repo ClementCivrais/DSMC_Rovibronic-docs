@@ -159,7 +159,7 @@ Ten steps after a restart that falls inside an update interval (the
 next update still 14 steps away), the face temperature
 (1599.60860368346 K), the relaxed flux and the ledger times are
 bit-identical to the restart file; without the file the wall
-falls back to the dictionary's 300 K. The ``dsmcFoamAblation`` melt
+falls back to the dictionary's 300 K. The ``dsmcFoam`` melt
 case (O at 4 km/s onto aluminium) gives identical gas (356 files),
 solid (28 files) and log (328/328 lines) with the baseline and the
 B1 build: the coupled face temperature (300 → 474.6 K) now enters

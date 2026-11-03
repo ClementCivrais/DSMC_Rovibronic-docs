@@ -3,13 +3,13 @@
 
     python3 make_diagrams.py        # writes <name>.svg and <name>.png here
 
-framework_overview  dsmcFoamAblation, its regions and models, inputs, external
+framework_overview  dsmcFoam, its regions and models, inputs, external
                     codes used for verification, planned blocks
 coupling_window     one DSMC step and the gas-solid coupling window
 impact_path         the path of one gas-surface impact and the per-step and
                     per-update surface processes
 
-The content follows dsmcFoamAblation.C (time loop), dsmcCloud::evolve() and
+The content follows dsmcFoam.C (time loop), dsmcCloud::evolve() and
 conjugateRegionsCoupling.H; update it when those change.
 """
 import os
@@ -120,7 +120,7 @@ def framework_overview():
 
     # the executable (title in the bottom-right band, clear of the arrows)
     box(ax, 2, 10, 101, 70, "", kind="frame", lw=1.8)
-    ax.text(99.5, 14.6, "dsmcFoamAblation", ha="right", va="center",
+    ax.text(99.5, 14.6, "dsmcFoam", ha="right", va="center",
             fontsize=TITLE_SIZE + 0.5, fontweight="bold", color="#333333")
     ax.text(99.5, 11.9, "one executable, one Time, parallel (-allRegions)",
             ha="right", va="center", fontsize=TEXT_SIZE - 0.6,

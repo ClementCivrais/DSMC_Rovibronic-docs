@@ -68,6 +68,19 @@ binary-collision selectors.
        compatibility. The chemistry is the ``reactions`` list of
        ``system/chemReactDict``, and surface processes are set on
        the wall patches.
+   * - ``ambipolarElectrons``
+     - Switch
+     - ``true``
+     - Electron transport (:doc:`../theory/chemistry_charged`).
+       ``true``: every electron moves with an ion of its cell and
+       keeps its own velocity for the collisions (neutral cell by
+       cell). ``false``: the electrons move ballistically with their
+       own velocity. Required when ``typeIdList`` holds ``E-`` on a
+       mesh of more than one cell (FatalError at the first step
+       otherwise); optional in a single cell, where its absence keeps
+       the ballistic electrons. With ``true`` the ions of the fills and
+       inlets bring their electrons: ``E-`` must not be listed there
+       (FatalError).
    * - ``axisymmetricSimulation``
      - Switch
      - ``false``
@@ -570,7 +583,7 @@ outgassing, catalytic, ablating and coverage walls):
 A non-uniform model on a wall that does not re-emit at a face
 temperature (specular, deletion, the ``*Field*`` walls, the dedicated
 radiative-equilibrium wall) is a ``FatalError``; ``coupled`` is set
-by the conjugate solid of ``dsmcFoamAblation``.
+by the conjugate solid of ``dsmcFoam``.
 
 Scattering and sink walls
 `````````````````````````
@@ -622,13 +635,13 @@ names resolved against the ``surfaceReactions`` block of
    // system/surfaceChemReactDict
    surfaceReactions
    {
-       oxidiseO   { type srFiniteRate; reactant O;  product CO;
+       oxidiseO   { type wallFiniteRate; reactant O;  product CO;
                     A 0.63; n 0.0; Ta 1160.0;
                     nCConsumed 1; nReactantConsumed 1; }
-       boudouard  { type srFiniteRate; reactant CO2; product CO;
+       boudouard  { type wallFiniteRate; reactant CO2; product CO;
                     secondaryProduct CO; A 0.9; n 0.0; Ta 0.0;
                     nCConsumed 1; nReactantConsumed 1; }
-       recombineO { type srRecombination; reactant O; product O2;
+       recombineO { type wallRecombination; reactant O; product O2;
                     gamma 0.07; betaAcc 0.5; Erecomb 8.203e-19; }
    }
    surfaceMaterials
@@ -652,20 +665,32 @@ names resolved against the ``surfaceReactions`` block of
 
    * - ``type``
      - Keywords
-   * - ``srFiniteRate``
+   * - ``wallFiniteRate``
      - ``reactant``, ``product``, ``A`` (required), ``n``, ``Ta``
        (default 0), ``nCConsumed``, ``nReactantConsumed``, optional
        ``secondaryProduct``
-   * - ``srRecombination``
+   * - ``wallRecombination``
      - ``reactant``, ``product``; one of ``gamma``,
        ``gamma0`` + ``Ea`` [J/mol], ``gammaA`` + ``Ta`` [K]
        (optional ``n``), or ``gammaTable ((T0 g0) (T1 g1) ...)``;
        ``Erecomb`` [J], ``betaAcc`` (default 1)
-   * - ``srAbsorption``
+   * - ``wallAbsorption``
      - ``reactant``, optional ``A`` (default 1), ``n``, ``Ta``
-   * - ``srNeutralisation``
+   * - ``wallNeutralisation``
      - ``reactant``, ``product``, ``workFunction`` [eV], ``betaAcc``,
        optional ``releasedEnergy`` [eV], ``A``, ``n``, ``Ta``
+
+The former names ``srFiniteRate``, ``srRecombination``, ``srAbsorption`` and
+``srNeutralisation`` are still accepted. Finite-rate mechanism reactions
+accept either the SPARTA code or the class name as ``type``: ``AA``
+(``associativeAdsorption``), ``DA`` (``dissociativeAdsorption``), ``ER``
+(``eleyRideal``), ``CI`` (``collisionInduced``), ``LH1``
+(``langmuirHinshelwoodImpactToGas``), ``LH3``
+(``langmuirHinshelwoodImpactToSurface``), ``CD`` (``condensation``), ``prob``
+(``gasSurfaceProbability``), ``DS`` (``desorption``), ``LH2``
+(``langmuirHinshelwoodToGas``), ``LH4`` (``langmuirHinshelwoodToSurface``) and
+``SB`` (``sublimation``). The scattering kernels ``cll`` and ``td`` can also
+be written ``cercignaniLampisLord`` and ``thermalDesorption``.
 
 Finite-rate mechanisms and the coverage wall
 ````````````````````````````````````````````
@@ -718,6 +743,7 @@ The native mechanism, in ``system/surfaceChemReactDict``:
            coverageUpdate immediate;    // immediate | sync
            // nsync              1;
            // psIntegrator       exponential;  // | timeCounter | stochastic
+           // psSplitting        strang;       // | lie (runs before 2026-10-27)
            // psSubStepTolerance 0.1;
            // psMaxSubSteps      100;
            temperature   element;       // element | fixed
@@ -823,8 +849,8 @@ Immersed surface
 
        // probability mode: single reaction ...
        reactant O;  product CO;  A 0.63;  n 0;  Ta 1160;   // or gamma
-       // ... or a reactions list (srFiniteRate, srRecombination, ...)
-       // reactions { oxO { type srFiniteRate; reactant O; product CO;
+       // ... or a reactions list (wallFiniteRate, wallRecombination, ...)
+       // reactions { oxO { type wallFiniteRate; reactant O; product CO;
        //                   A 0.63; Ta 1160; nCConsumed 1; } }
        // mechanism mode
        // mechanism  b5rec;            // or spartaMechanism { ... }
@@ -844,7 +870,7 @@ Immersed surface
 A mechanism needs the cut cells of the implicit or explicit surface;
 the analytic and level-set paths keep the probability mode.
 
-``dsmcFoamAblation``: receding walls and the conjugate solid
+``dsmcFoam``: receding walls and the conjugate solid
 ````````````````````````````````````````````````````````````
 
 Body-fitted recession of an ablating or coverage wall, in
@@ -911,6 +937,6 @@ convenience key:
 
 The ``application`` entry is informational only; the executable
 that must actually be invoked is ``dsmcFoam`` (or
-``dsmcFoamAblation`` for the moving-mesh and conjugate ablation
+``dsmcFoam`` for the moving-mesh and conjugate ablation
 cases), regardless
 of the string supplied here.

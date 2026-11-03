@@ -268,7 +268,7 @@ The fixed cylinder of the first section is given the solid density
 :math:`1800/1.5\times10^5` kg/m\ :sup:`3`. In 15 µs the stagnation
 point recedes 0.18 mm, i.e. 3.6 cells or 36 % of the radius. The same
 gas, mesh resolution and acceleration run on the body-fitted coverage
-wall (moving O-grid, ``dsmcFoamAblation``) and on the implicit and
+wall (moving O-grid, ``dsmcFoam``) and on the implicit and
 explicit immersed surfaces, with 2 seeds each. The numbers are after
 the body-fitted fix of :doc:`b5_recession` (section "Body-fitted
 recession on curved walls").

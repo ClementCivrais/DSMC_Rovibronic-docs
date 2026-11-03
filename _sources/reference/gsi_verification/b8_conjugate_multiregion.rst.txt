@@ -1,7 +1,7 @@
 B8: multi-region conjugate solid
 ================================
 
-**Verified:** the conjugate solid of ``dsmcFoamAblation`` as one or
+**Verified:** the conjugate solid of ``dsmcFoam`` as one or
 more solid regions of the gas case, on the gas ``runTime`` with their
 own physical clock, coupled through a face-area-weighted AMI
 (non-conformal walls allowed), in parallel, with :math:`k(T)` and

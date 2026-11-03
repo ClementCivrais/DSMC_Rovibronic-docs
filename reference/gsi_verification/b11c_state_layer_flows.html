@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>B11c: induced product energy and the state-resolved layer in flows &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
 
@@ -15,7 +15,7 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=eef4a3d2"></script>
@@ -80,19 +80,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#one-time-step">One time step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#purpose">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#time-loop">Time loop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#solid-model">Solid model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#case-layout">Case layout</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#outputs">Outputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#restart">Restart</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#verification">Verification</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#receding-walls-and-conjugate-solid">Receding walls and conjugate solid</a></li>
 </ul>
 </li>
 </ul>
@@ -130,7 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#scattering-kernels">Scattering kernels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#immersed-surface">Immersed surface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#dsmcfoam-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>: receding walls and the conjugate solid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
@@ -281,8 +269,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#charge-exchange">Charge exchange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ion-attached-electrons">Electron population: ion-attached electrons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../theory/chemistry_charged.html#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions">Electron collisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#status">Status</a></li>
 </ul>
 </li>
@@ -881,7 +872,8 @@ the induced CO is 1.4-1.6 times too energetic with the lattice share and
 2.0-2.2 times without it. With the layer off, the B11b runs are
 reproduced bit for bit.</p>
 <figure class="align-default" id="id2">
-<a class="reference internal image-reference" href="../../_images/b11c_induced_energy.png"><img alt="mean energies of the induced CO against the analytic sharing" src="../../_images/b11c_induced_energy.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b11c_induced_energy.png"><img alt="mean energies of the induced CO against the analytic sharing" src="../../_images/b11c_induced_energy.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Induced CO: mean translational (with and without the lattice share),
 rotational, vibrational and lattice energies, pooled over the B11b
@@ -923,7 +915,8 @@ lowers the heat flux by 4-13 % at Kn ≥ 0.6 (the induced CO carries
 Kn ≤ 0.2 (more N recombination).</p></li>
 </ul>
 <figure class="align-default" id="id3">
-<a class="reference internal image-reference" href="../../_images/b11c_fourier_yields.png"><img alt="yields at the carbon wall against the Knudsen number" src="../../_images/b11c_fourier_yields.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b11c_fourier_yields.png"><img alt="yields at the carbon wall against the Knudsen number" src="../../_images/b11c_fourier_yields.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Yields at the carbon wall with the layer on (red) and off (open), against
 the ACA at <span class="math notranslate nohighlight">\(T_s\)</span>, the layer for a free-molecular flux at
@@ -931,13 +924,15 @@ the ACA at <span class="math notranslate nohighlight">\(T_s\)</span>, the layer 
 </figcaption>
 </figure>
 <figure class="align-default" id="id4">
-<a class="reference internal image-reference" href="../../_images/b11c_fourier_ratio.png"><img alt="on/off ratios against the Knudsen number" src="../../_images/b11c_fourier_ratio.png" style="width: 60%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b11c_fourier_ratio.png"><img alt="on/off ratios against the Knudsen number" src="../../_images/b11c_fourier_ratio.png" style="width: 60%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Layer on/off ratios against the continuum (1) and free-molecular limits.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id5">
-<a class="reference internal image-reference" href="../../_images/b11c_fourier_heat.png"><img alt="heat flux to the carbon wall and lattice share" src="../../_images/b11c_fourier_heat.png" style="width: 60%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b11c_fourier_heat.png"><img alt="heat flux to the carbon wall and lattice share" src="../../_images/b11c_fourier_heat.png" style="width: 60%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Heat flux to the carbon wall and its lattice share.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
 </figcaption>
@@ -1009,21 +1004,24 @@ with the layer, most in the wake.</p></li>
 overhead).</p></li>
 </ul>
 <figure class="align-default" id="id6">
-<a class="reference internal image-reference" href="../../_images/b11c_cyl_surface.png"><img alt="surface fluxes of the cylinder with the layer on and off" src="../../_images/b11c_cyl_surface.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b11c_cyl_surface.png"><img alt="surface fluxes of the cylinder with the layer on and off" src="../../_images/b11c_cyl_surface.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Carbon removal, CO, N<sub>2</sub>, CN, CO<sub>2</sub> and wall heat flux
 against the angle from stagnation, layer on (red) and off (open).</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id7">
-<a class="reference internal image-reference" href="../../_images/b11c_cyl_incident.png"><img alt="energy distributions of the incident O and N2" src="../../_images/b11c_cyl_incident.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b11c_cyl_incident.png"><img alt="energy distributions of the incident O and N2" src="../../_images/b11c_cyl_incident.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-text"><span class="math notranslate nohighlight">\(E_n + \varepsilon\)</span> of the incident O and N<sub>2</sub> at
 stagnation and in the wake against the equilibrium flux at <span class="math notranslate nohighlight">\(T_s\)</span>.</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id8">
-<a class="reference internal image-reference" href="../../_images/b11c_cyl_nearwall_co.png"><img alt="near-wall CO vibrational temperature and energies" src="../../_images/b11c_cyl_nearwall_co.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b11c_cyl_nearwall_co.png"><img alt="near-wall CO vibrational temperature and energies" src="../../_images/b11c_cyl_nearwall_co.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Near-wall CO vibrational temperature and mean energies, layer on and off.</span><a class="headerlink" href="#id8" title="Link to this image"></a></p>
 </figcaption>

@@ -224,10 +224,10 @@ of the same cube (1.0002, 1.0015, 1.0031, 1.0110 at
    * - Vacuum chamber, outgassing against a PI pump (target 0.02 Pa)
      - :math:`\langle p_{wall} \rangle` = 0.01997 Pa (-0.14 %),
        captured/emitted = 1.0013
-   * - ``srAbsorption`` (H\ :sub:`2`\ O cryopanel)
+   * - ``wallAbsorption`` (H\ :sub:`2`\ O cryopanel)
      - 0.9969 (:math:`\beta` = 0.02), 0.9995 (0.1); 1.0019 on the
        ablating wall
-   * - ``srNeutralisation`` (N\ :sub:`2`\ :sup:`+` → N\ :sub:`2`,
+   * - ``wallNeutralisation`` (N\ :sub:`2`\ :sup:`+` → N\ :sub:`2`,
        :math:`\phi` = 4.5 eV)
      - every event releases IP(N\ :sub:`2`) - :math:`\phi` =
        11.081 eV; wall share = :math:`\beta_{acc}` (1.000, 0.500);

@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>B4: scattering kernels and the exact internal-state sampler &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
 
@@ -15,7 +15,7 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=eef4a3d2"></script>
@@ -80,19 +80,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#one-time-step">One time step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#purpose">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#time-loop">Time loop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#solid-model">Solid model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#case-layout">Case layout</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#outputs">Outputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#restart">Restart</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#verification">Verification</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#receding-walls-and-conjugate-solid">Receding walls and conjugate solid</a></li>
 </ul>
 </li>
 </ul>
@@ -130,7 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#scattering-kernels">Scattering kernels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#immersed-surface">Immersed surface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#dsmcfoam-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>: receding walls and the conjugate solid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
@@ -281,8 +269,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#charge-exchange">Charge exchange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ion-attached-electrons">Electron population: ion-attached electrons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../theory/chemistry_charged.html#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions">Electron collisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#status">Status</a></li>
 </ul>
 </li>
@@ -856,7 +847,8 @@ relative error below 1.5e-4</p></td>
 </tbody>
 </table>
 <figure class="align-center" id="id1">
-<a class="reference internal image-reference" href="../../_images/b4_sampler_populations.png"><img alt="../../_images/b4_sampler_populations.png" src="../../_images/b4_sampler_populations.png" style="width: 90%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b4_sampler_populations.png"><img alt="../../_images/b4_sampler_populations.png" src="../../_images/b4_sampler_populations.png" style="width: 90%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">O<sub>2</sub> vibrational and rotational marginals, 10<sup>7</sup>
 draws per temperature (red markers with Poisson errors) against
@@ -864,7 +856,8 @@ the exact Boltzmann distribution (black lines).</span><a class="headerlink" href
 </figcaption>
 </figure>
 <figure class="align-center" id="id2">
-<a class="reference internal image-reference" href="../../_images/b4_sampler_twoT.png"><img alt="../../_images/b4_sampler_twoT.png" src="../../_images/b4_sampler_twoT.png" style="width: 90%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b4_sampler_twoT.png"><img alt="../../_images/b4_sampler_twoT.png" src="../../_images/b4_sampler_twoT.png" style="width: 90%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Two-temperature draw against the product distribution
 <span class="math notranslate nohighlight">\(P_{T_{vib}}(n, v)\,P_{T_{rot}}(J \mid n, v)\)</span>, O<sub>2</sub>,
@@ -916,7 +909,8 @@ impacts per step) the internal-state draw costs about 0.6 µs
 383 µs before: a diffuse wall now costs about as much as a specular
 one (whole-run speed-up 75 and 168).</p>
 <figure class="align-center" id="id4">
-<a class="reference internal image-reference" href="../../_images/b4_sampler_speed.png"><img alt="../../_images/b4_sampler_speed.png" src="../../_images/b4_sampler_speed.png" style="width: 55%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b4_sampler_speed.png"><img alt="../../_images/b4_sampler_speed.png" src="../../_images/b4_sampler_speed.png" style="width: 55%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Cost per draw against temperature: former rejection sampler
 (black dashed, open markers) and alias sampler (red).</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
@@ -1006,7 +1000,8 @@ within 0.8 % of 1, and every impulsive run of both codes agrees with
 the kernel’s exact second moments (ours: 60 values, mean <span class="math notranslate nohighlight">\(z^2\)</span>
 1.09).</p>
 <figure class="align-center" id="id6">
-<a class="reference internal image-reference" href="../../_images/b4_beam_td.png"><img alt="../../_images/b4_beam_td.png" src="../../_images/b4_beam_td.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b4_beam_td.png"><img alt="../../_images/b4_beam_td.png" src="../../_images/b4_beam_td.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Scattered N beam, <code class="docutils literal notranslate"><span class="pre">td</span></code> variants: polar angle from the plate
 normal (top) and speed (bottom); SPARTA as a black step line,
@@ -1014,13 +1009,15 @@ dsmcFoam+ as red markers with Poisson errors, and the ratio.</span><a class="hea
 </figcaption>
 </figure>
 <figure class="align-center" id="id7">
-<a class="reference internal image-reference" href="../../_images/b4_beam_impulsive.png"><img alt="../../_images/b4_beam_impulsive.png" src="../../_images/b4_beam_impulsive.png" style="width: 90%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b4_beam_impulsive.png"><img alt="../../_images/b4_beam_impulsive.png" src="../../_images/b4_beam_impulsive.png" style="width: 90%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">As above, <code class="docutils literal notranslate"><span class="pre">impulsive</span></code> variants (re-runs after the review fixes).</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <figure class="align-center" id="id8">
-<a class="reference internal image-reference" href="../../_images/b4_beam_cll_adiabatic.png"><img alt="../../_images/b4_beam_cll_adiabatic.png" src="../../_images/b4_beam_cll_adiabatic.png" style="width: 90%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b4_beam_cll_adiabatic.png"><img alt="../../_images/b4_beam_cll_adiabatic.png" src="../../_images/b4_beam_cll_adiabatic.png" style="width: 90%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">As above, <code class="docutils literal notranslate"><span class="pre">cll</span></code> and <code class="docutils literal notranslate"><span class="pre">adiabatic</span></code> variants.</span><a class="headerlink" href="#id8" title="Link to this image"></a></p>
 </figcaption>
@@ -1070,7 +1067,8 @@ speed law of the <code class="docutils literal notranslate"><span class="pre">im
 </tbody>
 </table>
 <figure class="align-center" id="id9">
-<a class="reference internal image-reference" href="../../_images/b4_products.png"><img alt="../../_images/b4_products.png" src="../../_images/b4_products.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b4_products.png"><img alt="../../_images/b4_products.png" src="../../_images/b4_products.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Product velocity distributions against the kernel’s analytic
 marginals (re-run after the review fixes).</span><a class="headerlink" href="#id9" title="Link to this image"></a></p>

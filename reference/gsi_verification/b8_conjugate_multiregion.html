@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>B8: multi-region conjugate solid &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
 
@@ -15,7 +15,7 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=eef4a3d2"></script>
@@ -80,19 +80,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#one-time-step">One time step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#purpose">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#time-loop">Time loop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#solid-model">Solid model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#case-layout">Case layout</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#outputs">Outputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#restart">Restart</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#verification">Verification</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#receding-walls-and-conjugate-solid">Receding walls and conjugate solid</a></li>
 </ul>
 </li>
 </ul>
@@ -130,7 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#scattering-kernels">Scattering kernels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#immersed-surface">Immersed surface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#dsmcfoam-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>: receding walls and the conjugate solid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
@@ -281,8 +269,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#charge-exchange">Charge exchange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ion-attached-electrons">Electron population: ion-attached electrons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../theory/chemistry_charged.html#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions">Electron collisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#status">Status</a></li>
 </ul>
 </li>
@@ -806,7 +797,7 @@
              
   <section id="b8-multi-region-conjugate-solid">
 <h1>B8: multi-region conjugate solid<a class="headerlink" href="#b8-multi-region-conjugate-solid" title="Link to this heading"></a></h1>
-<p><strong>Verified:</strong> the conjugate solid of <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code> as one or
+<p><strong>Verified:</strong> the conjugate solid of <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> as one or
 more solid regions of the gas case, on the gas <code class="docutils literal notranslate"><span class="pre">runTime</span></code> with their
 own physical clock, coupled through a face-area-weighted AMI
 (non-conformal walls allowed), in parallel, with <span class="math notranslate nohighlight">\(k(T)\)</span> and
@@ -881,7 +872,8 @@ every window is the same on the gas and the solid side of the AMI.
 The base-class coupling window reproduces the B1 window to the 12
 printed digits, so the chemical energy is counted exactly once.</p>
 <figure class="align-center" id="id3">
-<a class="reference internal image-reference" href="../../_images/b8_melt1d.png"><img alt="../../_images/b8_melt1d.png" src="../../_images/b8_melt1d.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b8_melt1d.png"><img alt="../../_images/b8_melt1d.png" src="../../_images/b8_melt1d.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">1-D melting slab in the region layout: (a) surface temperature
 before melting against <span class="math notranslate nohighlight">\(T_0 + 2q(t/\pi k\rho c)^{1/2}\)</span>;
@@ -942,7 +934,8 @@ starts, then within 2e-3: a serial run with the heat flux perturbed
 by 10<sup>-14</sup> departs by the same amount, so this is the
 threshold scatter of the dripping process, not a parallel defect.</p>
 <figure class="align-center" id="id4">
-<a class="reference internal image-reference" href="../../_images/b8_film.png"><img alt="../../_images/b8_film.png" src="../../_images/b8_film.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b8_film.png"><img alt="../../_images/b8_film.png" src="../../_images/b8_film.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Film verification in the region layout, serial and 2 processors:
 (a) shear-driven film, (b) capillary levelling, (c) film freezing
@@ -951,14 +944,16 @@ against the free-molecular sphere.</span><a class="headerlink" href="#id4" title
 </figcaption>
 </figure>
 <figure class="align-center" id="id5">
-<a class="reference internal image-reference" href="../../_images/b8_fix_droplet.png"><img alt="../../_images/b8_fix_droplet.png" src="../../_images/b8_fix_droplet.png" style="width: 70%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b8_fix_droplet.png"><img alt="../../_images/b8_fix_droplet.png" src="../../_images/b8_fix_droplet.png" style="width: 70%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Droplet in the DSMC O stream against the free-molecular ODE, five
 seeds.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <figure class="align-center" id="id6">
-<a class="reference internal image-reference" href="../../_images/b8_fix_film_round_off.png"><img alt="../../_images/b8_fix_film_round_off.png" src="../../_images/b8_fix_film_round_off.png" style="width: 70%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b8_fix_film_round_off.png"><img alt="../../_images/b8_fix_film_round_off.png" src="../../_images/b8_fix_film_round_off.png" style="width: 70%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Dripping film on the curved wall: relative difference of the film
 mass, 2 processors against serial and a serial run with the heat
@@ -1010,7 +1005,8 @@ identical to the conformal 160/160. The gas wall points stay within
 points, and the heat load is mapped conservatively (gas side against
 solid side within 6e-16).</p>
 <figure class="align-center" id="id7">
-<a class="reference internal image-reference" href="../../_images/b8_nonconformal.png"><img alt="../../_images/b8_nonconformal.png" src="../../_images/b8_nonconformal.png" style="width: 90%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b8_nonconformal.png"><img alt="../../_images/b8_nonconformal.png" src="../../_images/b8_nonconformal.png" style="width: 90%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Cylinder under 10<sup>7</sup> W/m², 80 gas faces on 80, 160
 (conformal and not) and 320 solid faces: (a) wall temperature and
@@ -1019,7 +1015,8 @@ error of the DSMC runs.</span><a class="headerlink" href="#id7" title="Link to t
 </figcaption>
 </figure>
 <figure class="align-center" id="id8">
-<a class="reference internal image-reference" href="../../_images/b8_ledger.png"><img alt="../../_images/b8_ledger.png" src="../../_images/b8_ledger.png" style="width: 60%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b8_ledger.png"><img alt="../../_images/b8_ledger.png" src="../../_images/b8_ledger.png" style="width: 60%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Energy closure of every B8b run (largest over the windows).</span><a class="headerlink" href="#id8" title="Link to this image"></a></p>
 </figcaption>
@@ -1056,7 +1053,8 @@ for 2 ms, against the semi-infinite solution:</p>
 <p>On the published mesh the diffusion length spans 2.4 cells at 2 ms;
 refined, the solution converges to the exact one.</p>
 <figure class="align-center" id="id9">
-<a class="reference internal image-reference" href="../../_images/b8_cao1.png"><img alt="../../_images/b8_cao1.png" src="../../_images/b8_cao1.png" style="width: 80%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b8_cao1.png"><img alt="../../_images/b8_cao1.png" src="../../_images/b8_cao1.png" style="width: 80%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Cao and Ma case 1: surface temperature rise and profile against
 the semi-infinite solution, on their mesh and refined.</span><a class="headerlink" href="#id9" title="Link to this image"></a></p>
@@ -1114,7 +1112,8 @@ inside the 1.037-1.136 K spread that the reference stagnation fluxes
 give. Deviations from their set-up: VSS from the frozen database
 instead of their VHS parameters, and a coarser wall mesh (1.25 mm).</p>
 <figure class="align-center" id="id10">
-<a class="reference internal image-reference" href="../../_images/b8_cao3.png"><img alt="../../_images/b8_cao3.png" src="../../_images/b8_cao3.png" style="width: 90%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b8_cao3.png"><img alt="../../_images/b8_cao3.png" src="../../_images/b8_cao3.png" style="width: 90%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Cao and Ma case 3: (a) wall heat flux of the steady flow against
 Goshayeshi et al., Cao and Ma (SPARTA) and Scanlon et al.

@@ -243,7 +243,7 @@ figure is written to ``plots/``.
 Three more tutorials repeat the fixed-shape comparison with SPARTA:
 ``tutorials/verification/gsi/IMM_implicitCylinder``,
 ``IMM_explicitCylinder`` and ``MOV_bodyFittedCylinder`` (body-fitted
-wall of ``dsmcFoamAblation``). Each runs 7.5 µs on one core (about
+wall of ``dsmcFoam``). Each runs 7.5 µs on one core (about
 45-55 min) and checks the carbon removal over the whole surface and
 at 0-30° against SPARTA's 180-segment cylinder (tolerances 0.025 and
 0.04); the immersed ones also check that no parcel is found inside

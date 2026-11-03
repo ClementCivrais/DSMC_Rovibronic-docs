@@ -1,7 +1,7 @@
 Conjugate solid: conduction, melting, film and droplets
 =======================================================
 
-**Verified:** the conducting solid of ``dsmcFoamAblation`` coupled to
+**Verified:** the conducting solid of ``dsmcFoam`` coupled to
 the DSMC wall (transient conduction on a moving mesh, re-radiation,
 Stefan melting with the melt removed as it forms), and the melt
 film and droplets (lubrication film driven by the gas shear and

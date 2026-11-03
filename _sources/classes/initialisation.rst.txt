@@ -1,7 +1,7 @@
 Particle initialisation
 =======================
 
-Source: ``src/lagrangian/DSMC/initaliseDsmcParcels/``.
+Source: ``src/lagrangian/DSMC/initialisation/``.
 
 Role
 ----

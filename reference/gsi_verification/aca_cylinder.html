@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Application: carbon cylinder under the ACA mechanism &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
 
@@ -15,7 +15,7 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=eef4a3d2"></script>
@@ -80,19 +80,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#one-time-step">One time step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#purpose">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#time-loop">Time loop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#solid-model">Solid model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#case-layout">Case layout</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#outputs">Outputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#restart">Restart</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#verification">Verification</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#receding-walls-and-conjugate-solid">Receding walls and conjugate solid</a></li>
 </ul>
 </li>
 </ul>
@@ -130,7 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#scattering-kernels">Scattering kernels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#immersed-surface">Immersed surface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#dsmcfoam-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>: receding walls and the conjugate solid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
@@ -281,8 +269,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#charge-exchange">Charge exchange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ion-attached-electrons">Electron population: ion-attached electrons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../theory/chemistry_charged.html#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions">Electron collisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#status">Status</a></li>
 </ul>
 </li>
@@ -889,7 +880,8 @@ N<sub>2</sub> is the second product. The reaction totals with more than 5000
 parcel events agree within 1 % between the surfaces. The explicit
 triangulation stays valid (no hand-over to the implicit surface).</p>
 <figure class="align-default" id="id2">
-<a class="reference internal image-reference" href="../../_images/aca_cylinder_recession.png"><img alt="../../_images/aca_cylinder_recession.png" src="../../_images/aca_cylinder_recession.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/aca_cylinder_recession.png"><img alt="../../_images/aca_cylinder_recession.png" src="../../_images/aca_cylinder_recession.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Surface at 0, 4.5, 9 and 15 µs, recession depth against the angle from
 the stagnation line, and the departure of the swept volume from the
@@ -897,7 +889,8 @@ removed volume.</span><a class="headerlink" href="#id2" title="Link to this imag
 </figcaption>
 </figure>
 <figure class="align-default" id="id3">
-<a class="reference internal image-reference" href="../../_images/aca_cylinder_fluxes.png"><img alt="../../_images/aca_cylinder_fluxes.png" src="../../_images/aca_cylinder_fluxes.png" style="width: 90%;" /></a>
+<a class="reference internal image-reference" href="../../_images/aca_cylinder_fluxes.png"><img alt="../../_images/aca_cylinder_fluxes.png" src="../../_images/aca_cylinder_fluxes.png" style="width: 90%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Product fluxes against the angle (10.5-15 µs) and the carbon removal
 against the closed form at the measured fluxes of each sector.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
@@ -922,7 +915,8 @@ sector.</p></li>
 (resolution limit, below).</p></li>
 </ul>
 <figure class="align-default" id="id4">
-<a class="reference internal image-reference" href="../../_images/aca_cylinder_coverage.png"><img alt="../../_images/aca_cylinder_coverage.png" src="../../_images/aca_cylinder_coverage.png" style="width: 85%;" /></a>
+<a class="reference internal image-reference" href="../../_images/aca_cylinder_coverage.png"><img alt="../../_images/aca_cylinder_coverage.png" src="../../_images/aca_cylinder_coverage.png" style="width: 85%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Coverages against the angle (implicit and explicit, 10.5-15 µs) with
 the closed form, and DSMC over the closed form against the probability
@@ -987,7 +981,8 @@ collision copies the level tables of the species (finding recorded in
 <code class="docutils literal notranslate"><span class="pre">docs/Development/Verification/perf/p4_level_table_copy.md</span></code>, change
 pending).</p>
 <figure class="align-default" id="id5">
-<a class="reference internal image-reference" href="../../_images/aca_cylinder_cost.png"><img alt="../../_images/aca_cylinder_cost.png" src="../../_images/aca_cylinder_cost.png" style="width: 50%;" /></a>
+<a class="reference internal image-reference" href="../../_images/aca_cylinder_cost.png"><img alt="../../_images/aca_cylinder_cost.png" src="../../_images/aca_cylinder_cost.png" style="width: 50%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Time per step over the diffuse wall, one and four processors.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
 </figcaption>

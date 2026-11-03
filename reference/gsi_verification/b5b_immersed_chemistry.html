@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>B5b: surface chemistry on the immersed surface &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
 
@@ -15,7 +15,7 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=eef4a3d2"></script>
@@ -80,19 +80,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#one-time-step">One time step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#purpose">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#time-loop">Time loop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#solid-model">Solid model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#case-layout">Case layout</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#outputs">Outputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#restart">Restart</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#verification">Verification</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#receding-walls-and-conjugate-solid">Receding walls and conjugate solid</a></li>
 </ul>
 </li>
 </ul>
@@ -130,7 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#scattering-kernels">Scattering kernels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#immersed-surface">Immersed surface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#dsmcfoam-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>: receding walls and the conjugate solid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
@@ -281,8 +269,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#charge-exchange">Charge exchange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ion-attached-electrons">Electron population: ion-attached electrons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../theory/chemistry_charged.html#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions">Electron collisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#status">Status</a></li>
 </ul>
 </li>
@@ -930,7 +921,8 @@ explicit STL; 2 seeds per surface.</p>
 element, agrees to 0.1 %: the cut cells, elements of very different
 areas, integrate the same surface kinetics as the faces.</p>
 <figure class="align-center" id="id2">
-<a class="reference internal image-reference" href="../../_images/b5b_fixed_shape.png"><img alt="../../_images/b5b_fixed_shape.png" src="../../_images/b5b_fixed_shape.png" style="width: 60%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b5b_fixed_shape.png"><img alt="../../_images/b5b_fixed_shape.png" src="../../_images/b5b_fixed_shape.png" style="width: 60%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Immersed over body-fitted rates of the fixed carbon cylinder,
 implicit (filled) and explicit (open) surfaces; grey band
@@ -1007,7 +999,8 @@ SPARTA’s own adsorbed count does not close with its event counts
 whereas ours closes exactly (237.7 = N<sub>O(s)</sub>); the conserved
 adsorbed counts agree.</p>
 <figure class="align-center" id="id3">
-<a class="reference internal image-reference" href="../../_images/b5b_sparta_circle.png"><img alt="../../_images/b5b_sparta_circle.png" src="../../_images/b5b_sparta_circle.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b5b_sparta_circle.png"><img alt="../../_images/b5b_sparta_circle.png" src="../../_images/b5b_sparta_circle.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Left: events per run, dsmcFoam+ over SPARTA (40 SPARTA and 16
 dsmcFoam+ seeds); right: adsorbed simulators on the circle,
@@ -1059,7 +1052,8 @@ the plane recedes 0.348 mm and crosses 4 mesh lines in 500 µs.</p>
 exact history: the adsorbates move with the surface (1.65e13
 molecules moved in 5000 updates).</p>
 <figure class="align-center" id="id4">
-<a class="reference internal image-reference" href="../../_images/b5b_recession.png"><img alt="../../_images/b5b_recession.png" src="../../_images/b5b_recession.png" style="width: 55%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b5b_recession.png"><img alt="../../_images/b5b_recession.png" src="../../_images/b5b_recession.png" style="width: 55%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Coverage, recession depth and DSMC/exact of the receding implicit
 plane (two seeds) against the exact solution along the measured
@@ -1120,7 +1114,8 @@ mid-time, once also on 2 processors.</p>
 <p>No parcel was found inside the solid, no cell lost gas, and no PS
 parcel failed to be placed.</p>
 <figure class="align-center" id="id6">
-<a class="reference internal image-reference" href="../../_images/b5b_ledger.png"><img alt="../../_images/b5b_ledger.png" src="../../_images/b5b_ledger.png" style="width: 60%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b5b_ledger.png"><img alt="../../_images/b5b_ledger.png" src="../../_images/b5b_ledger.png" style="width: 60%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Relative change of the O atoms, C atoms and energy since the
 first write, explicit, implicit and 2-processor implicit runs.</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
@@ -1133,7 +1128,7 @@ first write, explicit, implicit and 2-processor implicit runs.</span><a class="h
 <span class="math notranslate nohighlight">\(1800/1.5\times10^5\)</span> kg/m<sup>3</sup>. In 15 µs the stagnation
 point recedes 0.18 mm, i.e. 3.6 cells or 36 % of the radius. The same
 gas, mesh resolution and acceleration run on the body-fitted coverage
-wall (moving O-grid, <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>) and on the implicit and
+wall (moving O-grid, <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>) and on the implicit and
 explicit immersed surfaces, with 2 seeds each. The numbers are after
 the body-fitted fix of <a class="reference internal" href="b5_recession.html"><span class="doc">B5a: reaction heats and chemistry-driven recession</span></a> (section “Body-fitted
 recession on curved walls”).</p>
@@ -1186,7 +1181,8 @@ in coverage and 1-2 µm in depth. The three surfaces agree within it,
 and the depth profiles agree within 0.1 cell at every angle. The ER
 channel (3.4 % of the impacts) has 1.7 % counting noise per run.</p>
 <figure class="align-center" id="id7">
-<a class="reference internal image-reference" href="../../_images/b5b_curved_recession.png"><img alt="../../_images/b5b_curved_recession.png" src="../../_images/b5b_curved_recession.png" style="width: 95%;" /></a>
+<a class="reference internal image-reference" href="../../_images/b5b_curved_recession.png"><img alt="../../_images/b5b_curved_recession.png" src="../../_images/b5b_curved_recession.png" style="width: 95%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Receding cylinder. Left: swept/removed volume minus 1. Middle:
 removed carbon, immersed over body-fitted. Right: recession depth

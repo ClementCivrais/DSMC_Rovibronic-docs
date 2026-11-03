@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Charged-species chemistry &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
@@ -15,7 +15,7 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
@@ -80,19 +80,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#one-time-step">One time step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#purpose">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#time-loop">Time loop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#solid-model">Solid model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#case-layout">Case layout</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#outputs">Outputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#restart">Restart</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#verification">Verification</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#receding-walls-and-conjugate-solid">Receding walls and conjugate solid</a></li>
 </ul>
 </li>
 </ul>
@@ -130,7 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#scattering-kernels">Scattering kernels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#immersed-surface">Immersed surface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#dsmcfoam-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>: receding walls and the conjugate solid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
@@ -281,8 +269,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#charge-exchange">Charge exchange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#associative-ionisation">Associative ionisation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#electron-population-ion-attached-electrons">Electron population: ion-attached electrons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#electron-collisions">Electron collisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#status">Status</a></li>
 </ul>
 </li>
@@ -815,16 +806,15 @@ reverse forms, and the molecule-electron / molecule-ion
 dissociation-ionisation channels — is <strong>work in progress</strong>.
 It has been ported into the rovibronic framework but has not
 yet been reworked, verified, or validated end-to-end.
-Quantitative results from cases with
-<code class="docutils literal notranslate"><span class="pre">chargedParticles</span> <span class="pre">=</span> <span class="pre">true</span></code> must be treated as preliminary.</p>
+Quantitative results from flows with charged species must be
+treated as preliminary.</p>
 </div>
 <p>The charged-species chemistry inherits the Larsen-Borgnakke
 machinery and the post-reaction redistribution rules from
 <a class="reference internal" href="chemistry.html"><span class="doc">Neutral chemistry</span></a>, but requires additional care on three fronts:
 the state-dependent ionisation threshold of the reacting
-species, the ambipolar treatment of the electron population, and
-the sub-time-stepping that accommodates the very high electron
-collision rate. Each is discussed below.</p>
+species, the transport of the electrons in a flow, and the
+electron collisions. They are discussed below.</p>
 <section id="state-dependent-ionisation-threshold">
 <h2>State-dependent ionisation threshold<a class="headerlink" href="#state-dependent-ionisation-threshold" title="Link to this heading"></a></h2>
 <p>Unlike the ground-state ionisation potential <span class="math notranslate nohighlight">\(E_{\mathrm{IP}}\)</span>
@@ -906,74 +896,235 @@ parameters. The reverse channel
 <span class="math notranslate nohighlight">\(\mathrm{AB}^{+} + e^{-} \to \mathrm{A} + \mathrm{B}\)</span> is
 implemented symmetrically.</p>
 </section>
-<section id="electron-population-ambipolar-diffusion">
-<h2>Electron population: ambipolar diffusion<a class="headerlink" href="#electron-population-ambipolar-diffusion" title="Link to this heading"></a></h2>
-<p>Tracking electrons as independent DSMC parcels on the same
-time-step as the heavy species is prohibitively expensive:
-electrons are lighter by four orders of magnitude and their
-thermal speed is correspondingly higher, so their characteristic
-collision time and advection step would dictate a global DSMC
-<span class="math notranslate nohighlight">\(\Delta t\)</span> two to three decades smaller than would be
-needed for the heavy gas.</p>
-<p>The solver therefore treats the electrons under the <strong>ambipolar
-approximation</strong>: on the simulation timescale the plasma remains
-quasi-neutral, and the electrons are dragged along by the ion
-population through the self-consistent ambipolar electric field.
-Concretely, the code does not advect electron parcels on the
-global DSMC time-step. Each electron is instead <strong>created,
-stored, and moved alongside its parent ion</strong>: whenever an
-ionisation event produces an ion, the electron is added at the
-ion’s position (<code class="docutils literal notranslate"><span class="pre">dsmcCloud.H:323</span></code>: “Add an electron where an
-ion is found, after the move function”). The electron’s
-contribution to the cell-level macroscopic fields —  number
-density, mass density, momentum, kinetic energy, temperature —
-is accumulated separately in the dedicated electron data
-structures documented at <code class="docutils literal notranslate"><span class="pre">dsmcCloud.H:211–229</span></code>.</p>
-<p>The ambipolar approximation holds on length scales large
-compared to the Debye length and on times long compared to the
-plasma oscillation period. Both are satisfied for the hypersonic
-re-entry regimes of interest, but would need to be revisited for
-high-vacuum plasma-probe applications where the assumption
-breaks down.</p>
-</section>
-<section id="electron-collisions-sub-time-stepping">
-<h2>Electron collisions: sub-time-stepping<a class="headerlink" href="#electron-collisions-sub-time-stepping" title="Link to this heading"></a></h2>
-<p>Although the electrons are advected through the ambipolar
-approximation, their <strong>collisions</strong> are not: the collision layer
-still needs to sample electron-neutral and electron-ion
-interactions at a cadence consistent with the electron collision
-rate, which can be one to two orders of magnitude higher than
-the heavy-species rate.</p>
-<p>This is handled through the <code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> variant
-of the No-Time-Counter scheme (see <a class="reference internal" href="collision_sampling.html"><span class="doc">Collision sampling</span></a>).
-Within each global DSMC step <span class="math notranslate nohighlight">\(\Delta t\)</span>, the electron
-collisions are sampled over <span class="math notranslate nohighlight">\(n_{\mathrm{sc}}\)</span> internal
-sub-cycles of length
-<span class="math notranslate nohighlight">\(\Delta t_{\mathrm{sc}} = \Delta t / n_{\mathrm{sc}}\)</span>, so
-that the sampling resolves the electron collision frequency while
-the heavy-species collision loop executes once. The
-<code class="docutils literal notranslate"><span class="pre">nSubCycles</span></code> key in the
-<code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycledProperties</span></code> sub-dictionary sets
-<span class="math notranslate nohighlight">\(n_{\mathrm{sc}}\)</span>; the reference value for re-entry
-plasma cases is of the order of 30.</p>
-<p>Two design choices are worth highlighting:</p>
+<section id="electron-population-ion-attached-electrons">
+<h2>Electron population: ion-attached electrons<a class="headerlink" href="#electron-population-ion-attached-electrons" title="Link to this heading"></a></h2>
+<p>A free electron is about <span class="math notranslate nohighlight">\(\sqrt{m_{\mathrm{N^+}}/m_e} \approx 160\)</span>
+times faster than an <span class="math notranslate nohighlight">\(\mathrm{N^+}\)</span> ion at the same temperature
+(<span class="math notranslate nohighlight">\(6.2\times10^{5}\)</span> against <span class="math notranslate nohighlight">\(3.9\times10^{3}\)</span> m/s at
+10 000 K). Moved with its own velocity it leaves its ion within a few
+time steps, and the gas separates its charges over distances that the
+field of a real plasma forbids: the Debye length is 22 µm at
+<span class="math notranslate nohighlight">\(n_e = 10^{17}\)</span> m<sup>-3</sup>. The solver keeps the gas neutral
+cell by cell with the ion-attached electron model of SPARTA
+(<code class="docutils literal notranslate"><span class="pre">fix</span> <span class="pre">ambipolar</span></code>) and PICLas (<code class="docutils literal notranslate"><span class="pre">AmbipolarDiffusion</span></code>), selected in
+<code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ambipolarElectrons      true;
+</pre></div>
+</div>
+<p>Every time step then runs three stages.</p>
+<ol class="arabic simple">
+<li><p><strong>Attachment, before the move.</strong> The electrons of a cell are attached
+to ions of the same cell, drawn at random among the ions still
+without an electron. The electron parcel is removed and its velocity
+is stored on the ion. Only the charged parcels are visited, sorted by
+cell; there is no loop over the cells.</p></li>
+<li><p><strong>Move.</strong> The ion carries its electron through processor transfers,
+cyclic, symmetry and wedge patches (the electron velocity is
+transformed with the ion’s), axisymmetric and cell-weight cloning or
+deletion, and outflow boundaries.</p></li>
+<li><p><strong>Release, after the move and the weighting.</strong> The electron is
+re-created at the position of its ion, with its own velocity, for the
+collisions and the measurements.</p></li>
+</ol>
+<p>The electron keeps its own velocity, so the electron velocity
+distribution and the electron temperature are resolved and nothing is
+resampled: mass, momentum and energy are conserved to round-off.
+Ionisation and recombination create and destroy electrons in the cell
+of their partners, and the next attachment pairs them again.</p>
+<p><strong>Walls.</strong> An ion brings its electron to the wall. The electron is
+absorbed when the wall absorbs or neutralises the ion (e.g.
+<code class="docutils literal notranslate"><span class="pre">wallNeutralisation</span></code>), so the electron and ion fluxes to the wall are
+equal. Otherwise it is re-emitted with the ion: mirrored by a specular
+reflection, drawn from the Maxwellian at the wall temperature by a
+diffuse one (SPARTA), and drawn at the face temperature for a wall model
+with its own re-emission (CLL). Its energy and momentum enter the wall
+fluxes (<code class="docutils literal notranslate"><span class="pre">qBF</span></code>, <code class="docutils literal notranslate"><span class="pre">fDBF</span></code>, number and mass fluxes) of the electron
+species.</p>
+<p><strong>Limitations.</strong></p>
+<ul>
+<li><p>No electric field: the pair diffuses with the binary diffusion
+coefficient <span class="math notranslate nohighlight">\(D_i\)</span> of the ion, i.e. the ambipolar coefficient
+<span class="math notranslate nohighlight">\(D_a = D_i (1 + T_e/T_i)\)</span> without its electron-pressure term, as
+in SPARTA, PICLas and Bird’s quasi-neutral scheme. The model does not
+apply in a sheath or at a plasma/neutral-gas interface.</p></li>
+<li><p>An electron left without an ion in its cell (an inflow that injects
+both species, or an initial state that is not neutral cell by cell)
+moves with its own velocity until it shares a cell with an ion
+without an electron. The counts are printed at every terminal output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Ion</span><span class="o">-</span><span class="n">attached</span> <span class="n">electrons</span> <span class="p">(</span><span class="n">last</span> <span class="n">move</span><span class="p">)</span>      <span class="o">=</span> <span class="mi">4800</span><span class="p">,</span> <span class="n">without</span> <span class="n">an</span> <span class="n">ion</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ions</span> <span class="n">without</span> <span class="n">an</span> <span class="n">electron</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dropped</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">(</span><span class="mi">0</span> <span class="n">J</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Immersed surfaces (implicit or explicit) treat the charged species as
+the walls do: an ion is neutralised there and its attached electron
+absorbed with it (see <em>Immersed surfaces</em> below).</p></li>
+</ul>
+<p><strong>Immersed surfaces.</strong> An ion <span class="math notranslate nohighlight">\(\mathrm{X^+}\)</span> hitting an implicit or
+explicit immersed surface is neutralised,
+<span class="math notranslate nohighlight">\(\mathrm{X^+ + e^-(surface) \to X}\)</span>, as <code class="docutils literal notranslate"><span class="pre">wallNeutralisation</span></code> with
+<span class="math notranslate nohighlight">\(\beta = 1\)</span> and no work function: it leaves as its neutral (same
+mass), re-emitted by the surface’s re-emission (diffuse at the surface
+temperature in probability mode, the default kernel of a mechanism, the
+internal state drawn at that temperature), and the ionisation potential of
+<span class="math notranslate nohighlight">\(\mathrm{X}\)</span> goes to the surface heat (and <code class="docutils literal notranslate"><span class="pre">eChem</span></code>). The neutral
+must be in <code class="docutils literal notranslate"><span class="pre">typeIdList</span></code> (the ion’s name less its <code class="docutils literal notranslate"><span class="pre">+</span></code>). A reaction of the
+probability list that applies to the ion (e.g. a <code class="docutils literal notranslate"><span class="pre">wallNeutralisation</span></code> with
+<span class="math notranslate nohighlight">\(\beta &lt; 1\)</span>) replaces this default. The electron attached to the ion
+is absorbed with a neutralised or absorbed ion, its kinetic energy and
+momentum to the surface, else re-emitted with the ion from the Maxwellian
+at the surface temperature. An electron parcel that reaches the surface
+(<code class="docutils literal notranslate"><span class="pre">ambipolarElectrons</span> <span class="pre">false</span></code>, or an electron without an ion in its cell) is
+absorbed. The surface state line gives the totals:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span> <span class="n">ionsNeutralised</span><span class="p">:</span> <span class="mf">3.5425e13</span> <span class="n">electronsAbsorbed</span><span class="p">:</span> <span class="mf">3.5425e13</span> <span class="n">chargeToSurface</span><span class="p">:</span> <span class="mi">0</span> <span class="n">neutralisationEnergy</span><span class="p">:</span> <span class="o">...</span> <span class="n">electronEnergy</span><span class="p">:</span> <span class="o">...</span> <span class="n">electronMomentum</span><span class="p">:</span> <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Neutral species are unchanged (the same random draws, bit-identical
+results).</p>
+<p><strong>Start-up guard.</strong> A case whose <code class="docutils literal notranslate"><span class="pre">typeIdList</span></code> holds the electron
+species on a mesh of more than one cell stops at the first time step
+unless <code class="docutils literal notranslate"><span class="pre">ambipolarElectrons</span></code> is set: <code class="docutils literal notranslate"><span class="pre">true</span></code> for the ion-attached
+electrons, <code class="docutils literal notranslate"><span class="pre">false</span></code> for electrons moved ballistically with their own
+velocity. Single-cell reactors keep the previous behaviour bit for bit
+when the keyword is absent.</p>
+<p><strong>Inlets, fills and weighting clones</strong> (2026-11-01). With
+<code class="docutils literal notranslate"><span class="pre">ambipolarElectrons</span> <span class="pre">true</span></code> every ion placed by an initial fill
+(<code class="docutils literal notranslate"><span class="pre">dsmcMeshFill</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcMeshFieldFill</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcZoneFill</span></code>) or injected by an
+inflow boundary brings its electron: a fill places the electron at the
+ion’s position, an inlet attaches it to the ion, both with a velocity drawn
+from the Maxwellian of the fill or stream (temperature and bulk velocity).
+The electron flux of a neutral stream is the ion flux, and every cell is
+neutral from the first step. <code class="docutils literal notranslate"><span class="pre">E-</span></code> listed in a fill or an inlet is then a
+FatalError. A parcel cloned by the cell or axisymmetric weighting carries a
+copy of its ion’s attached electron.</p>
+<section id="verification">
+<h3>Verification<a class="headerlink" href="#verification" title="Link to this heading"></a></h3>
+<p>Scripts, cases and results are in <code class="docutils literal notranslate"><span class="pre">run/1D/ambipolar_electrons</span></code>
+(<code class="docutils literal notranslate"><span class="pre">make_cases.py</span></code>, <code class="docutils literal notranslate"><span class="pre">run_ws.sh</span></code>, <code class="docutils literal notranslate"><span class="pre">analyse.py</span></code>; summary in
+<code class="docutils literal notranslate"><span class="pre">summary.txt</span></code>).</p>
 <ul class="simple">
-<li><p><strong>No electron-electron collisions.</strong> Both
-<code class="docutils literal notranslate"><span class="pre">noTimeCounter.C:259</span></code> and
-<code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency.C:272</span></code> explicitly skip the
-electron-electron channel: the high electron-electron collision
-rate would swamp the DSMC candidate budget without materially
-changing the macroscopic behaviour under the ambipolar
-assumption (electron-electron collisions thermalise only the
-electron distribution, which is already Maxwellian in the
-ambipolar limit).</p></li>
-<li><p><strong>Energy book-keeping in electron sub-cycles.</strong> Within the
-sub-cycled loop, the Larsen-Borgnakke machinery of
-<a class="reference internal" href="larsen_borgnakke.html"><span class="doc">Larsen-Borgnakke energy redistribution</span></a> is invoked with the electron’s
-ambipolar velocity rather than a freshly-drawn Maxwellian.
-This is consistent with the underlying assumption that the
-electron distribution is already equilibrated on the sub-cycle
-timescale.</p></li>
+<li><p><strong>Single-cell reactors unchanged.</strong> Without the keyword, six charged
+reactors (N + O associative ionisation, NO<sup>+</sup> + e<sup>-</sup>
+recombination, N<sub>2</sub> + e<sup>-</sup>, N + O<sup>+</sup> charge
+exchange, air-11 adiabatic and isothermal) give bit-identical initial
+states, final clouds and logs after 200 steps with a fixed seed. The
+seven melting tutorials are bit-identical too.</p></li>
+<li><p><strong>Electrons follow the ions.</strong> A closed 20 cm tube of Ar at 3000 K
+holds a 4 cm slab of N<sup>+</sup> and e<sup>-</sup>
+(<span class="math notranslate nohighlight">\(1.2\times10^{20}\)</span> m<sup>-3</sup>) at a uniform heavy-particle
+density of <span class="math notranslate nohighlight">\(10^{21}\)</span> m<sup>-3</sup>, without chemistry. With the
+attachment, <span class="math notranslate nohighlight">\(N(e^-) = N(\mathrm{N^+})\)</span> in every cell at every
+write, also on four processors and after a restart, and the total
+energy is constant to the twelve printed digits. The ions spread with
+<span class="math notranslate nohighlight">\(D = 0.989\,D_{\mathrm{CE}}\)</span>, where
+<span class="math notranslate nohighlight">\(D_{\mathrm{CE}} = 2.945\)</span> m<sup>2</sup>/s is the first
+Chapman-Enskog coefficient of the frozen N<sup>+</sup>-Ar VSS pair;
+the same ions without electrons give <span class="math notranslate nohighlight">\(0.987\,D_{\mathrm{CE}}\)</span>.
+With <code class="docutils literal notranslate"><span class="pre">ambipolarElectrons</span> <span class="pre">false</span></code> the electrons fill the tube within
+two time steps.</p></li>
+</ul>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/A_variance_attached.png"><img alt="../_images/A_variance_attached.png" src="../_images/A_variance_attached.png" style="width: 60%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Variance of the ion and electron positions in the closed tube:
+analytical solution (Chapman-Enskog <span class="math notranslate nohighlight">\(D\)</span>, Ornstein-Uhlenbeck
+initial layer), ions without electrons (baseline) and the present
+attached electrons (two replicas, four processors, restarted run).</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../_images/A_profiles_off.png"><img alt="../_images/A_profiles_off.png" src="../_images/A_profiles_off.png" style="width: 60%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Ballistic electrons (<code class="docutils literal notranslate"><span class="pre">ambipolarElectrons</span> <span class="pre">false</span></code>): at 40, 120 and
+200 µs the electrons are spread over the whole tube while the ions
+follow the analytical solution.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p><strong>Pairs created and destroyed.</strong> A periodic box of N and O
+(<span class="math notranslate nohighlight">\(10^{22}\)</span> m<sup>-3</sup>) with NO<sup>+</sup> and e<sup>-</sup>
+(<span class="math notranslate nohighlight">\(1.2\times10^{21}\)</span> m<sup>-3</sup>) at 10 000 K runs associative
+ionisation and dissociative recombination with product creation. One
+cell without attachment, one cell with it and 20 cells with it give
+the same NO<sup>+</sup> history and rate coefficients
+(<span class="math notranslate nohighlight">\(k_f = 1.30\)</span>-<span class="math notranslate nohighlight">\(1.31\times10^{-16}\)</span> m<sup>3</sup>/s,
+<span class="math notranslate nohighlight">\(k_r = 1.26\)</span>-<span class="math notranslate nohighlight">\(1.28\times10^{-13}\)</span> m<sup>3</sup>/s, within
+the scatter of two replicas), with <span class="math notranslate nohighlight">\(N(e^-)\)</span> equal to the ion
+count in every cell at every write.</p></li>
+</ul>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="../_images/B_NOp_history.png"><img alt="../_images/B_NOp_history.png" src="../_images/B_NOp_history.png" style="width: 60%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">NO<sup>+</sup> number density in the periodic box: one cell without
+attachment (baseline), one cell and 20 cells with ion-attached
+electrons; the electron density of the 20-cell box coincides with
+the ion density.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p><strong>Neutralising walls.</strong> In a 5 cm tube between walls at 3000 K that
+neutralise N<sup>+</sup> (<span class="math notranslate nohighlight">\(\beta = 1\)</span>) the electrons are absorbed
+with their ions: <span class="math notranslate nohighlight">\(N(e^-) = N(\mathrm{N^+})\)</span> at every write,
+<span class="math notranslate nohighlight">\(N(\mathrm{N^+}) + N(\mathrm{N})\)</span> is conserved, and the decay
+matches the ions-only baseline.</p></li>
+</ul>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="../_images/C_wall_decay.png"><img alt="../_images/C_wall_decay.png" src="../_images/C_wall_decay.png" style="width: 60%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Ion and electron counts between neutralising walls, with the
+ions-only baseline.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p><strong>Immersed surfaces.</strong> A periodic 1 cm box of Ar (<span class="math notranslate nohighlight">\(10^{21}\)</span>
+m<sup>-3</sup>, 3000 K) with a slab of N<sup>+</sup> and e<sup>-</sup>
+(<span class="math notranslate nohighlight">\(1.2\times10^{20}\)</span> m<sup>-3</sup>) and an immersed sphere
+(radius 2.5 mm, 3000 K), implicit and explicit (STL, also on two
+processors): <span class="math notranslate nohighlight">\(N(e^-) = N(\mathrm{N^+})\)</span> in every cell at every
+write, every absorbed electron matched by a neutralised ion, the
+released energy equal to <span class="math notranslate nohighlight">\(IP(\mathrm{N})\)</span> times the ions lost
+from the gas, and charge, mass, energy (gas, ionisation energy of the
+ions and surface heat) and momentum (with the surface loads) closed to
+round-off (relative <span class="math notranslate nohighlight">\(10^{-14}\)</span>). With a <code class="docutils literal notranslate"><span class="pre">wallNeutralisation</span></code>
+of <span class="math notranslate nohighlight">\(\beta = 0.5\)</span> in the probability list, the ions that return
+as ions keep an electron. Neutral immersed cases are bit-identical.</p></li>
+</ul>
+<figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="../_images/neutralisation_energy.png"><img alt="../_images/neutralisation_energy.png" src="../_images/neutralisation_energy.png" style="width: 60%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Energy released at the immersed sphere by the neutralisations:
+ionisation potential of N times the ions lost from the gas (lines)
+and the surface tally (present).</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="../_images/charge_counts.png"><img alt="../_images/charge_counts.png" src="../_images/charge_counts.png" style="width: 60%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Ions (lines) and electrons (present) left in the gas of the box with
+the immersed sphere, every ion neutralised (filled) or half of them
+(<span class="math notranslate nohighlight">\(\beta = 0.5\)</span>, open).</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="electron-collisions">
+<h2>Electron collisions<a class="headerlink" href="#electron-collisions" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>No electron-electron collisions.</strong> <code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code>,
+<code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code> and <code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> skip the
+electron-electron pairs.</p></li>
+<li><p><strong>Sub-cycling.</strong> <code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> (see
+<a class="reference internal" href="collision_sampling.html"><span class="doc">Collision sampling</span></a>) repeats the whole NTC pass <code class="docutils literal notranslate"><span class="pre">nSubCycles</span></code>
+times with <span class="math notranslate nohighlight">\(\Delta t/n_{\mathrm{sc}}\)</span>, for every pair; the
+electrons are not moved between the sub-cycles.</p></li>
+<li><p><strong>Energy redistribution.</strong> The Larsen-Borgnakke internal-energy
+redistribution of <a class="reference internal" href="larsen_borgnakke.html"><span class="doc">Larsen-Borgnakke energy redistribution</span></a> acts on the heavy partner
+only; the electron enters with its own velocity.</p></li>
 </ul>
 </section>
 <section id="status">
@@ -988,8 +1139,9 @@ reworked and validated. The immediate next steps include:</p>
 channel from QCT or experimental rates;</p></li>
 <li><p>running the three-phase validation protocol on a
 re-entry-representative charged case;</p></li>
-<li><p>validating the ambipolar approximation against a
-fully-kinetic electron run in a controlled setting.</p></li>
+<li><p>testing the field-free ion-attached electrons against an
+ambipolar-field (Boltzmann-electron) or fully kinetic electron model
+in a controlled setting.</p></li>
 </ul>
 </section>
 </section>

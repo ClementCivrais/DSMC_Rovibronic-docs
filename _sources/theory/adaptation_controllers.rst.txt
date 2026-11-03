@@ -112,6 +112,20 @@ Controllers — active flow-state drivers
 Controllers operate on a named ``cellZone`` and act at an
 interval set in their sub-dictionary.
 
+The ``timeProperties`` of a controller give its windows in steps:
+``nSamples`` (sampling), ``nAverages`` (averaging) and
+``nControls`` (control), the sampling and control windows dividing
+the averaging window.  They never depend on ``writeInterval``: the
+write interval can be changed without changing the controlled run
+(before 2026-11-03 a run whose write interval was not a multiple of
+``nAverages`` stopped at the start, unless
+``decoupledFromWriteInterval`` was set; that entry is still read and
+skips the check between the windows).  The velocity average of the
+temperature controller (``timePropertiesForVelocity``) has its own
+window, ``timeOption general`` with ``nSamples`` and ``nAverages``;
+the options that took it from the write interval (``write``,
+``numberWrite``, ``decoupledWrite``) are refused.
+
 Temperature controller
 ``````````````````````
 

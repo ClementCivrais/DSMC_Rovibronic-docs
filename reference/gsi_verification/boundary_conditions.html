@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wall models and surface processes &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
 
@@ -15,7 +15,7 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=eef4a3d2"></script>
@@ -80,19 +80,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#one-time-step">One time step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#purpose">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#time-loop">Time loop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#solid-model">Solid model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#case-layout">Case layout</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#outputs">Outputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#restart">Restart</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#verification">Verification</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoamAblation.html#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../guide/solvers/dsmcFoam.html#receding-walls-and-conjugate-solid">Receding walls and conjugate solid</a></li>
 </ul>
 </li>
 </ul>
@@ -130,7 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#scattering-kernels">Scattering kernels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#immersed-surface">Immersed surface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../guide/input_reference.html#dsmcfoam-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>: receding walls and the conjugate solid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
@@ -281,8 +269,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#charge-exchange">Charge exchange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ion-attached-electrons">Electron population: ion-attached electrons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../theory/chemistry_charged.html#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions">Electron collisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#status">Status</a></li>
 </ul>
 </li>
@@ -820,7 +811,8 @@ solver’s own species cache, so the references use the energies the
 solver uses. Unless stated otherwise the gas is free-molecular
 (<span class="math notranslate nohighlight">\(\mathrm{Kn} \gtrsim 100\)</span>) in a 1 mm cube.</p>
 <figure class="align-center" id="id2">
-<a class="reference internal image-reference" href="../../_images/gsi_bc_verification.png"><img alt="../../_images/gsi_bc_verification.png" src="../../_images/gsi_bc_verification.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/gsi_bc_verification.png"><img alt="../../_images/gsi_bc_verification.png" src="../../_images/gsi_bc_verification.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Panels: (a) Per-mode accommodation of O<sub>2</sub>; (b) Couette flow on a
 moving wall, measured <span class="math notranslate nohighlight">\(\tau/(\Gamma m U)\)</span> against the input
@@ -1085,11 +1077,11 @@ of the same cube (1.0002, 1.0015, 1.0031, 1.0110 at
 <td><p><span class="math notranslate nohighlight">\(\langle p_{wall} \rangle\)</span> = 0.01997 Pa (-0.14 %),
 captured/emitted = 1.0013</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">srAbsorption</span></code> (H<sub>2</sub>O cryopanel)</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">wallAbsorption</span></code> (H<sub>2</sub>O cryopanel)</p></td>
 <td><p>0.9969 (<span class="math notranslate nohighlight">\(\beta\)</span> = 0.02), 0.9995 (0.1); 1.0019 on the
 ablating wall</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">srNeutralisation</span></code> (N<sub>2</sub><sup>+</sup> → N<sub>2</sub>,
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">wallNeutralisation</span></code> (N<sub>2</sub><sup>+</sup> → N<sub>2</sub>,
 <span class="math notranslate nohighlight">\(\phi\)</span> = 4.5 eV)</p></td>
 <td><p>every event releases IP(N<sub>2</sub>) - <span class="math notranslate nohighlight">\(\phi\)</span> =
 11.081 eV; wall share = <span class="math notranslate nohighlight">\(\beta_{acc}\)</span> (1.000, 0.500);
@@ -1109,7 +1101,8 @@ compared with the mean-field rate equations including the
 depletion of the gas inventory (these checks were repeated through
 the finite-rate engine in <a class="reference internal" href="b3_ps_integration.html"><span class="doc">B3: pure-surface integration</span></a>).</p>
 <figure class="align-center" id="id5">
-<a class="reference internal image-reference" href="../../_images/gsi_chem_verification.png"><img alt="../../_images/gsi_chem_verification.png" src="../../_images/gsi_chem_verification.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/gsi_chem_verification.png"><img alt="../../_images/gsi_chem_verification.png" src="../../_images/gsi_chem_verification.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Surface chemistry against its references: (a) Park oxidation
 efficiency, (b) catalytic <span class="math notranslate nohighlight">\(\gamma(T_w)\)</span> for RCC and

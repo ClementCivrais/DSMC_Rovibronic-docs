@@ -163,7 +163,7 @@ replicas) against the oracles:
        (O\*(s)) of the range over 2 ms
    * - SGC18 six-channel split (800, 1000, 1400 K)
      - every channel within 2.4 % (Poisson 0.2-1.1 %)
-   * - Moving body-fitted wall (``dsmcFoamAblation``), O beam at 2000 K
+   * - Moving body-fitted wall (``dsmcFoam``), O beam at 2000 K
      - p\ :sub:`CO` 1.0002, p\ :sub:`O2` 1.0006, p\ :sub:`O` 0.9990, mass loss 1.0002 of the
        oracle
    * - Gas-side ledger: molecules leaving the domain against the tallies

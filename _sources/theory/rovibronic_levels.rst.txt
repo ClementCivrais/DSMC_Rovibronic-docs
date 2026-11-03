@@ -141,6 +141,17 @@ determination loops over :math:`J` and tests whether the energy
 derived from the Dunham expansion is still smaller than the local
 centrifugal barrier.
 
+At fixed :math:`(n, J)` the levels of the radial equation are
+ordered in :math:`v`, so no level lies below the :math:`v = 0`
+level of its own :math:`(n, J)`. A Dunham ladder carried far past
+its range can break this at high :math:`J`: in SiN
+:math:`B^{2}\Sigma^{+}` (:math:`\alpha_e/B_e = 1.45\,\%`), 1829
+levels with :math:`J \ge 230` fall below :math:`E(1, 0, J)`. Each
+:math:`(n, v)` sub-ladder is therefore cut at its first level
+below :math:`E(n, 0, J)` (``dsmcSpeciesDatabase.C``, for computed
+ladders and for loaded caches); no other species of the database
+holds such a level.
+
 Dunham expansion and ab-initio fits
 -----------------------------------
 

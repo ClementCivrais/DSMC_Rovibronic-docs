@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Installation &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
@@ -15,7 +15,7 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
@@ -79,19 +79,7 @@
 <li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoam.html#one-time-step">One time step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoam.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="solvers/dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#purpose">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#time-loop">Time loop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#solid-model">Solid model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
-<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#case-layout">Case layout</a></li>
-<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#outputs">Outputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#restart">Restart</a></li>
-<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#verification">Verification</a></li>
-<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoamAblation.html#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="solvers/dsmcFoam.html#receding-walls-and-conjugate-solid">Receding walls and conjugate solid</a></li>
 </ul>
 </li>
 </ul>
@@ -129,7 +117,7 @@
 <li class="toctree-l4"><a class="reference internal" href="input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="input_reference.html#scattering-kernels">Scattering kernels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="input_reference.html#immersed-surface">Immersed surface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="input_reference.html#dsmcfoam-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>: receding walls and the conjugate solid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
@@ -280,8 +268,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#charge-exchange">Charge exchange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#electron-population-ion-attached-electrons">Electron population: ion-attached electrons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../theory/chemistry_charged.html#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#electron-collisions">Electron collisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#status">Status</a></li>
 </ul>
 </li>
@@ -832,7 +823,7 @@ sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> <
 <span class="w">     </span>openmpi-bin<span class="w"> </span>gnuplot<span class="w"> </span>ca-certificates
 
 <span class="c1"># RHEL / Rocky Linux (approximate equivalents)</span>
-sudo<span class="w"> </span>dnf<span class="w"> </span>groupinstall<span class="w"> </span><span class="s2">&quot;Development Tools&quot;</span>
+sudo<span class="w"> </span>dnf<span class="w"> </span>groupinstall<span class="w"> </span><span class="s2">"Development Tools"</span>
 sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>cmake<span class="w"> </span>git<span class="w"> </span>flex<span class="w"> </span>bison<span class="w"> </span>zlib-devel<span class="w"> </span>boost-devel<span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>readline-devel<span class="w"> </span>ncurses-devel<span class="w"> </span>libXt-devel<span class="w"> </span>openmpi-devel
 </pre></div>
@@ -914,11 +905,11 @@ directory. The bashrc is named <code class="docutils literal notranslate"><span 
 placed in <code class="docutils literal notranslate"><span class="pre">$WM_PROJECT_DIR/etc/</span></code> alongside the stock <code class="docutils literal notranslate"><span class="pre">bashrc</span></code>.</p>
 <p>A minimal <code class="docutils literal notranslate"><span class="pre">bashrc-rovibronic</span></code> is a copy of the stock
 <code class="docutils literal notranslate"><span class="pre">OpenFOAM-v2512/etc/bashrc</span></code> in which the single line</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#export WM_PROJECT_USER_DIR=&quot;$HOME/$WM_PROJECT/${USER:-user}-$WM_PROJECT_VERSION&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#export WM_PROJECT_USER_DIR="$HOME/$WM_PROJECT/${USER:-user}-$WM_PROJECT_VERSION"</span>
 </pre></div>
 </div>
 <p>is replaced by</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">WM_PROJECT_USER_DIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/OpenFOAM/rovibronic-v2512&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">WM_PROJECT_USER_DIR</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/OpenFOAM/rovibronic-v2512"</span>
 </pre></div>
 </div>
 <p>Create the workspace and source the environment:</p>
@@ -929,7 +920,7 @@ placed in <code class="docutils literal notranslate"><span class="pre">$WM_PROJE
 </pre></div>
 </div>
 <p>A convenient alias, to be added to the user’s <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code>, is:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span>of-rovibronic<span class="o">=</span><span class="s1">&#39;source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-rovibronic&#39;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span>of-rovibronic<span class="o">=</span><span class="s1">'source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-rovibronic'</span>
 </pre></div>
 </div>
 <p>Henceforth a fresh shell is initialised by running
@@ -967,23 +958,23 @@ of the stock <code class="docutils literal notranslate"><span class="pre">etc/ba
 <code class="docutils literal notranslate"><span class="pre">WM_PROJECT_USER_DIR</span></code> is replaced by the variant’s
 workspace path. For example,
 <code class="docutils literal notranslate"><span class="pre">etc/bashrc-master</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">WM_PROJECT_USER_DIR</span><span class="o">=</span><span class="s2">&quot;$HOME/OpenFOAM/master-v2512&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">WM_PROJECT_USER_DIR</span><span class="o">=</span><span class="s2">"$HOME/OpenFOAM/master-v2512"</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">etc/bashrc-vibronic</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">WM_PROJECT_USER_DIR</span><span class="o">=</span><span class="s2">&quot;$HOME/OpenFOAM/vibronic-v2512&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">WM_PROJECT_USER_DIR</span><span class="o">=</span><span class="s2">"$HOME/OpenFOAM/vibronic-v2512"</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">etc/bashrc-rovibronic</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">WM_PROJECT_USER_DIR</span><span class="o">=</span><span class="s2">&quot;$HOME/OpenFOAM/rovibronic-v2512&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">WM_PROJECT_USER_DIR</span><span class="o">=</span><span class="s2">"$HOME/OpenFOAM/rovibronic-v2512"</span>
 </pre></div>
 </div>
 </li>
 <li><p>Add one shell alias per variant to <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> (or
 <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code>):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span>of-master<span class="o">=</span><span class="s1">&#39;source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-master&#39;</span>
-<span class="nb">alias</span><span class="w"> </span>of-vibronic<span class="o">=</span><span class="s1">&#39;source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-vibronic&#39;</span>
-<span class="nb">alias</span><span class="w"> </span>of-rovibronic<span class="o">=</span><span class="s1">&#39;source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-rovibronic&#39;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span>of-master<span class="o">=</span><span class="s1">'source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-master'</span>
+<span class="nb">alias</span><span class="w"> </span>of-vibronic<span class="o">=</span><span class="s1">'source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-vibronic'</span>
+<span class="nb">alias</span><span class="w"> </span>of-rovibronic<span class="o">=</span><span class="s1">'source $HOME/OpenFOAM/OpenFOAM-v2512/etc/bashrc-rovibronic'</span>
 </pre></div>
 </div>
 </li>
@@ -1051,11 +1042,6 @@ user-side additions.</p></li>
 associated pre-processing utility (<code class="docutils literal notranslate"><span class="pre">dsmcInitialise</span></code>) into
 <code class="docutils literal notranslate"><span class="pre">$FOAM_USER_APPBIN</span></code>.</p></li>
 </ol>
-<p>The moving-mesh ablation solver <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code> is not built
-by <code class="docutils literal notranslate"><span class="pre">Allwmake</span></code>; it is built separately once the libraries exist:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span><span class="nb">cd</span><span class="w"> </span>applications/solvers/discreteMethods/dsmcFoamAblation<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>wmake<span class="o">)</span>
-</pre></div>
-</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">Allwmake</span></code> starts with <code class="docutils literal notranslate"><span class="pre">wclean</span> <span class="pre">all</span></code> in <code class="docutils literal notranslate"><span class="pre">src/lagrangian</span></code>,

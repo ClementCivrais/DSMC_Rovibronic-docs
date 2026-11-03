@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wall and inflow models &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
@@ -15,7 +15,7 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
@@ -80,19 +80,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#one-time-step">One time step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#purpose">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#time-loop">Time loop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#solid-model">Solid model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#case-layout">Case layout</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#outputs">Outputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#restart">Restart</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#verification">Verification</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#receding-walls-and-conjugate-solid">Receding walls and conjugate solid</a></li>
 </ul>
 </li>
 </ul>
@@ -130,7 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#scattering-kernels">Scattering kernels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#immersed-surface">Immersed surface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#dsmcfoam-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>: receding walls and the conjugate solid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
@@ -281,8 +269,11 @@
 <li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#charge-exchange">Charge exchange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#electron-population-ion-attached-electrons">Electron population: ion-attached electrons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="chemistry_charged.html#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#electron-collisions">Electron collisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chemistry_charged.html#status">Status</a></li>
 </ul>
 </li>
@@ -814,7 +805,7 @@ describes the gas-surface interaction framework: per-face wall
 temperature, probability-based and finite-rate surface chemistry,
 the scattering kernels of reaction products, reaction heats,
 receding body-fitted and immersed surfaces, and the conjugate solid
-of <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>. Its verification is collected in
+of <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>. Its verification is collected in
 <a class="reference internal" href="../reference/gsi_verification/index.html"><span class="doc">Gas-surface interaction verification</span></a>.</p>
 <section id="specular-reflection">
 <h2>Specular reflection<a class="headerlink" href="#specular-reflection" title="Link to this heading"></a></h2>
@@ -1010,13 +1001,13 @@ energy ledger and the scattering kernels described below:</p>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCatalyticWallPatch</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code></p></td>
 <td><p>probability mode: a list of per-impact surface reactions</p></td>
 <td><p>body-fitted wall; the ablating wall recedes under
-<code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code></p></td>
+<code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code></p></td>
 <td><p>finite-rate engine (site sets, coverages, GS and PS
 reactions), native or SPARTA mechanism</p></td>
 <td><p>body-fitted wall; recedes from its bulk ledger under
-<code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code></p></td>
+<code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>immersed surface (<code class="docutils literal notranslate"><span class="pre">immersedAblationProperties</span></code>)</p></td>
 <td><p>probability mode or finite-rate engine, per cut cell</p></td>
@@ -1030,7 +1021,8 @@ listed in <a class="reference internal" href="../guide/input_reference.html"><sp
 the gas and to the conjugate solid is shown in
 <a class="reference internal" href="../guide/solvers/index.html"><span class="doc">Solvers and coupling</span></a>.</p>
 <figure class="align-default" id="id16">
-<a class="reference internal image-reference" href="../_images/impact_path.svg"><img alt="path of one gas-surface impact through the kernel, probability and finite-rate surface models, the energy and mass ledgers, the surface kinetics and the recession update" src="../_images/impact_path.svg" width="90%" /></a>
+<a class="reference internal image-reference" href="../_images/impact_path.svg"><img alt="path of one gas-surface impact through the kernel, probability and finite-rate surface models, the energy and mass ledgers, the surface kinetics and the recession update" src="../_images/impact_path.svg" style="width: 90%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">One gas-surface impact through the three kinds of surface model, the
 energy and mass ledgers, the surface kinetics between impacts and the
@@ -1050,7 +1042,7 @@ energy accumulated over <code class="docutils literal notranslate"><span class="
 running flux with <code class="docutils literal notranslate"><span class="pre">relaxationFactor</span></code> (the algorithm of the
 dedicated radiative-equilibrium wall);</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">coupled</span></code>: <span class="math notranslate nohighlight">\(T_f\)</span> is set by a coupled solver (the conjugate
-solid of <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>).</p></li>
+solid of <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>).</p></li>
 </ul>
 <p>On the reactive walls the face temperature also sets the reaction
 probabilities, the sticking and the surface rates of that face, and
@@ -1081,17 +1073,17 @@ product is a new parcel at the impact point), and <code class="docutils literal 
 solid atoms per real molecule are debited from the per-face carbon
 ledger. The classes are</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">srFiniteRate</span></code> — the Arrhenius form above (oxidation,
+<li><p><code class="docutils literal notranslate"><span class="pre">wallFiniteRate</span></code> — the Arrhenius form above (oxidation,
 nitridation, finite-rate recombination);</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">srRecombination</span></code> — catalytic recombination with a constant
+<li><p><code class="docutils literal notranslate"><span class="pre">wallRecombination</span></code> — catalytic recombination with a constant
 <code class="docutils literal notranslate"><span class="pre">gamma</span></code>, an Arrhenius <span class="math notranslate nohighlight">\(\gamma(T_w)\)</span> (<code class="docutils literal notranslate"><span class="pre">gamma0</span></code>/<code class="docutils literal notranslate"><span class="pre">Ea</span></code> or
 <code class="docutils literal notranslate"><span class="pre">gammaA</span></code>/<code class="docutils literal notranslate"><span class="pre">Ta</span></code>) or a tabulated <code class="docutils literal notranslate"><span class="pre">gammaTable</span></code>; the
 recombination energy <span class="math notranslate nohighlight">\(E_{rec}\)</span> is split, a fraction
 <span class="math notranslate nohighlight">\(\beta_{acc}\)</span> to the wall and the rest to the nascent
 molecule as kinetic energy;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">srAbsorption</span></code> — the parcel is absorbed (electrons, cryopanels,
+<li><p><code class="docutils literal notranslate"><span class="pre">wallAbsorption</span></code> — the parcel is absorbed (electrons, cryopanels,
 getters);</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">srNeutralisation</span></code> — ion neutralisation X<sup>+</sup> → X, releasing
+<li><p><code class="docutils literal notranslate"><span class="pre">wallNeutralisation</span></code> — ion neutralisation X<sup>+</sup> → X, releasing
 <span class="math notranslate nohighlight">\(\mathrm{IP}(X) - \phi\)</span> split by <span class="math notranslate nohighlight">\(\beta_{acc}\)</span>.</p></li>
 </ul>
 <p>The carbon-ablation set comprises the Park oxidation
@@ -1233,7 +1225,7 @@ the energy balance exactly. A <code class="docutils literal notranslate"><span c
 computed value; <code class="docutils literal notranslate"><span class="pre">reactionHeat</span> <span class="pre">none</span></code> keeps only the given heats.</p>
 <p>The bulk ledger times the mass of a bulk atom gives the solid mass
 removed per face; <span class="math notranslate nohighlight">\(\Delta = m/(\rho_s A_f)\)</span> drives the wall
-motion of <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code> (<code class="docutils literal notranslate"><span class="pre">ablationRecession</span></code> in
+motion of <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> (<code class="docutils literal notranslate"><span class="pre">ablationRecession</span></code> in
 <code class="docutils literal notranslate"><span class="pre">constant/dynamicMeshDict</span></code>, with an <code class="docutils literal notranslate"><span class="pre">accelerationFactor</span></code>) or the
 conjugate solid. Verification:
 <a class="reference internal" href="../reference/gsi_verification/b5_recession.html"><span class="doc">B5a: reaction heats and chemistry-driven recession</span></a>.</p>
@@ -1263,7 +1255,7 @@ parallel. Verification:
 <p>The chemistry of the immersed surface (<code class="docutils literal notranslate"><span class="pre">dsmcImmersedChemistry</span></code>)
 runs in probability mode (a <code class="docutils literal notranslate"><span class="pre">reactions</span></code> list as on the catalytic
 wall; the single-<span class="math notranslate nohighlight">\(\gamma\)</span> keywords are translated into one
-<code class="docutils literal notranslate"><span class="pre">srFiniteRate</span></code> reaction) or in mechanism mode, the finite-rate
+<code class="docutils literal notranslate"><span class="pre">wallFiniteRate</span></code> reaction) or in mechanism mode, the finite-rate
 engine with the cut cells as elements. After every recession update
 a cell whose surface area falls releases the corresponding fraction
 of its adsorbates and carries to the neighbouring cells that gained
@@ -1276,7 +1268,7 @@ available on the immersed surface. Verification:
 </section>
 <section id="multi-region-conjugate-solid">
 <h3>Multi-region conjugate solid<a class="headerlink" href="#multi-region-conjugate-solid" title="Link to this heading"></a></h3>
-<p>With <code class="docutils literal notranslate"><span class="pre">constant/conjugateProperties</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code> couples
+<p>With <code class="docutils literal notranslate"><span class="pre">constant/conjugateProperties</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> couples
 its walls to one or more solid regions of the same case, on the gas
 <code class="docutils literal notranslate"><span class="pre">runTime</span></code> but with their own physical clock. Every
 <code class="docutils literal notranslate"><span class="pre">couplingInterval</span></code> DSMC steps the gas wall hands over the window

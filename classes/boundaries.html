@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Boundary classes &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
@@ -15,7 +15,7 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
@@ -80,19 +80,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#one-time-step">One time step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#purpose">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#time-loop">Time loop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#solid-model">Solid model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#case-layout">Case layout</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#outputs">Outputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#restart">Restart</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#verification">Verification</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#receding-walls-and-conjugate-solid">Receding walls and conjugate solid</a></li>
 </ul>
 </li>
 </ul>
@@ -130,7 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#scattering-kernels">Scattering kernels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#immersed-surface">Immersed surface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#dsmcfoam-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>: receding walls and the conjugate solid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
@@ -281,8 +269,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#charge-exchange">Charge exchange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#electron-population-ion-attached-electrons">Electron population: ion-attached electrons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../theory/chemistry_charged.html#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#electron-collisions">Electron collisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#status">Status</a></li>
 </ul>
 </li>
@@ -1156,8 +1147,8 @@ faithful drag predictions on hot-wall surfaces.</p>
 <p>Three patch classes implement reactive thermal-protection-system
 surfaces. They share a common surface-reaction infrastructure —
 the base <code class="docutils literal notranslate"><span class="pre">surfaceReaction</span></code> class and its two derivatives
-<code class="docutils literal notranslate"><span class="pre">srRecombination</span></code> (catalytic recombination with a constant,
-Arrhenius, or tabulated <span class="math notranslate nohighlight">\(\gamma\)</span>) and <code class="docutils literal notranslate"><span class="pre">srFiniteRate</span></code>
+<code class="docutils literal notranslate"><span class="pre">wallRecombination</span></code> (catalytic recombination with a constant,
+Arrhenius, or tabulated <span class="math notranslate nohighlight">\(\gamma\)</span>) and <code class="docutils literal notranslate"><span class="pre">wallFiniteRate</span></code>
 (generalised-Arrhenius probability
 <span class="math notranslate nohighlight">\(\beta = \min(1, A\,T_w^{n}\,e^{-T_a/T_w})\)</span>). The governing
 models are documented in <a class="reference internal" href="../theory/wall_models.html"><span class="doc">Wall and inflow models</span></a>; the surface
@@ -1184,7 +1175,7 @@ chemical-energy ledger. Verification:
 ablation reactions debit carbon atoms, and the patch reports a
 recession rate and depth from the consumed mass (<code class="docutils literal notranslate"><span class="pre">material</span></code>, or
 <code class="docutils literal notranslate"><span class="pre">solidDensity</span></code> and <code class="docutils literal notranslate"><span class="pre">carbonMass</span></code>). Under <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> the mesh
-does not move; under <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code> the ledger drives the
+does not move; under <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> the ledger drives the
 receding wall (<code class="docutils literal notranslate"><span class="pre">ablationRecession</span></code>) or the conjugate solid.
 Geometric recession on a fixed mesh is handled by the immersed
 surfaces of <a class="reference internal" href="../theory/wall_models.html"><span class="doc">Wall and inflow models</span></a>.</p>
@@ -1208,7 +1199,7 @@ channel whose surface reactants or free sites are missing is rejected
 and counted, so no atom is created or destroyed. Each event deposits
 its heat of reaction (computed from the 0 K formation enthalpies) in
 the wall’s chemical-energy ledger, and the bulk ledger drives the
-recession under <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>. Theory:
+recession under <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>. Theory:
 <a class="reference internal" href="../theory/wall_models.html"><span class="doc">Wall and inflow models</span></a>; verification:
 <a class="reference internal" href="../reference/gsi_verification/b2_finite_rate_gs.html"><span class="doc">B2: finite-rate gas-surface engine</span></a> and
 <a class="reference internal" href="../reference/gsi_verification/b3_ps_integration.html"><span class="doc">B3: pure-surface integration</span></a>.</p>
@@ -1259,10 +1250,10 @@ falls back to <code class="docutils literal notranslate"><span class="pre">tempe
 list of names resolved against <code class="docutils literal notranslate"><span class="pre">system/surfaceChemReactDict</span></code>,
 which carries top-level <code class="docutils literal notranslate"><span class="pre">surfaceReactions</span></code> and
 <code class="docutils literal notranslate"><span class="pre">surfaceMaterials</span></code> blocks. A representative entry:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">oxidiseO</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">srFiniteRate</span><span class="p">;</span><span class="w"> </span><span class="n">reactant</span><span class="w"> </span><span class="n">O</span><span class="p">;</span><span class="w">  </span><span class="n">product</span><span class="w"> </span><span class="n">CO</span><span class="p">;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">oxidiseO</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">wallFiniteRate</span><span class="p">;</span><span class="w"> </span><span class="n">reactant</span><span class="w"> </span><span class="n">O</span><span class="p">;</span><span class="w">  </span><span class="n">product</span><span class="w"> </span><span class="n">CO</span><span class="p">;</span>
 <span class="w">             </span><span class="n">A</span><span class="w"> </span><span class="mf">0.63</span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span><span class="w"> </span><span class="n">Ta</span><span class="w"> </span><span class="mf">1160.0</span><span class="p">;</span>
 <span class="w">             </span><span class="n">nCConsumed</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">nReactantConsumed</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
-<span class="n">recombineO</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">srRecombination</span><span class="p">;</span><span class="w"> </span><span class="n">reactant</span><span class="w"> </span><span class="n">O</span><span class="p">;</span><span class="w"> </span><span class="n">product</span><span class="w"> </span><span class="n">O2</span><span class="p">;</span>
+<span class="n">recombineO</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">wallRecombination</span><span class="p">;</span><span class="w"> </span><span class="n">reactant</span><span class="w"> </span><span class="n">O</span><span class="p">;</span><span class="w"> </span><span class="n">product</span><span class="w"> </span><span class="n">O2</span><span class="p">;</span>
 <span class="w">             </span><span class="n">gamma</span><span class="w"> </span><span class="mf">0.07</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
 </pre></div>
 </div>

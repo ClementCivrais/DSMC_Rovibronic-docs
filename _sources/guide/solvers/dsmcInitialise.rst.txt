@@ -29,7 +29,7 @@ Usage
 
    blockMesh
    dsmcInitialise
-   # then dsmcFoam or dsmcFoamAblation
+   # then dsmcFoam
 
 For a parallel run, decompose after the initialisation
 (``decomposePar``, or ``decomposePar -allRegions`` for a case with solid

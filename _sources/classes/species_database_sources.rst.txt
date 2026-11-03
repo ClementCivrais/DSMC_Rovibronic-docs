@@ -112,8 +112,36 @@ values are referenced to :math:`T_{\mathrm{ref}} = 273~\mathrm{K}`.
        atomic mass constant (CODATA 2018); an ion carries the mass
        of its neutral.
 
+   * - B, Zr, BO, ZrO, BO\ :sub:`2`, B\ :sub:`2`\ O\ :sub:`3` (in none of the above)
+     - Svehla, R. A. (1962), *Estimated viscosities and thermal
+       conductivities of gases at high temperatures*, NASA TR R-132,
+       Table I(a) (NTRS 19630012982): Lennard-Jones
+       :math:`\sigma, \varepsilon/k` of B, BO and
+       B\ :sub:`2`\ O\ :sub:`3`; Zr and ZrO from his estimation rules
+       6, 8, 14, 15 and 16 with the NIST-JANAF boiling point (Zr-001)
+       and the NIST X-ray table density of Zr; BO\ :sub:`2` from his rule
+       12 (:math:`\sigma`) and rule 21 with CO\ :sub:`2` as the analogue
+       (:math:`\varepsilon/k`). Converted to VHS by a
+       least-squares fit to the Chapman-Enskog Lennard-Jones viscosity
+       over 1000–20000 K (:math:`\Omega^{(2,2)*}` of Neufeld, Janzen
+       and Aziz 1972; :math:`d_{\mathrm{ref}}` from Bird 1994,
+       eq. 4.62), :math:`\alpha = 1`; flagged as estimates. A neutral
+       pair with one of them takes the arithmetic mean.
+
 Bird (1994), Appendix A, is kept as the last resort for a species
 that none of these sources reports; no current species needs it.
+The masses of B and Zr are the CIAAW weights 10.81 and 91.224
+(Prohaska et al. 2022, Table 3); the spectroscopy of the five
+species comes from the NIST ASD (B I, Zr I), the NIST WebBook (BO,
+ZrO; the ZrO triplets and the A, D :sup:`1`\ :math:`\Delta` states with
+NON-NIST term energies from the MARVEL analysis of McKemmish et al.
+2018, *Astrophys. J.* **867**, 33), the NIST CCCBDB experimental
+fundamentals and rotational constant of BO\ :sub:`2` (ground
+X\ :sup:`2`\ :math:`\Pi_g` as one level of degeneracy 4), the NIST CCCBDB calculated CCSD(T)/cc-pVQZ modes and
+rotational constants of B\ :sub:`2`\ O\ :sub:`3` (flagged NON-NIST:
+no experimental value exists), and their 0 K formation enthalpies
+from NIST-JANAF (ATcT 1.130 lists none); see
+``sources/nist/BUILD_REPORT.md``, section 14.
 Species variants (``O2NIST``, ``O2VHS``, ``CO2harm``,
 ``CH4coupled``, …) map to the formula of their parent and share its
 mass and collision data. Representative pair values, as printed by

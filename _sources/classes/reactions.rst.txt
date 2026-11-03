@@ -1,7 +1,7 @@
 Reaction classes
 ================
 
-Source: ``src/lagrangian/DSMC/reactions/derived/``.
+Source: ``src/lagrangian/DSMC/gasGasReactions/derived/``.
 
 The derived reaction classes are organised **by chemistry model**:
 each top-level sub-directory is a model the user can choose from,

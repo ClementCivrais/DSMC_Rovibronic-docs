@@ -58,6 +58,12 @@ The detailed dictionary block lives under
        local mean collision time.
    * - ``maxCourantNumber``
      - Upper bound on the local DSMC Courant number.
+   * - ``electronCollisionTimeStep``
+     - Switch, default ``false`` (heavy collision rate :math:`\nu_h`
+       only); ``true``: the MCT bound also holds the collision
+       rate per electron divided by the collision sub-cycles,
+       :math:`\max(\nu_h, \nu_e/N_{sc})`. It cuts :math:`\Delta t` by about the
+       electron/heavy speed ratio in an ionised gas.
    * - ``maxSubCellSizeMFPRatio``
      - Upper bound on the ratio of the sub-cell size to the local
        mean free path.

@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Landau-Teller heat-bath relaxation &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
@@ -15,7 +15,7 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
@@ -80,19 +80,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#one-time-step">One time step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#purpose">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#time-loop">Time loop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#solid-model">Solid model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#case-layout">Case layout</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#outputs">Outputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#restart">Restart</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#verification">Verification</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#receding-walls-and-conjugate-solid">Receding walls and conjugate solid</a></li>
 </ul>
 </li>
 </ul>
@@ -130,7 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#scattering-kernels">Scattering kernels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#immersed-surface">Immersed surface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#dsmcfoam-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>: receding walls and the conjugate solid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
@@ -281,8 +269,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#charge-exchange">Charge exchange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#electron-population-ion-attached-electrons">Electron population: ion-attached electrons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../theory/chemistry_charged.html#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#electron-collisions">Electron collisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#status">Status</a></li>
 </ul>
 </li>
@@ -981,7 +972,8 @@ line) restricted to the state-space actually reachable by the
 sampler in that phase. A summary figure combining Phases 1–3 is
 shown first.</p>
 <figure class="align-center" id="id1">
-<a class="reference internal image-reference" href="../_images/phase123_combined.png"><img alt="DSMC rovibronic relaxation versus Landau-Teller reference, Phases 1, 2, and 3." src="../_images/phase123_combined.png" style="width: 90%;" /></a>
+<a class="reference internal image-reference" href="../_images/phase123_combined.png"><img alt="DSMC rovibronic relaxation versus Landau-Teller reference, Phases 1, 2, and 3." src="../_images/phase123_combined.png" style="width: 90%;" />
+</a>
 <figcaption>
 <p><span class="caption-text"><em>Combined overview</em> —  DSMC relaxation compared to the
 analytical Landau-Teller solution for Phases 1 (rotational
@@ -999,7 +991,8 @@ rotational energy per parcel decays exponentially toward
 The DSMC markers sit on the analytical single-exponential LT
 curve to within a fraction of a percent.</p>
 <figure class="align-center" id="id2">
-<a class="reference internal image-reference" href="../_images/phase1.png"><img alt="Phase 1 — rotational-only relaxation, DSMC vs LT." src="../_images/phase1.png" style="width: 80%;" /></a>
+<a class="reference internal image-reference" href="../_images/phase1.png"><img alt="Phase 1 — rotational-only relaxation, DSMC vs LT." src="../_images/phase1.png" style="width: 80%;" />
+</a>
 <figcaption>
 <p><span class="caption-text"><em>Phase 1.</em> Rotational relaxation at <span class="math notranslate nohighlight">\(Z_r = 5\)</span>; DSMC on
 the analytical Landau-Teller curve. The reference
@@ -1017,7 +1010,8 @@ mean <span class="math notranslate nohighlight">\((v, J)\)</span> energy approac
 time-scale than Phase 1, and again tracks the analytical LT
 curve.</p>
 <figure class="align-center" id="id3">
-<a class="reference internal image-reference" href="../_images/phase2.png"><img alt="Phase 2 — rovibrational relaxation, DSMC vs LT." src="../_images/phase2.png" style="width: 80%;" /></a>
+<a class="reference internal image-reference" href="../_images/phase2.png"><img alt="Phase 2 — rovibrational relaxation, DSMC vs LT." src="../_images/phase2.png" style="width: 80%;" />
+</a>
 <figcaption>
 <p><span class="caption-text"><em>Phase 2.</em> Rovibrational relaxation at <span class="math notranslate nohighlight">\(Z_{rv} = 50\)</span>.
 The reference <span class="math notranslate nohighlight">\(E_{RV}^{\star}\)</span> is the
@@ -1039,7 +1033,8 @@ signature of fast <span class="math notranslate nohighlight">\((v, J)\)</span> e
 <span class="math notranslate nohighlight">\(n = 0\)</span> followed by slow access to the higher triplet
 states.</p>
 <figure class="align-center" id="id4">
-<a class="reference internal image-reference" href="../_images/phase3.png"><img alt="Phase 3 — spin-conserving rovibronic relaxation." src="../_images/phase3.png" style="width: 80%;" /></a>
+<a class="reference internal image-reference" href="../_images/phase3.png"><img alt="Phase 3 — spin-conserving rovibronic relaxation." src="../_images/phase3.png" style="width: 80%;" />
+</a>
 <figcaption>
 <p><span class="caption-text"><em>Phase 3.</em> Rovibronic relaxation at <span class="math notranslate nohighlight">\(Z_{rve} = 500\)</span>,
 spin-conserving. The reference <span class="math notranslate nohighlight">\(E_{RVE}^{\star}\)</span> is
@@ -1056,7 +1051,8 @@ singlets of O<sub>2</sub> (a<sup>1</sup>Δ<sub>g</sub> at
 the same timescale as <span class="math notranslate nohighlight">\((v, J)\)</span> inside <span class="math notranslate nohighlight">\(n = 0\)</span>, so
 the relaxation is a clean single exponential.</p>
 <figure class="align-center" id="id5">
-<a class="reference internal image-reference" href="../_images/phase4.png"><img alt="Phase 4 — full-manifold rovibronic relaxation." src="../_images/phase4.png" style="width: 80%;" /></a>
+<a class="reference internal image-reference" href="../_images/phase4.png"><img alt="Phase 4 — full-manifold rovibronic relaxation." src="../_images/phase4.png" style="width: 80%;" />
+</a>
 <figcaption>
 <p><span class="caption-text"><em>Phase 4.</em> Rovibronic relaxation at <span class="math notranslate nohighlight">\(Z_{rve} = 500\)</span>,
 full manifold. DSMC tracks the full <span class="math notranslate nohighlight">\((n, v, J)\)</span>

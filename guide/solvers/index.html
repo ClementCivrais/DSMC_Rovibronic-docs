@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Solvers and coupling &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
 
@@ -15,7 +15,7 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=eef4a3d2"></script>
@@ -80,19 +80,7 @@
 <li class="toctree-l4"><a class="reference internal" href="dsmcFoam.html#one-time-step">One time step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dsmcFoam.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#purpose">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#time-loop">Time loop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#solid-model">Solid model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#case-layout">Case layout</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#outputs">Outputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#restart">Restart</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#verification">Verification</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dsmcFoam.html#receding-walls-and-conjugate-solid">Receding walls and conjugate solid</a></li>
 </ul>
 </li>
 </ul>
@@ -130,7 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../input_reference.html#scattering-kernels">Scattering kernels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../input_reference.html#immersed-surface">Immersed surface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../input_reference.html#dsmcfoam-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>: receding walls and the conjugate solid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
@@ -281,8 +269,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#charge-exchange">Charge exchange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ion-attached-electrons">Electron population: ion-attached electrons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../theory/chemistry_charged.html#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions">Electron collisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#status">Status</a></li>
 </ul>
 </li>
@@ -805,14 +796,13 @@
              
   <section id="solvers-and-coupling">
 <h1>Solvers and coupling<a class="headerlink" href="#solvers-and-coupling" title="Link to this heading"></a></h1>
-<p>The code provides one pre-processing utility and two solvers. All three
-are built on the same DSMC library (<code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC</span></code>): the
-particle cloud, the rovibronic species database, the collision,
-relaxation and chemistry models, the wall models and the immersed
-surfaces are shared, so a case set up for <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> runs unchanged
-in <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>. The second solver adds what needs a moving
-mesh or a second region: receding body-fitted walls and the conjugate
-solid (heat conduction, melting, melt film and droplets).</p>
+<p>The code provides one pre-processing utility and one solver, both built
+on the same DSMC library (<code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC</span></code>): the particle cloud,
+the rovibronic species database, the collision, relaxation and chemistry
+models, the wall models and the immersed surfaces. The solver
+<code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> also advances receding body-fitted walls on a moving mesh
+and the conjugate solid (heat conduction, melting, melt film and
+droplets) when the case asks for them.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 22.0%" />
@@ -832,26 +822,21 @@ solid (heat conduction, melting, melt film and droplets).</p>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="dsmcFoam.html"><span class="doc">dsmcFoam</span></a></p></td>
 <td><p>solver</p></td>
-<td><p>transient DSMC on a fixed mesh: rovibronic relaxation, QK
-chemistry, every wall model, immersed receding surfaces</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="dsmcFoamAblation.html"><span class="doc">dsmcFoamAblation</span></a></p></td>
-<td><p>solver</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> on a dynamic mesh, coupled in the same executable to
-solid regions: wall recession, heat conduction, melting, melt film
-and droplets</p></td>
+<td><p>transient DSMC: rovibronic relaxation, QK chemistry, every wall
+model, immersed receding surfaces, receding body-fitted walls on a
+moving mesh, and solid regions coupled in the same executable
+(heat conduction, melting, melt film and droplets)</p></td>
 </tr>
 </tbody>
 </table>
-<p>The figure below shows how the parts of <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code> exchange
-data. The gas region and the gas-surface interaction models are those of
-<code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>; the solid regions and the gas mesh motion are the additions
-of <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>. The external codes on the right are used for
+<p>The figure below shows how the parts of <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> exchange
+data. The external codes on the right are used for
 verification only: no external library is linked.</p>
 <figure class="align-default" id="id1">
-<a class="reference internal image-reference" href="../../_images/framework_overview.svg"><img alt="dsmcFoamAblation, its gas region, gas-surface interaction models, solid regions and gas mesh motion, with the input databases, the outputs, the external verification codes and the planned blocks" src="../../_images/framework_overview.svg" width="100%" /></a>
+<a class="reference internal image-reference" href="../../_images/framework_overview.svg"><img alt="dsmcFoam, its gas region, gas-surface interaction models, solid regions and gas mesh motion, with the input databases, the outputs, the external verification codes and the planned blocks" src="../../_images/framework_overview.svg" style="width: 100%;" />
+</a>
 <figcaption>
-<p><span class="caption-text">Structure of <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>. Arrows inside the frame are the
+<p><span class="caption-text">Structure of <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>. Arrows inside the frame are the
 data exchanged during a run: impacts and products between the gas and
 the surfaces, the window-averaged heat flux <span class="math notranslate nohighlight">\(q\)</span>, mass flux
 <span class="math notranslate nohighlight">\(\dot m\)</span> and force <span class="math notranslate nohighlight">\(F\)</span> from the walls to the solid, the
@@ -863,12 +848,11 @@ The planned blocks are not available yet.</span><a class="headerlink" href="#id1
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="dsmcInitialise.html">dsmcInitialise</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dsmcFoam.html">dsmcFoam</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dsmcFoamAblation.html">dsmcFoamAblation</a></li>
 </ul>
 </div>
 <p>The diagrams of this section are drawn by
 <code class="docutils literal notranslate"><span class="pre">docs/OnlineDocumentation/_static/figures/diagrams/make_diagrams.py</span></code>
-from the time loop of <code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation.C</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcCloud::evolve()</span></code> and
+from the time loop of <code class="docutils literal notranslate"><span class="pre">dsmcFoam.C</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcCloud::evolve()</span></code> and
 <code class="docutils literal notranslate"><span class="pre">conjugateRegionsCoupling.H</span></code>.</p>
 </section>
 

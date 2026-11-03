@@ -11,7 +11,7 @@ the finite-rate engine releases its 0 K heat of reaction
 computed from the formation enthalpies of the frozen species
 database; the coverage wall recedes from the bulk ledger of its
 surface state, on the moving body-fitted mesh of
-``dsmcFoamAblation`` and on the conjugate solid; the ablating wall
+``dsmcFoam`` and on the conjugate solid; the ablating wall
 splits the recombination energy with the gas as the catalytic wall
 does. **Against:** hand values from the raw database sources, exact
 energy and atom ledgers, and the exact solution of the 0-D rate
@@ -130,7 +130,7 @@ N_{partners})`, to 5.5e-14 and 7.0e-14 of the wall heat.
 O beam (10\ :sup:`20` m\ :sup:`-3`, 4000 m/s, 1000 K) onto a graphite
 plate at 2000 K with a linear mechanism (AA :math:`S_0` = 0.5, direct
 oxidation 0.05, desorption, oxidation of O(s), sublimation),
-``dsmcFoamAblation`` with ``ablationRecession { patch wall;
+``dsmcFoam`` with ``ablationRecession { patch wall;
 accelerationFactor 1e6; }``. Oracle:
 :math:`\Phi\,d\theta/dt = F S_0(1 - \theta) - (k_d + k_o)\Phi\theta`,
 :math:`v_{rec} = m_C j_{C,ss}/\rho_s`, with the measured O impact
@@ -200,7 +200,7 @@ point normals, so a receding circle swept :math:`d\,(R - d/2)` per unit
 angle instead of :math:`m/\rho_s` (swept/removed 0.887 after 3.6
 cells). Its site areas stayed at the initial face areas, and the
 converging normals folded the faces at the stagnation point. Since
-2026-10-04 ``dsmcFoamAblation`` works as follows:
+2026-10-04 ``dsmcFoam`` works as follows:
 
 * every step, the removed volume of each face (``removedSolidVolume``)
   is divided by the current face area;

@@ -351,8 +351,8 @@ Reactive walls — gas-surface interaction
 Three patch classes implement reactive thermal-protection-system
 surfaces. They share a common surface-reaction infrastructure —
 the base ``surfaceReaction`` class and its two derivatives
-``srRecombination`` (catalytic recombination with a constant,
-Arrhenius, or tabulated :math:`\gamma`) and ``srFiniteRate``
+``wallRecombination`` (catalytic recombination with a constant,
+Arrhenius, or tabulated :math:`\gamma`) and ``wallFiniteRate``
 (generalised-Arrhenius probability
 :math:`\beta = \min(1, A\,T_w^{n}\,e^{-T_a/T_w})`). The governing
 models are documented in :doc:`../theory/wall_models`; the surface
@@ -382,7 +382,7 @@ Adds a per-face solid-carbon ledger to the catalytic machinery:
 ablation reactions debit carbon atoms, and the patch reports a
 recession rate and depth from the consumed mass (``material``, or
 ``solidDensity`` and ``carbonMass``). Under ``dsmcFoam`` the mesh
-does not move; under ``dsmcFoamAblation`` the ledger drives the
+does not move; under ``dsmcFoam`` the ledger drives the
 receding wall (``ablationRecession``) or the conjugate solid.
 Geometric recession on a fixed mesh is handled by the immersed
 surfaces of :doc:`../theory/wall_models`.
@@ -407,7 +407,7 @@ channel whose surface reactants or free sites are missing is rejected
 and counted, so no atom is created or destroyed. Each event deposits
 its heat of reaction (computed from the 0 K formation enthalpies) in
 the wall's chemical-energy ledger, and the bulk ledger drives the
-recession under ``dsmcFoamAblation``. Theory:
+recession under ``dsmcFoam``. Theory:
 :doc:`../theory/wall_models`; verification:
 :doc:`../reference/gsi_verification/b2_finite_rate_gs` and
 :doc:`../reference/gsi_verification/b3_ps_integration`.
@@ -454,10 +454,10 @@ which carries top-level ``surfaceReactions`` and
 
 .. code-block:: cpp
 
-   oxidiseO   { type srFiniteRate; reactant O;  product CO;
+   oxidiseO   { type wallFiniteRate; reactant O;  product CO;
                 A 0.63; n 0.0; Ta 1160.0;
                 nCConsumed 1; nReactantConsumed 1; }
-   recombineO { type srRecombination; reactant O; product O2;
+   recombineO { type wallRecombination; reactant O; product O2;
                 gamma 0.07; }
 
 Inflow models

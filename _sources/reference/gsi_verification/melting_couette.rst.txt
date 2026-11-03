@@ -1,7 +1,7 @@
 Application: melting slab under a rarefied Couette flow
 =======================================================
 
-**Shown:** the conjugate solid of ``dsmcFoamAblation`` coupled to the DSMC
+**Shown:** the conjugate solid of ``dsmcFoam`` coupled to the DSMC
 gas through the coupling windows, on the supersonic Couette flow of argon
 over a melting slab of Bariselli [Bariselli2020_melt]_ (thesis Sec. 6.6.1,
 Appendix E). **Against:** the slip-regime solution of Appendix E (oracle

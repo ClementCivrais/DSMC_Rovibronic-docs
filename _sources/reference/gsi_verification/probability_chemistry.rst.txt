@@ -2,7 +2,7 @@ Probability-based catalysis and carbon ablation
 ===============================================
 
 **Verified:** the per-impact surface reactions of the catalytic and
-ablating walls (``srRecombination``, ``srFiniteRate``): the realised
+ablating walls (``wallRecombination``, ``wallFiniteRate``): the realised
 reaction probability against the input :math:`\gamma` or
 :math:`\beta(T_w) = \min(1, A T_w^n e^{-T_a/T_w})`, the
 material :math:`\gamma(T_w)` correlations, Kisliuk precursor

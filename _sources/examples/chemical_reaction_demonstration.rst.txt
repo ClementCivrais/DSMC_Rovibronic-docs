@@ -39,9 +39,9 @@ The case exercises two complementary reaction blocks:
   charge exchange, and associative ionisation (forward and
   reverse). The underlying physics —  state-dependent ionisation
   threshold :math:`E_{\mathrm{ion}}(n,v,J) = E_{\mathrm{IP}}
-  - E(n,v,J)`, the **ambipolar-diffusion** treatment of
-  electrons (created at their parent ion's position), and the
-  **electron sub-time-stepping** through
+  - E(n,v,J)`, the **ion-attached electrons** of a flow
+  (``ambipolarElectrons``; this single-cell case does not need
+  them), and the **sub-cycled collisions** of
   ``noTimeCounterSubCycled`` —  is documented in
   :doc:`../theory/chemistry_charged`. Every class in this block
   is flagged as *work in progress* on

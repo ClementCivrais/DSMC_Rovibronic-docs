@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Species database: sources, generation and lock &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
@@ -15,7 +15,7 @@
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=eef4a3d2"></script>
@@ -80,19 +80,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#one-time-step">One time step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#inputs-and-outputs">Inputs and outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#purpose">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#time-loop">Time loop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#solid-model">Solid model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#case-layout">Case layout</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#outputs">Outputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#restart">Restart</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#verification">Verification</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoamAblation.html#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/solvers/dsmcFoam.html#receding-walls-and-conjugate-solid">Receding walls and conjugate solid</a></li>
 </ul>
 </li>
 </ul>
@@ -130,7 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#scattering-kernels">Scattering kernels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#immersed-surface">Immersed surface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../guide/input_reference.html#dsmcfoam-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>: receding walls and the conjugate solid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../guide/input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
@@ -281,8 +269,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#charge-exchange">Charge exchange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#electron-population-ion-attached-electrons">Electron population: ion-attached electrons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../theory/chemistry_charged.html#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#electron-collisions">Electron collisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../theory/chemistry_charged.html#status">Status</a></li>
 </ul>
 </li>
@@ -932,10 +923,38 @@ row X-X; a neutral pair X-Y uses Gosma’s own X-Y row.</p></td>
 atomic mass constant (CODATA 2018); an ion carries the mass
 of its neutral.</p></td>
 </tr>
+<tr class="row-even"><td><p>B, Zr, BO, ZrO, BO<sub>2</sub>, B<sub>2</sub>O<sub>3</sub> (in none of the above)</p></td>
+<td><p>Svehla, R. A. (1962), <em>Estimated viscosities and thermal
+conductivities of gases at high temperatures</em>, NASA TR R-132,
+Table I(a) (NTRS 19630012982): Lennard-Jones
+<span class="math notranslate nohighlight">\(\sigma, \varepsilon/k\)</span> of B, BO and
+B<sub>2</sub>O<sub>3</sub>; Zr and ZrO from his estimation rules
+6, 8, 14, 15 and 16 with the NIST-JANAF boiling point (Zr-001)
+and the NIST X-ray table density of Zr; BO<sub>2</sub> from his rule
+12 (<span class="math notranslate nohighlight">\(\sigma\)</span>) and rule 21 with CO<sub>2</sub> as the analogue
+(<span class="math notranslate nohighlight">\(\varepsilon/k\)</span>). Converted to VHS by a
+least-squares fit to the Chapman-Enskog Lennard-Jones viscosity
+over 1000–20000 K (<span class="math notranslate nohighlight">\(\Omega^{(2,2)*}\)</span> of Neufeld, Janzen
+and Aziz 1972; <span class="math notranslate nohighlight">\(d_{\mathrm{ref}}\)</span> from Bird 1994,
+eq. 4.62), <span class="math notranslate nohighlight">\(\alpha = 1\)</span>; flagged as estimates. A neutral
+pair with one of them takes the arithmetic mean.</p></td>
+</tr>
 </tbody>
 </table>
 <p>Bird (1994), Appendix A, is kept as the last resort for a species
 that none of these sources reports; no current species needs it.
+The masses of B and Zr are the CIAAW weights 10.81 and 91.224
+(Prohaska et al. 2022, Table 3); the spectroscopy of the five
+species comes from the NIST ASD (B I, Zr I), the NIST WebBook (BO,
+ZrO; the ZrO triplets and the A, D <sup>1</sup><span class="math notranslate nohighlight">\(\Delta\)</span> states with
+NON-NIST term energies from the MARVEL analysis of McKemmish et al.
+2018, <em>Astrophys. J.</em> <strong>867</strong>, 33), the NIST CCCBDB experimental
+fundamentals and rotational constant of BO<sub>2</sub> (ground
+X<sup>2</sup><span class="math notranslate nohighlight">\(\Pi_g\)</span> as one level of degeneracy 4), the NIST CCCBDB calculated CCSD(T)/cc-pVQZ modes and
+rotational constants of B<sub>2</sub>O<sub>3</sub> (flagged NON-NIST:
+no experimental value exists), and their 0 K formation enthalpies
+from NIST-JANAF (ATcT 1.130 lists none); see
+<code class="docutils literal notranslate"><span class="pre">sources/nist/BUILD_REPORT.md</span></code>, section 14.
 Species variants (<code class="docutils literal notranslate"><span class="pre">O2NIST</span></code>, <code class="docutils literal notranslate"><span class="pre">O2VHS</span></code>, <code class="docutils literal notranslate"><span class="pre">CO2harm</span></code>,
 <code class="docutils literal notranslate"><span class="pre">CH4coupled</span></code>, …) map to the formula of their parent and share its
 mass and collision data. Representative pair values, as printed by
@@ -996,12 +1015,12 @@ if <code class="docutils literal notranslate"><span class="pre">collisionPropert
 tables.</p>
 <p><strong>Use in Python.</strong> Oracles and analysis scripts import
 <code class="docutils literal notranslate"><span class="pre">species_frozen</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;&lt;repo&gt;/src/lagrangian/DSMC/speciesDatabase/sources&quot;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">species_frozen</span> <span class="k">as</span> <span class="nn">sf</span>
-<span class="n">sf</span><span class="o">.</span><span class="n">mass</span><span class="p">(</span><span class="s2">&quot;O2NIST&quot;</span><span class="p">)</span>       <span class="c1"># [kg]</span>
-<span class="n">sf</span><span class="o">.</span><span class="n">vss</span><span class="p">(</span><span class="s2">&quot;O&quot;</span><span class="p">)</span>             <span class="c1"># (d_ref [m], omega, alpha, Tref [K])</span>
-<span class="n">sf</span><span class="o">.</span><span class="n">pair</span><span class="p">(</span><span class="s2">&quot;O2NIST&quot;</span><span class="p">,</span> <span class="s2">&quot;O&quot;</span><span class="p">)</span>  <span class="c1"># the pair values the solver uses</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">"&lt;repo&gt;/src/lagrangian/DSMC/speciesDatabase/sources"</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">species_frozen</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
+<span class="n">sf</span><span class="o">.</span><span class="n">mass</span><span class="p">(</span><span class="s2">"O2NIST"</span><span class="p">)</span>       <span class="c1"># [kg]</span>
+<span class="n">sf</span><span class="o">.</span><span class="n">vss</span><span class="p">(</span><span class="s2">"O"</span><span class="p">)</span>             <span class="c1"># (d_ref [m], omega, alpha, Tref [K])</span>
+<span class="n">sf</span><span class="o">.</span><span class="n">pair</span><span class="p">(</span><span class="s2">"O2NIST"</span><span class="p">,</span> <span class="s2">"O"</span><span class="p">)</span>  <span class="c1"># the pair values the solver uses</span>
 <span class="n">sf</span><span class="o">.</span><span class="n">TREF</span>                 <span class="c1"># 273.0</span>
 </pre></div>
 </div>

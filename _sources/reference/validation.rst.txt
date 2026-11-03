@@ -154,7 +154,7 @@ wall temperature, probability-based and finite-rate surface
 chemistry, pure-surface integration, scattering kernels and the
 exact internal-state sampler, reaction heats, receding body-fitted
 and immersed surfaces, and the conjugate solid of
-``dsmcFoamAblation``) are verified against analytic oracles, SPARTA,
+``dsmcFoam``) are verified against analytic oracles, SPARTA,
 PICLas and published cases in
 :doc:`gsi_verification/index`.
 

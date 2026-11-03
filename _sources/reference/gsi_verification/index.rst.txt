@@ -8,7 +8,7 @@ finite-rate surface chemistry, the time integration of the
 pure-surface reactions, the scattering kernels of reaction
 products, the heat of reaction, the receding surfaces (body-fitted,
 implicit and explicit immersed) and the conjugate solid of
-``dsmcFoamAblation``. Each page states what is verified and against
+``dsmcFoam``. Each page states what is verified and against
 what (an analytic oracle, SPARTA [SPARTA_gsi]_, PICLas
 [Lauterbach2025_gsi]_ or a published case), summarises the set-up,
 reproduces the key numbers of the verification note in the source

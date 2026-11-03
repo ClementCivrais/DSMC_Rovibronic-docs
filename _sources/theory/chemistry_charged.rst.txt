@@ -11,16 +11,15 @@ Charged-species chemistry
    dissociation-ionisation channels — is **work in progress**.
    It has been ported into the rovibronic framework but has not
    yet been reworked, verified, or validated end-to-end.
-   Quantitative results from cases with
-   ``chargedParticles = true`` must be treated as preliminary.
+   Quantitative results from flows with charged species must be
+   treated as preliminary.
 
 The charged-species chemistry inherits the Larsen-Borgnakke
 machinery and the post-reaction redistribution rules from
 :doc:`chemistry`, but requires additional care on three fronts:
 the state-dependent ionisation threshold of the reacting
-species, the ambipolar treatment of the electron population, and
-the sub-time-stepping that accommodates the very high electron
-collision rate. Each is discussed below.
+species, the transport of the electrons in a flow, and the
+electron collisions. They are discussed below.
 
 State-dependent ionisation threshold
 ------------------------------------
@@ -121,80 +120,226 @@ parameters. The reverse channel
 :math:`\mathrm{AB}^{+} + e^{-} \to \mathrm{A} + \mathrm{B}` is
 implemented symmetrically.
 
-Electron population: ambipolar diffusion
-----------------------------------------
+Electron population: ion-attached electrons
+-------------------------------------------
 
-Tracking electrons as independent DSMC parcels on the same
-time-step as the heavy species is prohibitively expensive:
-electrons are lighter by four orders of magnitude and their
-thermal speed is correspondingly higher, so their characteristic
-collision time and advection step would dictate a global DSMC
-:math:`\Delta t` two to three decades smaller than would be
-needed for the heavy gas.
+A free electron is about :math:`\sqrt{m_{\mathrm{N^+}}/m_e} \approx 160`
+times faster than an :math:`\mathrm{N^+}` ion at the same temperature
+(:math:`6.2\times10^{5}` against :math:`3.9\times10^{3}` m/s at
+10 000 K). Moved with its own velocity it leaves its ion within a few
+time steps, and the gas separates its charges over distances that the
+field of a real plasma forbids: the Debye length is 22 µm at
+:math:`n_e = 10^{17}` m\ :sup:`-3`. The solver keeps the gas neutral
+cell by cell with the ion-attached electron model of SPARTA
+(``fix ambipolar``) and PICLas (``AmbipolarDiffusion``), selected in
+``constant/dsmcProperties``:
 
-The solver therefore treats the electrons under the **ambipolar
-approximation**: on the simulation timescale the plasma remains
-quasi-neutral, and the electrons are dragged along by the ion
-population through the self-consistent ambipolar electric field.
-Concretely, the code does not advect electron parcels on the
-global DSMC time-step. Each electron is instead **created,
-stored, and moved alongside its parent ion**: whenever an
-ionisation event produces an ion, the electron is added at the
-ion's position (``dsmcCloud.H:323``: "Add an electron where an
-ion is found, after the move function"). The electron's
-contribution to the cell-level macroscopic fields —  number
-density, mass density, momentum, kinetic energy, temperature —
-is accumulated separately in the dedicated electron data
-structures documented at ``dsmcCloud.H:211–229``.
+.. code-block:: none
 
-The ambipolar approximation holds on length scales large
-compared to the Debye length and on times long compared to the
-plasma oscillation period. Both are satisfied for the hypersonic
-re-entry regimes of interest, but would need to be revisited for
-high-vacuum plasma-probe applications where the assumption
-breaks down.
+   ambipolarElectrons      true;
 
-Electron collisions: sub-time-stepping
---------------------------------------
+Every time step then runs three stages.
 
-Although the electrons are advected through the ambipolar
-approximation, their **collisions** are not: the collision layer
-still needs to sample electron-neutral and electron-ion
-interactions at a cadence consistent with the electron collision
-rate, which can be one to two orders of magnitude higher than
-the heavy-species rate.
+#. **Attachment, before the move.** The electrons of a cell are attached
+   to ions of the same cell, drawn at random among the ions still
+   without an electron. The electron parcel is removed and its velocity
+   is stored on the ion. Only the charged parcels are visited, sorted by
+   cell; there is no loop over the cells.
+#. **Move.** The ion carries its electron through processor transfers,
+   cyclic, symmetry and wedge patches (the electron velocity is
+   transformed with the ion's), axisymmetric and cell-weight cloning or
+   deletion, and outflow boundaries.
+#. **Release, after the move and the weighting.** The electron is
+   re-created at the position of its ion, with its own velocity, for the
+   collisions and the measurements.
 
-This is handled through the ``noTimeCounterSubCycled`` variant
-of the No-Time-Counter scheme (see :doc:`collision_sampling`).
-Within each global DSMC step :math:`\Delta t`, the electron
-collisions are sampled over :math:`n_{\mathrm{sc}}` internal
-sub-cycles of length
-:math:`\Delta t_{\mathrm{sc}} = \Delta t / n_{\mathrm{sc}}`, so
-that the sampling resolves the electron collision frequency while
-the heavy-species collision loop executes once. The
-``nSubCycles`` key in the
-``noTimeCounterSubCycledProperties`` sub-dictionary sets
-:math:`n_{\mathrm{sc}}`; the reference value for re-entry
-plasma cases is of the order of 30.
+The electron keeps its own velocity, so the electron velocity
+distribution and the electron temperature are resolved and nothing is
+resampled: mass, momentum and energy are conserved to round-off.
+Ionisation and recombination create and destroy electrons in the cell
+of their partners, and the next attachment pairs them again.
 
-Two design choices are worth highlighting:
+**Walls.** An ion brings its electron to the wall. The electron is
+absorbed when the wall absorbs or neutralises the ion (e.g.
+``wallNeutralisation``), so the electron and ion fluxes to the wall are
+equal. Otherwise it is re-emitted with the ion: mirrored by a specular
+reflection, drawn from the Maxwellian at the wall temperature by a
+diffuse one (SPARTA), and drawn at the face temperature for a wall model
+with its own re-emission (CLL). Its energy and momentum enter the wall
+fluxes (``qBF``, ``fDBF``, number and mass fluxes) of the electron
+species.
 
-* **No electron-electron collisions.** Both
-  ``noTimeCounter.C:259`` and
-  ``majorantCollisionFrequency.C:272`` explicitly skip the
-  electron-electron channel: the high electron-electron collision
-  rate would swamp the DSMC candidate budget without materially
-  changing the macroscopic behaviour under the ambipolar
-  assumption (electron-electron collisions thermalise only the
-  electron distribution, which is already Maxwellian in the
-  ambipolar limit).
-* **Energy book-keeping in electron sub-cycles.** Within the
-  sub-cycled loop, the Larsen-Borgnakke machinery of
-  :doc:`larsen_borgnakke` is invoked with the electron's
-  ambipolar velocity rather than a freshly-drawn Maxwellian.
-  This is consistent with the underlying assumption that the
-  electron distribution is already equilibrated on the sub-cycle
-  timescale.
+**Limitations.**
+
+* No electric field: the pair diffuses with the binary diffusion
+  coefficient :math:`D_i` of the ion, i.e. the ambipolar coefficient
+  :math:`D_a = D_i (1 + T_e/T_i)` without its electron-pressure term, as
+  in SPARTA, PICLas and Bird's quasi-neutral scheme. The model does not
+  apply in a sheath or at a plasma/neutral-gas interface.
+* An electron left without an ion in its cell (an inflow that injects
+  both species, or an initial state that is not neutral cell by cell)
+  moves with its own velocity until it shares a cell with an ion
+  without an electron. The counts are printed at every terminal output::
+
+      Ion-attached electrons (last move)      = 4800, without an ion = 0, ions without an electron = 0, dropped = 0 (0 J)
+
+* Immersed surfaces (implicit or explicit) treat the charged species as
+  the walls do: an ion is neutralised there and its attached electron
+  absorbed with it (see *Immersed surfaces* below).
+
+**Immersed surfaces.** An ion :math:`\mathrm{X^+}` hitting an implicit or
+explicit immersed surface is neutralised,
+:math:`\mathrm{X^+ + e^-(surface) \to X}`, as ``wallNeutralisation`` with
+:math:`\beta = 1` and no work function: it leaves as its neutral (same
+mass), re-emitted by the surface's re-emission (diffuse at the surface
+temperature in probability mode, the default kernel of a mechanism, the
+internal state drawn at that temperature), and the ionisation potential of
+:math:`\mathrm{X}` goes to the surface heat (and ``eChem``). The neutral
+must be in ``typeIdList`` (the ion's name less its ``+``). A reaction of the
+probability list that applies to the ion (e.g. a ``wallNeutralisation`` with
+:math:`\beta < 1`) replaces this default. The electron attached to the ion
+is absorbed with a neutralised or absorbed ion, its kinetic energy and
+momentum to the surface, else re-emitted with the ion from the Maxwellian
+at the surface temperature. An electron parcel that reaches the surface
+(``ambipolarElectrons false``, or an electron without an ion in its cell) is
+absorbed. The surface state line gives the totals::
+
+    ... ionsNeutralised: 3.5425e13 electronsAbsorbed: 3.5425e13 chargeToSurface: 0 neutralisationEnergy: ... electronEnergy: ... electronMomentum: (...)
+
+Neutral species are unchanged (the same random draws, bit-identical
+results).
+
+**Start-up guard.** A case whose ``typeIdList`` holds the electron
+species on a mesh of more than one cell stops at the first time step
+unless ``ambipolarElectrons`` is set: ``true`` for the ion-attached
+electrons, ``false`` for electrons moved ballistically with their own
+velocity. Single-cell reactors keep the previous behaviour bit for bit
+when the keyword is absent.
+
+**Inlets, fills and weighting clones** (2026-11-01). With
+``ambipolarElectrons true`` every ion placed by an initial fill
+(``dsmcMeshFill``, ``dsmcMeshFieldFill``, ``dsmcZoneFill``) or injected by an
+inflow boundary brings its electron: a fill places the electron at the
+ion's position, an inlet attaches it to the ion, both with a velocity drawn
+from the Maxwellian of the fill or stream (temperature and bulk velocity).
+The electron flux of a neutral stream is the ion flux, and every cell is
+neutral from the first step. ``E-`` listed in a fill or an inlet is then a
+FatalError. A parcel cloned by the cell or axisymmetric weighting carries a
+copy of its ion's attached electron.
+
+Verification
+~~~~~~~~~~~~
+
+Scripts, cases and results are in ``run/1D/ambipolar_electrons``
+(``make_cases.py``, ``run_ws.sh``, ``analyse.py``; summary in
+``summary.txt``).
+
+* **Single-cell reactors unchanged.** Without the keyword, six charged
+  reactors (N + O associative ionisation, NO\ :sup:`+` + e\ :sup:`-`
+  recombination, N\ :sub:`2` + e\ :sup:`-`, N + O\ :sup:`+` charge
+  exchange, air-11 adiabatic and isothermal) give bit-identical initial
+  states, final clouds and logs after 200 steps with a fixed seed. The
+  seven melting tutorials are bit-identical too.
+* **Electrons follow the ions.** A closed 20 cm tube of Ar at 3000 K
+  holds a 4 cm slab of N\ :sup:`+` and e\ :sup:`-`
+  (:math:`1.2\times10^{20}` m\ :sup:`-3`) at a uniform heavy-particle
+  density of :math:`10^{21}` m\ :sup:`-3`, without chemistry. With the
+  attachment, :math:`N(e^-) = N(\mathrm{N^+})` in every cell at every
+  write, also on four processors and after a restart, and the total
+  energy is constant to the twelve printed digits. The ions spread with
+  :math:`D = 0.989\,D_{\mathrm{CE}}`, where
+  :math:`D_{\mathrm{CE}} = 2.945` m\ :sup:`2`/s is the first
+  Chapman-Enskog coefficient of the frozen N\ :sup:`+`-Ar VSS pair;
+  the same ions without electrons give :math:`0.987\,D_{\mathrm{CE}}`.
+  With ``ambipolarElectrons false`` the electrons fill the tube within
+  two time steps.
+
+.. figure:: ../_static/figures/ambipolar/A_variance_attached.png
+   :width: 60%
+
+   Variance of the ion and electron positions in the closed tube:
+   analytical solution (Chapman-Enskog :math:`D`, Ornstein-Uhlenbeck
+   initial layer), ions without electrons (baseline) and the present
+   attached electrons (two replicas, four processors, restarted run).
+
+.. figure:: ../_static/figures/ambipolar/A_profiles_off.png
+   :width: 60%
+
+   Ballistic electrons (``ambipolarElectrons false``): at 40, 120 and
+   200 µs the electrons are spread over the whole tube while the ions
+   follow the analytical solution.
+
+* **Pairs created and destroyed.** A periodic box of N and O
+  (:math:`10^{22}` m\ :sup:`-3`) with NO\ :sup:`+` and e\ :sup:`-`
+  (:math:`1.2\times10^{21}` m\ :sup:`-3`) at 10 000 K runs associative
+  ionisation and dissociative recombination with product creation. One
+  cell without attachment, one cell with it and 20 cells with it give
+  the same NO\ :sup:`+` history and rate coefficients
+  (:math:`k_f = 1.30`-:math:`1.31\times10^{-16}` m\ :sup:`3`/s,
+  :math:`k_r = 1.26`-:math:`1.28\times10^{-13}` m\ :sup:`3`/s, within
+  the scatter of two replicas), with :math:`N(e^-)` equal to the ion
+  count in every cell at every write.
+
+.. figure:: ../_static/figures/ambipolar/B_NOp_history.png
+   :width: 60%
+
+   NO\ :sup:`+` number density in the periodic box: one cell without
+   attachment (baseline), one cell and 20 cells with ion-attached
+   electrons; the electron density of the 20-cell box coincides with
+   the ion density.
+
+* **Neutralising walls.** In a 5 cm tube between walls at 3000 K that
+  neutralise N\ :sup:`+` (:math:`\beta = 1`) the electrons are absorbed
+  with their ions: :math:`N(e^-) = N(\mathrm{N^+})` at every write,
+  :math:`N(\mathrm{N^+}) + N(\mathrm{N})` is conserved, and the decay
+  matches the ions-only baseline.
+
+.. figure:: ../_static/figures/ambipolar/C_wall_decay.png
+   :width: 60%
+
+   Ion and electron counts between neutralising walls, with the
+   ions-only baseline.
+
+* **Immersed surfaces.** A periodic 1 cm box of Ar (:math:`10^{21}`
+  m\ :sup:`-3`, 3000 K) with a slab of N\ :sup:`+` and e\ :sup:`-`
+  (:math:`1.2\times10^{20}` m\ :sup:`-3`) and an immersed sphere
+  (radius 2.5 mm, 3000 K), implicit and explicit (STL, also on two
+  processors): :math:`N(e^-) = N(\mathrm{N^+})` in every cell at every
+  write, every absorbed electron matched by a neutralised ion, the
+  released energy equal to :math:`IP(\mathrm{N})` times the ions lost
+  from the gas, and charge, mass, energy (gas, ionisation energy of the
+  ions and surface heat) and momentum (with the surface loads) closed to
+  round-off (relative :math:`10^{-14}`). With a ``wallNeutralisation``
+  of :math:`\beta = 0.5` in the probability list, the ions that return
+  as ions keep an electron. Neutral immersed cases are bit-identical.
+
+.. figure:: ../_static/figures/immersed_charged/neutralisation_energy.png
+   :width: 60%
+
+   Energy released at the immersed sphere by the neutralisations:
+   ionisation potential of N times the ions lost from the gas (lines)
+   and the surface tally (present).
+
+.. figure:: ../_static/figures/immersed_charged/charge_counts.png
+   :width: 60%
+
+   Ions (lines) and electrons (present) left in the gas of the box with
+   the immersed sphere, every ion neutralised (filled) or half of them
+   (:math:`\beta = 0.5`, open).
+
+Electron collisions
+-------------------
+
+* **No electron-electron collisions.** ``noTimeCounter``,
+  ``majorantCollisionFrequency`` and ``noTimeCounterSubCycled`` skip the
+  electron-electron pairs.
+* **Sub-cycling.** ``noTimeCounterSubCycled`` (see
+  :doc:`collision_sampling`) repeats the whole NTC pass ``nSubCycles``
+  times with :math:`\Delta t/n_{\mathrm{sc}}`, for every pair; the
+  electrons are not moved between the sub-cycles.
+* **Energy redistribution.** The Larsen-Borgnakke internal-energy
+  redistribution of :doc:`larsen_borgnakke` acts on the heavy partner
+  only; the electron enters with its own velocity.
 
 Status
 ------
@@ -209,5 +354,6 @@ reworked and validated. The immediate next steps include:
   channel from QCT or experimental rates;
 * running the three-phase validation protocol on a
   re-entry-representative charged case;
-* validating the ambipolar approximation against a
-  fully-kinetic electron run in a controlled setting.
+* testing the field-free ion-attached electrons against an
+  ambipolar-field (Boltzmann-electron) or fully kinetic electron model
+  in a controlled setting.

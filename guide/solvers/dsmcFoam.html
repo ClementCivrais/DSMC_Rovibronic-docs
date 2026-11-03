@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>dsmcFoam &mdash; DSMC Rovibronic</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
 
@@ -15,7 +15,7 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=eef4a3d2"></script>
@@ -23,7 +23,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="dsmcFoamAblation" href="dsmcFoamAblation.html" />
+    <link rel="next" title="Running a Case" href="../running.html" />
     <link rel="prev" title="dsmcInitialise" href="dsmcInitialise.html" /> 
 </head>
 
@@ -80,19 +80,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#one-time-step">One time step</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#inputs-and-outputs">Inputs and outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="dsmcFoamAblation.html">dsmcFoamAblation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#purpose">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#time-loop">Time loop</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#solid-model">Solid model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#gas-solid-exchange">Gas-solid exchange</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#case-layout">Case layout</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#outputs">Outputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#restart">Restart</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#verification">Verification</a></li>
-<li class="toctree-l4"><a class="reference internal" href="dsmcFoamAblation.html#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#receding-walls-and-conjugate-solid">Receding walls and conjugate solid</a></li>
 </ul>
 </li>
 </ul>
@@ -130,7 +118,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../input_reference.html#finite-rate-mechanisms-and-the-coverage-wall">Finite-rate mechanisms and the coverage wall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../input_reference.html#scattering-kernels">Scattering kernels</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../input_reference.html#immersed-surface">Immersed surface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../input_reference.html#dsmcfoamablation-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoamAblation</span></code>: receding walls and the conjugate solid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../input_reference.html#dsmcfoam-receding-walls-and-the-conjugate-solid"><code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code>: receding walls and the conjugate solid</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../input_reference.html#system-controldict"><code class="docutils literal notranslate"><span class="pre">system/controlDict</span></code></a></li>
@@ -281,8 +269,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#state-dependent-ionisation-threshold">State-dependent ionisation threshold</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#charge-exchange">Charge exchange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#associative-ionisation">Associative ionisation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ambipolar-diffusion">Electron population: ambipolar diffusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions-sub-time-stepping">Electron collisions: sub-time-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-population-ion-attached-electrons">Electron population: ion-attached electrons</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../theory/chemistry_charged.html#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#electron-collisions">Electron collisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../theory/chemistry_charged.html#status">Status</a></li>
 </ul>
 </li>
@@ -862,7 +853,7 @@ mesh, with probability or finite-rate chemistry and recession
 </tbody>
 </table>
 <p>The receding body-fitted wall and the conjugate solid need a moving mesh
-or a second region; they are in <a class="reference internal" href="dsmcFoamAblation.html"><span class="doc">dsmcFoamAblation</span></a>.</p>
+or a second region; they are in <a class="reference internal" href="#"><span class="doc">dsmcFoam</span></a>.</p>
 </section>
 <section id="one-time-step">
 <h2>One time step<a class="headerlink" href="#one-time-step" title="Link to this heading"></a></h2>
@@ -882,14 +873,15 @@ reactions of <code class="docutils literal notranslate"><span class="pre">system
 and adaptation.</p></li>
 </ol>
 <p>The figure below follows one gas-surface impact through these models.</p>
-<figure class="align-default" id="id1">
-<a class="reference internal image-reference" href="../../_images/impact_path.svg"><img alt="path of one gas-surface impact through the kernel, probability and finite-rate surface models, the energy and mass ledgers, the surface kinetics and the recession update" src="../../_images/impact_path.svg" width="90%" /></a>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../../_images/impact_path.svg"><img alt="path of one gas-surface impact through the kernel, probability and finite-rate surface models, the energy and mass ledgers, the surface kinetics and the recession update" src="../../_images/impact_path.svg" style="width: 90%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">One gas-surface impact. The surface model of the wall or of the
 immersed surface decides the outcome; every outcome is booked in the
 energy and mass ledgers. Between impacts the surface kinetics of each
 element advance every step; the removed bulk atoms drive the
-recession at each update.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+recession at each update.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 </section>
@@ -917,6 +909,198 @@ seeded run is reproduced exactly.</p>
 <a class="reference internal" href="../post_processing.html"><span class="doc">Post-processing</span></a>. The tutorials are described in
 <a class="reference internal" href="../../examples/index.html"><span class="doc">Examples</span></a>.</p>
 </section>
+<section id="receding-walls-and-conjugate-solid">
+<h2>Receding walls and conjugate solid<a class="headerlink" href="#receding-walls-and-conjugate-solid" title="Link to this heading"></a></h2>
+<p>The same executable simulates a gas flow over a body whose surface
+reacts, heats, melts and recedes:</p>
+<ul class="simple">
+<li><p><strong>receding body-fitted walls</strong>: an ablating wall
+(<code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code>) or a finite-rate coverage wall with bulk
+reactions (<code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code>) moves the gas mesh as it loses
+material;</p></li>
+<li><p><strong>conjugate solid</strong>: heat conduction in the solid with
+temperature-dependent properties, re-radiation, melting, a melt film
+and droplets, and recession of the solid and gas meshes together; the
+solid sets the wall temperature seen by the gas.</p></li>
+</ul>
+<p>Without <code class="docutils literal notranslate"><span class="pre">constant/dynamicMeshDict</span></code> (or with a <code class="docutils literal notranslate"><span class="pre">staticFvMesh</span></code>) and
+without <code class="docutils literal notranslate"><span class="pre">constant/conjugateProperties</span></code> the solver advances the gas
+only. The immersed receding surfaces are a feature of the particle cloud
+and need no moving mesh.</p>
+<p>The coupling stays inside OpenFOAM: the solid regions are meshes of the
+same case on the same <code class="docutils literal notranslate"><span class="pre">Time</span></code>, decomposed with the gas
+(<code class="docutils literal notranslate"><span class="pre">decomposePar</span> <span class="pre">-allRegions</span></code>); no external library is linked.</p>
+<section id="time-loop">
+<h3>Time loop<a class="headerlink" href="#time-loop" title="Link to this heading"></a></h3>
+<p>Each time step of <code class="docutils literal notranslate"><span class="pre">dsmcFoam.C</span></code>:</p>
+<ol class="arabic simple">
+<li><p>a receding body-fitted wall converts this step’s recession depth into
+a displacement of its points along the current point normals;</p></li>
+<li><p>the gas mesh is moved (<code class="docutils literal notranslate"><span class="pre">mesh.update()</span></code>, skipped inside a coupling
+window when the conjugate solid moves the wall); each parcel keeps its
+position in its tetrahedron, so no parcel is left in the solid;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dsmc.evolve()</span></code> advances the gas exactly as in <a class="reference internal" href="#"><span class="doc">dsmcFoam</span></a>, with
+the walls adding their heat, mass and momentum to the window sums;</p></li>
+<li><p>at the end of a coupling window the solid regions are advanced and
+the wall temperature and displacement are returned to the gas
+(<code class="docutils literal notranslate"><span class="pre">conjugateRegionsCoupling.H</span></code>).</p></li>
+</ol>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="../../_images/coupling_window.svg"><img alt="gas and solid time lines, with N DSMC steps per window, the window-averaged exchange to the solid, M solid steps, and the wall temperature and displacement returned to the gas" src="../../_images/coupling_window.svg" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">The coupling window. During <span class="math notranslate nohighlight">\(N\)</span> DSMC steps the coupled walls
+accumulate the heat flux <span class="math notranslate nohighlight">\(q\)</span>, the mass flux <span class="math notranslate nohighlight">\(\dot m\)</span> and the
+force <span class="math notranslate nohighlight">\(F\)</span> per face. At the end of the window these are mapped to
+the solid, which takes <span class="math notranslate nohighlight">\(M\)</span> steps of <span class="math notranslate nohighlight">\(\Delta t_s\)</span>; the wall
+temperature <span class="math notranslate nohighlight">\(T_w\)</span> and the wall displacement come back to the gas
+before the next window.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="solid-model">
+<h3>Solid model<a class="headerlink" href="#solid-model" title="Link to this heading"></a></h3>
+<p>Each solid region solves the transient heat equation in enthalpy form on
+its own moving mesh,</p>
+<div class="math notranslate nohighlight">
+\[\rho\,\frac{\partial h(T)}{\partial t} = \nabla\cdot\big(k(T)\,\nabla T\big),
+\qquad h(T) = \int_0^T c_p(T')\,\mathrm{d}T',\]</div>
+<p>with <span class="math notranslate nohighlight">\(k(T)\)</span> and <span class="math notranslate nohighlight">\(c_p(T)\)</span> any OpenFOAM <code class="docutils literal notranslate"><span class="pre">Function1</span></code> of the
+temperature. The time term is written over the solid step
+<span class="math notranslate nohighlight">\(\Delta t_s\)</span> as
+<span class="math notranslate nohighlight">\(\rho\,[h(T)V - h(T^0)V^0]/(\Delta t_s V)\)</span>, linearised about the
+current iterate in the outer correctors, and the mesh flux of the moving
+solid mesh enters as an arbitrary Lagrangian-Eulerian term.</p>
+<p>On a coupled face that is not melting, the conducted flux balances the
+gas heat flux and the re-radiation (a Robin condition, linearised about
+the face temperature),</p>
+<div class="math notranslate nohighlight">
+\[k\,\frac{\partial T}{\partial n}\Big|_w = q - \varepsilon\sigma\left(T_w^4 - T_\mathrm{bg}^4\right).\]</div>
+<p>A face that reaches <span class="math notranslate nohighlight">\(T_\mathrm{melt}\)</span> is held there and melts at the
+speed given by the Stefan condition,</p>
+<div class="math notranslate nohighlight">
+\[\rho L\,v_\mathrm{melt} = q - \varepsilon\sigma\left(T_\mathrm{melt}^4 - T_\mathrm{bg}^4\right)
+- k\,\frac{\partial T}{\partial n}\Big|_\mathrm{solid},\]</div>
+<p>and the outer correctors repeat until no face changes state. Without a
+melt film the melt leaves at once and the wall recedes at
+<span class="math notranslate nohighlight">\(v_\mathrm{melt} + \dot m/\rho\)</span>, where <span class="math notranslate nohighlight">\(\dot m\)</span> is the
+chemical mass flux of the wall. With <code class="docutils literal notranslate"><span class="pre">meltFilm</span></code> the liquid stays on
+the wall as a thin film driven by the gas shear and pressure,
+capillarity and a body force, freezes again where the solid takes the
+heat, and leaves as droplets that the gas carries away.</p>
+</section>
+<section id="gas-solid-exchange">
+<h3>Gas-solid exchange<a class="headerlink" href="#gas-solid-exchange" title="Link to this heading"></a></h3>
+<p>Every coupled wall accumulates, per face and at <span class="math notranslate nohighlight">\(O(1)\)</span> cost per
+impact, the window energy (incident minus re-emitted energy in the wall
+frame, absorbed and injected parcels, and the chemical energy where it is
+deposited), the momentum and the removed mass. At the end of the window
+these become the heat flux <span class="math notranslate nohighlight">\(q\)</span>, the force density and the mass flux
+<span class="math notranslate nohighlight">\(\dot m\)</span> of each gas face. A face-area-weighted AMI maps them to the
+solid faces conservatively,</p>
+<div class="math notranslate nohighlight">
+\[q_s A_s = \sum_g q_g A_g\,\frac{A_{gs}}{\sum_{s'} A_{gs'}},\]</div>
+<p>so the heat load of the patch is kept to round-off; the temperatures
+return to the gas faces as area averages. The meshes may be
+non-conformal. The solid wall points move by the least-squares offset of
+their faces; each gas wall point is located on the solid surface and
+moves with it.</p>
+</section>
+<section id="case-layout">
+<h3>Case layout<a class="headerlink" href="#case-layout" title="Link to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>case/
+  constant/
+    dynamicMeshDict          gas mesh motion (ablationRecession for a
+                             receding wall without the solid)
+    conjugateProperties      solid regions, couplings, window, film
+    regionProperties         regions ( gas (region0) solid (solid) );
+    solid/polyMesh, solid/dynamicMeshDict, solid/solidProperties
+  system/
+    solid/fvSchemes, solid/fvSolution, solid/decomposeParDict
+  0/
+    solid/T                  mixed on the coupled patches
+    solid/pointDisplacement  fixedValue on the coupled patches
+</pre></div>
+</div>
+<p>The keywords of <code class="docutils literal notranslate"><span class="pre">conjugateProperties</span></code>, <code class="docutils literal notranslate"><span class="pre">solidProperties</span></code> and
+<code class="docutils literal notranslate"><span class="pre">ablationRecession</span></code> are listed in <a class="reference internal" href="../input_reference.html"><span class="doc">Input Reference</span></a> (section
+“Gas-surface interaction dictionaries”). The couplings must be disjoint:
+no patch in two couplings and no point shared by two coupled patches of
+one mesh.</p>
+</section>
+<section id="id1">
+<h3>Usage<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>blockMesh
+blockMesh<span class="w"> </span>-region<span class="w"> </span>solid
+dsmcInitialise
+dsmcFoam<span class="w"> </span>&gt;<span class="w"> </span>log.dsmcFoam<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+
+<span class="c1"># in parallel</span>
+decomposePar<span class="w"> </span>-allRegions
+mpirun<span class="w"> </span>-np<span class="w"> </span><span class="m">4</span><span class="w"> </span>dsmcFoam<span class="w"> </span>-parallel<span class="w"> </span>&gt;<span class="w"> </span>log.dsmcFoam<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+reconstructPar<span class="w"> </span>-allRegions
+</pre></div>
+</div>
+</section>
+<section id="outputs">
+<h3>Outputs<a class="headerlink" href="#outputs" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">postProcessing/conjugate/&lt;startTime&gt;/&lt;coupling&gt;.dat</span></code>: one line per
+window, with the window heat load and its relative difference between
+the gas and solid sides of the AMI;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">postProcessing/conjugate/&lt;coupling&gt;/&lt;time&gt;/wallData</span></code>: the face data
+at the write times;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;time&gt;/solid/</span></code>: the solid temperature, the melting state and the
+moved solid mesh;</p></li>
+<li><p>the gas fields and wall measurements of <a class="reference internal" href="#"><span class="doc">dsmcFoam</span></a>.</p></li>
+</ul>
+</section>
+<section id="restart">
+<h3>Restart<a class="headerlink" href="#restart" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">&lt;time&gt;/solid/uniform/solidTime</span></code> holds the solid clock, the window
+counters and the ledger; the fields <code class="docutils literal notranslate"><span class="pre">vMelt</span></code> and <code class="docutils literal notranslate"><span class="pre">melting</span></code> hold the
+state of the coupled faces, and the <code class="docutils literal notranslate"><span class="pre">pointDisplacement</span></code> conditions the
+accumulated displacements. The window sums of the walls are restarted
+with them. The gas sample of an unfinished window is not restarted.</p>
+</section>
+<section id="verification">
+<h3>Verification<a class="headerlink" href="#verification" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../reference/gsi_verification/b8_conjugate_multiregion.html"><span class="doc">B8: multi-region conjugate solid</span></a>:
+regions against the former layout, melting, film and droplets,
+non-conformal walls, Cao and Ma (2025) cases 1 and 3;</p></li>
+<li><p><a class="reference internal" href="../../reference/gsi_verification/conjugate_solid.html"><span class="doc">Conjugate solid: conduction, melting, film and droplets</span></a>: melting slab,
+film and droplet analytic checks;</p></li>
+<li><p><a class="reference internal" href="../../reference/gsi_verification/b5_recession.html"><span class="doc">B5a: reaction heats and chemistry-driven recession</span></a>: chemistry-driven
+recession with the solid (solid recession equal to the gas-side ledger
+to round-off);</p></li>
+<li><p><a class="reference internal" href="../../reference/gsi_verification/b1_wall_temperature.html"><span class="doc">B1: per-face wall temperature</span></a> and
+<a class="reference internal" href="../../reference/gsi_verification/boundary_conditions.html"><span class="doc">Wall models and surface processes</span></a>: wall
+temperature and moving walls against SPARTA.</p></li>
+</ul>
+<p>The immersed receding surfaces are verified in
+<a class="reference internal" href="../../reference/gsi_verification/immersed_surface.html"><span class="doc">Immersed ablating surface</span></a>,
+<a class="reference internal" href="../../reference/gsi_verification/b5b_immersed_chemistry.html"><span class="doc">B5b: surface chemistry on the immersed surface</span></a> and
+<a class="reference internal" href="../../reference/gsi_verification/sphere3d.html"><span class="doc">Three-dimensional immersed sphere and SPARTA twin</span></a>; their application to a
+carbon cylinder under the ACA mechanism is
+<a class="reference internal" href="../../reference/gsi_verification/aca_cylinder.html"><span class="doc">Application: carbon cylinder under the ACA mechanism</span></a> (tutorials
+<code class="docutils literal notranslate"><span class="pre">APP_acaCylinderImplicit</span></code> and <code class="docutils literal notranslate"><span class="pre">APP_acaCylinderExplicit</span></code>).</p>
+</section>
+<section id="limitations">
+<h3>Limitations<a class="headerlink" href="#limitations" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>No pyrolysis, porosity or in-depth decomposition (charring ablators).</p></li>
+<li><p>No anisotropic conductivity, no mushy zone inside the solid, no
+radiative exchange between faces.</p></li>
+<li><p>Adjacent couplings (patches sharing points) are refused.</p></li>
+<li><p>The body-fitted mesh motion has no remeshing; strongly graded meshes
+fold after large recession. Large recession is the domain of the
+immersed surfaces, which have no solid under them yet (planned).</p></li>
+<li><p>The window accelerates the solid clock; this assumes a quasi-steady
+gas over a window.</p></li>
+</ul>
+</section>
+</section>
 </section>
 
 
@@ -924,7 +1108,7 @@ seeded run is reproduced exactly.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="dsmcInitialise.html" class="btn btn-neutral float-left" title="dsmcInitialise" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="dsmcFoamAblation.html" class="btn btn-neutral float-right" title="dsmcFoamAblation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../running.html" class="btn btn-neutral float-right" title="Running a Case" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
