@@ -282,6 +282,29 @@ Vibrational-relaxation model
        every species but ZrO on the scan, whose random numbers keep
        existing results bit-identical; 0 selects the exact draw for
        every diatomic.
+   * - ``atomLevelSamplerSpecies``
+     - wordList
+     - ``(B Zr)``
+     - Atoms whose new parcels (fills, inflows, walls) draw the
+       electronic level from the alias tables of the temperature
+       nodes (exact, about 0.1 us per draw) instead of the rejection
+       draw over all the levels (up to one trial per level at low
+       temperature: 1.1 us for Zr).  The other atoms keep the
+       rejection draw, whose random numbers keep existing results
+       bit-identical; both draws are exact.
+   * - ``sigmaTcRMaxSeedWindow``
+     - label
+     - ``0``
+     - ``noTimeCounter`` and ``noTimeCounterSubCycled`` only (any other
+       collision-rate model stops with a FatalError).  Number of
+       candidates per cell after which the stored maximum of
+       :math:`\sigma_T c_r` falls, once in the run, to 1.1 times the
+       largest value of those candidates.  The seed of the fills can
+       exceed what the pairs reach by 2-3.6 for species of large
+       :math:`\omega` (B, Zr) at 10-20 kK, which costs extra candidates
+       and leaves the collision rate unchanged (up to 8 % of the step);
+       1000 is a suitable value, 0 keeps the seed and existing results
+       bit-identical.
    * - ``vibB1``, ``vibB2``, ``vibTHT``
      - scalar
      - ``30700``, ``0``, ``50000``
@@ -419,8 +442,14 @@ Specifies the initial particle distribution. The main entries are:
     temperature for the particle velocities;
   * ``internalTemperature`` —  Boltzmann sampling temperature
     used for the rovibronic state indices :math:`(n, v, J)`
-    (a single internal temperature; separate rotational,
-    vibrational or electronic temperatures are not read);
+    (a single internal temperature);
+  * ``rotationalTemperature``, ``vibrationalTemperature`` —  optional,
+    ``dsmcMeshFill`` only, for a two-temperature reservoir of POLYATOMIC
+    species (Pfeiffer et al. 2016): the electronic and rotational state
+    at the first, the vibrational state at the second, both defaulting
+    to ``internalTemperature``.  Atoms use ``internalTemperature``.  A
+    diatomic species in such a fill, or the keys in another fill type,
+    stop with a FatalError;
   * ``velocity`` —  bulk flow velocity (vector).
 
 Example:
