@@ -266,6 +266,18 @@ equilibrium constant with the exact barrierless prefactor described
 in :doc:`../theory/chemistry`; ``reactantAtomsToRecombine``,
 ``productOfRecombination`` and ``thirdBody`` configure the channel.
 
+``polyRecombinationQK`` holds the product manifold in start-up tables:
+every state when the modes other than the one drawn per level hold at
+most :math:`2\times 10^6` microstates (every product with at most four
+distinct modes). A product with more modes is held up to an energy
+:math:`E_{\mathrm{top}}` (HNCO: 7.7 eV) and the states above it are not
+formed. The start-up log then gives the temperature up to which they
+carry less than :math:`10^{-4}` of the thermal recombination weight (a
+rigorous, conservative bound); a cell significantly above it stops the
+run, and the cell updates above it are counted in the log. A product
+whose tables do not reach the bond energy (HNO3, N2O3, N2O4) stops at
+start-up.
+
 ``moleculeAtomDissociationIonisation``
 ``````````````````````````````````````
 
