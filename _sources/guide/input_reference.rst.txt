@@ -253,15 +253,18 @@ Vibrational-relaxation model
      - Sampler for the joint multi-mode vibrational state of
        POLYATOMIC molecules (Pfeiffer et al., Phys. Fluids 28,
        027103 (2016), Sec. III).  ``acceptanceRejection``
-       (default) keeps the joint acceptance-rejection kernel;
+       (default) is the exact draw: acceptance-rejection from the
+       canonical proposal of a temperature node, whose acceptance
+       stays at 0.2-0.6 from 3 to 21 modes;
        ``metropolisHastings`` switches the nonreactive vib
-       channel and the post-reaction product redistribution to
-       the random-walk Metropolis chain (paper Eqs. 31-32),
-       whose cost grows linearly with the number of modes —
-       recommended for many-mode species such as CH\ :sub:`4`.
-       Both samplers target the identical distribution (verified
-       to detailed balance); diatomics are unaffected. See
-       ``docs/Development/Verification/pfeiffer2016_relaxation_conformance.md``.
+       channel and the post-reaction product redistribution of
+       separable species to the random-walk Metropolis chain
+       (paper Eqs. 31-32) and a Gibbs sampler; their relaxation
+       rate depends on ``metropolisWalkLength`` (2026-07 note).
+       Both samplers target the identical distribution; diatomics
+       are unaffected. See
+       ``docs/Development/Verification/pfeiffer2016_relaxation_conformance.md``
+       and ``docs/Development/FIX_DEFECTS_20261103_POLY.md``.
    * - ``metropolisWalkLength``
      - label
      - ``500``
@@ -269,6 +272,16 @@ Vibrational-relaxation model
        (default 500, the paper's recommendation; CO\ :sub:`2`
        needs :math:`\geq 500`, CH\ :sub:`4` is insensitive down
        to 100).
+   * - ``levelSamplerMinLevels``
+     - label
+     - ``100000``
+     - Diatomic species with more levels draw their rovibronic and
+       rovibrational events and nascent states from the alias
+       tables of the temperature nodes (exact, about 1 us per
+       event) instead of scanning the levels.  The default leaves
+       every species but ZrO on the scan, whose random numbers keep
+       existing results bit-identical; 0 selects the exact draw for
+       every diatomic.
    * - ``vibB1``, ``vibB2``, ``vibTHT``
      - scalar
      - ``30700``, ``0``, ``50000``
@@ -341,7 +354,9 @@ name, accepts only model switches:
   spin-conservation gate per species: ``true`` connects the full
   electronic manifold, ``false`` restricts LB electronic relaxation
   (and equilibrium initialisation) to the initial state's
-  spin-multiplicity class;
+  spin-multiplicity class; the state-resolved QK classes
+  (``recombination``, the SR-muTST exchange) form their product on the
+  full manifold whatever the switch;
 * ``vibrationalCoupling`` (word) —  ``separable`` or ``coupled``
   polyatomic vibration (:doc:`../theory/rovibronic_levels`).
 

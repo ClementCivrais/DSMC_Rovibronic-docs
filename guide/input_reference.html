@@ -1072,15 +1072,18 @@ to the pure-vibrational <span class="math notranslate nohighlight">\(v\)</span>-
 <td><p>Sampler for the joint multi-mode vibrational state of
 POLYATOMIC molecules (Pfeiffer et al., Phys. Fluids 28,
 027103 (2016), Sec. III).  <code class="docutils literal notranslate"><span class="pre">acceptanceRejection</span></code>
-(default) keeps the joint acceptance-rejection kernel;
+(default) is the exact draw: acceptance-rejection from the
+canonical proposal of a temperature node, whose acceptance
+stays at 0.2-0.6 from 3 to 21 modes;
 <code class="docutils literal notranslate"><span class="pre">metropolisHastings</span></code> switches the nonreactive vib
-channel and the post-reaction product redistribution to
-the random-walk Metropolis chain (paper Eqs. 31-32),
-whose cost grows linearly with the number of modes —
-recommended for many-mode species such as CH<sub>4</sub>.
-Both samplers target the identical distribution (verified
-to detailed balance); diatomics are unaffected. See
-<code class="docutils literal notranslate"><span class="pre">docs/Development/Verification/pfeiffer2016_relaxation_conformance.md</span></code>.</p></td>
+channel and the post-reaction product redistribution of
+separable species to the random-walk Metropolis chain
+(paper Eqs. 31-32) and a Gibbs sampler; their relaxation
+rate depends on <code class="docutils literal notranslate"><span class="pre">metropolisWalkLength</span></code> (2026-07 note).
+Both samplers target the identical distribution; diatomics
+are unaffected. See
+<code class="docutils literal notranslate"><span class="pre">docs/Development/Verification/pfeiffer2016_relaxation_conformance.md</span></code>
+and <code class="docutils literal notranslate"><span class="pre">docs/Development/FIX_DEFECTS_20261103_POLY.md</span></code>.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">metropolisWalkLength</span></code></p></td>
 <td><p>label</p></td>
@@ -1090,7 +1093,18 @@ to detailed balance); diatomics are unaffected. See
 needs <span class="math notranslate nohighlight">\(\geq 500\)</span>, CH<sub>4</sub> is insensitive down
 to 100).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">vibB1</span></code>, <code class="docutils literal notranslate"><span class="pre">vibB2</span></code>, <code class="docutils literal notranslate"><span class="pre">vibTHT</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">levelSamplerMinLevels</span></code></p></td>
+<td><p>label</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">100000</span></code></p></td>
+<td><p>Diatomic species with more levels draw their rovibronic and
+rovibrational events and nascent states from the alias
+tables of the temperature nodes (exact, about 1 us per
+event) instead of scanning the levels.  The default leaves
+every species but ZrO on the scan, whose random numbers keep
+existing results bit-identical; 0 selects the exact draw for
+every diatomic.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vibB1</span></code>, <code class="docutils literal notranslate"><span class="pre">vibB2</span></code>, <code class="docutils literal notranslate"><span class="pre">vibTHT</span></code></p></td>
 <td><p>scalar</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">30700</span></code>, <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">50000</span></code></p></td>
 <td><p>Global generalised-Millikan-White constants
@@ -1098,7 +1112,7 @@ to 100).</p></td>
 temperature <span class="math notranslate nohighlight">\(T_{\mathrm{HT}}\)</span> (default 30000 K). See
 <a class="reference internal" href="../theory/relaxation.html"><span class="doc">Internal-energy relaxation</span></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vibrationalRelaxationData</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">vibrationalRelaxationData</span></code></p></td>
 <td><p>dict</p></td>
 <td><p>see below</p></td>
 <td><p>Per-pair <span class="math notranslate nohighlight">\((B_1, B_2, T_{\mathrm{HT}})\)</span> overrides,
@@ -1159,7 +1173,9 @@ name, accepts only model switches:</p>
 spin-conservation gate per species: <code class="docutils literal notranslate"><span class="pre">true</span></code> connects the full
 electronic manifold, <code class="docutils literal notranslate"><span class="pre">false</span></code> restricts LB electronic relaxation
 (and equilibrium initialisation) to the initial state’s
-spin-multiplicity class;</p></li>
+spin-multiplicity class; the state-resolved QK classes
+(<code class="docutils literal notranslate"><span class="pre">recombination</span></code>, the SR-muTST exchange) form their product on the
+full manifold whatever the switch;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">vibrationalCoupling</span></code> (word) —  <code class="docutils literal notranslate"><span class="pre">separable</span></code> or <code class="docutils literal notranslate"><span class="pre">coupled</span></code>
 polyatomic vibration (<a class="reference internal" href="../theory/rovibronic_levels.html"><span class="doc">Rovibronic level structure</span></a>).</p></li>
 </ul>
