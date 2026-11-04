@@ -584,7 +584,7 @@ a reaction that names a normal-mode species stops with a
   ``productAtom`` and ``formationEnergy`` (:math:`-D_{0,j}` [J]);
   optional ``rotationCouplingGamma`` (paper Eq. 36, default 0).
   Competing open channels are drawn weighted by their excess energy.
-* ``polyExchangeQK`` — mode-coupled QK exchange (paper Eqs. 23–26).
+* ``polyatomicExchange`` — mode-coupled QK exchange (paper Eqs. 23–26).
   Keys: ``productsOfExchangeReaction (C D)``, ``activationEnergy``
   (the *energetic* barrier :math:`E_a` [J], not an Arrhenius fit),
   ``modeCouplingAlpha`` (per-mode :math:`\alpha_j` list, one entry

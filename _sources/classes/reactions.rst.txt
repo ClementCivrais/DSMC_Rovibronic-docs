@@ -236,8 +236,8 @@ single-oscillator limit. ``productMolecule`` and ``productAtom``
 name the fragments; ``xiCMode`` selects the internal-DOF accounting
 (``cellThermal`` default, ``perCollision``, ``shape``).
 
-``polyDissociationQK``
-``````````````````````
+``polyatomicDissociation``
+``````````````````````````
 
 Parameter-free QK dissociation of a polyatomic: dissociates when
 :math:`E_{\mathrm{rel}} + E_{\mathrm{int}}` exceeds the bond energy

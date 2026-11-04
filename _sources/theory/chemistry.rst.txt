@@ -444,7 +444,7 @@ polyatomic-reaction model of Nizenkov, Pfeiffer and co-workers
   more than the activation energy, and the product channel must be
   energetically open.
 
-* ``polyDissociationQK`` —  parameter-free QK dissociation: the
+* ``polyatomicDissociation`` —  parameter-free QK dissociation: the
   bond breaks when :math:`E_{\mathrm{rel}} + E_{\mathrm{int}}` of
   the polyatomic exceeds the bond energy :math:`D_0`, with
   :math:`E_{\mathrm{int}}` the full electronic + rotational +
