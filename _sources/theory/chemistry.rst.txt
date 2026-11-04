@@ -458,7 +458,7 @@ polyatomic-reaction model of Nizenkov, Pfeiffer and co-workers
   key selects the ``arrhenius`` (forward) probability or the
   ``detailedBalance`` (reverse) prefactor.
 
-* ``polyRecombinationTCE`` / ``polyRecombinationQK`` —  the
+* ``polyRecombinationTCE`` / ``polyatomicRecombination`` —  the
   detailed-balance partners of the two dissociation classes, with
   the backward rate obtained from the equilibrium constant (below).
 

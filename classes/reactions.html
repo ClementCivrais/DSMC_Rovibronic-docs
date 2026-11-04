@@ -442,7 +442,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#polydissociationtce"><code class="docutils literal notranslate"><span class="pre">polyDissociationTCE</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#polydissociationqk"><code class="docutils literal notranslate"><span class="pre">polyDissociationQK</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#polyexchangetce"><code class="docutils literal notranslate"><span class="pre">polyExchangeTCE</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#polyrecombinationtce-polyrecombinationqk"><code class="docutils literal notranslate"><span class="pre">polyRecombinationTCE</span></code> / <code class="docutils literal notranslate"><span class="pre">polyRecombinationQK</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#polyrecombinationtce-polyatomicrecombination"><code class="docutils literal notranslate"><span class="pre">polyRecombinationTCE</span></code> / <code class="docutils literal notranslate"><span class="pre">polyatomicRecombination</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#moleculeatomdissociationionisation"><code class="docutils literal notranslate"><span class="pre">moleculeAtomDissociationIonisation</span></code></a></li>
 </ul>
 </li>
@@ -1050,15 +1050,17 @@ key selects <code class="docutils literal notranslate"><span class="pre">arrheni
 <span class="math notranslate nohighlight">\(k_b = k_f/K_{\mathrm{eq}}\)</span>); <code class="docutils literal notranslate"><span class="pre">productsOfExchangeReaction</span></code>
 names the two products.</p>
 </section>
-<section id="polyrecombinationtce-polyrecombinationqk">
-<h3><code class="docutils literal notranslate"><span class="pre">polyRecombinationTCE</span></code> / <code class="docutils literal notranslate"><span class="pre">polyRecombinationQK</span></code><a class="headerlink" href="#polyrecombinationtce-polyrecombinationqk" title="Link to this heading"></a></h3>
+<section id="polyrecombinationtce-polyatomicrecombination">
+<h3><code class="docutils literal notranslate"><span class="pre">polyRecombinationTCE</span></code> / <code class="docutils literal notranslate"><span class="pre">polyatomicRecombination</span></code><a class="headerlink" href="#polyrecombinationtce-polyatomicrecombination" title="Link to this heading"></a></h3>
 <p>Detailed-balance partners of the two dissociation classes,
 <span class="math notranslate nohighlight">\(\mathrm{AB} + \mathrm{B} + \mathrm{M} \to \mathrm{AB}_2 +
 \mathrm{M}\)</span>. The backward rate is built from the partition-function
 equilibrium constant with the exact barrierless prefactor described
 in <a class="reference internal" href="../theory/chemistry.html"><span class="doc">Neutral chemistry</span></a>; <code class="docutils literal notranslate"><span class="pre">reactantAtomsToRecombine</span></code>,
 <code class="docutils literal notranslate"><span class="pre">productOfRecombination</span></code> and <code class="docutils literal notranslate"><span class="pre">thirdBody</span></code> configure the channel.</p>
-<p><code class="docutils literal notranslate"><span class="pre">polyRecombinationQK</span></code> holds the product manifold in start-up tables:
+<p><code class="docutils literal notranslate"><span class="pre">polyatomicRecombination</span></code> (named <code class="docutils literal notranslate"><span class="pre">polyRecombinationQK</span></code> before
+2026-11-04; existing cases may keep the old <code class="docutils literal notranslate"><span class="pre">reactionModel</span></code> name)
+holds the product manifold in start-up tables:
 every state when the modes other than the one drawn per level hold at
 most <span class="math notranslate nohighlight">\(2\times 10^6\)</span> microstates (every product with at most four
 distinct modes). A product with more modes is held up to an energy

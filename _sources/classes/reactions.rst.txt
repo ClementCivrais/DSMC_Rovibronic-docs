@@ -256,8 +256,8 @@ key selects ``arrhenius`` (forward) or ``detailedBalance`` (reverse,
 :math:`k_b = k_f/K_{\mathrm{eq}}`); ``productsOfExchangeReaction``
 names the two products.
 
-``polyRecombinationTCE`` / ``polyRecombinationQK``
-``````````````````````````````````````````````````
+``polyRecombinationTCE`` / ``polyatomicRecombination``
+``````````````````````````````````````````````````````
 
 Detailed-balance partners of the two dissociation classes,
 :math:`\mathrm{AB} + \mathrm{B} + \mathrm{M} \to \mathrm{AB}_2 +
@@ -266,7 +266,9 @@ equilibrium constant with the exact barrierless prefactor described
 in :doc:`../theory/chemistry`; ``reactantAtomsToRecombine``,
 ``productOfRecombination`` and ``thirdBody`` configure the channel.
 
-``polyRecombinationQK`` holds the product manifold in start-up tables:
+``polyatomicRecombination`` (named ``polyRecombinationQK`` before
+2026-11-04; existing cases may keep the old ``reactionModel`` name)
+holds the product manifold in start-up tables:
 every state when the modes other than the one drawn per level hold at
 most :math:`2\times 10^6` microstates (every product with at most four
 distinct modes). A product with more modes is held up to an energy
