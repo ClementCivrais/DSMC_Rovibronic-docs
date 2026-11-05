@@ -955,7 +955,7 @@ rotational constants of B<sub>2</sub>O<sub>3</sub> (flagged NON-NIST:
 no experimental value exists), and their 0 K formation enthalpies
 from NIST-JANAF (ATcT 1.130 lists none); see
 <code class="docutils literal notranslate"><span class="pre">sources/nist/BUILD_REPORT.md</span></code>, section 14.
-Species variants (<code class="docutils literal notranslate"><span class="pre">O2NIST</span></code>, <code class="docutils literal notranslate"><span class="pre">O2VHS</span></code>, <code class="docutils literal notranslate"><span class="pre">CO2harm</span></code>,
+Species variants (<code class="docutils literal notranslate"><span class="pre">O2VHS</span></code>, <code class="docutils literal notranslate"><span class="pre">CO2harm</span></code>,
 <code class="docutils literal notranslate"><span class="pre">CH4coupled</span></code>, …) map to the formula of their parent and share its
 mass and collision data. Representative pair values, as printed by
 the solver at start-up:</p>
@@ -1018,9 +1018,9 @@ tables.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">"&lt;repo&gt;/src/lagrangian/DSMC/speciesDatabase/sources"</span><span class="p">)</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">species_frozen</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
-<span class="n">sf</span><span class="o">.</span><span class="n">mass</span><span class="p">(</span><span class="s2">"O2NIST"</span><span class="p">)</span>       <span class="c1"># [kg]</span>
+<span class="n">sf</span><span class="o">.</span><span class="n">mass</span><span class="p">(</span><span class="s2">"O2"</span><span class="p">)</span>       <span class="c1"># [kg]</span>
 <span class="n">sf</span><span class="o">.</span><span class="n">vss</span><span class="p">(</span><span class="s2">"O"</span><span class="p">)</span>             <span class="c1"># (d_ref [m], omega, alpha, Tref [K])</span>
-<span class="n">sf</span><span class="o">.</span><span class="n">pair</span><span class="p">(</span><span class="s2">"O2NIST"</span><span class="p">,</span> <span class="s2">"O"</span><span class="p">)</span>  <span class="c1"># the pair values the solver uses</span>
+<span class="n">sf</span><span class="o">.</span><span class="n">pair</span><span class="p">(</span><span class="s2">"O2"</span><span class="p">,</span> <span class="s2">"O"</span><span class="p">)</span>  <span class="c1"># the pair values the solver uses</span>
 <span class="n">sf</span><span class="o">.</span><span class="n">TREF</span>                 <span class="c1"># 273.0</span>
 </pre></div>
 </div>

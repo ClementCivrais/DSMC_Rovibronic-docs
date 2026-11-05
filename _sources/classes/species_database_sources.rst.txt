@@ -142,7 +142,7 @@ rotational constants of B\ :sub:`2`\ O\ :sub:`3` (flagged NON-NIST:
 no experimental value exists), and their 0 K formation enthalpies
 from NIST-JANAF (ATcT 1.130 lists none); see
 ``sources/nist/BUILD_REPORT.md``, section 14.
-Species variants (``O2NIST``, ``O2VHS``, ``CO2harm``,
+Species variants (``O2VHS``, ``CO2harm``,
 ``CH4coupled``, …) map to the formula of their parent and share its
 mass and collision data. Representative pair values, as printed by
 the solver at start-up:
@@ -197,9 +197,9 @@ tables.
    import sys
    sys.path.insert(0, "<repo>/src/lagrangian/DSMC/speciesDatabase/sources")
    import species_frozen as sf
-   sf.mass("O2NIST")       # [kg]
+   sf.mass("O2")       # [kg]
    sf.vss("O")             # (d_ref [m], omega, alpha, Tref [K])
-   sf.pair("O2NIST", "O")  # the pair values the solver uses
+   sf.pair("O2", "O")  # the pair values the solver uses
    sf.TREF                 # 273.0
 
 Spectroscopy
