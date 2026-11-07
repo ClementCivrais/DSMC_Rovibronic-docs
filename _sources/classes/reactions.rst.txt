@@ -335,7 +335,14 @@ Charge-exchange reactions,
 :math:`\mathrm{A}^{+} + \mathrm{B} \to \mathrm{A} +
 \mathrm{B}^{+}`. The heat of reaction is computed automatically
 as :math:`\Delta H_{\mathrm{cx}} = \mathrm{IP}(\mathrm{A})
-- \mathrm{IP}(\mathrm{B})`.
+- \mathrm{IP}(\mathrm{B})`. The class has no coefficient: the
+probability comes from a start-up table of the open channels of both
+sides, counted with the VSS and Langevin cross-sections, with the
+polarisability volume of the neutral from the species database. The
+law is in detailed balance state by state. The product states are
+drawn with this law, and Wigner's rule applies to the draw: with no
+common total spin between the reactant pair and the product pair
+there is no event, and the law is not renormalised.
 
 ``forwardAssociativeIonisation``
 ````````````````````````````````
