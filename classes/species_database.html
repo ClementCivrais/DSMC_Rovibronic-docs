@@ -23,7 +23,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Species database: sources, generation and lock" href="species_database_sources.html" />
+    <link rel="next" title="Species database: sources, generation and checks" href="species_database_sources.html" />
     <link rel="prev" title="dsmcCloud — the solver orchestrator" href="cloud.html" /> 
 </head>
 
@@ -362,13 +362,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#extending-the-database">Extending the database</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="species_database_sources.html">Species database: sources, generation and lock</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="species_database_sources.html">Species database: sources, generation and checks</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#principle">Principle</a></li>
 <li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#files">Files</a></li>
 <li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#masses-and-collision-data">Masses and collision data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#spectroscopy">Spectroscopy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#case-level-lock">Case-level lock</a></li>
-<li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#repository-lock">Repository lock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#repository-check">Repository check</a></li>
 <li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#changing-or-adding-a-species">Changing or adding a species</a></li>
 <li class="toctree-l3"><a class="reference internal" href="species_database_sources.html#history">History</a></li>
 </ul>
@@ -803,7 +803,7 @@
 per-species data used throughout the solver. The data are compiled
 into <code class="docutils literal notranslate"><span class="pre">libDSMC_MNF</span></code> and frozen: they are generated from stored
 source files and cannot be overridden from a case (see
-<a class="reference internal" href="species_database_sources.html"><span class="doc">Species database: sources, generation and lock</span></a>). The cloud instantiates the
+<a class="reference internal" href="species_database_sources.html"><span class="doc">Species database: sources, generation and checks</span></a>). The cloud instantiates the
 database when the <code class="docutils literal notranslate"><span class="pre">rovibronicDatabase</span></code> sub-dictionary is present
 in <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code>; without it the solver stops. Every
 downstream consumer —  collision models, reaction classes,
@@ -888,7 +888,7 @@ ships a set of <strong>polyatomic species</strong> whose spectroscopic constants
 are generated, like all others, into
 <code class="docutils literal notranslate"><span class="pre">dsmcSpeciesDatabaseSpectroscopy.C</span></code> from the stored CCCBDB and
 ATcT sources, value by value with their provenance (see
-<a class="reference internal" href="species_database_sources.html"><span class="doc">Species database: sources, generation and lock</span></a>). A species is selected simply by
+<a class="reference internal" href="species_database_sources.html"><span class="doc">Species database: sources, generation and checks</span></a>). A species is selected simply by
 adding its symbol to <code class="docutils literal notranslate"><span class="pre">typeIdList</span></code>; the
 <span class="math notranslate nohighlight">\((J, K)\)</span> rotational ladder and the multi-mode vibrational
 ladders are then built at start-up by the same
@@ -982,7 +982,7 @@ reactive channels cannot yet be.</p>
 <p>A new species, or a change to an existing one, goes through the
 source files and generators of <code class="docutils literal notranslate"><span class="pre">speciesDatabase/sources/</span></code> and
 needs the code owner’s approval; the procedure and the repository
-lock are described in <a class="reference internal" href="species_database_sources.html"><span class="doc">Species database: sources, generation and lock</span></a>. Once the
+lock are described in <a class="reference internal" href="species_database_sources.html"><span class="doc">Species database: sources, generation and checks</span></a>. Once the
 species is in the database, a case selects it by appending its
 symbol to <code class="docutils literal notranslate"><span class="pre">typeIdList</span></code> in <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code>.</p>
 </section>
@@ -993,7 +993,7 @@ symbol to <code class="docutils literal notranslate"><span class="pre">typeIdLis
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="cloud.html" class="btn btn-neutral float-left" title="dsmcCloud — the solver orchestrator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="species_database_sources.html" class="btn btn-neutral float-right" title="Species database: sources, generation and lock" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="species_database_sources.html" class="btn btn-neutral float-right" title="Species database: sources, generation and checks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
