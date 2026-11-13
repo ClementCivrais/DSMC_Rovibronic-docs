@@ -797,6 +797,13 @@
   <section id="reaction-classes">
 <h1>Reaction classes<a class="headerlink" href="#reaction-classes" title="Link to this heading"></a></h1>
 <p>Source: <code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/gasGasReactions/derived/</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The TCE, Bias and FHO models (every <code class="docutils literal notranslate"><span class="pre">...TCE</span></code> and <code class="docutils literal notranslate"><span class="pre">...Bias</span></code> reaction class) were removed from main on
+2026-11-12. Their source and the documentation below are kept on
+branch <code class="docutils literal notranslate"><span class="pre">development/tce-bias-fho</span></code> (main at 175f55e7); a deck that
+names one of them stops at start-up with the runtime-selection error.</p>
+</div>
 <p>The derived reaction classes are organised <strong>by chemistry model</strong>:
 each top-level sub-directory is a model the user can choose from,
 and within it the individual reactive channels are implemented:</p>

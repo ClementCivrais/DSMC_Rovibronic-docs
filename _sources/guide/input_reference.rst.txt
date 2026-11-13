@@ -119,7 +119,7 @@ binary-collision selectors.
      - ``LarsenBorgnakkeVariableHardSphere``
      - Binary collision model class. Alternatives:
        ``LarsenBorgnakkeVariableSoftSphere``,
-       ``FHOVariableHardSphere``, ``VariableHardSphere``,
+       ``VariableHardSphere``,
        ``VariableSoftSphere``, ``NoBinaryCollision``.
    * - ``collisionProperties``
      - dict

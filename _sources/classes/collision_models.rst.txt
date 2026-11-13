@@ -1,6 +1,13 @@
 Binary collision models
 =======================
 
+.. note::
+
+   The TCE, Bias and FHO models (``FHOVariableHardSphere`` and the ``...TCE``/``...Bias`` reactions) were removed from main on
+   2026-11-12. Their source and the documentation below are kept on
+   branch ``development/tce-bias-fho`` (main at 175f55e7); a deck that
+   names one of them stops at start-up with the runtime-selection error.
+
 Source: ``src/lagrangian/DSMC/collisions/derived/``.
 
 Role
