@@ -398,7 +398,7 @@
 <li class="toctree-l3"><a class="reference internal" href="collision_partner_selection.html#role">Role</a></li>
 <li class="toctree-l3"><a class="reference internal" href="collision_partner_selection.html#implemented-classes">Implemented classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#notimecounter"><code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#notimecountersubcycled"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#notimecountersubcycled-removed-2026-11-13"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> (removed 2026-11-13)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#majorantcollisionfrequency"><code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#simplifiedbernoullitrials"><code class="docutils literal notranslate"><span class="pre">simplifiedBernoulliTrials</span></code></a></li>
 </ul>
@@ -548,11 +548,7 @@
 <li class="toctree-l4"><a class="reference internal" href="measurements.html#id6">Usage</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="measurements.html#theoretical-basis-translational-distribution-functions">Theoretical basis — translational distribution functions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="measurements.html#id8">Usage</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="measurements.html#orchestration-and-lifecycle">Orchestration and lifecycle</a></li>
 </ul>
 </li>
@@ -836,7 +832,12 @@ useful as a hard reset in equilibrium-approach studies.</p>
 <p>Maintains a target per-species number density inside a zone by
 inserting parcels when the population is too low and deleting
 them when it is too high. Useful in heat-bath studies where a
-finite cell volume would otherwise drift in composition.</p>
+finite cell volume would otherwise drift in composition. The
+measured density is the mean over the samples of the averaging
+window, and the deficit of a cell is converted into parcels of its
+weight (cell weight times the radial weight at the cell centre), so
+that the controller has unit gain in cell-weighted and axisymmetric
+runs.</p>
 </section>
 <section id="gravitationalaccelerationcontroller">
 <h3><code class="docutils literal notranslate"><span class="pre">gravitationalAccelerationController</span></code><a class="headerlink" href="#gravitationalaccelerationcontroller" title="Link to this heading"></a></h3>
@@ -856,6 +857,13 @@ which is itself constructed by the cloud at initialisation. On
 every time-step, each registered controller’s <code class="docutils literal notranslate"><span class="pre">control()</span></code> entry
 point is invoked; internal sampling windows allow a controller to
 accumulate statistics over several DSMC steps before it acts.</p>
+<p><code class="docutils literal notranslate"><span class="pre">initialTimePeriod</span></code> counts from the start of the case’s first run:
+the start time is written at every write time to
+<code class="docutils literal notranslate"><span class="pre">&lt;time&gt;/uniform/dsmcStateControllers</span></code> and read back at a restart.
+The sampling windows of the controllers are not written: after a
+restart the first window starts at the restart time (the measured
+means are over the samples taken, so a short first window is
+unbiased, only noisier).</p>
 </section>
 <section id="use-with-regression-tests">
 <h2>Use with regression tests<a class="headerlink" href="#use-with-regression-tests" title="Link to this heading"></a></h2>

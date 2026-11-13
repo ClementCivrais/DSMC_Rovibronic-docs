@@ -291,6 +291,15 @@ run, and the cell updates above it are counted in the log. A product
 whose tables do not reach the bond energy (HNO3, N2O3, N2O4) stops at
 start-up.
 
+Its microscopic reverse kernel (the exact reverse of the forward
+``polyatomicDissociation`` event) is served by ``noTimeCounter`` once
+per cell and step, before the heavy candidates of the cell, with the
+third bodies read from the live lists of the cell (since 2026-11-13).
+Before, the first AB + B candidate of a cell served it for all the
+steps since its last service, which over-served cells of a few parcels
+(+18 % on the recombination rate with 9 parcels per cell). Another
+collision-rate model stops at start-up.
+
 ``moleculeAtomDissociationIonisation``
 ``````````````````````````````````````
 

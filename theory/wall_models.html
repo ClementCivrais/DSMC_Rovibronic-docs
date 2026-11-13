@@ -399,7 +399,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../classes/collision_partner_selection.html#role">Role</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/collision_partner_selection.html#implemented-classes">Implemented classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#notimecounter"><code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#notimecountersubcycled"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#notimecountersubcycled-removed-2026-11-13"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> (removed 2026-11-13)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#majorantcollisionfrequency"><code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#simplifiedbernoullitrials"><code class="docutils literal notranslate"><span class="pre">simplifiedBernoulliTrials</span></code></a></li>
 </ul>
@@ -549,11 +549,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#id6">Usage</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#theoretical-basis-translational-distribution-functions">Theoretical basis — translational distribution functions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#id8">Usage</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#orchestration-and-lifecycle">Orchestration and lifecycle</a></li>
 </ul>
 </li>
@@ -844,9 +840,10 @@ quantum state <span class="math notranslate nohighlight">\((n, v, J)\)</span> in
 <span class="math notranslate nohighlight">\(\alpha \in [0, 1]\)</span>: a fraction <span class="math notranslate nohighlight">\(\alpha\)</span> of incoming
 parcels reflect diffusely, the remainder specularly. In the
 implemented variant <code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallPatch</span></code>,
-<span class="math notranslate nohighlight">\(\alpha\)</span> is a single scalar; the field variant
-<code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallFieldPatch</span></code> allows <span class="math notranslate nohighlight">\(\alpha\)</span>
-and <span class="math notranslate nohighlight">\(T_w\)</span> to vary patch face by patch face.</p>
+<span class="math notranslate nohighlight">\(\alpha\)</span> is a single scalar (the field variant
+<code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallFieldPatch</span></code>, with <span class="math notranslate nohighlight">\(\alpha\)</span> and
+<span class="math notranslate nohighlight">\(T_w\)</span> per face, was removed from main on 2026-11-12; its source
+is in the history of main before it, 70947963).</p>
 </section>
 <section id="cercignani-lampis-lord-cll-scattering">
 <h2>Cercignani-Lampis-Lord (CLL) scattering<a class="headerlink" href="#cercignani-lampis-lord-cll-scattering" title="Link to this heading"></a></h2>
@@ -933,7 +930,9 @@ follow the acceptance-rejection construction of Bird.</p>
 </section>
 <section id="chapman-enskog-inflow">
 <h2>Chapman-Enskog inflow<a class="headerlink" href="#chapman-enskog-inflow" title="Link to this heading"></a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogFreeStreamInflowPatch</span></code> extends the
+<p>The <code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogInflowPatch</span></code> (a general boundary; it
+replaced <code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogFreeStreamInflowPatch</span></code>, removed on
+2026-11-12) extends the
 Maxwellian inflow with a first-order Chapman-Enskog correction
 accounting for a non-zero stress and heat flux at the patch
 face,</p>
@@ -971,12 +970,10 @@ species-selective when required.</p>
 <section id="cyclic-boundaries">
 <h2>Cyclic boundaries<a class="headerlink" href="#cyclic-boundaries" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">dsmcCyclicBoundaries</span></code> block in <code class="docutils literal notranslate"><span class="pre">boundariesDict</span></code> supports
-periodic pairing. The
-<code class="docutils literal notranslate"><span class="pre">dsmcReflectiveParticleMembranePatch</span></code> variant reflects a
-user-specified fraction of incoming parcels back into the domain
-while letting the rest pass through; this is the mechanism used,
-for instance, to model permeable membranes in micro-nano-flow
-applications.</p>
+periodic pairing. (The membrane variant
+<code class="docutils literal notranslate"><span class="pre">dsmcReflectiveParticleMembranePatch</span></code> was removed from main on
+2026-11-12; its source is in the history of main before it,
+70947963.)</p>
 </section>
 <section id="gas-surface-interaction-framework">
 <h2>Gas-surface interaction framework<a class="headerlink" href="#gas-surface-interaction-framework" title="Link to this heading"></a></h2>
@@ -1260,7 +1257,12 @@ engine with the cut cells as elements. After every recession update
 a cell whose surface area falls releases the corresponding fraction
 of its adsorbates and carries to the neighbouring cells that gained
 area, so atoms are conserved exactly. The surface temperature is
-uniform, or per cut cell in radiative equilibrium. Vapour-pressure
+uniform, or per cut cell in radiative equilibrium; there the sample of
+an interval enters the relaxed flux of a cell of surface area
+<span class="math notranslate nohighlight">\(A\)</span> with the weight <code class="docutils literal notranslate"><span class="pre">relaxationFactor</span></code>
+<span class="math notranslate nohighlight">\(\min(1, A/\bar A)\)</span>, <span class="math notranslate nohighlight">\(\bar A\)</span> the mean element area, so
+that a sliver of the surface in a cut cell is not driven by the
+energy of single events over its small area. Vapour-pressure
 sublimation (Clausius-Clapeyron <span class="math notranslate nohighlight">\(p_{vap} = a\,e^{-b/T_w}\)</span> and
 the Hertz-Knudsen flux) and a global radiative equilibrium are also
 available on the immersed surface. Verification:

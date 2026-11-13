@@ -399,7 +399,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../classes/collision_partner_selection.html#role">Role</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/collision_partner_selection.html#implemented-classes">Implemented classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#notimecounter"><code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#notimecountersubcycled"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#notimecountersubcycled-removed-2026-11-13"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> (removed 2026-11-13)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#majorantcollisionfrequency"><code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#simplifiedbernoullitrials"><code class="docutils literal notranslate"><span class="pre">simplifiedBernoulliTrials</span></code></a></li>
 </ul>
@@ -549,11 +549,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#id6">Usage</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#theoretical-basis-translational-distribution-functions">Theoretical basis — translational distribution functions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#id8">Usage</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#orchestration-and-lifecycle">Orchestration and lifecycle</a></li>
 </ul>
 </li>
@@ -961,10 +957,11 @@ configurable field models that complement the per-cell
 <code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code> output: one-, two-, and three-dimensional bin
 histograms (<code class="docutils literal notranslate"><span class="pre">dsmcBinsMethod</span></code>) for mesh-independent profiles,
 zone averages (<code class="docutils literal notranslate"><span class="pre">dsmcZone</span></code>) for zero-dimensional reference
-quantities, velocity and speed distributions
-(<code class="docutils literal notranslate"><span class="pre">dsmcVelocityDistributionZone</span></code>,
-<code class="docutils literal notranslate"><span class="pre">dsmcSpeedDistributionZone</span></code>), and flux integrals through named
-face zones (<code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code>). The present page
+quantities, rovibronic populations (<code class="docutils literal notranslate"><span class="pre">dsmcRovibronicPopulation</span></code>)
+and flux integrals through named face zones
+(<code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code>); the velocity and speed distributions
+(<code class="docutils literal notranslate"><span class="pre">dsmcVelocityDistributionZone</span></code>, <code class="docutils literal notranslate"><span class="pre">dsmcSpeedDistributionZone</span></code>)
+were removed on 2026-11-12. The present page
 concentrates on the underlying per-cell estimators; the
 configurable layer is documented in full on the class page.</p>
 </section>

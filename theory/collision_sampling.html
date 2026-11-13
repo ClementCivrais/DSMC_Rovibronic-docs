@@ -399,7 +399,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../classes/collision_partner_selection.html#role">Role</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/collision_partner_selection.html#implemented-classes">Implemented classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#notimecounter"><code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#notimecountersubcycled"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#notimecountersubcycled-removed-2026-11-13"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> (removed 2026-11-13)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#majorantcollisionfrequency"><code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#simplifiedbernoullitrials"><code class="docutils literal notranslate"><span class="pre">simplifiedBernoulliTrials</span></code></a></li>
 </ul>
@@ -549,11 +549,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#id6">Usage</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#theoretical-basis-translational-distribution-functions">Theoretical basis — translational distribution functions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#id8">Usage</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#orchestration-and-lifecycle">Orchestration and lifecycle</a></li>
 </ul>
 </li>
@@ -844,28 +840,14 @@ the alternatives below are designed to address.</p>
 </section>
 <section id="no-time-counter-with-sub-cycling">
 <h2>No-Time-Counter with sub-cycling<a class="headerlink" href="#no-time-counter-with-sub-cycling" title="Link to this heading"></a></h2>
-<p>When charged species are present, electron-electron and electron-
-neutral collision rates routinely exceed heavy-species collision
-rates by several orders of magnitude. A single DSMC time-step is
-then either too coarse to resolve electron kinetics or too fine
-to be practical for the rest of the flow. The
-<code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> variant performs <span class="math notranslate nohighlight">\(n_{\mathrm{sc}}\)</span>
-internal NTC sub-cycles on the electron population within each
-global DSMC step:</p>
-<div class="math notranslate nohighlight">
-\[\Delta t_{\mathrm{sc}}
-  = \frac{\Delta t}{n_{\mathrm{sc}}},
-\qquad
-N_{\mathrm{cand}}^{\mathrm{sc}}
-  = \frac{1}{2}\,
-    \frac{N_e(N_e - 1)\, F_N\, (\sigma_T g)_{\max}\,
-          \Delta t_{\mathrm{sc}}}{V_c}
-    \times n_{\mathrm{sc}},\]</div>
-<p>so that the total number of sampled electron collisions remains
-unchanged but they are now distributed over <span class="math notranslate nohighlight">\(n_{\mathrm{sc}}\)</span>
-smaller steps. The key <code class="docutils literal notranslate"><span class="pre">nSubCycles</span></code> in the
-<code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycledProperties</span></code> sub-dictionary sets
-<span class="math notranslate nohighlight">\(n_{\mathrm{sc}}\)</span>.</p>
+<p>The former <code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> variant, which repeated the whole
+NTC pass of a cell <span class="math notranslate nohighlight">\(n_{\mathrm{sc}}\)</span> times per step, was removed
+on 2026-11-13.  <code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code> sub-cycles the collisions with an
+electron itself: per cell, from the reaction events with an electron of
+the step before, the electron pairs and the electron third bodies run
+<span class="math notranslate nohighlight">\(n_{\mathrm{sub}}\)</span> sub-cycles of <span class="math notranslate nohighlight">\(\Delta t/n_{\mathrm{sub}}\)</span>
+while the heavy candidates are taken in shares around them (see the
+class description of <code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code>).</p>
 </section>
 <section id="majorant-collision-frequency-mcf">
 <h2>Majorant Collision Frequency (MCF)<a class="headerlink" href="#majorant-collision-frequency-mcf" title="Link to this heading"></a></h2>
@@ -915,9 +897,11 @@ the sampling logic is otherwise unchanged.</p>
 <ul class="simple">
 <li><p>use <code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code> for general-purpose DSMC work; it has
 been exercised on every validation case in the project;</p></li>
-<li><p>use <code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> when <code class="docutils literal notranslate"><span class="pre">chargedParticles</span></code> is
-enabled and electron-electron or electron-neutral collision
-rates are expected to dominate the global DSMC time-step;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code> is required for decks with recombination, ion
+recombination or polyatomic recombination entries (their
+microscopic reverse kernels run from its hooks) and recommended
+for charged decks (its electron sub-cycles resolve the electron
+collisions per cell);</p></li>
 <li><p>consider <code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code> when the cross-section
 distribution across species pairs spans several decades;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">simplifiedBernoulliTrials</span></code> is primarily of pedagogical

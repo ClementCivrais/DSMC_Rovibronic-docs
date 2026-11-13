@@ -41,8 +41,8 @@ The case exercises two complementary reaction blocks:
   threshold :math:`E_{\mathrm{ion}}(n,v,J) = E_{\mathrm{IP}}
   - E(n,v,J)`, the **ion-attached electrons** of a flow
   (``ambipolarElectrons``; this single-cell case does not need
-  them), and the **sub-cycled collisions** of
-  ``noTimeCounterSubCycled`` —  is documented in
+  them), and the **electron sub-cycles** of
+  ``noTimeCounter`` —  is documented in
   :doc:`../theory/chemistry_charged`. Every class in this block
   is flagged as *work in progress* on
   :doc:`../classes/reactions`; the code paths are in place but

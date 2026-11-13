@@ -295,8 +295,8 @@ Vibrational-relaxation model
    * - ``sigmaTcRMaxSeedWindow``
      - label
      - ``0``
-     - ``noTimeCounter`` and ``noTimeCounterSubCycled`` only (any other
-       collision-rate model stops with a FatalError).  Number of
+     - ``noTimeCounter`` only (any other collision-rate model stops
+       with a FatalError).  Number of
        candidates per cell after which the stored maximum of
        :math:`\sigma_T c_r` falls, once in the run, to 1.1 times the
        largest value of those candidates.  The seed of the fills can
@@ -521,8 +521,10 @@ The following patch classes are implemented in
      - Particle sink (outflow or selective deletion).
    * - ``dsmcFreeStreamInflowPatch``
      - Maxwellian free-stream inflow.
-   * - ``dsmcChapmanEnskogFreeStreamInflowPatch``
-     - Chapman-Enskog (first-order non-equilibrium) inflow.
+   * - ``dsmcChapmanEnskogInflowPatch``
+     - Chapman-Enskog (first-order non-equilibrium) inflow, a general
+       boundary (``dsmcGeneralBoundaries``); it replaced
+       ``dsmcChapmanEnskogFreeStreamInflowPatch``, removed on 2026-11-12.
    * - ``dsmcWangPressureInlet``,
        ``dsmcLiouFangPressureInlet``,
        ``dsmcMassFlowRateInlet``
@@ -825,12 +827,13 @@ of a reaction: ``id``, ``rateStyle`` (``arrhenius`` | ``constant``),
 (``J`` | ``K`` | ``eV``), ``spectator``, and ``products`` (gas-product
 kernels by name or as a list in token order).
 
-Legacy coverage keywords (translated into a mechanism): ``siteDensity``
-or ``material``; ``species { X { stick; stickEnergy; stickingModel
-langmuir|kisliuk; kisliukK; dissociateTo; desorbPrefactor;
-desorbEnergy; desorbLateral; desorbPrefactorCov; initCoverage; } }``;
-``reactions { name { type ER|CID|LH; reactant; coReactant; product;
-gamma; A; Ta; } }``; optional ``psIntegrator``.
+The legacy coverage keywords of the wall (``siteDensity``, ``species
+{ ... }``, ``reactions { ... }``, ``nsync``, ``psIntegrator``,
+``psSplitting``, and a wall with neither ``mechanism`` nor
+``spartaMechanism``) are no longer translated into a mechanism: since
+the release cleanup of 2026-11-12 each stops the run with a FatalIOError
+naming its replacement (``run/PERF/review_20261112/cleanup/migrate_decks.py``
+rewrites such a wall as a ``mechanism`` of ``system/surfaceChemReactDict``).
 
 Scattering kernels
 ``````````````````
@@ -908,8 +911,11 @@ Immersed surface
        // sublimation true; sublimationAlpha 1;
        // sublimationProducts { C3 { pvapA ...; pvapB ...; nCarbon 3; } }
        // perCellRecession true;      // former cell-centred level set
-       // patoCoupling true; patoCouplingInterval 100;
    }
+
+(``patoCoupling`` and ``patoCouplingInterval``, the file-exchange PATO
+coupling, were removed on 2026-11-12: either key now stops the run with
+a FatalIOError; the conjugate solid of ``dsmcFoam`` below replaces it.)
 
 A mechanism needs the cut cells of the implicit or explicit surface;
 the analytic and level-set paths keep the probability mode.

@@ -399,7 +399,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../classes/collision_partner_selection.html#role">Role</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/collision_partner_selection.html#implemented-classes">Implemented classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#notimecounter"><code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#notimecountersubcycled"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#notimecountersubcycled-removed-2026-11-13"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> (removed 2026-11-13)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#majorantcollisionfrequency"><code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#simplifiedbernoullitrials"><code class="docutils literal notranslate"><span class="pre">simplifiedBernoulliTrials</span></code></a></li>
 </ul>
@@ -549,11 +549,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#id6">Usage</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#theoretical-basis-translational-distribution-functions">Theoretical basis — translational distribution functions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#id8">Usage</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#orchestration-and-lifecycle">Orchestration and lifecycle</a></li>
 </ul>
 </li>
@@ -1115,13 +1111,13 @@ the immersed sphere, every ion neutralised (filled) or half of them
 <section id="electron-collisions">
 <h2>Electron collisions<a class="headerlink" href="#electron-collisions" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p><strong>No electron-electron collisions.</strong> <code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code>,
-<code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code> and <code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> skip the
-electron-electron pairs.</p></li>
-<li><p><strong>Sub-cycling.</strong> <code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> (see
-<a class="reference internal" href="collision_sampling.html"><span class="doc">Collision sampling</span></a>) repeats the whole NTC pass <code class="docutils literal notranslate"><span class="pre">nSubCycles</span></code>
-times with <span class="math notranslate nohighlight">\(\Delta t/n_{\mathrm{sc}}\)</span>, for every pair; the
-electrons are not moved between the sub-cycles.</p></li>
+<li><p><strong>No electron-electron collisions.</strong> <code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code> and
+<code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code> skip the electron-electron pairs.</p></li>
+<li><p><strong>Sub-cycling.</strong> <code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code> sub-cycles the collisions with an
+electron per cell (see <a class="reference internal" href="collision_sampling.html"><span class="doc">Collision sampling</span></a>); the former
+<code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> was removed on 2026-11-13.  The
+microscopic ion recombination runs from its hooks only: another
+collision-rate model stops at start-up.</p></li>
 <li><p><strong>Energy redistribution.</strong> The Larsen-Borgnakke internal-energy
 redistribution of <a class="reference internal" href="larsen_borgnakke.html"><span class="doc">Larsen-Borgnakke energy redistribution</span></a> acts on the heavy partner
 only; the electron enters with its own velocity.</p></li>

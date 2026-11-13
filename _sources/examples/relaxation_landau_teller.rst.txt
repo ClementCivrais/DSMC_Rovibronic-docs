@@ -145,10 +145,6 @@ Case parameters
              }
          }
      );
-
-     dsmcFluxControllers
-     (
-     );
 * Time-step: :math:`10^{-11}~\mathrm{s}`, total integration
   :math:`5 \times 10^{-7}~\mathrm{s}`.
 

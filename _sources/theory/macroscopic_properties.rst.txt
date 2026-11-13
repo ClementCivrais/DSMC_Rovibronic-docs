@@ -205,9 +205,10 @@ configurable field models that complement the per-cell
 ``dsmcVolFields`` output: one-, two-, and three-dimensional bin
 histograms (``dsmcBinsMethod``) for mesh-independent profiles,
 zone averages (``dsmcZone``) for zero-dimensional reference
-quantities, velocity and speed distributions
-(``dsmcVelocityDistributionZone``,
-``dsmcSpeedDistributionZone``), and flux integrals through named
-face zones (``dsmcMassFluxSurface``). The present page
+quantities, rovibronic populations (``dsmcRovibronicPopulation``)
+and flux integrals through named face zones
+(``dsmcMassFluxSurface``); the velocity and speed distributions
+(``dsmcVelocityDistributionZone``, ``dsmcSpeedDistributionZone``)
+were removed on 2026-11-12. The present page
 concentrates on the underlying per-cell estimators; the
 configurable layer is documented in full on the class page.

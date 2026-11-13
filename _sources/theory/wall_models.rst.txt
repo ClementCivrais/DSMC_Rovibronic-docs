@@ -59,9 +59,10 @@ The Maxwell mixed model introduces an accommodation coefficient
 :math:`\alpha \in [0, 1]`: a fraction :math:`\alpha` of incoming
 parcels reflect diffusely, the remainder specularly. In the
 implemented variant ``dsmcMixedDiffuseSpecularWallPatch``,
-:math:`\alpha` is a single scalar; the field variant
-``dsmcMixedDiffuseSpecularWallFieldPatch`` allows :math:`\alpha`
-and :math:`T_w` to vary patch face by patch face.
+:math:`\alpha` is a single scalar (the field variant
+``dsmcMixedDiffuseSpecularWallFieldPatch``, with :math:`\alpha` and
+:math:`T_w` per face, was removed from main on 2026-11-12; its source
+is in the history of main before it, 70947963).
 
 Cercignani-Lampis-Lord (CLL) scattering
 ---------------------------------------
@@ -165,7 +166,9 @@ follow the acceptance-rejection construction of Bird.
 Chapman-Enskog inflow
 ---------------------
 
-The ``dsmcChapmanEnskogFreeStreamInflowPatch`` extends the
+The ``dsmcChapmanEnskogInflowPatch`` (a general boundary; it
+replaced ``dsmcChapmanEnskogFreeStreamInflowPatch``, removed on
+2026-11-12) extends the
 Maxwellian inflow with a first-order Chapman-Enskog correction
 accounting for a non-zero stress and heat flux at the patch
 face,
@@ -209,12 +212,10 @@ Cyclic boundaries
 -----------------
 
 The ``dsmcCyclicBoundaries`` block in ``boundariesDict`` supports
-periodic pairing. The
-``dsmcReflectiveParticleMembranePatch`` variant reflects a
-user-specified fraction of incoming parcels back into the domain
-while letting the rest pass through; this is the mechanism used,
-for instance, to model permeable membranes in micro-nano-flow
-applications.
+periodic pairing. (The membrane variant
+``dsmcReflectiveParticleMembranePatch`` was removed from main on
+2026-11-12; its source is in the history of main before it,
+70947963.)
 
 Gas-surface interaction framework
 ---------------------------------
@@ -512,7 +513,12 @@ engine with the cut cells as elements. After every recession update
 a cell whose surface area falls releases the corresponding fraction
 of its adsorbates and carries to the neighbouring cells that gained
 area, so atoms are conserved exactly. The surface temperature is
-uniform, or per cut cell in radiative equilibrium. Vapour-pressure
+uniform, or per cut cell in radiative equilibrium; there the sample of
+an interval enters the relaxed flux of a cell of surface area
+:math:`A` with the weight ``relaxationFactor``
+:math:`\min(1, A/\bar A)`, :math:`\bar A` the mean element area, so
+that a sliver of the surface in a cut cell is not driven by the
+energy of single events over its small area. Vapour-pressure
 sublimation (Clausius-Clapeyron :math:`p_{vap} = a\,e^{-b/T_w}` and
 the Hertz-Knudsen flux) and a global radiative equilibrium are also
 available on the immersed surface. Verification:

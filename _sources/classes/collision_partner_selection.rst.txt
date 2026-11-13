@@ -16,11 +16,11 @@ pair has been accepted. The selection scheme is chosen through the
 
 The default is ``noTimeCounter``, which is the standard DSMC
 scheme and is appropriate for the vast majority of cases. The
-sub-cycled, majorant, and simplified-Bernoulli alternatives are
-targeted at specific regimes —  notably electron physics and
-cases in which the distribution of cross sections spans several
-orders of magnitude —  and are documented below alongside the
-default.
+majorant and simplified-Bernoulli alternatives are targeted at
+specific regimes —  cases in which the distribution of cross
+sections spans several orders of magnitude —  and are documented
+below alongside the default. ``noTimeCounter`` runs its own
+collision sub-cycles for the pairs with an electron, per cell.
 
 Implemented classes
 -------------------
@@ -48,26 +48,23 @@ cross-section-times-relative-speed product. Candidates are drawn
 at random from the cell inventory and accepted with probability
 :math:`\sigma_T g / (\sigma_T g)_{\max}`.
 
-``noTimeCounterSubCycled``
-``````````````````````````
+``noTimeCounterSubCycled`` (removed 2026-11-13)
+```````````````````````````````````````````````
 
-*Directory:* ``collisionRate/derived/noTimeCounterSubCycled/``.
+The sub-cycled variant, which repeated the whole NTC pass of a cell
+``nSubCycles`` times per step, has been removed: ``noTimeCounter``
+sub-cycles the collisions with an electron itself, per cell, from the
+events of the step before, and runs the hooks of the microscopic
+recombination kernels, which the variant did not. A deck that selects
+it stops at start-up (unknown ``collisionRateModel``).
 
-A sub-cycled variant of NTC in which a second, smaller internal
-time-step is used for a specified subset of collision pairs
-(typically those involving electrons, which have collision
-frequencies orders of magnitude higher than those of heavy
-species). The sub-dictionary exposes
-
-.. code-block:: cpp
-
-   noTimeCounterSubCycledProperties
-   {
-       nSubCycles   <label>;
-   }
-
-where ``nSubCycles`` is the number of internal sub-steps per
-global DSMC step.
+The microscopic reverse kernels of ``recombination`` (the fresh draws
+of its load, as a stream between the candidates),
+``detailedBalanceIonRecombination`` (its three-body passes) and
+``polyatomicRecombination`` (the service of every cell once per step)
+run from hooks of ``noTimeCounter``: with ``majorantCollisionFrequency``
+or ``simplifiedBernoulliTrials`` a deck holding one of these entries
+stops at start-up with a FatalIOError naming the entry.
 
 ``majorantCollisionFrequency``
 ``````````````````````````````
@@ -101,9 +98,11 @@ In practice:
 
 * use ``noTimeCounter`` for general-purpose DSMC work; it has
   been exercised on every validation case in this project;
-* use ``noTimeCounterSubCycled`` when ``chargedParticles`` is
-  enabled and the electron-electron or electron-neutral collision
-  rates are expected to dominate the DSMC time-step;
+* ``noTimeCounter`` is required for decks with recombination, ion
+  recombination or polyatomic recombination entries (their
+  microscopic reverse kernels run from its hooks) and recommended
+  for charged decks (its electron sub-cycles resolve the electron
+  collisions per cell);
 * consider ``majorantCollisionFrequency`` when the cross-section
   distribution across species pairs spans multiple decades;
 * ``simplifiedBernoulliTrials`` is primarily of pedagogical

@@ -23,9 +23,13 @@ the collision logic. Three tiers coexist:
   output: volume fields (``dsmcVolFields``), bins
   (``dsmcBinsMethod``), zone averages (``dsmcZone``), rovibronic
   population distributions (``dsmcRovibronicPopulation``),
-  face-flux integrals (``dsmcMassFluxSurface``), and velocity /
+  face-flux integrals (``dsmcMassFluxSurface``) and the
+  conservation audit (``dsmcConservationAudit``). The velocity and
   speed histograms (``dsmcVelocityDistributionZone``,
-  ``dsmcSpeedDistributionZone``).
+  ``dsmcSpeedDistributionZone``) were removed from main in the
+  release cleanup of 2026-11-12 (their source is in the history of
+  main before it, 70947963): a deck that names one stops at
+  start-up with the runtime-selection error.
 
 Each field model shares a common lifecycle: a constructor that
 reads its own sub-dictionary, ``createField()`` that allocates
@@ -88,7 +92,6 @@ in the single ``system/fieldPropertiesDict`` file:
        zoneReactor { fieldModel dsmcZone;                 /* … */ }
        popO2       { fieldModel dsmcRovibronicPopulation; /* … */ }
        fluxInlet   { fieldModel dsmcMassFluxSurface;      /* … */ }
-       velInflow   { fieldModel dsmcVelocityDistributionZone; /* … */ }
    );
 
 Parallel reduction
@@ -157,9 +160,9 @@ statistical error on :math:`\overline{Q}` goes as
 :math:`\sigma_Q / \sqrt{N_{\mathrm{samples}} N_{\mathcal{Z}}}`,
 so that the statistical quality of a measurement improves both
 with parcel density and with averaging time. The
-``measureErrors`` switch on ``dsmcVolFields`` writes the
-per-cell :math:`\sigma_Q` companion fields so that 95%
-confidence intervals can be reconstructed post-hoc.
+``measureErrors`` switch on ``dsmcVolFields`` writes per-cell
+estimates of the relative statistical errors of density,
+velocity, temperature and pressure (see below).
 
 Time-averaging controls
 -----------------------
@@ -326,19 +329,42 @@ Configuration keys (``dsmcVolFieldsProperties``):
        typeIds                      (N2 O2);        // species filter
        averagingAcrossManyRuns      false;
        measureMeanFreePath          true;
-       measureErrors                true;           // writes std-dev companions
+       measureErrors                true;           // relative error estimates
        densityOnly                  false;          // if true, only rhoN / rhoM
        measureHeatFluxShearStress   true;           // q, τ, P
    }
 
-Switching ``measureErrors`` to ``true`` writes a companion
-``<field>_errorEstimate`` volume field alongside each
-observable, populated with the per-cell standard deviation
-:math:`\sigma_Q / \sqrt{N}`; this is the quantity needed to
-construct confidence intervals on the macroscopic output (see
-:doc:`../theory/foundations`). Keeping ``measureErrors`` on
-during production runs has a small overhead and is strongly
-recommended.
+Switching ``measureErrors`` to ``true`` writes four volume fields,
+``densityError_<field>``, ``velocityError_<field>``,
+``temperatureError_<field>`` and ``pressureError_<field>``: the
+relative statistical errors of an equilibrium gas sampled
+independently (Hadjiconstantinou et al. 2003), with
+:math:`\bar N` the mean number of parcels in the cell and
+:math:`M` the number of samples of the average,
+
+.. math::
+
+   E_\rho = \frac{1}{\sqrt{\bar N M}},\quad
+   E_u = \frac{1}{\sqrt{\bar N M}}\,\frac{1}{\mathrm{Ma}\sqrt{\gamma}},\quad
+   E_T = \frac{1}{\sqrt{\bar N M}}\sqrt{\frac{k_B}{c_v}},\quad
+   E_p = \frac{\sqrt{\gamma}}{\sqrt{\bar N M}},
+
+with :math:`c_v` the heat capacity per molecule (written as the
+``Cv`` field over :math:`k_B`) and :math:`\gamma = c_p/c_v`. Successive
+samples are correlated over a collision time, so the true errors
+are larger; the fields are an order-of-magnitude guide (see
+:doc:`../theory/foundations`).
+
+With ``averagingAcrossManyRuns true`` the sums, the averaging time
+and the sample count are written at every write time to
+``<time>/uniform/volFieldsMethod_<field>`` and read back at a
+restart, so that a run continued from any write (also one
+written on a ``writeNow`` signal) averages over the whole window.
+The file records the processor, the decomposition and the mesh it
+belongs to: after a re-decomposition (``decomposePar`` copies
+processor0's file to every processor, ``reconstructPar`` keeps
+processor0's) or from an older build, the average restarts from
+zero on every processor, with a warning.
 
 Bin model — ``dsmcBinsMethod``
 ------------------------------
@@ -409,8 +435,8 @@ Bin model sub-classes
 `````````````````````
 
 The geometry of the bins is chosen by a pluggable ``binModel``
-sub-class. The available sub-classes, under
-``src/lagrangian/DSMC/LEGACY/binModel/derived/``, are:
+sub-class, under ``src/lagrangian/DSMC/LEGACY/binModel/derived/``.
+One remains:
 
 .. list-table::
    :header-rows: 1
@@ -424,34 +450,19 @@ sub-class. The available sub-classes, under
        and ``area`` (cross-sectional area normal to the stack,
        used to convert bin volume into the correct density
        normalisation).
-   * - ``simpleBins``
-     - Axis-aligned uniform 1-D bins along :math:`x`, :math:`y`,
-       or :math:`z`; specified by the bin-size vector and
-       origin.
-   * - ``cuboidBin`` / ``cuboidBinII``
-     - Rectangular parallelepipeds, with one or two degrees of
-       freedom; useful for 2-D slicing of 3-D domains.
-   * - ``radialBins`` / ``radialBinsNormalised``
-     - Radial bins around an axis (absolute or normalised by the
-       local body radius). The normalised variant is the
-       standard tool for blunt-body re-entry post-processing.
-   * - ``sphericalBins``
-     - Concentric spherical shells around a point; useful for
-       expansion plume analysis.
-   * - ``angularBins``
-     - Angular bins at fixed radius; for scattering-direction
-       histograms.
-   * - ``cylinderBin``
-     - Annular shells in a cylindrical coordinate frame.
-   * - ``multiZoneBins``
-     - A composition: the same bin geometry repeated, once per
-       entry of a ``cellZoneList``; used when several
-       sub-domains of the mesh need independent bin stacks
-       with the same resolution.
 
-Each of these lives under
-``src/lagrangian/DSMC/LEGACY/binModel/derived/<sub-class>/`` and
-exposes its own ``<subclass>Properties`` block.
+The nine other layouts (``angular``, ``cuboid``, ``cuboidII``,
+``cylinder``, ``multiZone``, ``radial``, ``radialNormalised``,
+``simple``, ``spherical``) were removed from main in the release
+cleanup of 2026-11-12 (they had no user; their source is in the
+history of main before it, 70947963): a deck that names one stops
+at start-up with the runtime-selection error.
+
+Every sum of the bins is over molecules (a parcel counts
+:math:`n_p\,\mathrm{CWF}\,\mathrm{RWF}`, its cell and radial
+weights), and the densities divide by the volume of the bin model
+(``area`` times the slab length): a bin crossing the cut cells of
+an immersed surface includes their solid part in its volume.
 
 Fields measured in each bin
 ```````````````````````````
@@ -791,65 +802,12 @@ downstream case.
 Velocity and speed distributions
 --------------------------------
 
-Theoretical basis — translational distribution functions
-````````````````````````````````````````````````````````
-
-The two velocity-distribution tools accumulate histograms of,
-respectively, the Cartesian velocity components
-:math:`P^{(s)}(v_\alpha)` for :math:`\alpha \in \{x, y, z\}` and
-the speed magnitude :math:`P^{(s)}(|\mathbf{c}|)`, each over a
-named ``cellZone``. In a gas in translational equilibrium, the
-Maxwell-Boltzmann distributions are
-
-.. math::
-
-   P_\mathrm{MB}(v_\alpha)
-     = \left(\frac{m_s}{2\pi k_B T}\right)^{1/2}
-       \exp\!\left[-\frac{m_s\,(v_\alpha - \bar{v}_\alpha)^{2}}
-                         {2 k_B T}\right],
-
-.. math::
-
-   P_\mathrm{MB}(|\mathbf{c}|)
-     = 4\pi\,|\mathbf{c}|^{2}
-       \left(\frac{m_s}{2\pi k_B T}\right)^{3/2}
-       \exp\!\left[-\frac{m_s\,|\mathbf{c}|^{2}}
-                         {2 k_B T}\right].
-
-Departures of the sampled histogram from these references are the
-primary diagnostic of translational non-equilibrium —
-specifically, the bimodal speed distribution that characterises
-the interior of a strong shock, or the elongated tail of a rapid
-expansion. Deviations from :math:`P_\mathrm{MB}(|\mathbf{c}|)`
-in the exit region of a micro-channel flow were the original
-motivation for the MOZ-based diagnostic in White's thesis
-[White2013m]_.
-
-Usage
-`````
-
-``dsmcVelocityDistributionZone`` and
-``dsmcSpeedDistributionZone``
-(``macroscopicProperties/derived/velocity/``) accumulate
-histograms of, respectively, the velocity-component and
-speed-magnitude distribution of the parcels inside a named
-zone. The histogram bin width is set through the ``binWidth``
-key (in m/s).
-
-These are the primary tools to confirm that the sampled
-velocity distribution remains Maxwellian under non-equilibrium,
-or to quantify the departure when it does not. Typical use:
-
-.. code-block:: cpp
-
-   fieldModel  dsmcSpeedDistributionZone;
-   dsmcSpeedDistributionZoneProperties
-   {
-       field       inflowSpeed;
-       zoneName    inflowZone;
-       typeIds     (N2);
-       binWidth    50;        // m/s bins
-   }
+The velocity and speed histograms ``dsmcVelocityDistributionZone`` and
+``dsmcSpeedDistributionZone`` were removed from main in the release
+cleanup of 2026-11-12 (their source is in the history of main before
+it, 70947963). The sampled velocity distribution of a zone can be
+reconstructed from the parcel fields written at the output times
+(``<time>/lagrangian/dsmc/U``).
 
 Orchestration and lifecycle
 ---------------------------

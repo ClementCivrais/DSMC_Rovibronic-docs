@@ -330,13 +330,13 @@ Scripts, cases and results are in ``run/1D/ambipolar_electrons``
 Electron collisions
 -------------------
 
-* **No electron-electron collisions.** ``noTimeCounter``,
-  ``majorantCollisionFrequency`` and ``noTimeCounterSubCycled`` skip the
-  electron-electron pairs.
-* **Sub-cycling.** ``noTimeCounterSubCycled`` (see
-  :doc:`collision_sampling`) repeats the whole NTC pass ``nSubCycles``
-  times with :math:`\Delta t/n_{\mathrm{sc}}`, for every pair; the
-  electrons are not moved between the sub-cycles.
+* **No electron-electron collisions.** ``noTimeCounter`` and
+  ``majorantCollisionFrequency`` skip the electron-electron pairs.
+* **Sub-cycling.** ``noTimeCounter`` sub-cycles the collisions with an
+  electron per cell (see :doc:`collision_sampling`); the former
+  ``noTimeCounterSubCycled`` was removed on 2026-11-13.  The
+  microscopic ion recombination runs from its hooks only: another
+  collision-rate model stops at start-up.
 * **Energy redistribution.** The Larsen-Borgnakke internal-energy
   redistribution of :doc:`larsen_borgnakke` acts on the heavy partner
   only; the electron enters with its own velocity.

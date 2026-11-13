@@ -115,10 +115,6 @@ Patch boundaries — catalogue
        ``diffuseFraction`` :math:`\alpha` of parcels reflect
        diffusely, the rest specularly. Scalar :math:`\alpha,
        T_w, \mathbf{v}_w`.
-   * - ``dsmcMixedDiffuseSpecularWallFieldPatch``
-     - No
-     - Field-varying variant of the above; :math:`\alpha,
-       T_w, \mathbf{v}_w` all read as face fields.
    * - ``dsmcMixedDiffuseSpecularWallRotPatch``
      - **Yes**
      - Rovibronic-aware mixed wall: on a diffuse reflection, the
@@ -186,10 +182,7 @@ Patch boundaries — catalogue
        number of parcels entering the domain follows from the
        half-range flux integral; velocities are drawn from the
        Bird acceptance-rejection algorithm.
-   * - ``dsmcFreeStreamInflowFieldPatch``
-     - No
-     - Field-varying free-stream inflow.
-   * - ``dsmcChapmanEnskogFreeStreamInflowPatch``
+   * - ``dsmcChapmanEnskogInflowPatch``
      - No
      - First-order Chapman-Enskog inflow: the sampled
        distribution includes the linear corrections in stress
@@ -504,8 +497,14 @@ rovibronic level space. Sub-dictionary:
 Chapman-Enskog first-order inflow
 `````````````````````````````````
 
-``dsmcChapmanEnskogFreeStreamInflowPatch`` extends the Maxwellian
-inflow with a Chapman-Enskog first-order correction,
+``dsmcChapmanEnskogInflowPatch`` (a general boundary,
+``dsmcGeneralBoundaries``; the former patch classes
+``dsmcChapmanEnskogFreeStreamInflowPatch`` and its field variant were
+removed from main in the release cleanup of 2026-11-12, their source
+is in the history of main before it, 70947963) extends the Maxwellian
+inflow with a Chapman-Enskog first-order correction per species
+(Garcia and Alder 1998; the class header gives the exact flux and
+sampling),
 
 .. math::
 
@@ -575,12 +574,10 @@ Cyclic boundaries
 The ``dsmcCyclicBoundaries`` list accepts pairings of two
 patches that are treated as periodically connected: a parcel
 that crosses one face re-enters at the paired face with an
-offset position. The
-``dsmcReflectiveParticleMembranePatch`` variant reflects a
-user-specified fraction of incoming parcels back into the
-domain while letting the rest pass through, which is the
-mechanism used, for instance, to model permeable membranes in
-micro/nano-flow applications.
+offset position. (The membrane variant
+``dsmcReflectiveParticleMembranePatch`` was removed from main in the
+release cleanup of 2026-11-12; its source is in the history of main
+before it, 70947963.)
 
 General boundaries
 ------------------
@@ -628,14 +625,15 @@ A pragmatic decision tree:
   case where the internal populations at the wall matter**
   → ``dsmcMixedDiffuseSpecularWallRotPatch``.
 * **Spatially varying** (e.g. heated strip on a cold plate)
-  → the ``…FieldPatch`` variant of any of the above.
+  → ``dsmcDiffuseWallFieldPatch`` or ``dsmcCLLWallFieldPatch``
+  (the other field variants were removed on 2026-11-12).
 
 For inflow:
 
 * **Free-stream at prescribed Mach and altitude**
   → ``dsmcFreeStreamInflowPatch``.
 * **Coupled-domain interface with continuum upstream**
-  → ``dsmcChapmanEnskogFreeStreamInflowPatch``.
+  → ``dsmcChapmanEnskogInflowPatch``.
 * **Vacuum chamber / reservoir, characterised by pressure or
   mass-flow rate**
   → one of the three pressure-inlet classes.

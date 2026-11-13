@@ -399,7 +399,7 @@
 <li class="toctree-l3"><a class="reference internal" href="collision_partner_selection.html#role">Role</a></li>
 <li class="toctree-l3"><a class="reference internal" href="collision_partner_selection.html#implemented-classes">Implemented classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#notimecounter"><code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#notimecountersubcycled"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#notimecountersubcycled-removed-2026-11-13"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> (removed 2026-11-13)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#majorantcollisionfrequency"><code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#simplifiedbernoullitrials"><code class="docutils literal notranslate"><span class="pre">simplifiedBernoulliTrials</span></code></a></li>
 </ul>
@@ -549,11 +549,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#id6">Usage</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#velocity-and-speed-distributions">Velocity and speed distributions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#theoretical-basis-translational-distribution-functions">Theoretical basis — translational distribution functions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id8">Usage</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#velocity-and-speed-distributions">Velocity and speed distributions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#orchestration-and-lifecycle">Orchestration and lifecycle</a></li>
 </ul>
 </li>
@@ -817,9 +813,13 @@ on in <code class="docutils literal notranslate"><span class="pre">system/fieldP
 output: volume fields (<code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code>), bins
 (<code class="docutils literal notranslate"><span class="pre">dsmcBinsMethod</span></code>), zone averages (<code class="docutils literal notranslate"><span class="pre">dsmcZone</span></code>), rovibronic
 population distributions (<code class="docutils literal notranslate"><span class="pre">dsmcRovibronicPopulation</span></code>),
-face-flux integrals (<code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code>), and velocity /
+face-flux integrals (<code class="docutils literal notranslate"><span class="pre">dsmcMassFluxSurface</span></code>) and the
+conservation audit (<code class="docutils literal notranslate"><span class="pre">dsmcConservationAudit</span></code>). The velocity and
 speed histograms (<code class="docutils literal notranslate"><span class="pre">dsmcVelocityDistributionZone</span></code>,
-<code class="docutils literal notranslate"><span class="pre">dsmcSpeedDistributionZone</span></code>).</p></li>
+<code class="docutils literal notranslate"><span class="pre">dsmcSpeedDistributionZone</span></code>) were removed from main in the
+release cleanup of 2026-11-12 (their source is in the history of
+main before it, 70947963): a deck that names one stops at
+start-up with the runtime-selection error.</p></li>
 </ul>
 <p>Each field model shares a common lifecycle: a constructor that
 reads its own sub-dictionary, <code class="docutils literal notranslate"><span class="pre">createField()</span></code> that allocates
@@ -877,7 +877,6 @@ in the single <code class="docutils literal notranslate"><span class="pre">syste
 <span class="w">    </span><span class="n">zoneReactor</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">fieldModel</span><span class="w"> </span><span class="n">dsmcZone</span><span class="p">;</span><span class="w">                 </span><span class="cm">/* … */</span><span class="w"> </span><span class="p">}</span>
 <span class="w">    </span><span class="n">popO2</span><span class="w">       </span><span class="p">{</span><span class="w"> </span><span class="n">fieldModel</span><span class="w"> </span><span class="n">dsmcRovibronicPopulation</span><span class="p">;</span><span class="w"> </span><span class="cm">/* … */</span><span class="w"> </span><span class="p">}</span>
 <span class="w">    </span><span class="n">fluxInlet</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="n">fieldModel</span><span class="w"> </span><span class="n">dsmcMassFluxSurface</span><span class="p">;</span><span class="w">      </span><span class="cm">/* … */</span><span class="w"> </span><span class="p">}</span>
-<span class="w">    </span><span class="n">velInflow</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="n">fieldModel</span><span class="w"> </span><span class="n">dsmcVelocityDistributionZone</span><span class="p">;</span><span class="w"> </span><span class="cm">/* … */</span><span class="w"> </span><span class="p">}</span>
 <span class="p">);</span>
 </pre></div>
 </div>
@@ -935,9 +934,9 @@ statistical error on <span class="math notranslate nohighlight">\(\overline{Q}\)
 <span class="math notranslate nohighlight">\(\sigma_Q / \sqrt{N_{\mathrm{samples}} N_{\mathcal{Z}}}\)</span>,
 so that the statistical quality of a measurement improves both
 with parcel density and with averaging time. The
-<code class="docutils literal notranslate"><span class="pre">measureErrors</span></code> switch on <code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code> writes the
-per-cell <span class="math notranslate nohighlight">\(\sigma_Q\)</span> companion fields so that 95%
-confidence intervals can be reconstructed post-hoc.</p>
+<code class="docutils literal notranslate"><span class="pre">measureErrors</span></code> switch on <code class="docutils literal notranslate"><span class="pre">dsmcVolFields</span></code> writes per-cell
+estimates of the relative statistical errors of density,
+velocity, temperature and pressure (see below).</p>
 </section>
 </section>
 <section id="time-averaging-controls">
@@ -1111,20 +1110,39 @@ against the partition function.</p></td>
 <span class="w">    </span><span class="n">typeIds</span><span class="w">                      </span><span class="p">(</span><span class="n">N2</span><span class="w"> </span><span class="n">O2</span><span class="p">);</span><span class="w">        </span><span class="c1">// species filter</span>
 <span class="w">    </span><span class="n">averagingAcrossManyRuns</span><span class="w">      </span><span class="nb">false</span><span class="p">;</span>
 <span class="w">    </span><span class="n">measureMeanFreePath</span><span class="w">          </span><span class="nb">true</span><span class="p">;</span>
-<span class="w">    </span><span class="n">measureErrors</span><span class="w">                </span><span class="nb">true</span><span class="p">;</span><span class="w">           </span><span class="c1">// writes std-dev companions</span>
+<span class="w">    </span><span class="n">measureErrors</span><span class="w">                </span><span class="nb">true</span><span class="p">;</span><span class="w">           </span><span class="c1">// relative error estimates</span>
 <span class="w">    </span><span class="n">densityOnly</span><span class="w">                  </span><span class="nb">false</span><span class="p">;</span><span class="w">          </span><span class="c1">// if true, only rhoN / rhoM</span>
 <span class="w">    </span><span class="n">measureHeatFluxShearStress</span><span class="w">   </span><span class="nb">true</span><span class="p">;</span><span class="w">           </span><span class="c1">// q, τ, P</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Switching <code class="docutils literal notranslate"><span class="pre">measureErrors</span></code> to <code class="docutils literal notranslate"><span class="pre">true</span></code> writes a companion
-<code class="docutils literal notranslate"><span class="pre">&lt;field&gt;_errorEstimate</span></code> volume field alongside each
-observable, populated with the per-cell standard deviation
-<span class="math notranslate nohighlight">\(\sigma_Q / \sqrt{N}\)</span>; this is the quantity needed to
-construct confidence intervals on the macroscopic output (see
-<a class="reference internal" href="../theory/foundations.html"><span class="doc">Kinetic foundations and the DSMC algorithm</span></a>). Keeping <code class="docutils literal notranslate"><span class="pre">measureErrors</span></code> on
-during production runs has a small overhead and is strongly
-recommended.</p>
+<p>Switching <code class="docutils literal notranslate"><span class="pre">measureErrors</span></code> to <code class="docutils literal notranslate"><span class="pre">true</span></code> writes four volume fields,
+<code class="docutils literal notranslate"><span class="pre">densityError_&lt;field&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">velocityError_&lt;field&gt;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">temperatureError_&lt;field&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">pressureError_&lt;field&gt;</span></code>: the
+relative statistical errors of an equilibrium gas sampled
+independently (Hadjiconstantinou et al. 2003), with
+<span class="math notranslate nohighlight">\(\bar N\)</span> the mean number of parcels in the cell and
+<span class="math notranslate nohighlight">\(M\)</span> the number of samples of the average,</p>
+<div class="math notranslate nohighlight">
+\[E_\rho = \frac{1}{\sqrt{\bar N M}},\quad
+E_u = \frac{1}{\sqrt{\bar N M}}\,\frac{1}{\mathrm{Ma}\sqrt{\gamma}},\quad
+E_T = \frac{1}{\sqrt{\bar N M}}\sqrt{\frac{k_B}{c_v}},\quad
+E_p = \frac{\sqrt{\gamma}}{\sqrt{\bar N M}},\]</div>
+<p>with <span class="math notranslate nohighlight">\(c_v\)</span> the heat capacity per molecule (written as the
+<code class="docutils literal notranslate"><span class="pre">Cv</span></code> field over <span class="math notranslate nohighlight">\(k_B\)</span>) and <span class="math notranslate nohighlight">\(\gamma = c_p/c_v\)</span>. Successive
+samples are correlated over a collision time, so the true errors
+are larger; the fields are an order-of-magnitude guide (see
+<a class="reference internal" href="../theory/foundations.html"><span class="doc">Kinetic foundations and the DSMC algorithm</span></a>).</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">averagingAcrossManyRuns</span> <span class="pre">true</span></code> the sums, the averaging time
+and the sample count are written at every write time to
+<code class="docutils literal notranslate"><span class="pre">&lt;time&gt;/uniform/volFieldsMethod_&lt;field&gt;</span></code> and read back at a
+restart, so that a run continued from any write (also one
+written on a <code class="docutils literal notranslate"><span class="pre">writeNow</span></code> signal) averages over the whole window.
+The file records the processor, the decomposition and the mesh it
+belongs to: after a re-decomposition (<code class="docutils literal notranslate"><span class="pre">decomposePar</span></code> copies
+processor0’s file to every processor, <code class="docutils literal notranslate"><span class="pre">reconstructPar</span></code> keeps
+processor0’s) or from an older build, the average restarts from
+zero on every processor, with a warning.</p>
 </section>
 </section>
 <section id="bin-model-dsmcbinsmethod">
@@ -1185,8 +1203,8 @@ section through a nozzle.</p>
 <section id="bin-model-sub-classes">
 <h3>Bin model sub-classes<a class="headerlink" href="#bin-model-sub-classes" title="Link to this heading"></a></h3>
 <p>The geometry of the bins is chosen by a pluggable <code class="docutils literal notranslate"><span class="pre">binModel</span></code>
-sub-class. The available sub-classes, under
-<code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/LEGACY/binModel/derived/</span></code>, are:</p>
+sub-class, under <code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/LEGACY/binModel/derived/</span></code>.
+One remains:</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 30.0%" />
@@ -1205,42 +1223,19 @@ and <code class="docutils literal notranslate"><span class="pre">area</span></co
 used to convert bin volume into the correct density
 normalisation).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">simpleBins</span></code></p></td>
-<td><p>Axis-aligned uniform 1-D bins along <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>,
-or <span class="math notranslate nohighlight">\(z\)</span>; specified by the bin-size vector and
-origin.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cuboidBin</span></code> / <code class="docutils literal notranslate"><span class="pre">cuboidBinII</span></code></p></td>
-<td><p>Rectangular parallelepipeds, with one or two degrees of
-freedom; useful for 2-D slicing of 3-D domains.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">radialBins</span></code> / <code class="docutils literal notranslate"><span class="pre">radialBinsNormalised</span></code></p></td>
-<td><p>Radial bins around an axis (absolute or normalised by the
-local body radius). The normalised variant is the
-standard tool for blunt-body re-entry post-processing.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sphericalBins</span></code></p></td>
-<td><p>Concentric spherical shells around a point; useful for
-expansion plume analysis.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">angularBins</span></code></p></td>
-<td><p>Angular bins at fixed radius; for scattering-direction
-histograms.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cylinderBin</span></code></p></td>
-<td><p>Annular shells in a cylindrical coordinate frame.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">multiZoneBins</span></code></p></td>
-<td><p>A composition: the same bin geometry repeated, once per
-entry of a <code class="docutils literal notranslate"><span class="pre">cellZoneList</span></code>; used when several
-sub-domains of the mesh need independent bin stacks
-with the same resolution.</p></td>
-</tr>
 </tbody>
 </table>
-<p>Each of these lives under
-<code class="docutils literal notranslate"><span class="pre">src/lagrangian/DSMC/LEGACY/binModel/derived/&lt;sub-class&gt;/</span></code> and
-exposes its own <code class="docutils literal notranslate"><span class="pre">&lt;subclass&gt;Properties</span></code> block.</p>
+<p>The nine other layouts (<code class="docutils literal notranslate"><span class="pre">angular</span></code>, <code class="docutils literal notranslate"><span class="pre">cuboid</span></code>, <code class="docutils literal notranslate"><span class="pre">cuboidII</span></code>,
+<code class="docutils literal notranslate"><span class="pre">cylinder</span></code>, <code class="docutils literal notranslate"><span class="pre">multiZone</span></code>, <code class="docutils literal notranslate"><span class="pre">radial</span></code>, <code class="docutils literal notranslate"><span class="pre">radialNormalised</span></code>,
+<code class="docutils literal notranslate"><span class="pre">simple</span></code>, <code class="docutils literal notranslate"><span class="pre">spherical</span></code>) were removed from main in the release
+cleanup of 2026-11-12 (they had no user; their source is in the
+history of main before it, 70947963): a deck that names one stops
+at start-up with the runtime-selection error.</p>
+<p>Every sum of the bins is over molecules (a parcel counts
+<span class="math notranslate nohighlight">\(n_p\,\mathrm{CWF}\,\mathrm{RWF}\)</span>, its cell and radial
+weights), and the densities divide by the volume of the bin model
+(<code class="docutils literal notranslate"><span class="pre">area</span></code> times the slab length): a bin crossing the cut cells of
+an immersed surface includes their solid part in its volume.</p>
 </section>
 <section id="fields-measured-in-each-bin">
 <h3>Fields measured in each bin<a class="headerlink" href="#fields-measured-in-each-bin" title="Link to this heading"></a></h3>
@@ -1538,57 +1533,12 @@ downstream case.</p>
 </section>
 <section id="velocity-and-speed-distributions">
 <h2>Velocity and speed distributions<a class="headerlink" href="#velocity-and-speed-distributions" title="Link to this heading"></a></h2>
-<section id="theoretical-basis-translational-distribution-functions">
-<h3>Theoretical basis — translational distribution functions<a class="headerlink" href="#theoretical-basis-translational-distribution-functions" title="Link to this heading"></a></h3>
-<p>The two velocity-distribution tools accumulate histograms of,
-respectively, the Cartesian velocity components
-<span class="math notranslate nohighlight">\(P^{(s)}(v_\alpha)\)</span> for <span class="math notranslate nohighlight">\(\alpha \in \{x, y, z\}\)</span> and
-the speed magnitude <span class="math notranslate nohighlight">\(P^{(s)}(|\mathbf{c}|)\)</span>, each over a
-named <code class="docutils literal notranslate"><span class="pre">cellZone</span></code>. In a gas in translational equilibrium, the
-Maxwell-Boltzmann distributions are</p>
-<div class="math notranslate nohighlight">
-\[P_\mathrm{MB}(v_\alpha)
-  = \left(\frac{m_s}{2\pi k_B T}\right)^{1/2}
-    \exp\!\left[-\frac{m_s\,(v_\alpha - \bar{v}_\alpha)^{2}}
-                      {2 k_B T}\right],\]</div>
-<div class="math notranslate nohighlight">
-\[P_\mathrm{MB}(|\mathbf{c}|)
-  = 4\pi\,|\mathbf{c}|^{2}
-    \left(\frac{m_s}{2\pi k_B T}\right)^{3/2}
-    \exp\!\left[-\frac{m_s\,|\mathbf{c}|^{2}}
-                      {2 k_B T}\right].\]</div>
-<p>Departures of the sampled histogram from these references are the
-primary diagnostic of translational non-equilibrium —
-specifically, the bimodal speed distribution that characterises
-the interior of a strong shock, or the elongated tail of a rapid
-expansion. Deviations from <span class="math notranslate nohighlight">\(P_\mathrm{MB}(|\mathbf{c}|)\)</span>
-in the exit region of a micro-channel flow were the original
-motivation for the MOZ-based diagnostic in White’s thesis
-<a class="reference internal" href="#white2013m" id="id7"><span>[White2013m]</span></a>.</p>
-</section>
-<section id="id8">
-<h3>Usage<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">dsmcVelocityDistributionZone</span></code> and
-<code class="docutils literal notranslate"><span class="pre">dsmcSpeedDistributionZone</span></code>
-(<code class="docutils literal notranslate"><span class="pre">macroscopicProperties/derived/velocity/</span></code>) accumulate
-histograms of, respectively, the velocity-component and
-speed-magnitude distribution of the parcels inside a named
-zone. The histogram bin width is set through the <code class="docutils literal notranslate"><span class="pre">binWidth</span></code>
-key (in m/s).</p>
-<p>These are the primary tools to confirm that the sampled
-velocity distribution remains Maxwellian under non-equilibrium,
-or to quantify the departure when it does not. Typical use:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">fieldModel</span><span class="w">  </span><span class="n">dsmcSpeedDistributionZone</span><span class="p">;</span>
-<span class="n">dsmcSpeedDistributionZoneProperties</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="n">field</span><span class="w">       </span><span class="n">inflowSpeed</span><span class="p">;</span>
-<span class="w">    </span><span class="n">zoneName</span><span class="w">    </span><span class="n">inflowZone</span><span class="p">;</span>
-<span class="w">    </span><span class="n">typeIds</span><span class="w">     </span><span class="p">(</span><span class="n">N2</span><span class="p">);</span>
-<span class="w">    </span><span class="n">binWidth</span><span class="w">    </span><span class="mi">50</span><span class="p">;</span><span class="w">        </span><span class="c1">// m/s bins</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</section>
+<p>The velocity and speed histograms <code class="docutils literal notranslate"><span class="pre">dsmcVelocityDistributionZone</span></code> and
+<code class="docutils literal notranslate"><span class="pre">dsmcSpeedDistributionZone</span></code> were removed from main in the release
+cleanup of 2026-11-12 (their source is in the history of main before
+it, 70947963). The sampled velocity distribution of a zone can be
+reconstructed from the parcel fields written at the output times
+(<code class="docutils literal notranslate"><span class="pre">&lt;time&gt;/lagrangian/dsmc/U</span></code>).</p>
 </section>
 <section id="orchestration-and-lifecycle">
 <h2>Orchestration and lifecycle<a class="headerlink" href="#orchestration-and-lifecycle" title="Link to this heading"></a></h2>
@@ -1622,7 +1572,7 @@ is a fairly standard combination for a re-entry simulation.</p>
 <div role="list" class="citation-list">
 <div class="citation" id="white2013m" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span>White2013m<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>,<a role="doc-backlink" href="#id3">3</a>,<a role="doc-backlink" href="#id7">4</a>)</span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>,<a role="doc-backlink" href="#id3">3</a>)</span>
 <p>C. White, <em>Benchmarking, Development and
 Applications of an Open Source DSMC Solver</em>, PhD thesis,
 University of Glasgow (2013). Section 4.3 introduces the

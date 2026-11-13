@@ -52,7 +52,12 @@ useful as a hard reset in equilibrium-approach studies.
 Maintains a target per-species number density inside a zone by
 inserting parcels when the population is too low and deleting
 them when it is too high. Useful in heat-bath studies where a
-finite cell volume would otherwise drift in composition.
+finite cell volume would otherwise drift in composition. The
+measured density is the mean over the samples of the averaging
+window, and the deficit of a cell is converted into parcels of its
+weight (cell weight times the radial weight at the cell centre), so
+that the controller has unit gain in cell-weighted and axisymmetric
+runs.
 
 ``gravitationalAccelerationController``
 ```````````````````````````````````````
@@ -74,6 +79,14 @@ which is itself constructed by the cloud at initialisation. On
 every time-step, each registered controller's ``control()`` entry
 point is invoked; internal sampling windows allow a controller to
 accumulate statistics over several DSMC steps before it acts.
+
+``initialTimePeriod`` counts from the start of the case's first run:
+the start time is written at every write time to
+``<time>/uniform/dsmcStateControllers`` and read back at a restart.
+The sampling windows of the controllers are not written: after a
+restart the first window starts at the restart time (the measured
+means are over the samples taken, so a short first window is
+unbiased, only noisier).
 
 Use with regression tests
 -------------------------

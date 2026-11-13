@@ -62,31 +62,14 @@ the alternatives below are designed to address.
 No-Time-Counter with sub-cycling
 --------------------------------
 
-When charged species are present, electron-electron and electron-
-neutral collision rates routinely exceed heavy-species collision
-rates by several orders of magnitude. A single DSMC time-step is
-then either too coarse to resolve electron kinetics or too fine
-to be practical for the rest of the flow. The
-``noTimeCounterSubCycled`` variant performs :math:`n_{\mathrm{sc}}`
-internal NTC sub-cycles on the electron population within each
-global DSMC step:
-
-.. math::
-
-   \Delta t_{\mathrm{sc}}
-     = \frac{\Delta t}{n_{\mathrm{sc}}},
-   \qquad
-   N_{\mathrm{cand}}^{\mathrm{sc}}
-     = \frac{1}{2}\,
-       \frac{N_e(N_e - 1)\, F_N\, (\sigma_T g)_{\max}\,
-             \Delta t_{\mathrm{sc}}}{V_c}
-       \times n_{\mathrm{sc}},
-
-so that the total number of sampled electron collisions remains
-unchanged but they are now distributed over :math:`n_{\mathrm{sc}}`
-smaller steps. The key ``nSubCycles`` in the
-``noTimeCounterSubCycledProperties`` sub-dictionary sets
-:math:`n_{\mathrm{sc}}`.
+The former ``noTimeCounterSubCycled`` variant, which repeated the whole
+NTC pass of a cell :math:`n_{\mathrm{sc}}` times per step, was removed
+on 2026-11-13.  ``noTimeCounter`` sub-cycles the collisions with an
+electron itself: per cell, from the reaction events with an electron of
+the step before, the electron pairs and the electron third bodies run
+:math:`n_{\mathrm{sub}}` sub-cycles of :math:`\Delta t/n_{\mathrm{sub}}`
+while the heavy candidates are taken in shares around them (see the
+class description of ``noTimeCounter``).
 
 Majorant Collision Frequency (MCF)
 ----------------------------------
@@ -146,9 +129,11 @@ In practice:
 
 * use ``noTimeCounter`` for general-purpose DSMC work; it has
   been exercised on every validation case in the project;
-* use ``noTimeCounterSubCycled`` when ``chargedParticles`` is
-  enabled and electron-electron or electron-neutral collision
-  rates are expected to dominate the global DSMC time-step;
+* ``noTimeCounter`` is required for decks with recombination, ion
+  recombination or polyatomic recombination entries (their
+  microscopic reverse kernels run from its hooks) and recommended
+  for charged decks (its electron sub-cycles resolve the electron
+  collisions per cell);
 * consider ``majorantCollisionFrequency`` when the cross-section
   distribution across species pairs spans several decades;
 * ``simplifiedBernoulliTrials`` is primarily of pedagogical

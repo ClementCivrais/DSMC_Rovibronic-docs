@@ -399,7 +399,7 @@
 <li class="toctree-l3"><a class="reference internal" href="collision_partner_selection.html#role">Role</a></li>
 <li class="toctree-l3"><a class="reference internal" href="collision_partner_selection.html#implemented-classes">Implemented classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#notimecounter"><code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#notimecountersubcycled"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#notimecountersubcycled-removed-2026-11-13"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> (removed 2026-11-13)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#majorantcollisionfrequency"><code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="collision_partner_selection.html#simplifiedbernoullitrials"><code class="docutils literal notranslate"><span class="pre">simplifiedBernoulliTrials</span></code></a></li>
 </ul>
@@ -549,11 +549,7 @@
 <li class="toctree-l4"><a class="reference internal" href="measurements.html#id6">Usage</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="measurements.html#theoretical-basis-translational-distribution-functions">Theoretical basis — translational distribution functions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="measurements.html#id8">Usage</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="measurements.html#orchestration-and-lifecycle">Orchestration and lifecycle</a></li>
 </ul>
 </li>
@@ -913,12 +909,7 @@ verification.</p></td>
 diffusely, the rest specularly. Scalar <span class="math notranslate nohighlight">\(\alpha,
 T_w, \mathbf{v}_w\)</span>.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallFieldPatch</span></code></p></td>
-<td><p>No</p></td>
-<td><p>Field-varying variant of the above; <span class="math notranslate nohighlight">\(\alpha,
-T_w, \mathbf{v}_w\)</span> all read as face fields.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code></p></td>
 <td><p><strong>Yes</strong></p></td>
 <td><p>Rovibronic-aware mixed wall: on a diffuse reflection, the
 quantum state <span class="math notranslate nohighlight">\((n, v, J)\)</span> is redrawn from the
@@ -928,7 +919,7 @@ the internal populations impinging on the wall matter
 (radiation coupling, catalysis, non-equilibrium boundary
 layers).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCLLWallPatch</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCLLWallPatch</span></code></p></td>
 <td><p>No</p></td>
 <td><p>Cercignani-Lampis-Lord scattering model with normal and
 tangential accommodation coefficients
@@ -938,11 +929,11 @@ diffuse, and matches measured accommodation behaviour
 for technical surfaces better than the mixed Maxwell
 model.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCLLWallFieldPatch</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCLLWallFieldPatch</span></code></p></td>
 <td><p>No</p></td>
 <td><p>Field-varying CLL variant.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcAccommodationWallPatch</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcAccommodationWallPatch</span></code></p></td>
 <td><p><strong>Yes</strong></p></td>
 <td><p>Maxwell wall with separate coefficients for momentum,
 translation, rotation, vibration and electronic energy (the
@@ -950,46 +941,46 @@ last one the surface-quenching probability), optionally per
 species; internal modes redrawn on the rovibronic levels at
 <span class="math notranslate nohighlight">\(T_w\)</span>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcRadiativeEquilibriumWallPatch</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcRadiativeEquilibriumWallPatch</span></code></p></td>
 <td><p><strong>Yes</strong></p></td>
 <td><p>Per-face wall temperature from
 <span class="math notranslate nohighlight">\(\varepsilon\sigma(T_w^4 - T_{bg}^4) = q\)</span>, with a relaxed
 running flux; written and read back on restart.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcOutgassingWallPatch</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcOutgassingWallPatch</span></code></p></td>
 <td><p>—</p></td>
 <td><p>Emits prescribed species fluxes (mass or number) from every
 face, optionally with a blowing velocity.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcPumpWallPatch</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcPumpWallPatch</span></code></p></td>
 <td><p>—</p></td>
 <td><p>Captures impinging parcels with a constant probability, a
 pumping speed, or a PI-controlled probability holding a target
 wall pressure.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCatalyticWallPatch</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCatalyticWallPatch</span></code></p></td>
 <td><p>—</p></td>
 <td><p><strong>Reactive wall</strong>: per-impact catalytic recombination and
 finite-rate surface reactions, with recombination-energy
 accommodation (see below).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcAblatingWallPatch</span></code></p></td>
 <td><p>—</p></td>
 <td><p><strong>Reactive wall</strong>: carbon ablation with a per-face solid-
 carbon ledger and a reported recession rate (see below).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcCoverageWallPatch</span></code></p></td>
 <td><p>—</p></td>
 <td><p><strong>Reactive wall</strong>: finite-rate surface chemistry (site sets,
 coverages, gas-surface and pure-surface reactions; native or
 SPARTA mechanism; see below).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcDeletionPatch</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcDeletionPatch</span></code></p></td>
 <td><p>—</p></td>
 <td><p>Particle sink: parcels that hit the patch are removed.
 <code class="docutils literal notranslate"><span class="pre">typeIds</span></code> list or <code class="docutils literal notranslate"><span class="pre">allSpecies</span></code> switch.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcFreeStreamInflowPatch</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcFreeStreamInflowPatch</span></code></p></td>
 <td><p>No</p></td>
 <td><p>Maxwellian free-stream inflow at prescribed
 <span class="math notranslate nohighlight">\(n_\infty, T_\infty, \mathbf{v}_\infty\)</span>. The
@@ -997,11 +988,7 @@ number of parcels entering the domain follows from the
 half-range flux integral; velocities are drawn from the
 Bird acceptance-rejection algorithm.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcFreeStreamInflowFieldPatch</span></code></p></td>
-<td><p>No</p></td>
-<td><p>Field-varying free-stream inflow.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogFreeStreamInflowPatch</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogInflowPatch</span></code></p></td>
 <td><p>No</p></td>
 <td><p>First-order Chapman-Enskog inflow: the sampled
 distribution includes the linear corrections in stress
@@ -1296,8 +1283,14 @@ rovibronic level space. Sub-dictionary:</p>
 </section>
 <section id="chapman-enskog-first-order-inflow">
 <h3>Chapman-Enskog first-order inflow<a class="headerlink" href="#chapman-enskog-first-order-inflow" title="Link to this heading"></a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogFreeStreamInflowPatch</span></code> extends the Maxwellian
-inflow with a Chapman-Enskog first-order correction,</p>
+<p><code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogInflowPatch</span></code> (a general boundary,
+<code class="docutils literal notranslate"><span class="pre">dsmcGeneralBoundaries</span></code>; the former patch classes
+<code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogFreeStreamInflowPatch</span></code> and its field variant were
+removed from main in the release cleanup of 2026-11-12, their source
+is in the history of main before it, 70947963) extends the Maxwellian
+inflow with a Chapman-Enskog first-order correction per species
+(Garcia and Alder 1998; the class header gives the exact flux and
+sampling),</p>
 <div class="math notranslate nohighlight">
 \[f(\mathbf{v})
   = f_{\mathrm{MB}}(\mathbf{v})\,
@@ -1359,12 +1352,10 @@ is no longer worth tracking.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">dsmcCyclicBoundaries</span></code> list accepts pairings of two
 patches that are treated as periodically connected: a parcel
 that crosses one face re-enters at the paired face with an
-offset position. The
-<code class="docutils literal notranslate"><span class="pre">dsmcReflectiveParticleMembranePatch</span></code> variant reflects a
-user-specified fraction of incoming parcels back into the
-domain while letting the rest pass through, which is the
-mechanism used, for instance, to model permeable membranes in
-micro/nano-flow applications.</p>
+offset position. (The membrane variant
+<code class="docutils literal notranslate"><span class="pre">dsmcReflectiveParticleMembranePatch</span></code> was removed from main in the
+release cleanup of 2026-11-12; its source is in the history of main
+before it, 70947963.)</p>
 </section>
 <section id="general-boundaries">
 <h2>General boundaries<a class="headerlink" href="#general-boundaries" title="Link to this heading"></a></h2>
@@ -1409,14 +1400,15 @@ impinging molecules.</p>
 case where the internal populations at the wall matter</strong>
 → <code class="docutils literal notranslate"><span class="pre">dsmcMixedDiffuseSpecularWallRotPatch</span></code>.</p></li>
 <li><p><strong>Spatially varying</strong> (e.g. heated strip on a cold plate)
-→ the <code class="docutils literal notranslate"><span class="pre">…FieldPatch</span></code> variant of any of the above.</p></li>
+→ <code class="docutils literal notranslate"><span class="pre">dsmcDiffuseWallFieldPatch</span></code> or <code class="docutils literal notranslate"><span class="pre">dsmcCLLWallFieldPatch</span></code>
+(the other field variants were removed on 2026-11-12).</p></li>
 </ul>
 <p>For inflow:</p>
 <ul class="simple">
 <li><p><strong>Free-stream at prescribed Mach and altitude</strong>
 → <code class="docutils literal notranslate"><span class="pre">dsmcFreeStreamInflowPatch</span></code>.</p></li>
 <li><p><strong>Coupled-domain interface with continuum upstream</strong>
-→ <code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogFreeStreamInflowPatch</span></code>.</p></li>
+→ <code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogInflowPatch</span></code>.</p></li>
 <li><p><strong>Vacuum chamber / reservoir, characterised by pressure or
 mass-flow rate</strong>
 → one of the three pressure-inlet classes.</p></li>

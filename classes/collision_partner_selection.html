@@ -399,7 +399,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#role">Role</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#implemented-classes">Implemented classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#notimecounter"><code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#notimecountersubcycled"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#notimecountersubcycled-removed-2026-11-13"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> (removed 2026-11-13)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#majorantcollisionfrequency"><code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#simplifiedbernoullitrials"><code class="docutils literal notranslate"><span class="pre">simplifiedBernoulliTrials</span></code></a></li>
 </ul>
@@ -549,11 +549,7 @@
 <li class="toctree-l4"><a class="reference internal" href="measurements.html#id6">Usage</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="measurements.html#theoretical-basis-translational-distribution-functions">Theoretical basis — translational distribution functions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="measurements.html#id8">Usage</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="measurements.html#orchestration-and-lifecycle">Orchestration and lifecycle</a></li>
 </ul>
 </li>
@@ -808,11 +804,11 @@ pair has been accepted. The selection scheme is chosen through the
 <code class="docutils literal notranslate"><span class="pre">constant/dsmcProperties</span></code>.</p>
 <p>The default is <code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code>, which is the standard DSMC
 scheme and is appropriate for the vast majority of cases. The
-sub-cycled, majorant, and simplified-Bernoulli alternatives are
-targeted at specific regimes —  notably electron physics and
-cases in which the distribution of cross sections spans several
-orders of magnitude —  and are documented below alongside the
-default.</p>
+majorant and simplified-Bernoulli alternatives are targeted at
+specific regimes —  cases in which the distribution of cross
+sections spans several orders of magnitude —  and are documented
+below alongside the default. <code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code> runs its own
+collision sub-cycles for the pairs with an electron, per cell.</p>
 </section>
 <section id="implemented-classes">
 <h2>Implemented classes<a class="headerlink" href="#implemented-classes" title="Link to this heading"></a></h2>
@@ -834,22 +830,21 @@ cross-section-times-relative-speed product. Candidates are drawn
 at random from the cell inventory and accepted with probability
 <span class="math notranslate nohighlight">\(\sigma_T g / (\sigma_T g)_{\max}\)</span>.</p>
 </section>
-<section id="notimecountersubcycled">
-<h3><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code><a class="headerlink" href="#notimecountersubcycled" title="Link to this heading"></a></h3>
-<p><em>Directory:</em> <code class="docutils literal notranslate"><span class="pre">collisionRate/derived/noTimeCounterSubCycled/</span></code>.</p>
-<p>A sub-cycled variant of NTC in which a second, smaller internal
-time-step is used for a specified subset of collision pairs
-(typically those involving electrons, which have collision
-frequencies orders of magnitude higher than those of heavy
-species). The sub-dictionary exposes</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">noTimeCounterSubCycledProperties</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="n">nSubCycles</span><span class="w">   </span><span class="o">&lt;</span><span class="n">label</span><span class="o">&gt;</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>where <code class="docutils literal notranslate"><span class="pre">nSubCycles</span></code> is the number of internal sub-steps per
-global DSMC step.</p>
+<section id="notimecountersubcycled-removed-2026-11-13">
+<h3><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> (removed 2026-11-13)<a class="headerlink" href="#notimecountersubcycled-removed-2026-11-13" title="Link to this heading"></a></h3>
+<p>The sub-cycled variant, which repeated the whole NTC pass of a cell
+<code class="docutils literal notranslate"><span class="pre">nSubCycles</span></code> times per step, has been removed: <code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code>
+sub-cycles the collisions with an electron itself, per cell, from the
+events of the step before, and runs the hooks of the microscopic
+recombination kernels, which the variant did not. A deck that selects
+it stops at start-up (unknown <code class="docutils literal notranslate"><span class="pre">collisionRateModel</span></code>).</p>
+<p>The microscopic reverse kernels of <code class="docutils literal notranslate"><span class="pre">recombination</span></code> (the fresh draws
+of its load, as a stream between the candidates),
+<code class="docutils literal notranslate"><span class="pre">detailedBalanceIonRecombination</span></code> (its three-body passes) and
+<code class="docutils literal notranslate"><span class="pre">polyatomicRecombination</span></code> (the service of every cell once per step)
+run from hooks of <code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code>: with <code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code>
+or <code class="docutils literal notranslate"><span class="pre">simplifiedBernoulliTrials</span></code> a deck holding one of these entries
+stops at start-up with a FatalIOError naming the entry.</p>
 </section>
 <section id="majorantcollisionfrequency">
 <h3><code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code><a class="headerlink" href="#majorantcollisionfrequency" title="Link to this heading"></a></h3>
@@ -879,9 +874,11 @@ is occasionally preferable in low-particle-per-cell regimes.</p>
 <ul class="simple">
 <li><p>use <code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code> for general-purpose DSMC work; it has
 been exercised on every validation case in this project;</p></li>
-<li><p>use <code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> when <code class="docutils literal notranslate"><span class="pre">chargedParticles</span></code> is
-enabled and the electron-electron or electron-neutral collision
-rates are expected to dominate the DSMC time-step;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code> is required for decks with recombination, ion
+recombination or polyatomic recombination entries (their
+microscopic reverse kernels run from its hooks) and recommended
+for charged decks (its electron sub-cycles resolve the electron
+collisions per cell);</p></li>
 <li><p>consider <code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code> when the cross-section
 distribution across species pairs spans multiple decades;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">simplifiedBernoulliTrials</span></code> is primarily of pedagogical

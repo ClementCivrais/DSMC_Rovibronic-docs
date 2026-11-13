@@ -399,7 +399,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../classes/collision_partner_selection.html#role">Role</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/collision_partner_selection.html#implemented-classes">Implemented classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#notimecounter"><code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#notimecountersubcycled"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#notimecountersubcycled-removed-2026-11-13"><code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> (removed 2026-11-13)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#majorantcollisionfrequency"><code class="docutils literal notranslate"><span class="pre">majorantCollisionFrequency</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../classes/collision_partner_selection.html#simplifiedbernoullitrials"><code class="docutils literal notranslate"><span class="pre">simplifiedBernoulliTrials</span></code></a></li>
 </ul>
@@ -549,11 +549,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#id6">Usage</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#theoretical-basis-translational-distribution-functions">Theoretical basis — translational distribution functions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../classes/measurements.html#id8">Usage</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#velocity-and-speed-distributions">Velocity and speed distributions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../classes/measurements.html#orchestration-and-lifecycle">Orchestration and lifecycle</a></li>
 </ul>
 </li>
@@ -1118,8 +1114,8 @@ bit-identical; both draws are exact.</p></td>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sigmaTcRMaxSeedWindow</span></code></p></td>
 <td><p>label</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code> and <code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code> only (any other
-collision-rate model stops with a FatalError).  Number of
+<td><p><code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code> only (any other collision-rate model stops
+with a FatalError).  Number of
 candidates per cell after which the stored maximum of
 <span class="math notranslate nohighlight">\(\sigma_T c_r\)</span> falls, once in the run, to 1.1 times the
 largest value of those candidates.  The seed of the fills can
@@ -1351,8 +1347,10 @@ the gas-surface interaction section below.</p></td>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcFreeStreamInflowPatch</span></code></p></td>
 <td><p>Maxwellian free-stream inflow.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogFreeStreamInflowPatch</span></code></p></td>
-<td><p>Chapman-Enskog (first-order non-equilibrium) inflow.</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogInflowPatch</span></code></p></td>
+<td><p>Chapman-Enskog (first-order non-equilibrium) inflow, a general
+boundary (<code class="docutils literal notranslate"><span class="pre">dsmcGeneralBoundaries</span></code>); it replaced
+<code class="docutils literal notranslate"><span class="pre">dsmcChapmanEnskogFreeStreamInflowPatch</span></code>, removed on 2026-11-12.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dsmcWangPressureInlet</span></code>,
 <code class="docutils literal notranslate"><span class="pre">dsmcLiouFangPressureInlet</span></code>,
@@ -1662,12 +1660,13 @@ of a reaction: <code class="docutils literal notranslate"><span class="pre">id</
 <code class="docutils literal notranslate"><span class="pre">perParticle</span></code>), <code class="docutils literal notranslate"><span class="pre">heatOfReaction</span></code> with <code class="docutils literal notranslate"><span class="pre">heatOfReactionUnit</span></code>
 (<code class="docutils literal notranslate"><span class="pre">J</span></code> | <code class="docutils literal notranslate"><span class="pre">K</span></code> | <code class="docutils literal notranslate"><span class="pre">eV</span></code>), <code class="docutils literal notranslate"><span class="pre">spectator</span></code>, and <code class="docutils literal notranslate"><span class="pre">products</span></code> (gas-product
 kernels by name or as a list in token order).</p>
-<p>Legacy coverage keywords (translated into a mechanism): <code class="docutils literal notranslate"><span class="pre">siteDensity</span></code>
-or <code class="docutils literal notranslate"><span class="pre">material</span></code>; <code class="docutils literal notranslate"><span class="pre">species</span> <span class="pre">{</span> <span class="pre">X</span> <span class="pre">{</span> <span class="pre">stick;</span> <span class="pre">stickEnergy;</span> <span class="pre">stickingModel</span>
-<span class="pre">langmuir|kisliuk;</span> <span class="pre">kisliukK;</span> <span class="pre">dissociateTo;</span> <span class="pre">desorbPrefactor;</span>
-<span class="pre">desorbEnergy;</span> <span class="pre">desorbLateral;</span> <span class="pre">desorbPrefactorCov;</span> <span class="pre">initCoverage;</span> <span class="pre">}</span> <span class="pre">}</span></code>;
-<code class="docutils literal notranslate"><span class="pre">reactions</span> <span class="pre">{</span> <span class="pre">name</span> <span class="pre">{</span> <span class="pre">type</span> <span class="pre">ER|CID|LH;</span> <span class="pre">reactant;</span> <span class="pre">coReactant;</span> <span class="pre">product;</span>
-<span class="pre">gamma;</span> <span class="pre">A;</span> <span class="pre">Ta;</span> <span class="pre">}</span> <span class="pre">}</span></code>; optional <code class="docutils literal notranslate"><span class="pre">psIntegrator</span></code>.</p>
+<p>The legacy coverage keywords of the wall (<code class="docutils literal notranslate"><span class="pre">siteDensity</span></code>, <code class="docutils literal notranslate"><span class="pre">species</span>
+<span class="pre">{</span> <span class="pre">...</span> <span class="pre">}</span></code>, <code class="docutils literal notranslate"><span class="pre">reactions</span> <span class="pre">{</span> <span class="pre">...</span> <span class="pre">}</span></code>, <code class="docutils literal notranslate"><span class="pre">nsync</span></code>, <code class="docutils literal notranslate"><span class="pre">psIntegrator</span></code>,
+<code class="docutils literal notranslate"><span class="pre">psSplitting</span></code>, and a wall with neither <code class="docutils literal notranslate"><span class="pre">mechanism</span></code> nor
+<code class="docutils literal notranslate"><span class="pre">spartaMechanism</span></code>) are no longer translated into a mechanism: since
+the release cleanup of 2026-11-12 each stops the run with a FatalIOError
+naming its replacement (<code class="docutils literal notranslate"><span class="pre">run/PERF/review_20261112/cleanup/migrate_decks.py</span></code>
+rewrites such a wall as a <code class="docutils literal notranslate"><span class="pre">mechanism</span></code> of <code class="docutils literal notranslate"><span class="pre">system/surfaceChemReactDict</span></code>).</p>
 </section>
 <section id="scattering-kernels">
 <h3>Scattering kernels<a class="headerlink" href="#scattering-kernels" title="Link to this heading"></a></h3>
@@ -1751,10 +1750,12 @@ selected in <code class="docutils literal notranslate"><span class="pre">constan
 <span class="w">    </span><span class="c1">// sublimation true; sublimationAlpha 1;</span>
 <span class="w">    </span><span class="c1">// sublimationProducts { C3 { pvapA ...; pvapB ...; nCarbon 3; } }</span>
 <span class="w">    </span><span class="c1">// perCellRecession true;      // former cell-centred level set</span>
-<span class="w">    </span><span class="c1">// patoCoupling true; patoCouplingInterval 100;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
+<p>(<code class="docutils literal notranslate"><span class="pre">patoCoupling</span></code> and <code class="docutils literal notranslate"><span class="pre">patoCouplingInterval</span></code>, the file-exchange PATO
+coupling, were removed on 2026-11-12: either key now stops the run with
+a FatalIOError; the conjugate solid of <code class="docutils literal notranslate"><span class="pre">dsmcFoam</span></code> below replaces it.)</p>
 <p>A mechanism needs the cut cells of the implicit or explicit surface;
 the analytic and level-set paths keep the probability mode.</p>
 </section>
