@@ -860,8 +860,13 @@ local mean collision time.</p></td>
 <td><p>Switch, default <code class="docutils literal notranslate"><span class="pre">false</span></code> (heavy collision rate <span class="math notranslate nohighlight">\(\nu_h\)</span>
 only); <code class="docutils literal notranslate"><span class="pre">true</span></code>: the MCT bound also holds the collision
 rate per electron divided by the collision sub-cycles,
-<span class="math notranslate nohighlight">\(\max(\nu_h, \nu_e/N_{sc})\)</span>. It cuts <span class="math notranslate nohighlight">\(\Delta t\)</span> by about the
-electron/heavy speed ratio in an ionised gas.</p></td>
+<span class="math notranslate nohighlight">\(\max(\nu_h, \nu_e/N_{sc})\)</span>, with <span class="math notranslate nohighlight">\(N_{sc}\)</span> the fixed
+sub-cycles of <code class="docutils literal notranslate"><span class="pre">noTimeCounterSubCycled</span></code>. It cuts <span class="math notranslate nohighlight">\(\Delta t\)</span> by
+about the electron/heavy speed ratio in an ionised gas. With
+<code class="docutils literal notranslate"><span class="pre">noTimeCounter</span></code> the switch has no effect: its electron sub-cycles
+follow the collision frequency of the electrons in every cell (at most
+0.1 collisions per electron and sub-cycle, the isothermal bath held
+between them), so the heavy rate alone sets the step.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">maxSubCellSizeMFPRatio</span></code></p></td>
 <td><p>Upper bound on the ratio of the sub-cell size to the local
