@@ -802,7 +802,11 @@
 <p>The TCE, Bias and FHO models (every <code class="docutils literal notranslate"><span class="pre">...TCE</span></code> and <code class="docutils literal notranslate"><span class="pre">...Bias</span></code> reaction class) were removed from main on
 2026-11-12. Their source and the documentation below are kept on
 branch <code class="docutils literal notranslate"><span class="pre">development/tce-bias-fho</span></code> (main at 175f55e7); a deck that
-names one of them stops at start-up with the runtime-selection error.</p>
+names one of them stops at start-up with the runtime-selection error.
+The base-class code that only they used (the cell-local internal DOF,
+the polyatomic shape-DOF tables, <code class="docutils literal notranslate"><span class="pre">chargeExchangePQ</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ioniseP</span></code>/<code class="docutils literal notranslate"><span class="pre">ioniseQ</span></code>, the product draws of <code class="docutils literal notranslate"><span class="pre">recombinePQ</span></code> and
+<code class="docutils literal notranslate"><span class="pre">exchangePQ</span></code> without a given state) followed on 2026-11-13.</p>
 </div>
 <p>The derived reaction classes are organised <strong>by chemistry model</strong>:
 each top-level sub-directory is a model the user can choose from,
@@ -937,7 +941,7 @@ exceeds the state-resolved dissociation energy
 \mathrm{B}\)</span>. Deterministic threshold: ionises when
 <span class="math notranslate nohighlight">\(E_{\mathrm{trans}} + E_{\mathrm{int}}(\mathrm{A})\)</span> exceeds
 the ionisation potential. No Arrhenius input; products via
-<code class="docutils literal notranslate"><span class="pre">ionisePQ</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">drawIonisationProducts</span></code> and <code class="docutils literal notranslate"><span class="pre">makeIonisation</span></code>.</p>
 </section>
 <section id="dissociationionisationtypeisamespecies">
 <h3><code class="docutils literal notranslate"><span class="pre">dissociationIonisationTypeISameSpecies</span></code><a class="headerlink" href="#dissociationionisationtypeisamespecies" title="Link to this heading"></a></h3>
