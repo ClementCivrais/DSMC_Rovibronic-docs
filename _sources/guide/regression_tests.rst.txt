@@ -124,7 +124,8 @@ radiationFoam build and a sibling radiationFoam source checkout.
 
 The first command checks two detector spectra, including the measured
 positions of the 57-16 carbon multiplets and their band-integrated excess
-over the calculated air spectrum. The full run also checks all 50 equilibrium
+over the calculated air spectrum. It also checks the weaker feature at 157.92 nm.
+The full run also checks all 50 equilibrium
 cases in both input forms, the 236 archived outputs, input overrides and
 the radiationFoam verification suite. Set ``RADIATIONFOAM_DIR`` to select a
 different radiationFoam checkout. The runner prints a separate output
