@@ -11,7 +11,7 @@ GSI cases) so that it can be run after every recompile.
 What it covers
 --------------
 
-The suite comprises **23 checks** in five groups:
+The suite comprises **30 named cases** in six groups.
 
 .. list-table::
    :header-rows: 1
@@ -33,20 +33,25 @@ The suite comprises **23 checks** in five groups:
        spurious drift (CO\ :sub:`2`, CH\ :sub:`4`, H\ :sub:`2`\ O,
        CH\ :sub:`3`).
    * - ``C.chem``
-     - 5
+     - 7
      - Chemistry rates and atom conservation: CO\ :sub:`2`
        dissociation, CO\ :sub:`2` + O exchange, CH\ :sub:`4` →
        CH\ :sub:`3`, Saturn H\ :sub:`2` dissociation, and the
-       CH\ :sub:`4` pyrolysis chain (C / H nuclei conservation).
+       CH\ :sub:`4` pyrolysis chain (C / H nuclei conservation), and two carbon dioxide equilibrium-constant cases.
    * - ``D.gsi``
-     - 5
+     - 9
      - Gas-surface interaction: Park oxidation efficiency,
        :math:`\gamma(T)` catalysis, Kisliuk sticking, Mars
-       ablation mass loss, recombination-energy balance.
+       ablation mass loss, recombination-energy balance, wall scattering, radiative equilibrium,
+       rotational accommodation and surface coverage.
    * - ``E.smoke``
      - 1
      - End-to-end smoke test (Earth ablation reaches ``End`` with
        no crash).
+   * - ``F.radiation``
+     - 1
+     - Line widths, atomic populations, camera response, wavelength integration,
+       and the calibrated EAST spectra of shots 50-29 and 57-16.
 
 The acceptance criteria are documented per group in
 ``run/regression/README.md``: relaxation requires
@@ -100,11 +105,32 @@ Running it
 
 The driver prints a ``PASS / FAIL CASE GROUP MEASURED GOLDEN TOL
 DETAIL`` table to standard output and mirrors it to
-``last_run.log``, ending with an ``N / 23 PASS`` summary. The
+``last_run.log``, ending with the number of passed and selected cases. The
 process exits ``0`` only when every check passes, so the script can
 be wired directly into a continuous-integration gate. Concurrency
 is tunable through the ``REG_WORKERS`` environment variable
 (default 12, kept at or below the workstation core budget).
+
+Radiation cases
+---------------
+
+From the DSMC repository root, run the named case against an installed
+radiationFoam build and a sibling radiationFoam source checkout.
+
+.. code-block:: bash
+
+   run/regression/run_regression.sh radiation
+   run/RAD/regression/Allrun --full
+
+The first command checks two detector spectra, including the measured
+positions of the 57-16 carbon multiplets and their band-integrated excess
+over the calculated air spectrum. The full run also checks all 50 equilibrium
+cases in both input forms, the 236 archived outputs, input overrides and
+the radiationFoam verification suite. Set ``RADIATIONFOAM_DIR`` to select a
+different radiationFoam checkout. The runner prints a separate output
+directory for each invocation. The calibrated data, spectrum and reference
+integrals are described in the `EAST radiation comparison
+<https://clementcivrais.github.io/radiationFoam-docs/examples/east_validation.html#east57-vuv-peaks>`_.
 
 Interpreting a failure
 ----------------------

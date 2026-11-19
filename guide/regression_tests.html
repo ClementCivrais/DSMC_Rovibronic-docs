@@ -158,6 +158,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#what-it-covers">What it covers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#how-it-works">How it works</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#running-it">Running it</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#radiation-cases">Radiation cases</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#interpreting-a-failure">Interpreting a failure</a></li>
 </ul>
 </li>
@@ -800,7 +801,7 @@ a merge gate. The suite is deliberately fast (short 0-D and small
 GSI cases) so that it can be run after every recompile.</p>
 <section id="what-it-covers">
 <h2>What it covers<a class="headerlink" href="#what-it-covers" title="Link to this heading"></a></h2>
-<p>The suite comprises <strong>23 checks</strong> in five groups:</p>
+<p>The suite comprises <strong>30 named cases</strong> in six groups.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 14.0%" />
@@ -829,22 +830,28 @@ spurious drift (CO<sub>2</sub>, CH<sub>4</sub>, H<sub>2</sub>O,
 CH<sub>3</sub>).</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">C.chem</span></code></p></td>
-<td><p>5</p></td>
+<td><p>7</p></td>
 <td><p>Chemistry rates and atom conservation: CO<sub>2</sub>
 dissociation, CO<sub>2</sub> + O exchange, CH<sub>4</sub> →
 CH<sub>3</sub>, Saturn H<sub>2</sub> dissociation, and the
-CH<sub>4</sub> pyrolysis chain (C / H nuclei conservation).</p></td>
+CH<sub>4</sub> pyrolysis chain (C / H nuclei conservation), and two carbon dioxide equilibrium-constant cases.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">D.gsi</span></code></p></td>
-<td><p>5</p></td>
+<td><p>9</p></td>
 <td><p>Gas-surface interaction: Park oxidation efficiency,
 <span class="math notranslate nohighlight">\(\gamma(T)\)</span> catalysis, Kisliuk sticking, Mars
-ablation mass loss, recombination-energy balance.</p></td>
+ablation mass loss, recombination-energy balance, wall scattering, radiative equilibrium,
+rotational accommodation and surface coverage.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">E.smoke</span></code></p></td>
 <td><p>1</p></td>
 <td><p>End-to-end smoke test (Earth ablation reaches <code class="docutils literal notranslate"><span class="pre">End</span></code> with
 no crash).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">F.radiation</span></code></p></td>
+<td><p>1</p></td>
+<td><p>Line widths, atomic populations, camera response, wavelength integration,
+and the calibrated EAST spectra of shots 50-29 and 57-16.</p></td>
 </tr>
 </tbody>
 </table>
@@ -896,11 +903,28 @@ Park oxidation check pins the efficiency
 </div>
 <p>The driver prints a <code class="docutils literal notranslate"><span class="pre">PASS</span> <span class="pre">/</span> <span class="pre">FAIL</span> <span class="pre">CASE</span> <span class="pre">GROUP</span> <span class="pre">MEASURED</span> <span class="pre">GOLDEN</span> <span class="pre">TOL</span>
 <span class="pre">DETAIL</span></code> table to standard output and mirrors it to
-<code class="docutils literal notranslate"><span class="pre">last_run.log</span></code>, ending with an <code class="docutils literal notranslate"><span class="pre">N</span> <span class="pre">/</span> <span class="pre">23</span> <span class="pre">PASS</span></code> summary. The
+<code class="docutils literal notranslate"><span class="pre">last_run.log</span></code>, ending with the number of passed and selected cases. The
 process exits <code class="docutils literal notranslate"><span class="pre">0</span></code> only when every check passes, so the script can
 be wired directly into a continuous-integration gate. Concurrency
 is tunable through the <code class="docutils literal notranslate"><span class="pre">REG_WORKERS</span></code> environment variable
 (default 12, kept at or below the workstation core budget).</p>
+</section>
+<section id="radiation-cases">
+<h2>Radiation cases<a class="headerlink" href="#radiation-cases" title="Link to this heading"></a></h2>
+<p>From the DSMC repository root, run the named case against an installed
+radiationFoam build and a sibling radiationFoam source checkout.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>run/regression/run_regression.sh<span class="w"> </span>radiation
+run/RAD/regression/Allrun<span class="w"> </span>--full
+</pre></div>
+</div>
+<p>The first command checks two detector spectra, including the measured
+positions of the 57-16 carbon multiplets and their band-integrated excess
+over the calculated air spectrum. The full run also checks all 50 equilibrium
+cases in both input forms, the 236 archived outputs, input overrides and
+the radiationFoam verification suite. Set <code class="docutils literal notranslate"><span class="pre">RADIATIONFOAM_DIR</span></code> to select a
+different radiationFoam checkout. The runner prints a separate output
+directory for each invocation. The calibrated data, spectrum and reference
+integrals are described in the <a class="reference external" href="https://clementcivrais.github.io/radiationFoam-docs/examples/east_validation.html#east57-vuv-peaks">EAST radiation comparison</a>.</p>
 </section>
 <section id="interpreting-a-failure">
 <h2>Interpreting a failure<a class="headerlink" href="#interpreting-a-failure" title="Link to this heading"></a></h2>
