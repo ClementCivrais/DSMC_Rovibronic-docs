@@ -130,8 +130,8 @@ top of this acceptance rule are documented in
 Coefficient sub-dictionary
 --------------------------
 
-For every model, ``collisionProperties`` holds the reference
-temperature (273 K, fixed by the species database) and the three
+In the constant collision-number configuration, ``collisionProperties``
+holds the reference temperature (273 K) and the three
 relaxation collision numbers :math:`Z_r,\,Z_{rv},\,Z_{rve}`:
 
 .. code-block:: cpp
@@ -147,6 +147,31 @@ relaxation collision numbers :math:`Z_r,\,Z_{rv},\,Z_{rve}`:
 
 The plain VHS/VSS variants read but do not use the collision
 numbers, since they do not redistribute internal energy.
+
+The collision-energy formulation of Larsen–Borgnakke uses database
+spectroscopy, nuclear masses and the collision pair's VSS parameters.
+It can be selected without specifying any constant collision numbers.
+
+.. code-block:: cpp
+
+   BinaryCollisionModel LarsenBorgnakkeVariableHardSphere;
+   collisionProperties
+   {
+       Tref                            273;
+       relaxationCollisionNumberModel  collisionEnergy;
+       electronicTransitionModel       seamVertical;
+       enforceLandauTeller             on;
+       initialSubCellLevels            (1 1 1);
+   }
+
+For a polyatomic molecule, one encounter can update its rotor and several
+vibrational coordinates. Each coordinate has its own energy-dependent
+attempt probability. The sampler holds the other coordinates fixed and
+accesses the full state energy, including the off-diagonal anharmonic
+terms in the coupled CO2 and CH4 records. It selects the forward or reverse
+coordinate order with equal probability. All current polyatomic entries
+contain a single electronic term. The molecule can induce an electronic
+transition in an eligible atomic or diatomic partner.
 
 Model selection flags
 ---------------------

@@ -918,8 +918,8 @@ top of this acceptance rule are documented in
 </section>
 <section id="coefficient-sub-dictionary">
 <h2>Coefficient sub-dictionary<a class="headerlink" href="#coefficient-sub-dictionary" title="Link to this heading"></a></h2>
-<p>For every model, <code class="docutils literal notranslate"><span class="pre">collisionProperties</span></code> holds the reference
-temperature (273 K, fixed by the species database) and the three
+<p>In the constant collision-number configuration, <code class="docutils literal notranslate"><span class="pre">collisionProperties</span></code>
+holds the reference temperature (273 K) and the three
 relaxation collision numbers <span class="math notranslate nohighlight">\(Z_r,\,Z_{rv},\,Z_{rve}\)</span>:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">collisionProperties</span>
 <span class="p">{</span>
@@ -933,6 +933,28 @@ relaxation collision numbers <span class="math notranslate nohighlight">\(Z_r,\,
 </div>
 <p>The plain VHS/VSS variants read but do not use the collision
 numbers, since they do not redistribute internal energy.</p>
+<p>The collision-energy formulation of Larsen–Borgnakke uses database
+spectroscopy, nuclear masses and the collision pair’s VSS parameters.
+It can be selected without specifying any constant collision numbers.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">BinaryCollisionModel</span><span class="w"> </span><span class="n">LarsenBorgnakkeVariableHardSphere</span><span class="p">;</span>
+<span class="n">collisionProperties</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">Tref</span><span class="w">                            </span><span class="mi">273</span><span class="p">;</span>
+<span class="w">    </span><span class="n">relaxationCollisionNumberModel</span><span class="w">  </span><span class="n">collisionEnergy</span><span class="p">;</span>
+<span class="w">    </span><span class="n">electronicTransitionModel</span><span class="w">       </span><span class="n">seamVertical</span><span class="p">;</span>
+<span class="w">    </span><span class="n">enforceLandauTeller</span><span class="w">             </span><span class="n">on</span><span class="p">;</span>
+<span class="w">    </span><span class="n">initialSubCellLevels</span><span class="w">            </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For a polyatomic molecule, one encounter can update its rotor and several
+vibrational coordinates. Each coordinate has its own energy-dependent
+attempt probability. The sampler holds the other coordinates fixed and
+accesses the full state energy, including the off-diagonal anharmonic
+terms in the coupled CO2 and CH4 records. It selects the forward or reverse
+coordinate order with equal probability. All current polyatomic entries
+contain a single electronic term. The molecule can induce an electronic
+transition in an eligible atomic or diatomic partner.</p>
 </section>
 <section id="model-selection-flags">
 <h2>Model selection flags<a class="headerlink" href="#model-selection-flags" title="Link to this heading"></a></h2>
